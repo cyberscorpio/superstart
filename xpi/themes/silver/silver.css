@@ -1,0 +1,65 @@
+body {
+	background-image: -moz-linear-gradient(0% 100% 90deg,#919191, #E0E0E0, #C4C4C4 100%);
+	background-color: #919191;
+	color: #000;
+}
+
+a {
+	color: #000;
+}
+
+#top-panel {
+	background-color: rgba(0,0,0,0.05);
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#theme-selector li.current {
+	border-color: #fff;
+}
+
+#top-toolbar li {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+#top-toolbar li:hover {
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+}
+
+#top-toolbar li.opened {
+	box-shadow: 1px 1px 1.5px rgba(0,0,0,0.2);
+}
+
+#site-title-line {
+	display: none;
+}
+
+.site .toolbar {
+	background: -moz-linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+}
+
+.site .snapshot {
+	border-color: rgba(0,0,0,0.1);
+}
+
+.site:hover a .snapshot {
+	border-color: rgba(0,0,0,0.2);
+}
+
+#todo-input:-moz-placeholder {
+	color: #aaa;
+}
+
+#todo-list {
+	border-color: rgba(0,0,0,0.2);
+}
+
+#compact-switch,
+#todo-switch {
+	border-top-color: rgba(0,0,0,0.5);
+}
+
+#site-panel.compact #compact-switch,
+#todo-panel.hide #todo-switch {
+	border-left-color: rgba(0,0,0,0.5);
+}

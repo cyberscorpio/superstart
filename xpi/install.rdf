@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+	<Description about="urn:mozilla:install-manifest">
+		<em:id>superstart@enjoyfreeware.org</em:id>
+		<em:version>4.0a1</em:version>
+		<em:type>2</em:type>
+		<em:unpack>true</em:unpack>
+		<!--
+		<em:bootstrap>true</em:bootstrap>
+		-->
+	 
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>4.0</em:minVersion>
+				<em:maxVersion>12.0a1</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+	 
+		<em:name>Super Start</em:name>
+		<em:creator>dou dehou</em:creator>
+		<em:description>Just another visual bookmark and a simple todo-list in your homepage</em:description>
+		<em:optionsURL>chrome://superstart/content/options.xul</em:optionsURL>
+		<em:homepageURL>http://www.enjoyfreeware.org/superstart</em:homepageURL>
+		<em:iconURL>chrome://superstart/content/images/superstart.png</em:iconURL>
+	</Description>			
+</RDF>

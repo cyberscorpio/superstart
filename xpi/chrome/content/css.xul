@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
+
+<dialog id="superstart-options-css"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	width="480"
+	height="360"
+        dlgbuttons="accept,cancel"
+        onload="initialize();"
+        ondialogaccept="onAccept();"
+        title="&superstart.advance;">  
+
+	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
+
+	<vbox flex="1">
+		<label value="&superstart.ui.css.edit.hint;" />
+		<textbox id="superstart-customize-us-css" multiline="true" flex="1" />
+	</vbox>
+
+	<script><![CDATA[
+		function initialize() {
+			document.getElementById('superstart-customize-us-css').value = window.arguments[0].input;
+		}
+
+		function onAccept() {
+			window.arguments[0].output = document.getElementById('superstart-customize-us-css').value;
+		}
+	]]></script>
+</dialog>

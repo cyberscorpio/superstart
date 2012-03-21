@@ -1,0 +1,9 @@
+*.swp
+*.jar
+~*
+*.xpi
+*.xpt
+tags
+'
+*.bak
+*.patch

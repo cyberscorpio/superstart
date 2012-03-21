@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://superstart/locale/main.dtd">
+<overlay id="superstart" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/startup.js"></script>
+
+	<menupopup id="contentAreaContextMenu">
+		<menuitem id="context-superstart-add" class="menuitem-iconic"
+			label="&superstart.context.menu.add;"
+			image="chrome://superstart/content/images/superstart.png"
+			oncommand="SuperStart.onContextMenuAdd();"
+			/>
+	</menupopup>
+
+	<window id="main-window">
+		<hbox style="overflow:hidden; height: 0;">
+			<vbox id="superstart-snapshot-container" />
+		</hbox>
+		<menupopup id="superstart-menu">
+			<menuitem label="&superstart.menu.site.add;"
+				oncommand="SuperStart.onMenuAdd();"
+				/> 
+			<menuitem label="&superstart.menu.site.refreshall;"
+				oncommand="SuperStart.onMenuRefreshAll();"
+				/>
+			<menuseparator />
+			<menuitem label="&superstart.menu.options;"
+				oncommand="SuperStart.onMenuOptions();"
+				/>
+		</menupopup>
+		<menupopup id="superstart-recently-closed-list"
+			onpopupshowing="SuperStart.populateUndoMenu();">
+		</menupopup>
+		<menupopup id="superstart-bookmarks"
+			onpopupshowing="SuperStart.populateBookmarks(event);">
+		</menupopup>
+	</window>
+
+	<toolbarpalette id="BrowserToolbarPalette">
+		<toolbarbutton id="superstart-toolbar-icon"
+			image="chrome://superstart/content/images/superstart16.png"
+			class="toolbarbutton-1 chromeclass-toolbar-additional"
+			label="Super Start" tooltiptext="Super Start"
+			onclick="SuperStart.onToolbarOpen();">
+		</toolbarbutton>
+	</toolbarpalette>
+
+</overlay>
+

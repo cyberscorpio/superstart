@@ -1,0 +1,9 @@
+#include "nsISupports.idl"
+#include "nsIVariant.idl"
+
+[scriptable, uuid(1825A49E-49B4-4DF4-A368-9A5DD2B86919)]
+interface ssIObserverable : nsISupports
+{
+	void subscribe(in AString evt, in nsIVariant callback);
+	void unsubscribe(in AString evt, in nsIVariant callback);
+};

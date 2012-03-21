@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-language" content="en" />
+	<link rel="stylesheet" type="text/css" href="style/reset.css" />
+	<title>Super Start</title>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<link rel="shortcut icon" href="images/superstart.png" />
+	<style>
+		.h.p {
+			color: red;
+		}
+	</style>
+	<script type="text/javascript">
+		window.addEventListener('load', function() {
+			$('#container').innerHTML = '<h1 class="h">hello</h1>';
+			$.addClass($('.h')[0], 'p');
+
+			var ps = $('.d .p');
+			for (var i = 0; i < ps.length; ++ i) {
+				$.addClass(ps[i], 'h');
+			}
+		}, false);
+	</script>
+</head>
+<body>
+	<div id="container" class="clearfix hidden">
+	</div>
+	<div class="d">
+		<h1 class="p">world</h1>
+		<h1 class="p">:)</h1>
+	</div>
+
+	<div style="position: absolute; margin-top: 100px; width: 150px; height: 150px; background-color: gray;">
+		<div style="position: absolute; margin: 50px 0 0 50px; width: 50px; height: 50px; background-color: lightblue;">
+		</div>
+	</div>
+</body>
+</html>

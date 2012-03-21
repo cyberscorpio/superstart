@@ -1,0 +1,17 @@
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
+	background-attachment: fixed;
+}
+
+.hidden {
+	display: none;
+}
+
+
+#container {
+	/*min-width: 962px;*/
+	/*text-align: center;*/
+	/*-moz-user-select: -moz-none;*/
+}
+
+

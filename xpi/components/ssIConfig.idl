@@ -1,0 +1,9 @@
+#include "nsISupports.idl"
+#include "nsIVariant.idl"
+
+[scriptable, uuid(0A6159B0-7EE7-425E-85CB-F97A1756C55F)]
+interface ssIConfig : nsISupports
+{
+	nsIVariant getConfig(in string name);
+	void setConfig(in string name, in nsIVariant value);
+};

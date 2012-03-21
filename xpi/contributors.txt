@@ -1,0 +1,23 @@
+﻿--- translation ---
+Hungarian:    Vígh Miklós (vighmiki {at} gmail.com)
+Polish:       waldi (waldek153 {at} gmail.com) and Zdzislaw Wasilewski (wasylek11 {at} gmail.com)
+German:       incarus6 (incarus6 {at} googlemail.com) and marius.david.wieschollek {at} freenet.de
+Russian:      niko2040belich (niko2040belich {at} gmail.com)
+French:       Michel Veigh (veigh.m {at} gmail.com)
+Ukrainian:    Богдан Дранчук (b.dranchuk {at} gmail.com) and Сергей Котик (sergcat83 {at} gmail.com)
+Czech:        Michal Kváček (michalkv {at} gmail.com)
+Brazilian:    Alisson (teunome {at} gmail.com)
+Japanese:     田中博 (true892 {at} gmail.com)
+Spanish:      Raúl Morillo (rmorillo.bdd {at} gmail.com)
+Italian:      GiPiero (calabar {at} tiscalinet.it)
+Swedish:      Blittan (blittan {at} xboxmediacenter.com)
+Dutch:        Jon van Kleef (jon.vankleef {at} gmail.com) and  Ibrahim Al-Dalaimi (info {at} gfxsky.nl)
+Turkish:      Hasan Sarptaş (sarptas {at} gmail.com) 
+Solvenian:    Urban Krajnc (ijoker1337 {at} gmail.com)
+Arabic:       MOHAMMAD AL jASEM (xblue.hacker95 {at} gmail.com)
+
+
+---    theme    ---
+black:        incarus6 (incarus6 {at} googlemail.com)
+sliver:       incarus6 (incarus6 {at} googlemail.com)
+red:          incarus6 (incarus6 {at} googlemail.com)

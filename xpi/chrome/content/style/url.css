@@ -1,0 +1,15 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+html|*.autocomplete-textbox,
+html|*.textbox-input {
+	height: 2em;
+}
+
+#customize-image {
+	margin: 0 15px;
+}
+
+#customize-image[src] {
+	box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+}

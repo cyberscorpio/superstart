@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://superstart/locale/main.dtd">
+<overlay id="superstart-shortcut" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	>
+	<prefpane id="paneTabs">
+		<vbox position="1">
+			<groupbox flex="1" align="start">
+				<caption label="Super Start" />
+				<button oncommand="openOptions();" label="&superstart.menu.options;" />
+			</groupbox>
+		</vbox>
+	</prefpane>
+	<script><![CDATA[
+		function openOptions() {
+			var dlg = window.openDialog('chrome://superstart/content/options.xul',
+					'',
+					'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes');
+		}
+	]]></script>
+</overlay>
+

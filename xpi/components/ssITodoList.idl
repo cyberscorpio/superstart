@@ -1,0 +1,13 @@
+#include "nsISupports.idl"
+#include "nsIVariant.idl"
+
+[scriptable, uuid(ADC1A658-C26E-4EA9-A352-1595F178377D)]
+interface ssITodoList : nsISupports
+{
+	nsIVariant getTodoList();
+
+	nsIVariant getTodo(in long index);
+	void addTodo(in AString type, in AString text, in long priority);
+	void changeTodo(in long index, in AString type, in AString text, in long priority);
+	void removeTodo(in long index);
+};

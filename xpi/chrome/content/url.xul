@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://superstart/content/style/url.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
+
+<dialog title="&superstart.dialog.url.title;"
+	id="superstart-url-dialog"
+	buttons="accept,cancel"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/url.js"></script>
+
+	<vbox>
+		<label control="url-input" value="url" />
+		<textbox
+			id="url-input"
+			placeholder="&superstart.dialog.url.url;"
+			type="autocomplete"
+			autocompletesearch="history"
+			autocompletesearchparam="enable-actions"
+			enablehistory="true"
+			completeselectedindex="true"
+			tabscrolling="true"
+			showcommentcolumn="true" 
+			pageproxystate="invalid"
+			clickSelectsAll="true"
+			completedefaultindex="false" 
+			timeout="50"
+			level="high"
+			crop="center"
+		/>
+		<separator orient="horizontal" class="thin" />
+		<label control="url-name" value="&superstart.dialog.url.name;" />
+		<textbox id="url-name" />
+		<groupbox>
+			<caption label="Customize image (optional)" />
+			<vbox>
+				<hbox pack="start">
+					<label value="Image size should be 212x132, or 5:3" style="opacity: 0.5;" />
+				</hbox>
+				<hbox style="margin-bottom: -1em;">
+					<hbox flex="1" pack="center" style="padding:5px 10px 2px 10px;">
+						<image id="customize-image" width="150" height="93" />
+					</hbox>
+					<vbox>
+						<button id="select-image" label="&superstart.ui.select.image;" />
+						<button id="clear-image" label="&superstart.ui.clear.image;" />
+					</vbox>
+				</hbox>
+				<hbox pack="end">
+					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/icons"
+						value="Get icons online" />
+				</hbox>
+			</vbox>
+		</groupbox>
+	</vbox>
+</dialog>

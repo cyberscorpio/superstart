@@ -1,0 +1,46 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+.link {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
+#superstart-customize-bg-image {
+	position: relative;
+}
+
+#superstart-customize-bg-image[src] {
+	background-color: #ccc;
+	border-radius: 4px;
+	border: 1px solid gray;
+	padding: 2px;
+	box-shadow: 3px 3px 4px rgba(0,0,0,0.2);
+}
+
+#superstart-customize-bg-image[disabled="true"] {
+	box-shadow: none;
+	opacity: 0.2;
+}
+
+.bg-position {
+	width: 20px;
+	height: 20px;
+	margin: 2px;
+	border: 1px solid rgba(0,0,0,0.2);
+	cursor: pointer;
+}
+
+.bg-position[disabled="true"] {
+	cursor: inherit;
+	opacity: 0.3;
+}
+
+.bg-position.selected {
+	background-color: rgba(0,0,0,0.5);
+}
+
+
+

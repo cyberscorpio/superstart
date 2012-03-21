@@ -1,0 +1,48 @@
+<!ENTITY superstart.context.menu.add "Add to Super Start">
+<!ENTITY superstart.dialog.url.title "Input URL">
+<!ENTITY superstart.dialog.url.url "Input URL here">
+<!ENTITY superstart.dialog.url.name "Site name (optional)">
+<!ENTITY superstart.menu.site.add "Add new URL">
+<!ENTITY superstart.menu.site.refreshall "Refresh all">
+<!ENTITY superstart.menu.options "Options">
+<!ENTITY superstart.options "Options:">
+
+<!ENTITY superstart.options.general "General">
+<!ENTITY superstart.options.toolbar.showbookmarks "Show bookmarks">
+<!ENTITY superstart.options.toolbar.showrecentlyclosed "Show recently closed">
+<!ENTITY superstart.options.toolbar.showthemes "Show themes">
+
+<!ENTITY superstart.options.sites.setup "Setup">
+<!ENTITY superstart.options.sites.displaysettings "Display Settings">
+<!ENTITY superstart.options.sites.minimum.lines "Minimum lines">
+<!ENTITY superstart.options.sites.fit.height.if.possible "Fit window height if possible">
+<!ENTITY superstart.options.sites.perline "Snapshots per line:">
+<!ENTITY superstart.options.sites.showfavicon "Show favicon">
+<!ENTITY superstart.options.sites.showblank "Show blank site">
+<!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
+<!ENTITY superstart.options.set.as.homepage "Set Super Start as homepage">
+
+<!ENTITY superstart.options.about "About">
+<!ENTITY superstart.options.author "Author">
+<!ENTITY superstart.options.help "Help">
+
+<!ENTITY superstart.ui.customize "UI Customize">
+<!ENTITY superstart.ui.customize.use "Use customize">
+<!ENTITY superstart.ui.customize.howto "(Help) How to customize?">
+<!ENTITY superstart.ui.background.image "Background image">
+<!ENTITY superstart.ui.select.image "Select Image">
+<!ENTITY superstart.ui.clear.image "Clear Image">
+<!ENTITY superstart.ui.background.position "Position">
+<!ENTITY superstart.ui.background.repeat "Repeat">
+<!ENTITY superstart.ui.background.repeat.repeat "Repeat (default)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Not repeat">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Repeat horizontal">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Repeat vertical">
+<!ENTITY superstart.ui.background.color "Background color">
+<!ENTITY superstart.ui.background.color.select "Select Color">
+<!ENTITY superstart.ui.background.color.clear "Clear Color">
+<!ENTITY superstart.ui.others "Others">
+<!ENTITY superstart.ui.transparent "Transparent">
+<!ENTITY superstart.ui.text.background "Background color for text">
+<!ENTITY superstart.advance "Advance">
+<!ENTITY superstart.ui.css.edit.hint "Input CSS here directly:">

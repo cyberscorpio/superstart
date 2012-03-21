@@ -1,0 +1,23 @@
+#include "nsISupports.idl"
+#include "nsIVariant.idl"
+#include "nsIFile.idl"
+
+[scriptable, uuid(26D34DF2-BB0A-47EB-8164-EC231647F1BD)]
+interface ssIThemes : nsISupports
+{
+	string getTheme(in AString name);
+	string getThemes();
+	boolean removeTheme(in AString name);
+	/**
+	 * @return the name of the new theme, '' if failed
+	 */
+	string installTheme(in nsIFile theme);
+
+	/**
+	 * @data JSON string
+	 * @output 1) styles.json; 2) styles.css
+	 */
+	void setUsData(in AString data);
+	AString getUsData();
+	AString getUsUrl();
+};

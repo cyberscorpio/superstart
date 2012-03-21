@@ -17,7 +17,7 @@ function ssSiteManager() {
 		function tohex(s) {
 			let hc = '0123456789ABCDEF';
 			let he = new Array(s.length * 2);
-			for (let i = 0; i < s.length; ++ i) {
+			for (let i = 0, j = s.length; i < j; ++ i) {
 				let c = s.charCodeAt(i);
 				he[i * 2] = hc.charAt((c >> 4) & 15);
 				he[i * 2 + 1] = hc.charAt(c & 15);

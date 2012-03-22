@@ -13,6 +13,7 @@ function ssSiteManager() {
 	let that = this;
 	let logger = this.logger;
 
+	// utilities
 	function SHA1 (msg) {
 		function tohex(s) {
 			let hc = '0123456789ABCDEF';
@@ -36,10 +37,60 @@ function ssSiteManager() {
 		return tohex(m);
 	}
 
-	let sitesFile = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
+	function emptySite() {
+		return {
+			url: null,
+			title: null,
+			name: null,
+			snapshots: null
+		};
+	}
+
+	let file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
+	let column = 4, row = 2;
 	let sites = [];
 	function load() {
-		sites = [];
-		let json = that.fileGetContent();
+		that.sites = [];
+		for (let i = 0, j = column * row; i < j; ++ i) {
+			that.sites.push(emptySite());
+		}
+		let retry = 0;
+		do {
+			if (!file.exists() || retry > 0) {
+				if (!file.exists()) {
+					file.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+				}
+				save();
+			}
+			try {
+				let sites = that.jparse(that.fileGetContent(file));
+				if (sites.length == 0) {
+					save();
+				} else {
+					that.sites = sites;
+				}
+				align();
+				break;
+			} catch (e) {
+				retry ++;
+			}
+		} while (retry < 2);
+		that.fireEvent('sites-loaded', null);
+	}
+
+	function align() {
+		let count = that.sites.length;
+		if (count < column * row) {
+			count = column * row;
+		} else {
+			count = row - (count % column);
+			if (count == row) {
+				count = 0;
+			}
+		}
+		for (let i = 0; i < count; ++ i) {
+			that.sites.push(emptySite());
+		}
 	}
 }
+

@@ -36,9 +36,7 @@ function ssTodoList() {
 		that.todoList = [];
 		try {
 			if (!todoFile.exists()) {
-				if (retry == 0) {
-					todoFile.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
-				}
+				todoFile.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
 				save();
 			} else {
 				that.todoList = that.jparse(that.fileGetContents(todoFile));

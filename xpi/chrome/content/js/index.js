@@ -9,7 +9,7 @@ try {
 	const Ci = Components.interfaces;
 	Components.utils.import('resource://superstart/xl.js');
 	var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-	var SuperStart = getMainWindow().SuperStart;
+	var SuperStart = $.getMainWindow().SuperStart;
 	var getString = SuperStart.getString;
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 	var ob = ssObj.getService(Ci.ssIObserverable);
@@ -21,14 +21,12 @@ try {
 } catch (e) {
 	if (logger != null) {
 		logger.logStringMessage(e);
-	} else {
-		logger = {
-			logStringMessage: function() {}
-		};
 	}
-
-	sm = {};
+	return;
 }
+
+var sites = sm.getSites();
+alert(sites.length);
 
 
 })();

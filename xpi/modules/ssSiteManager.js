@@ -1,3 +1,7 @@
+/**
+ * events:
+ * 	'sites-loaded', 'site-added'
+ */
 var EXPORTED_SYMBOLS = [ "ssSiteManager" ];
 
 const Cc = Components.classes;
@@ -49,13 +53,17 @@ function ssSiteManager() {
 	let file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
 	let column = 4, row = 2;
 	let sites = [];
+	let inLoading = false;
 	function load() {
-		that.sites = [];
+		logger.logStringMessage('111111111111111');
+		inLoading = true;
+		sites = [];
 		for (let i = 0, j = column * row; i < j; ++ i) {
-			that.sites.push(emptySite());
+			sites.push(emptySite());
 		}
 		let retry = 0;
 		do {
+			logger.logStringMessage('222222222222');
 			if (!file.exists() || retry > 0) {
 				if (!file.exists()) {
 					file.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -63,34 +71,71 @@ function ssSiteManager() {
 				save();
 			}
 			try {
-				let sites = that.jparse(that.fileGetContent(file));
-				if (sites.length == 0) {
+				logger.logStringMessage('33333333333322');
+				let tmp = that.jparse(that.fileGetContents(file));
+				if (tmp.length == 0) {
 					save();
 				} else {
-					that.sites = sites;
+					sites = tmp;
+					align();
 				}
-				align();
+				logger.logStringMessage('------------------');
+				logger.logStringMessage(that.stringify(tmp));
 				break;
 			} catch (e) {
+				logger.logStringMessage(e);
 				retry ++;
 			}
 		} while (retry < 2);
+		inLoading = false;
 		that.fireEvent('sites-loaded', null);
 	}
 
 	function align() {
-		let count = that.sites.length;
+		let count = sites.length;
 		if (count < column * row) {
-			count = column * row;
+			count = column * row - count;
 		} else {
 			count = row - (count % column);
-			if (count == row) {
-				count = 0;
-			}
+			count = count == row ? 0 : count;
 		}
 		for (let i = 0; i < count; ++ i) {
-			that.sites.push(emptySite());
+			sites.push(emptySite());
+			if (!inLoading) {
+				that.fireEvent('site-added', i);
+			}
 		}
+		// TODO: check empty lines (row)
 	}
+
+	function save() {
+		that.filePutContents(file, that.stringify(sites));
+	}
+
+	function decorateSite(s) {
+	}
+
+
+	// methods
+	this.getSites = function() {
+		let rs = this.jparse(this.stringify(sites));
+		for (let i = 0, l = rs.length; i < l; ++ i) {
+			decorateSite(rs[i]);
+		}
+		return rs;
+	}
+
+	this.getSite = function(idx) {
+		let s = emptySite();
+		if (idx >= 0 && idx < sites.length) {
+			s = sites[idx];
+		}
+		s = this.jparse(this.stringify(s));
+		decorateSite(s);
+		return s;
+	}
+
+	// begin
+	load();
 }
 

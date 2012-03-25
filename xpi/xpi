@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# create tags first
+# ctags -R *
+`brew --prefix`/bin/ctags -R *
+
+# create the xpt then
+php -f build-idl.php
+if [ -f xpidl_debug ] ; then
+	rm xpidl_debug
+fi
+
+# if exist superstart.xpi goto deletexpi
+if [ -f superstart.xpi ] ; then
+	rm superstart.xpi
+fi
+
+# add other files other the jar into superstart.xpi
+7z a superstart.xpi * -r -tzip -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.idl -x!*.patch -x!chrome/* -x!bak.*
+
+# jar
+cd chrome
+if [ -f superstart.jar ] ; then
+	rm superstart.jar
+fi
+
+7z a superstart.jar * -r -tzip -mx0 -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.idl -x!*.patch -x!test* -x!bak.*
+
+cd ..
+
+# add jar into superstart
+7z a superstart.xpi chrome/superstart.jar
+
+# cleanup
+rm chrome/superstart.jar
+

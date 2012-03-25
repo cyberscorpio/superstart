@@ -7,3 +7,5 @@ tags
 '
 *.bak
 *.patch
+.DS_Store
+xpidl_debug

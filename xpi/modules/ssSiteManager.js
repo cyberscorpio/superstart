@@ -1,6 +1,6 @@
 /**
  * events:
- * 	'sites-loaded', 'site-added'
+ * 	'sites-loaded', 'sites-added'
  */
 var EXPORTED_SYMBOLS = [ "ssSiteManager" ];
 
@@ -52,10 +52,15 @@ function ssSiteManager() {
 
 	let file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
 	let column = 4, row = 2;
-	let sites = [];
+	let imgWidth = 212, imgHeight = 132;
+
+	let imgLoading = 'images/loading.gif';
+	let imgNoImage = 'images/no-image.png';
+	let favIcon = 'chrome://mozapps/skin/places/defaultFavicon.png';
+
 	let inLoading = false;
+	let sites = [];
 	function load() {
-		logger.logStringMessage('111111111111111');
 		inLoading = true;
 		sites = [];
 		for (let i = 0, j = column * row; i < j; ++ i) {
@@ -63,7 +68,6 @@ function ssSiteManager() {
 		}
 		let retry = 0;
 		do {
-			logger.logStringMessage('222222222222');
 			if (!file.exists() || retry > 0) {
 				if (!file.exists()) {
 					file.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -71,7 +75,6 @@ function ssSiteManager() {
 				save();
 			}
 			try {
-				logger.logStringMessage('33333333333322');
 				let tmp = that.jparse(that.fileGetContents(file));
 				if (tmp.length == 0) {
 					save();
@@ -79,8 +82,6 @@ function ssSiteManager() {
 					sites = tmp;
 					align();
 				}
-				logger.logStringMessage('------------------');
-				logger.logStringMessage(that.stringify(tmp));
 				break;
 			} catch (e) {
 				logger.logStringMessage(e);
@@ -99,10 +100,14 @@ function ssSiteManager() {
 			count = row - (count % column);
 			count = count == row ? 0 : count;
 		}
-		for (let i = 0; i < count; ++ i) {
-			sites.push(emptySite());
+		if (count > 0) {
+			let idxes = [], l = sites.length;
+			for (let i = 0; i < count; ++ i) {
+				sites.push(emptySite());
+				idxes.push(l ++);
+			}
 			if (!inLoading) {
-				that.fireEvent('site-added', i);
+				that.fireEvent('sites-added', idxes);
 			}
 		}
 		// TODO: check empty lines (row)
@@ -115,6 +120,7 @@ function ssSiteManager() {
 	function decorateSite(s) {
 	}
 
+	// TODO: listen column / row changes
 
 	// methods
 	this.getSites = function() {
@@ -135,7 +141,83 @@ function ssSiteManager() {
 		return s;
 	}
 
+
+	this.addSite = function(url, name, custImg) {
+		let i = 0, l = sites.length;
+		for (; i < l; ++ i) {
+			if (sites[i].url == null) {
+				break;
+			}
+		}
+		if (i == l) {
+			let idxes = [];
+			sites.push(emptySite());
+			idxes.push(l ++);
+
+			let count = sites.length;
+			if (count % column > 0) {
+				count = column - (count % column);
+				for (let j = 0; j < count; ++ j) {
+					sites.push(emptySite());
+					idxes.push(l ++);
+				}
+			}
+			save();
+			this.fireEvent('sites-added', idxes);
+		}
+
+		this.changeSite(i, url, name, custImg);
+	}
+
+	this.changeSite = function(idx, url, name, custImg) {
+		if (idx < 0 || idx >= sites.length) {
+			return;
+		}
+
+		url = this.regulateUrl(url);
+		let site = sites[idx];
+		if (url == site.url) {
+			if (name != site.name || custImg != site.image) {
+				site.name = name;
+				if (custImg == '') {
+					delete site.image;
+				} else {
+					site.image = custImg;
+				}
+				save();
+				this.fireEvent('sites-updated', [idx]);
+			}
+		} else {
+			this.removeSite(idx); // TODO: if this site is the last one of a row, maybe problem...
+			if (url == null)
+				return;
+
+			site = sites[idx];
+			site.url = site.title = url;
+			site.name = name;
+			site.icon = favIcon;
+			site.snapshots = [imgNoImage];
+			if (custImg != '')
+				site.image = custImg;
+
+			this.refreshSite(idx);
+		}
+	}
+
+	this.exchangeSite = function(index1, index2) {
+	}
+
+	this.removeSite = function(index) {
+	}
+
+	this.refreshSite = function(index) {
+	}
+
 	// begin
 	load();
 }
+
+
+
+
 

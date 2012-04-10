@@ -26,7 +26,7 @@ try {
 }
 
 var sites = sm.getSites();
-alert(sites.length);
+logger.logStringMessage(sites.length);
 
 
 })();

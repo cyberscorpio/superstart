@@ -5,6 +5,7 @@
 interface ssISiteManager: nsISupports
 {
 	nsIVariant getSites();
+	/*
 	nsIVariant getSite(in long index);
 
 	void addSite(in string url, in AString name, in AString customizeImage);
@@ -13,4 +14,5 @@ interface ssISiteManager: nsISupports
 	void removeSite(in long index);
 
 	void refreshSite(in long index);
+	*/
 };

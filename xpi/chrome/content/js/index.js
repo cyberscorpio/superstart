@@ -25,8 +25,5 @@ try {
 	return;
 }
 
-var sites = sm.getSites();
-logger.logStringMessage(sites.length);
-
 
 })();

@@ -57,8 +57,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		};
 	}
 
+	////////////////////
+	// load / save
+	// type: nsIFile
 	let file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let column = 4, row = 2;
+	let col = 4, row = 2;
 	let imgWidth = 212, imgHeight = 132;
 
 	let imgLoading = 'images/loading.gif';
@@ -68,7 +71,36 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let inLoading = false;
 	let sites = [];
 
+	function create() {
+		sites = [];
+		let cnt = col * row;
+		for (let i = 0; i < cnt; ++ i) {
+			sites.push(emptySite());
+		}
+		that.filePutContents(that.stringify(sites));
+		that.fireEvent('sites-loaded', null);
+	}
+
+	function align() {
+		let cnt = col * row;
+		if (site.length < cnt) {
+//		} else if () {
+		}
+	}
+
 	function load() {
+		inLoading = true;
+		if (!file.exists()) {
+			create();
+		} else {
+			try {
+				sites = that.jparse(that.fileGetContents(file))
+				align();
+			} catch (e) {
+				create();
+			}
+		}
+		inLoading = false;
 	}
 
 	function save() {

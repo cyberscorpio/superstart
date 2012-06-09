@@ -59,8 +59,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	////////////////////
 	// load / save
-	// type: nsIFile
-	let file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
+	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
 	let col = 4, row = 2;
 	let imgWidth = 212, imgHeight = 132;
 

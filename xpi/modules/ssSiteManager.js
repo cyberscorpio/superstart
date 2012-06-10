@@ -68,15 +68,20 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let favIcon = 'chrome://mozapps/skin/places/defaultFavicon.png';
 
 	let inLoading = false;
-	let sites = [];
+	let data = null; // see doc/data.txt for details
 
 	function create() {
-		sites = [];
+		let sites = [];
 		let cnt = col * row;
 		for (let i = 0; i < cnt; ++ i) {
 			sites.push(emptySite());
 		}
-		that.filePutContents(that.stringify(sites));
+
+		data = {
+			'version' : 1.0,
+			'sites' : sites
+		};
+		save();
 		that.fireEvent('sites-loaded', null);
 	}
 
@@ -93,7 +98,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			create();
 		} else {
 			try {
-				sites = that.jparse(that.fileGetContents(file))
+				data = that.jparse(that.fileGetContents(file))
 				align();
 			} catch (e) {
 				create();
@@ -103,11 +108,21 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function save() {
+		that.filePutContents(file, that.stringify(data));
+	}
+
+	function adjustSite(s) {
+		return s;
 	}
 
 	////////////////////
 	// methods
 	this.getSites = function() {
+		let s = that.jparse(that.stringify(data.sites));
+		for (let i = 0, l = s.length; i < l; ++ i) {
+			adjustSite(s[i]);
+		}
+		return s;
 	}
 
 	////////////////////

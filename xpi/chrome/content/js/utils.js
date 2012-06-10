@@ -15,7 +15,7 @@ var $ = function(e, s) {
 
 var $$ = function(id) {
 	return document.getElementById(id);
-}
+};
 
 (function($) {
 	$.hasClass = function(el, cls) {

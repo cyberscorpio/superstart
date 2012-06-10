@@ -25,5 +25,16 @@ try {
 	return;
 }
 
+// init
+window.addEventListener('DOMContentLoaded', function() {
+	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+	initSites();
+}, false);
+
+
+// sites
+function initSites() {
+}
+
 
 })();

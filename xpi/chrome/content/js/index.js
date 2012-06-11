@@ -34,6 +34,42 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // sites
 function initSites() {
+	var sites = sm.getSites();
+
+	var container = $$('sites');
+	for (var i = 0, l = sites.length; i < l; ++ i) {
+		var s = sites[i];
+
+		insertSite(container, s);
+	}
+
+	layout();
+
+	$.removeClass(container, 'hidden');
+}
+
+function insertSite(c, s) {
+	var w = document.createElement('div');
+	if (s.sites != undefined) { // folder
+		$.addClass(w, 'folder');
+	} else { // site
+		$.addClass(w, 'site');
+		if (s.url == null) { // empty
+			$.addClass(w, 'empty');
+		} else { // nonempty
+		}
+
+		var img = document.createElement('div');
+		$.addClass(img, 'image');
+		w.appendChild(img);
+	}
+
+	c.appendChild(w);
+}
+
+function layout() {
+	var row = cfg.getConfig('row');
+	var col = cfg.getConfig('col');
 }
 
 

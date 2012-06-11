@@ -38,7 +38,7 @@ function ssConfig() {
 			'default' : 2,
 			'min' : 1,
 			'max' : 20
-		}
+		},
 	};
 
 	for (let k in intCfgs) {
@@ -84,6 +84,12 @@ function ssConfig() {
 			// mutable
 			case 'theme':
 				return theme;
+			// test begin --->
+			case 'row':
+				return 2;
+			case 'col':
+				return 4;
+			// test end <---
 			default:
 				if (intCfgs[name] != undefined) {
 					return intCfgs[name].value;

@@ -12,6 +12,15 @@ body {
 	/*min-width: 962px;*/
 	/*text-align: center;*/
 	/*-moz-user-select: -moz-none;*/
+	position: relative;
+}
+
+#sites .site {
+	position: absolute;
+}
+
+#sites .site.empty .image {
+	border: 2px dashed rgba(0, 0, 0, 0.5);
 }
 
 

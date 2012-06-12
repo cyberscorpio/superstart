@@ -15,12 +15,24 @@ body {
 	position: relative;
 }
 
-#sites .site {
+#topbar {
+	height: 128px;
+	background-color: green;
+}
+
+#sites {
+	position: relative;
+	-moz-user-select: none;
+}
+
+.site {
 	position: absolute;
 }
 
-#sites .site.empty .image {
+.site.empty .image {
+	height: 100%;
 	border: 2px dashed rgba(0, 0, 0, 0.5);
+	border-radius: 5px;
 }
 
 

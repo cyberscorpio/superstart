@@ -1,8 +1,12 @@
 (function() {
 
+/*
 var imgWidth = 212, imgHeight = 132;
 var imgWidthSmall = 150, imgHeightSmall = 93;
 var sitesPerLine = 4;
+*/
+var pageMinWidth = 800;
+var ratio = 0.625; // h = w * 0.625 <=> w = h * 1.6
 
 try {
 	const Cc = Components.classes;
@@ -70,6 +74,36 @@ function insertSite(c, s) {
 function layout() {
 	var row = cfg.getConfig('row');
 	var col = cfg.getConfig('col');
+
+	var cw = document.body.clientWidth;
+	if (cw < pageMinWidth) {
+		cw = pageMinWidth;
+	}
+
+	/** layout **
+	  [ w/2] [site] [ w/4 ] [site] ... [site] [ w/2 ]
+	 */
+
+	var w = Math.floor(2 * cw / (3 * col + 1));
+	var h = Math.floor(w * ratio);
+
+	var sites = $('.site');
+	var x = Math.floor(w / 2);
+	var y = 0;
+	for (var i = 0, j = 0, l = sites.length; i < l; ++ i) {
+		var s = sites[i];
+		s.style.width = w + 'px';
+		s.style.height = h + 'px';
+		s.style.top = y + 'px';
+		s.style.left = x + 'px';
+		x += Math.floor(w + w / 2);
+		++ j;
+		if (j == col) {
+			j = 0;
+			x = Math.floor(w / 2);
+			y += Math.floor(h + h / 2);
+		}
+	}
 }
 
 

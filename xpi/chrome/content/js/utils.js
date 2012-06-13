@@ -203,6 +203,24 @@ var $$ = function(id) {
 				});
 	}
 
+	/**
+	 format:
+	 ELEMENT :=
+	 {
+	 	'tag' : tag,
+		'attr' : {
+			'name' : value,
+			'name' : value,
+			...
+		},
+		'children" : [
+			ELEMENT, ...
+		]
+	 }
+	 */
+	$.json2Dom = function(json) {
+	}
+
 	const Ci = Components.interfaces;
 	$.getMainWindow = function() {
 		return window.QueryInterface(Ci.nsIInterfaceRequestor)

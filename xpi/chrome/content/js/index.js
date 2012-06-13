@@ -84,11 +84,12 @@ function layout() {
 	  [ w/2] [site] [ w/4 ] [site] ... [site] [ w/2 ]
 	 */
 
-	var w = Math.floor(2 * cw / (3 * col + 1));
+	var unit = Math.floor(cw / (3 + 5 * col ));
+	var w = 4 * unit
 	var h = Math.floor(w * ratio);
 
 	var sites = $('.site');
-	var x = Math.floor(w / 2);
+	var x = 2 * unit;
 	var y = 0;
 	for (var i = 0, j = 0, l = sites.length; i < l; ++ i) {
 		var s = sites[i];
@@ -96,12 +97,12 @@ function layout() {
 		s.style.height = h + 'px';
 		s.style.top = y + 'px';
 		s.style.left = x + 'px';
-		x += Math.floor(w + w / 2);
+		x += 5 * unit;
 		++ j;
 		if (j == col) {
 			j = 0;
-			x = Math.floor(w / 2);
-			y += Math.floor(h + h / 2);
+			x = 2 * unit;
+			y += Math.floor(h + unit * ratio);
 		}
 	}
 }

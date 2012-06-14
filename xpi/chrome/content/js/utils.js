@@ -218,7 +218,35 @@ var $$ = function(id) {
 		]
 	 }
 	 */
-	$.json2Dom = function(json) {
+	$.obj2Element = function(obj) {
+		if (obj.tag == null) {
+			return null;
+		}
+		var e = document.createElement(obj.tag);
+		if (e) {
+			if (obj.attr) {
+				var a = obj.attr;
+				for (var name in a) {
+					if (name == 'text') {
+						var t = document.createTextNode(a[name]);
+						e.appendChild(t);
+					} else {
+						e.setAttribute(name, a[name]);
+					}
+				}
+			}
+
+			if (obj.children) {
+				var cs = obj.children;
+				for (var i = 0, l = cs.length; i < l; ++ i) {
+					var c = $.obj2Element(cs[i]);
+					if (c) {
+						e.appendChild(c);
+					}
+				}
+			}
+		}
+		return e;
 	}
 
 	const Ci = Components.interfaces;

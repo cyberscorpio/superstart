@@ -1,10 +1,5 @@
 (function() {
 
-/*
-var imgWidth = 212, imgHeight = 132;
-var imgWidthSmall = 150, imgHeightSmall = 93;
-var sitesPerLine = 4;
-*/
 var pageMinWidth = 800;
 var ratio = 0.625; // h = w * 0.625 <=> w = h * 1.6
 
@@ -35,9 +30,16 @@ window.addEventListener('DOMContentLoaded', function() {
 	initSites();
 }, false);
 
+window.addEventListener('resize', onResize, false);
+
+window.addEventListener('unload', function() {
+	window.removeEventListener('resize', onResize, false);
+}, false);
+
 
 // sites
 function initSites() {
+	var minCount = 4 * 2;
 	var sites = sm.getSites();
 
 	var container = $$('sites');
@@ -46,29 +48,49 @@ function initSites() {
 
 		insertSite(container, s);
 	}
+	if (minCount > sites.length) {
+		for (var i = 0; i < minCount - sites.length; ++ i) {
+			var s = sites[i];
+			insertSite(container, null);
+		}
+	}
 
 	layout();
 
 	$.removeClass(container, 'hidden');
 }
 
-function insertSite(c, s) {
-	var w = document.createElement('div');
-	if (s.sites != undefined) { // folder
-		$.addClass(w, 'folder');
-	} else { // site
-		$.addClass(w, 'site');
-		if (s.url == null) { // empty
-			$.addClass(w, 'empty');
-		} else { // nonempty
-		}
+var siteTemplates = {
+	'empty': {
+		'tag': 'div',
+		'attr': {
+			'class': 'site empty'
+		},
+		'children': [
+			{
+				'tag': 'div',
+				'attr': {
+					'class': 'background'
+				}
+			}
+		]
+	}
+};
 
-		var img = document.createElement('div');
-		$.addClass(img, 'image');
-		w.appendChild(img);
+function insertSite(c, s) {
+	var w = null;
+	if (s === null) {
+		w = $.obj2Element(siteTemplates['empty']);
+	} else {
+		if (s.sites != undefined) { // folder
+			// 
+		} else { // site
+		}
 	}
 
-	c.appendChild(w);
+	if (w) {
+		c.appendChild(w);
+	}
 }
 
 function layout() {
@@ -105,6 +127,12 @@ function layout() {
 			y += Math.floor(h + unit * ratio);
 		}
 	}
+}
+
+
+// event handler
+function onResize() {
+	layout();
 }
 
 

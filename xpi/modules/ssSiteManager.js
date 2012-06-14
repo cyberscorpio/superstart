@@ -60,7 +60,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let col = 4, row = 2;
 	let imgWidth = 212, imgHeight = 132;
 
 	let imgLoading = 'images/loading.gif';
@@ -72,10 +71,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function create() {
 		let sites = [];
-		let cnt = col * row;
-		for (let i = 0; i < cnt; ++ i) {
-			sites.push(emptySite());
-		}
 
 		data = {
 			'version' : 1.0,
@@ -85,13 +80,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		that.fireEvent('sites-loaded', null);
 	}
 
-	function align() {
-		let cnt = col * row;
-		if (site.length < cnt) {
-//		} else if () {
-		}
-	}
-
 	function load() {
 		inLoading = true;
 		if (!file.exists()) {
@@ -99,7 +87,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		} else {
 			try {
 				data = that.jparse(that.fileGetContents(file))
-				align();
 			} catch (e) {
 				create();
 			}

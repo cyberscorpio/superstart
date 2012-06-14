@@ -23,15 +23,16 @@ body {
 #sites {
 	position: relative;
 	-moz-user-select: none;
+	user-select: none;
 }
 
 .site {
 	position: absolute;
 }
 
-.site.empty .image {
+.site.empty .background {
 	height: 100%;
-	border: 2px dashed rgba(0, 0, 0, 0.5);
+	border: 2px dashed rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
 }
 

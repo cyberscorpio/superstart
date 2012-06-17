@@ -38,8 +38,8 @@ window.addEventListener('unload', function() {
 
 
 // sites
+var col = 4;
 function initSites() {
-	var minCount = 4 * 2;
 	var sites = sm.getSites();
 
 	var container = $$('sites');
@@ -48,11 +48,8 @@ function initSites() {
 
 		insertSite(container, s);
 	}
-	if (minCount > sites.length) {
-		for (var i = 0; i < minCount - sites.length; ++ i) {
-			var s = sites[i];
-			insertSite(container, null);
-		}
+	if (sites.length % col != 0 || sites.length == 0) {
+		insertSite(container, null);
 	}
 
 	layout();
@@ -81,6 +78,7 @@ function insertSite(c, s) {
 	var w = null;
 	if (s === null) {
 		w = $.obj2Element(siteTemplates['empty']);
+		w.onclick = function() { showAddSite(); };
 	} else {
 		if (s.sites != undefined) { // folder
 			// 
@@ -130,10 +128,27 @@ function layout() {
 }
 
 
+// methods
+var urlDialogs = {};
+function showAddSite() {
+	var index = -1;
+        if (urlDialogs[index] != null) {
+                urlDialogs[index].focus();
+        } else {
+                var dlg = window.openDialog('chrome://superstart/content/url.xul',
+                        '',
+                        'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', index, urlDialogs);
+                urlDialogs[index] = dlg;
+        }
+}
+
+
 // event handler
 function onResize() {
 	layout();
 }
+
+
 
 
 })();

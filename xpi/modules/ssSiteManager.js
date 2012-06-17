@@ -73,7 +73,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		let sites = [];
 
 		data = {
-			'version' : 1.0,
+			'version' : "1.0",
 			'sites' : sites
 		};
 		save();

@@ -47,16 +47,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return tohex(m);
 	}
 
-
-	function emptySite() {
-		return {
-			url: null,
-			title: null,
-			name: null,
-			snapshots: [null, null, null] // [top left, whole, customized]
-		};
-	}
-
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
@@ -70,11 +60,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let data = null; // see doc/data.txt for details
 
 	function create() {
-		let sites = [];
-
 		data = {
 			'version' : "1.0",
-			'sites' : sites
+			'sites' : []
 		};
 		save();
 		that.fireEvent('sites-loaded', null);
@@ -86,8 +74,55 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			create();
 		} else {
 			try {
-				data = that.jparse(that.fileGetContents(file))
+				let changed = false;
+				data = that.jparse(that.fileGetContents(file));
+				let sites = data.sites;
+				for (let i = 0; i < sites.length; ++ i) {
+					// check sites
+					let s = sites[i];
+					if (s.sites != undefined) {
+						if (!Array.isArray(s.sites)) {
+							sites.splice(i, 1);
+							-- i;
+							changed = true;
+						} else {
+							if (s.sites.length > 1) {
+								for (let j = 0; j < s.sites.length; ++ j) {
+									let ss = s.sites[j];
+									if (ss.url == null) {
+										s.sites.splice(j, 1);
+										-- j;
+										changed = true;
+									} else if (ss.snapshots[0] == imgLoading || ss.snapshots[1] == imgLoading) {
+										ss.snapshots[0] = ss.snapshots[1] = imgNoSnapshot;
+										changed = true;
+									}
+								}
+							}
+
+							if (s.sites.length == 1) {
+								sites[i] = s.sites[0];
+								changed = true;
+							} else if (s.sites.length == 0) {
+								sites.splice(i, 1);
+								-- i;
+								changed = true;
+							}
+						}
+					} else if (sites[i].url == null) {
+						sites.splice(i, 1);
+						-- i;
+						changed = true;
+					} else if (sites[i].snapshots[0] == imgLoading || sites[i].snapshots[1] == imgLoading) {
+						sites[i].snapshots[0] = sites[i].snapshots[1] = imgNoSnapshot;
+						changed = true;
+					}
+				}
+				if (changed) {
+					save();
+				}
 			} catch (e) {
+				log('sitemanageer::load() ' + e);
 				create();
 			}
 		}
@@ -102,15 +137,49 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
+	let cache = null;
+	function createCache() {
+		cache = that.jparse(that.stringify(data.sites));
+		for (let i = 0, l = cache.length; i < l; ++ i) {
+			adjustSite(cache[i]);
+		}
+	}
+
 	////////////////////
 	// methods
 	this.getSites = function() {
-		let s = that.jparse(that.stringify(data.sites));
-		for (let i = 0, l = s.length; i < l; ++ i) {
-			adjustSite(s[i]);
+		if (cache === null) {
+			createCache();
 		}
-		return s;
+		return cache;
 	}
+
+	this.getSite = function(idx) {
+		if (idx < 0 || idx >= data.sites.length) {
+			return null;
+		} else {
+			if (cache === null) {
+				createCache();
+			}
+			return cache[idx];
+		}
+	}
+
+	this.addSite = function(url, name, image) {
+		cache = null;
+		let s = {
+			'url': url,
+			'title': url,
+			'name': name,
+			'snapshots': [imgLoading, imgLoading, image]
+		};
+		data.sites.push(s);
+		save();
+		this.fireEvent('site-added', data.sites.length - 1);
+	}
+
+
+	// snapshots
 
 	////////////////////
 	// begin

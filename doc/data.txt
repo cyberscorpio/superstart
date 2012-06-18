@@ -5,14 +5,28 @@
 ########################################
 # sites.json
 {
-	version: 1.0,
+	version: "1.0",
 	sites: [
-		site01, site02, etc.
+		site1 | folder1, site2 | folder2, etc.
 	]
 }
 
 # site
 {
+	url: url,
+	title: title, // created automatically
+	name: name, // user specified
+	snapshots: [ tl, center, user-specified ]
+}
+
+or 
+
+# folder
+{
+	name: name, // by default should be 'Group'
+	sites: [
+		site1, site2, etc.
+	]
 }
 
 

@@ -59,6 +59,30 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let inLoading = false;
 	let data = null; // see doc/data.txt for details
 
+	// fn is a function and should return **true** if it changes the site
+	function travel(fn) {
+		let changed = false;
+		for (let i = 0, l = data.sites.length; i < l; ++ i) {
+			let s = data.sites[i];
+			if (s.sites && isArray(s.sites)) {
+				let j = 0, k = s.sites.length;
+				if (k == 0) {
+					log('siteManager::travel get error data at index ' + i);
+				}
+				for (; j < k; ++ j) {
+					if (fn(s.sites[j])) {
+						changed = true;
+					}
+				}
+			} else {
+				if (fn(s)) {
+					changed = true;
+				}
+			}
+		}
+		return changed;
+	}
+
 	function create() {
 		data = {
 			'version' : "1.0",
@@ -66,6 +90,64 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		};
 		save();
 		that.fireEvent('sites-loaded', null);
+	}
+
+	function check() {
+		let changed = false;
+		let sites = data.sites;
+		try {
+			// check for empty 
+			for (let i = 0; i < sites.length; ++ i) {
+				let s = sites[i];
+				// folder
+				if (s.sites) {
+					if (!isArray(s.sites) || s.sites.length == 0) {
+						delete s.sites;
+						-- i; // check it as an URL in the next round
+						changed = true;
+					} else {
+						for (let j = 0; j < s.sites.length; ++ j) {
+							if (s.sites[j].url == null) {
+								s.sites.splice(j, 1);
+								changed = true;
+							}
+						}
+
+						if (s.sites.length == 1) {
+							sites[i] = s.sites[j];
+							changed = true;
+						} else if (s.sites.length == 0) {
+							sites.splice(i, 1);
+							-- i;
+							changed = true;
+						}
+					}
+				} else {
+					if (s.url == null) {
+						sites.splice(i, 1);
+						-- i;
+						changed = true;
+					}
+				}
+			}
+		} catch (e) {
+			log('siteManager::check() ' + e);
+			create();
+			return true;
+		}
+
+		// check snapshots
+		if (travel(function(s) {
+			if (s.snapshots[0] == imgLoading || s.snapshots[1] == imgLoading) {
+				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
+				return true;
+			} else {
+				return false;
+			}
+		})) {
+			changed = true;
+		}
+		return changed;
 	}
 
 	function load() {
@@ -76,53 +158,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			try {
 				let changed = false;
 				data = that.jparse(that.fileGetContents(file));
-				let sites = data.sites;
-				for (let i = 0; i < sites.length; ++ i) {
-					// check sites
-					let s = sites[i];
-					if (s.sites != undefined) {
-						if (!Array.isArray(s.sites)) {
-							sites.splice(i, 1);
-							-- i;
-							changed = true;
-						} else {
-							if (s.sites.length > 1) {
-								for (let j = 0; j < s.sites.length; ++ j) {
-									let ss = s.sites[j];
-									if (ss.url == null) {
-										s.sites.splice(j, 1);
-										-- j;
-										changed = true;
-									} else if (ss.snapshots[0] == imgLoading || ss.snapshots[1] == imgLoading) {
-										ss.snapshots[0] = ss.snapshots[1] = imgNoSnapshot;
-										changed = true;
-									}
-								}
-							}
-
-							if (s.sites.length == 1) {
-								sites[i] = s.sites[0];
-								changed = true;
-							} else if (s.sites.length == 0) {
-								sites.splice(i, 1);
-								-- i;
-								changed = true;
-							}
-						}
-					} else if (sites[i].url == null) {
-						sites.splice(i, 1);
-						-- i;
-						changed = true;
-					} else if (sites[i].snapshots[0] == imgLoading || sites[i].snapshots[1] == imgLoading) {
-						sites[i].snapshots[0] = sites[i].snapshots[1] = imgNoSnapshot;
-						changed = true;
-					}
-				}
-				if (changed) {
+				if (check()) {
 					save();
 				}
 			} catch (e) {
-				log('sitemanageer::load() ' + e);
+				log('siteManager::load() ' + e);
 				create();
 			}
 		}
@@ -180,6 +220,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 
 	// snapshots
+	let takeSnapshot = (function() {
+		let q = [];
+
+		function takeSnapshot(url) {
+		}
+
+		return takeSnapshot;
+	})();
 
 	////////////////////
 	// begin

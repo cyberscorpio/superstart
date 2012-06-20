@@ -221,9 +221,29 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	// snapshots
 	let takeSnapshot = (function() {
+		let max = 3;
 		let q = [];
+		let taking = [];
+
+		function exists(url) {
+			for (let i = 0, l = q.length; i < l; ++ i) {
+				if (q[i] == url) {
+					return true;
+				}
+			}
+			for (let i = 0, l = taking.length; i < l; ++ i) {
+				if (taking[i] == url) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 		function takeSnapshot(url) {
+			if (exists(url)) {
+				return;
+			}
+			q.push(url);
 		}
 
 		return takeSnapshot;

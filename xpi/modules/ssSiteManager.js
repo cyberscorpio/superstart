@@ -50,7 +50,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 212, imgHeight = 132;
+	let imgWidth = 212, imgHeight = 132, ratio = 0.625;
 
 	let imgLoading = 'images/loading.gif';
 	let imgNoSnapshot = 'images/no-image.png';
@@ -224,19 +224,117 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		let max = 3;
 		let q = [];
 		let taking = [];
+		let browsers = {};
 
 		function exists(url) {
-			for (let i = 0, l = q.length; i < l; ++ i) {
-				if (q[i] == url) {
-					return true;
-				}
-			}
-			for (let i = 0, l = taking.length; i < l; ++ i) {
-				if (taking[i] == url) {
-					return true;
-				}
+			if (q.indexOf(url) != -1 || taking.indexOf(url) != -1) {
+				return true;
 			}
 			return false;
+		}
+
+		function beginTaking() {
+			if (taking.length >= max || q.length == 0) {
+				return;
+			}
+			let url = q.shift();
+			taking.push(url);
+
+
+			let wm = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
+			let gw = wm.getMostRecentWindow("navigator:browser");
+
+			let width = imgWidth, height = imgHeight;
+			let fw = 1024, fh = Math.floor(fw * ratio);
+
+			let gDoc = gw.document;
+			let container = gDoc.getElementById('superstart-snapshot-container');
+			let browser = gDoc.createElement('browser');
+			browsers[url] = browser; // save it
+			// set the browser attributes
+			browser.width = fw;
+			browser.height = fh;
+			browser.setAttribute('type', 'content');
+			browser.setAttribute('src', url);
+
+			container.appendChild(browser);
+
+			let now = (new Date()).getTime();
+			let timeout = 30 * 1000;
+			let timeoutId = gw.setTimeout(onTimeout, timeout);
+			browser.addEventListener('load', onLoad, true);
+
+			function onLoad() {
+				gw.clearTimeout(timeoutId);
+				timeout = ((new Date().getTime() - now) * 3); // wait more time for multimedia content to be loaded
+				if (timeout < 1000) {
+					timeout = 1000;
+				} else if (timeout > 15 * 1000) {
+					timeout = 15 * 1000;
+				}
+				timeoutId = gw.setTimeout(onTimeout, timeout);
+			}
+
+			function onTimeout() {
+				let doc = browser.contentDocument;
+				let title = doc.title || url;
+				let icon = getIcon(doc);
+				doc = null;
+
+				let snapshot = getImageFileNameFromUrl(url);
+				let pathName = getImagePathFromFileName(snapshot);
+				let canvas = window2canvas(gDoc, browser, width, height);
+				saveCanvas(canvas, pathName, function() {
+					let sites = that.sites;
+					let isSnapshotUsed = false;
+					for (let i = 0, l = sites.length; i < l; ++ i) {
+						if (sites[i].url == url) {
+							setSiteInformation(i, title, icon, snapshot, sites[i].image);
+							isSnapshotUsed = true;
+						}
+					}
+
+					if (!isSnapshotUsed) {
+						removeSnapshotFile(snapshot);
+					}
+
+					afterFetched();
+				});
+			}
+		}
+
+		function getIcon(doc) {
+			try {
+				let loc = doc.location;
+				if (loc.href.indexOf('http') == 0) {
+					let links = doc.getElementsByTagName('link');
+					// 1. look for rel="shortcut icon"
+					for (let i = 0, l = links.length; i < l; ++ i) {
+						let link = links[i];
+						let rel = link.rel || '';
+						if (rel.search(/icon/i) != -1 && rel.search(/shortcut/i) != -1) {
+							return link.href;
+						}
+					}
+
+					// 2. icon only
+					for (let i = 0, l = links.length; i < l; ++ i) {
+						let link = links[i];
+						let rel = link.rel || '';
+						if (rel.search(/icon/i) != -1) {
+							return link.href;
+						}
+					}
+
+					// 3. fallback
+					if (loc.protocol == 'http:' || loc.protocol == 'https:') {
+						return loc.protocol + '//' + loc.host + '/favicon.ico';
+					}
+				}
+			} catch (e) {
+				logger.logStringMessage(e);
+			}
+			return favIcon;
 		}
 
 		function takeSnapshot(url) {
@@ -244,6 +342,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return;
 			}
 			q.push(url);
+			beginTaking();
 		}
 
 		return takeSnapshot;

@@ -47,9 +47,9 @@
 	}, false);
 
 	window.addEventListener('unload', function() {
-		if (index != -1) {
+		// if (index != -1) {
 			dialogs[index] = null;
-		}
+		// }
 
 		var dlg = g('superstart-url-dialog');
 		dlg.onAccept = null;

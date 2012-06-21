@@ -206,6 +206,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	this.addSite = function(url, name, image) {
+		/*
 		cache = null;
 		let s = {
 			'url': url,
@@ -216,6 +217,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		data.sites.push(s);
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
+		*/
+		takeSnapshot();
 	}
 
 
@@ -234,11 +237,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		function beginTaking() {
+		/*
 			if (taking.length >= max || q.length == 0) {
 				return;
 			}
 			let url = q.shift();
 			taking.push(url);
+			*/
+			let url = 'http://www.yahoo.com';
 
 
 			let wm = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
@@ -281,11 +287,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let icon = getIcon(doc);
 				doc = null;
 
-				let snapshot = getImageFileNameFromUrl(url);
-				let pathName = getImagePathFromFileName(snapshot);
+				let snapshot = '1.png';//getImageFileNameFromUrl(url);
+				let pathName = '~/Desktop/1.png';//getImagePathFromFileName(snapshot);
 				let canvas = window2canvas(gDoc, browser, width, height);
 				saveCanvas(canvas, pathName, function() {
-					let sites = that.sites;
+					/*
+					let sites = data.sites;
 					let isSnapshotUsed = false;
 					for (let i = 0, l = sites.length; i < l; ++ i) {
 						if (sites[i].url == url) {
@@ -299,6 +306,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					}
 
 					afterFetched();
+					*/
+					delete browsers[url];
+					browser.parentNode.removeChild(browser);
+					browser = null;
 				});
 			}
 		}
@@ -335,6 +346,60 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				logger.logStringMessage(e);
 			}
 			return favIcon;
+		}
+
+
+		function window2canvas(gDoc, win) {
+			let w = win.clientWidth;
+			let h = win.clientHeight;
+			try {
+				let b = win.contentDocument.body;
+				w = b.clientWidth / 2;
+				h = w * ratio;
+			} catch (e) {
+			}
+	
+			let contentWindow = win.contentWindow;
+			let canvas = gDoc.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+	
+			canvas.style.width = w + 'px';
+			canvas.style.height = h + 'px';
+			canvas.width = w;
+			canvas.height = h;
+	
+			let ctx = canvas.getContext('2d');
+			ctx.clearRect(0, 0, w, h);
+			ctx.save();
+			ctx.mozImageSmoothingEnabled = true;
+			ctx.scale(1, 1);
+			ctx.drawWindow(contentWindow, 0, 0, w, h, "rgba(0,0,0,0)");
+			ctx.restore();
+			return canvas;
+		}
+	
+		function saveCanvas(canvas, pathName, callback) {
+			let file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+			file.initWithPath(pathName);
+			let io = Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService);
+			let src = io.newURI(canvas.toDataURL('image/png', ''), 'UTF8', null);
+			let persist = Cc['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(Ci.nsIWebBrowserPersist);
+			persist.persistFlags = Ci.nsIWebBrowserPersist.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
+			persist.persistFlags |= Ci.nsIWebBrowserPersist.PERSIST_FLAGS_AUTODETECT_APPLY_CONVERSION;
+	
+			let listener = {
+				onStateChange: function(webProgress, req, flags, aStatus) {
+					if (flags & Ci.nsIWebProgressListener.STATE_STOP) {
+						persist.progressListener = null;
+						persist = null;
+						if (callback) {
+							callback();
+							callback = null;
+						}
+					}
+				}
+			}
+			persist.progressListener = listener;
+			persist.saveURI(src, null, null, null, null, file);
 		}
 
 		function takeSnapshot(url) {

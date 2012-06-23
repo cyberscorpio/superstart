@@ -5,11 +5,10 @@
 interface ssISiteManager: nsISupports
 {
 	nsIVariant getSites();
+	nsIVariant getSite(in long group, in long index); // group = -1, or others
+
 	void addSite(in AString url, in AString name, in AString customizeImage);
-
 	/*
-	nsIVariant getSite(in long index);
-
 	void changeSite(in long index, in string url, in AString name, in AString customizeImage);
 	void exchangeSite(in long index1, in long index2);
 	void removeSite(in long index);

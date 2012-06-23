@@ -50,7 +50,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 212, imgHeight = 132, ratio = 0.625;
+	let imgWidth = 256, imgHeight = 160, ratio = 0.625;
 
 	let imgLoading = 'images/loading.gif';
 	let imgNoSnapshot = 'images/no-image.png';
@@ -70,12 +70,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					log('siteManager::travel get error data at index ' + i);
 				}
 				for (; j < k; ++ j) {
-					if (fn(s.sites[j])) {
+					if (fn(s.sites[j], [i, j])) {
 						changed = true;
 					}
 				}
 			} else {
-				if (fn(s)) {
+				if (fn(s, [-1, i])) {
 					changed = true;
 				}
 			}
@@ -177,48 +177,46 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
-	let cache = null;
-	function createCache() {
-		cache = that.jparse(that.stringify(data.sites));
-		for (let i = 0, l = cache.length; i < l; ++ i) {
-			adjustSite(cache[i]);
-		}
-	}
-
 	////////////////////
 	// methods
 	this.getSites = function() {
-		if (cache === null) {
-			createCache();
+		let sites = that.jparse(that.stringify(data.sites));
+		for (let i = 0, l = sites.length; i < l; ++ i) {
+			adjustSite(sites[i]);
 		}
-		return cache;
+		return sites;
 	}
 
-	this.getSite = function(idx) {
-		if (idx < 0 || idx >= data.sites.length) {
+	this.getSite = function(group, idx) {
+		if ((group == -1 && (idx < 0 || idx >= data.sites.length)) || (group < 0 || group >= data.sites.length)) {
 			return null;
 		} else {
-			if (cache === null) {
-				createCache();
+			let s = data.sites[idx];
+			if (group != -1) {
+				let g = data.sites[group];
+				if (g.sites == null || !Array.isArray(g.sites) || (idx < 0 || idx >= g.sites.length)) {
+					return null;
+				}
+				s = g[idx];
 			}
-			return cache[idx];
+			s = that.jparse(that.stringify(s));
+			adjustSite(s);
+			return s;
 		}
 	}
 
 	this.addSite = function(url, name, image) {
-		/*
-		cache = null;
 		let s = {
 			'url': url,
 			'title': url,
 			'name': name,
-			'snapshots': [imgLoading, imgLoading, image]
+			'snapshots': [imgLoading, imgLoading, image],
+			'snapshotIndex': 0
 		};
 		data.sites.push(s);
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
-		*/
-		takeSnapshot();
+		takeSnapshot(url); // TODO: if the url already exists, why not use the existed screenshots instead?
 	}
 
 
@@ -236,16 +234,35 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			return false;
 		}
 
+		function fileFromName(name) {
+			return FileUtils.getFile('ProfD', ['superstart', 'snapshots', name]);
+		}
+	
+		function pathFromName(name) {
+			return fileFromName(name).path;
+		}
+
+		function removeSnapshots(names) {
+			for (let i = 0; l < names.length; i < l; ++ i) {
+				try {
+					let name = names[i];
+					if (name && name.indexOf('images/') != 0) {
+						let f = fileFromName(name);
+						f.remove(false);
+					}
+				} catch (e) {
+					log('remove file: ' + names[i] + ' failed, exception is below:');
+					log(e);
+				}
+			}
+		}
+
 		function beginTaking() {
-		/*
 			if (taking.length >= max || q.length == 0) {
 				return;
 			}
 			let url = q.shift();
 			taking.push(url);
-			*/
-			let url = 'http://www.yahoo.com';
-
 
 			let wm = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
 			let gw = wm.getMostRecentWindow("navigator:browser");
@@ -287,29 +304,30 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let icon = getIcon(doc);
 				doc = null;
 
-				let snapshot = '1.png';//getImageFileNameFromUrl(url);
-				let pathName = '~/Desktop/1.png';//getImagePathFromFileName(snapshot);
-				let canvas = window2canvas(gDoc, browser, width, height);
-				saveCanvas(canvas, pathName, function() {
-					/*
-					let sites = data.sites;
-					let isSnapshotUsed = false;
-					for (let i = 0, l = sites.length; i < l; ++ i) {
-						if (sites[i].url == url) {
-							setSiteInformation(i, title, icon, snapshot, sites[i].image);
-							isSnapshotUsed = true;
+				let names = [SHA1(url + Math.random()) + '.png', SHA1(url + Math.random()) + '.png'];
+				let pathes = [pathFromName(names[0]), pathFromName(names[1])];
+				let canvases = window2canvas(gDoc, browser, width, height);
+				saveCanvas(canvases[0], pathes[0], function() {
+					saveCanvas(canvases[1], pathes[1], function() {
+						let sites = data.sites;
+						let used = false;
+						travel(function(s, idxes) {
+							if (s.url == url) {
+								used = true;
+								updateSiteInformation(idxes, title, icon, pathes, s.snapshots[2]);
+							}
+						});
+						if (!used) {
+							removeSnapshots(names);
 						}
-					}
-
-					if (!isSnapshotUsed) {
-						removeSnapshotFile(snapshot);
-					}
-
-					afterFetched();
-					*/
-					delete browsers[url];
-					browser.parentNode.removeChild(browser);
-					browser = null;
+	
+						afterFetched();
+						/*
+						delete browsers[url];
+						browser.parentNode.removeChild(browser);
+						browser = null;
+						*/
+					});
 				});
 			}
 		}
@@ -349,32 +367,41 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 
-		function window2canvas(gDoc, win) {
+		function window2canvas(gDoc, win) { // TODO: test for url: about:config
 			let w = win.clientWidth;
 			let h = win.clientHeight;
 			try {
-				let b = win.contentDocument.body;
-				w = b.clientWidth / 2;
-				h = w * ratio;
+				w = win.contentDocument.body.clientWidth;
+				h = Math.floor(w * ratio);
 			} catch (e) {
 			}
 	
-			let contentWindow = win.contentWindow;
-			let canvas = gDoc.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+			let cs = [];
+			for (let i = 0; i < 2; ++ i) {
+				let c = gDoc.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+				c.style.width = imgWidth + 'px';
+				c.width = imgWidth;
+				c.style.height = imgHeight + 'px';
+				c.height = imgHeight;
 	
-			canvas.style.width = w + 'px';
-			canvas.style.height = h + 'px';
-			canvas.width = w;
-			canvas.height = h;
-	
-			let ctx = canvas.getContext('2d');
-			ctx.clearRect(0, 0, w, h);
-			ctx.save();
-			ctx.mozImageSmoothingEnabled = true;
-			ctx.scale(1, 1);
-			ctx.drawWindow(contentWindow, 0, 0, w, h, "rgba(0,0,0,0)");
-			ctx.restore();
-			return canvas;
+				let ctx = canvas.getContext('2d');
+				ctx.clearRect(0, 0, imgWidth, imgHeight);
+				ctx.save();
+				ctx.mozImageSmoothingEnabled = true;
+				if (i == 0) {
+					let aw = Math.floor(w / 3);
+					let ah = Math.floor(aw * ratio);
+					ctx.scale(imgWidth / aw, imgHeight / ah);
+					ctx.drawWindow(win.contentWindow, 0, 0, aw, ah, "rgba(0,0,0,0)");
+				} else {
+					ctx.scale(imgWidth / w, imgHeight / h);
+					ctx.drawWindow(win.contentWindow, 0, 0, w, h, "rgba(0,0,0,0)");
+				}
+				ctx.restore();
+
+				cs.push(c);
+			}
+			return cs;
 		}
 	
 		function saveCanvas(canvas, pathName, callback) {

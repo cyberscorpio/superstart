@@ -50,7 +50,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 256, imgHeight = 160, ratio = 0.625;
+	let imgWidth = 256;//512; // TODO: make it small
+	let ratio = 0.625;
+	let imgHeight = Math.floor(imgWidth * ratio);
 
 	let imgLoading = 'images/loading.gif';
 	let imgNoSnapshot = 'images/no-image.png';
@@ -177,17 +179,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
-	////////////////////
-	// methods
-	this.getSites = function() {
-		let sites = that.jparse(that.stringify(data.sites));
-		for (let i = 0, l = sites.length; i < l; ++ i) {
-			adjustSite(sites[i]);
-		}
-		return sites;
-	}
-
-	this.getSite = function(group, idx) {
+	function getSite(group, idx) {
 		if ((group == -1 && (idx < 0 || idx >= data.sites.length)) || (group < 0 || group >= data.sites.length)) {
 			return null;
 		} else {
@@ -199,13 +191,65 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				}
 				s = g[idx];
 			}
-			s = that.jparse(that.stringify(s));
-			adjustSite(s);
 			return s;
 		}
 	}
 
+	function updateSiteInformation(idxes, url, title, name, icon, pathes, custImg, snapshotIndex) {
+		if (Array.isArray(idxes) && idxes.length == 2) {
+			let s = getSite(idxes[0], idxes[1]);
+			if (s != null && Array.isArray(pathes) && pathes.length == 2) {
+				s.url = url;
+				s.title = title;
+				s.name = name;
+				s.icon = icon;
+				s.snapshots[0] = pathes[0];
+				s.snapshots[1] = pathes[1];
+				s.snapshots[2] = custImg;
+				s.snapshotIndex = snapshotIndex;
+
+				save();
+				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
+			}
+		}
+	}
+
+	function removeSnapshots(names) {
+		for (let i = 0; i < names.length; ++ i) {
+			try {
+				let name = names[i];
+				if (name && name.indexOf('images/') != 0) {
+					let p = pathFromName(name);
+					p.path.remove(false);
+				}
+			} catch (e) {
+				logger.logStringMessage('remove file: ' + name + ': ' + e);
+			}
+		}
+	}
+
+
+	////////////////////
+	// methods
+	this.getSites = function() {
+		let sites = that.jparse(that.stringify(data.sites));
+		for (let i = 0, l = sites.length; i < l; ++ i) {
+			adjustSite(sites[i]);
+		}
+		return sites;
+	}
+
+	this.getSite = function(group, idx) {
+		let s = getSite(group, idx);
+		if (s != null) {
+			s = that.jparse(that.stringify(s));
+			adjustSite(s);
+		}
+		return s;
+	}
+
 	this.addSite = function(url, name, image) {
+		url = this.regulateUrl(url);
 		let s = {
 			'url': url,
 			'title': url,
@@ -222,8 +266,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	// snapshots
 	let takeSnapshot = (function() {
-		let max = 3;
 		let q = [];
+		let max = 3;
 		let taking = [];
 		let browsers = {};
 
@@ -243,7 +287,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		function removeSnapshots(names) {
-			for (let i = 0; l < names.length; i < l; ++ i) {
+			for (let i = 0, l = names.length; i < l; ++ i) {
 				try {
 					let name = names[i];
 					if (name && name.indexOf('images/') != 0) {
@@ -314,19 +358,27 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						travel(function(s, idxes) {
 							if (s.url == url) {
 								used = true;
-								updateSiteInformation(idxes, title, icon, pathes, s.snapshots[2]);
+								updateSiteInformation(idxes, url, title, s.names, icon, pathes, s.snapshots[2], s.snapshotIndex);
 							}
 						});
 						if (!used) {
 							removeSnapshots(names);
 						}
 	
-						afterFetched();
-						/*
+						// clear resource
 						delete browsers[url];
 						browser.parentNode.removeChild(browser);
 						browser = null;
-						*/
+
+						let i = taking.indexOf(url);
+						if (i != -1) {
+							taking.splice(i, 1);
+						} else {
+							log('takeSnapshot of ' + url + ' with error!');
+						}
+						if (q.length > 0) {
+							beginTaking();
+						}
 					});
 				});
 			}
@@ -384,13 +436,19 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				c.style.height = imgHeight + 'px';
 				c.height = imgHeight;
 	
-				let ctx = canvas.getContext('2d');
+				let ctx = c.getContext('2d');
 				ctx.clearRect(0, 0, imgWidth, imgHeight);
 				ctx.save();
 				ctx.mozImageSmoothingEnabled = true;
 				if (i == 0) {
 					let aw = Math.floor(w / 3);
 					let ah = Math.floor(aw * ratio);
+					if (aw < imgWidth) {
+						aw = imgWidth;
+					}
+					if (ah < imgHeight) {
+						ah = imgHeight;
+					}
 					ctx.scale(imgWidth / aw, imgHeight / ah);
 					ctx.drawWindow(win.contentWindow, 0, 0, aw, ah, "rgba(0,0,0,0)");
 				} else {

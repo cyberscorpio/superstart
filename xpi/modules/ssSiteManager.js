@@ -356,7 +356,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						let sites = data.sites;
 						let used = false;
 						travel(function(s, idxes) {
-							log(s.url + ' -- vs -- ' + url);
 							if (s.url == url) {
 								used = true;
 								updateSiteInformation(idxes, url, title, s.names, icon, pathes, s.snapshots[2], s.snapshotIndex);

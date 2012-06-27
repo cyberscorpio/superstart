@@ -180,7 +180,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function getSite(group, idx) {
-		if ((group == -1 && (idx < 0 || idx >= data.sites.length)) || (group < 0 || group >= data.sites.length)) {
+		if ((group == -1 && (idx < 0 || idx >= data.sites.length)) || ((group < 0 && group != -1) || group >= data.sites.length)) {
 			return null;
 		} else {
 			let s = data.sites[idx];
@@ -356,6 +356,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						let sites = data.sites;
 						let used = false;
 						travel(function(s, idxes) {
+							log(s.url + ' -- vs -- ' + url);
 							if (s.url == url) {
 								used = true;
 								updateSiteInformation(idxes, url, title, s.names, icon, pathes, s.snapshots[2], s.snapshotIndex);

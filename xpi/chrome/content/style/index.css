@@ -38,4 +38,33 @@ body {
 	cursor: pointer;
 }
 
+.site a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	border: 1px solid rgba(0,0,0,0.2);
+	-moz-transition: border 200ms ease;
+}
+
+.site a:hover {
+	border: 1px solid rgba(0,0,0,0.5);
+}
+/*
+	border-bottom-right-radius: 24px 12px;
+}
+
+.site a:hover:after {
+    -moz-transform: rotate(3deg) skew(8deg);
+    bottom: 18px;
+    box-shadow: 13px 18px 6px rgba(0, 0, 0, 0.3);
+    content: "";
+    height: 30px;
+    position: absolute;
+    right: 18px;
+    width: 80%;
+    z-index: -1;
+}
+*/
 

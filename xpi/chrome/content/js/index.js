@@ -24,6 +24,10 @@ try {
 	return;
 }
 
+function log(s) {
+	logger.logStringMessage(s);
+}
+
 // init
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
@@ -71,6 +75,17 @@ var siteTemplates = {
 				}
 			}
 		]
+	},
+	'site': {
+		'tag': 'div',
+		'attr': {
+			'class': 'site'
+		},
+		'children': [
+			{
+				'tag': 'a'
+			}
+		]
 	}
 };
 
@@ -82,7 +97,11 @@ function insertSite(c, s) {
 	} else {
 		if (s.sites != undefined) { // folder
 			// 
-		} else { // site
+		} else {
+			w = $.obj2Element(siteTemplates['site']);
+			var a = $(w, 'a')[0];
+			a.href = s.url;
+			a.style.backgroundImage = 'url("file://' + s.snapshots[s.snapshotIndex] + '")';
 		}
 	}
 

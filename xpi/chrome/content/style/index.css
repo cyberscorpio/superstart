@@ -3,6 +3,10 @@ body {
 	background-attachment: fixed;
 }
 
+a {
+	text-decoration: none;
+}
+
 .hidden {
 	display: none;
 }
@@ -39,32 +43,45 @@ body {
 }
 
 .site a {
-	display: block;
-	height: 100%;
-	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.site .screenshot {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+
 	border: 1px solid rgba(0,0,0,0.2);
 	-moz-transition: border 200ms ease;
 }
 
-.site a:hover {
+.site a:hover .screenshot {
 	border: 1px solid rgba(0,0,0,0.5);
 }
-/*
-	border-bottom-right-radius: 24px 12px;
+
+.site .title {
+	position: relative;
+	height: 1.6em;
+	padding: .3em .5em;
+	text-align: center;
+
+	font-size: 12px;
+	color: black;
+	text-shadow: .5px .5px 1px rgba(255,255,255,0.5);
+	-moz-transition: text-shadow 200ms linear;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.site a:hover:after {
-    -moz-transform: rotate(3deg) skew(8deg);
-    bottom: 18px;
-    box-shadow: 13px 18px 6px rgba(0, 0, 0, 0.3);
-    content: "";
-    height: 30px;
-    position: absolute;
-    right: 18px;
-    width: 80%;
-    z-index: -1;
+.site a:hover .title {
+	text-shadow: .5px .5px 1px white;
+	text-decoration: underline;
 }
-*/
+
+.site .title span {
+	line-height: 1.6em;
+}
 

@@ -176,6 +176,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function adjustSite(s) {
+		for (let i = 0; i < s.snapshots.length; ++ i) {
+			if (s.snapshots[i] != null) {
+				s.snapshots[i] = that.regulateUrl(s.snapshots[i]);
+			}
+		}
+		s.displayName = s.name || (s.title || s.url);
 		return s;
 	}
 

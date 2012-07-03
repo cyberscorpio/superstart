@@ -20,8 +20,8 @@ a {
 }
 
 #topbar {
-	height: 128px;
-	background-color: green;
+	height: 32px;
+	background-color: rgba(0,0,0,0.5);
 }
 
 #sites {
@@ -34,35 +34,50 @@ a {
 	position: absolute;
 }
 
-.site.empty .screenshot {
-	height: 100%;
-	border: 2px dashed rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
-	background: url(../images/site-add.png) center center no-repeat;
-	cursor: pointer;
-}
-
 .site a {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+	text-align: center;
 }
 
-.site .screenshot {
+.site .snapshot {
+	position: relative;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 
 	border: 1px solid rgba(0,0,0,0.2);
-	-moz-transition-property: border, box-shadow;
+	-moz-transition-property: border, box-shadow, background-image;
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease;
 }
 
-.site a:hover .screenshot {
+.site a:hover .snapshot {
 	border: 1px solid rgba(0,0,0,0.5);
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.site .right-arrow {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	background-image: url(../images/right.png);
+	opacity: 0;
+	-moz-transition: opacity 200ms linear;
+}
+
+.site a:hover .right-arrow {
+	opacity: .5;
+}
+
+.site a:hover .right-arrow:hover {
+	opacity: 1;
 }
 
 .site .title {
@@ -87,3 +102,20 @@ a {
 	line-height: 1.6em;
 }
 
+
+#site-add {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 16px;
+	background-image: url(../images/site-add.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+	-moz-transition: opacity 250ms ease;
+	opacity: 0.25;
+}
+
+#site-add:hover {
+	opacity: 1;
+}

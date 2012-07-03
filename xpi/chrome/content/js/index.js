@@ -29,9 +29,17 @@ function log(s) {
 }
 
 // global init
-window.addEventListener('resize', onResize, false);
+var gEvts = {
+	'resize': onResize
+};
+for (var k in gEvts) {
+	window.addEventListener(k, gEvts[k], false);
+}
 window.addEventListener('unload', function() {
-	window.removeEventListener('resize', onResize, false);
+	window.removeEventListener('unload', arguments.callee, false);
+	for (var k in gEvts) {
+		window.removeEventListener(k, gEvts[k], false);
+	}
 }, false);
 
 
@@ -53,13 +61,28 @@ function init() {
 
 		insert(container, s);
 	}
-	if (sites.length % col != 0 || sites.length == 0) {
-		insert(container, null);
-	}
+	var add = $$('site-add');
+	add.onclick = function() { showAddSite(); };
+	$.removeClass(add, 'hidden');
 
 	layout();
-
 	$.removeClass(container, 'hidden');
+
+	// register events
+	var evts = {
+		'site-added': onSiteAdded,
+		'site-changed': onSiteChanged,
+		'site-snapshot-changed': onSiteSnapshotChanged
+	};
+	for (var k in evts) {
+		sm.subscribe(k, evts[k]);
+	}
+	window.addEventListener('unload', function() {
+		window.removeEventListener('unload', arguments.callee, false);
+		for (var k in evts) {
+			sm.unsubscribe(k, evts[k]);
+		}
+	}, false);
 }
 
 var templatess = {
@@ -72,7 +95,7 @@ var templatess = {
 			{
 				'tag': 'div',
 				'attr': {
-					'class': 'screenshot'
+					'class': 'snapshot'
 				}
 			}
 		]
@@ -89,8 +112,16 @@ var templatess = {
 					{
 						'tag': 'div',
 						'attr': {
-							'class': 'screenshot'
-						}
+							'class': 'snapshot'
+						},
+						'children': [
+							{
+								'tag': 'div',
+								'attr': {
+									'class': 'right-arrow'
+								}
+							} // right arrow
+						]
 					}, // background
 					{
 						'tag': 'p',
@@ -101,36 +132,119 @@ var templatess = {
 				]
 			} // a
 		]
+	},
+	'folder': {
+		'tag': 'div',
+		'attr': {
+			'class': 'site folder'
+		}
 	}
 };
 
-function insert(c, s) {
-	var w = null;
-	if (s === null) {
-		w = $.obj2Element(templatess['empty']);
-		w.onclick = function() { showAddSite(); };
-	} else {
-		if (s.sites != undefined) { // folder
-			// 
-		} else {
-			w = $.obj2Element(templatess['site']);
-			var e = $(w, 'a')[0];
-			e.href = s.url;
-			e = $(w, '.screenshot')[0];
-			e.style.backgroundImage = 'url("' + s.snapshots[s.snapshotIndex] + '")';
-			e = $(w, '.title')[0];
-			e.appendChild(document.createElement('span')).appendChild(document.createTextNode(s.displayName));
-			// e.appendChild(document.createTextNode(s.displayName));
+var UPDATE_HINT = 1;
+var UPDATE_URL = 2;
+var UPDATE_SNAPSHOT = 4;
+var UPDATE_TITLE = 8;
+function updateSite(s, se, flag) {
+	var all = (flag === undefined);
+	var e = $(se, 'a')[0];
+	if (all || (flag & UPDATE_HINT)) {
+		e.title = s.title || s.url;
+	}
+	if (all || (flag & UPDATE_URL)) {
+		e.href = s.url;
+	}
+	if (all || (flag & UPDATE_SNAPSHOT)) {
+		e = $(se, '.snapshot')[0];
+		e.style.backgroundImage = 'url("' + s.snapshots[s.snapshotIndex] + '")';
+	}
+	if (all || (flag & UPDATE_TITLE)) {
+		e = $(se, '.title')[0];
+		while(e.firstChild) {
+			e.removeChild(e.firstChild);
 		}
+		e.appendChild(document.createElement('span')).appendChild(document.createTextNode(s.displayName));
+	}
+}
+
+function insert(c, s) {
+	var se = null;
+	if (s.sites != undefined) { // folder
+		// 
+	} else {
+		se = $.obj2Element(templatess['site']);
+		updateSite(s, se);
+		
+		var r = $(se, '.right-arrow')[0];
+		r.onclick = nextSnapshot;
 	}
 
-	if (w) {
-		c.appendChild(w);
+	if (se) {
+		c.appendChild(se);
 	}
 }
 
 function at(i) {
-	//
+	var ss = $('.site');
+	if (i < 0 || i >= ss.length) {
+		return null;
+	}
+	return ss[i];
+}
+
+function indexOf(se) {
+	var ss = $('.site');
+	for (var i = 0, l = ss.length; i < l; ++ i) {
+		if (se == ss[i]) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function nextSnapshot() {
+	var se = this.parentNode;
+	while (se && !$.hasClass(se, 'site')) {
+		se = se.parentNode;
+	}
+	if (se) {
+		var i = indexOf(se);
+		if (i == -1) {
+			alert('TODO!!');
+		}
+
+		sm.nextSnapshot(-1, i);
+	}
+	return false;
+}
+
+// event handlers
+function onSiteAdded(evt, idx) {
+	var c = $$('sites');
+	insert(c, sm.getSite(-1, idx));
+	layout();
+}
+
+function onSiteChanged(evt, idxes) {
+	if (idxes[0] != -1) {
+		// site in folder
+	} else {
+		// TODO: folder?
+		var s = sm.getSite(-1, idxes[1]);
+		var se = at(idxes[1]);
+		updateSite(s, se);
+	}
+}
+
+function onSiteSnapshotChanged(evt, idxes) {
+	if (idxes[0] != -1) {
+		// site in folder
+	} else {
+		// TODO: folder?
+		var s = sm.getSite(-1, idxes[1]);
+		var se = at(idxes[1]);
+		updateSite(s, se, UPDATE_SNAPSHOT);
+	}
 }
 
 })();
@@ -159,8 +273,8 @@ function layout() {
 	for (var i = 0, j = 0, l = sites.length; i < l; ++ i) {
 		var s = sites[i];
 		s.style.width = w + 'px';
-		var screenshot = $(s, '.screenshot')[0];
-		screenshot.style.height = h + 'px';
+		var snapshot = $(s, '.snapshot')[0];
+		snapshot.style.height = h + 'px';
 		// s.style.height = h + 'px';
 		s.style.top = y + 'px';
 		s.style.left = x + 'px';
@@ -169,7 +283,7 @@ function layout() {
 		if (j == col) {
 			j = 0;
 			x = 2 * unit;
-			y += Math.floor(h + unit * ratio);
+			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
 		}
 	}
 }

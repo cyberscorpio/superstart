@@ -15,5 +15,6 @@ interface ssISiteManager: nsISupports
 
 	void refreshSite(in long index);
 	*/
+	void nextSnapshot(in long group, in long index);
 };
 

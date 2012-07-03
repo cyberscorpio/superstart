@@ -2,7 +2,8 @@
  * events:
  * 	sites-loaded
  *	sites-added
- *	sites-updated
+ *	site-changed
+ *	site-snapshot-changed
  */
 var EXPORTED_SYMBOLS = [ "ssSiteManager" ];
 
@@ -177,7 +178,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function adjustSite(s) {
 		for (let i = 0; i < s.snapshots.length; ++ i) {
-			if (s.snapshots[i] != null) {
+			if (s.snapshots[i] != '') {
 				let st = s.snapshots[i];
 				if (st.indexOf('images/') != 0 && st != '/' && st != ':') {
 					s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
@@ -255,6 +256,22 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
 		takeSnapshot(url); // TODO: if the url already exists, why not use the existed screenshots instead?
+	}
+
+	this.nextSnapshot = function(group, idx) {
+		let s = getSite(group, idx);
+		if (s != null) {
+			let i = s.snapshotIndex;
+			++ i;
+			if (i > 2 || (i == 2 && s.snapshots[i] == '')) {
+				i = 0;
+			}
+			if (i != s.snapshotIndex) {
+				s.snapshotIndex = i;
+				save();
+				this.fireEvent('site-snapshot-changed', [group, idx]);
+			}
+		}
 	}
 
 

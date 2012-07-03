@@ -16,7 +16,7 @@
 	url: url,
 	title: title, // created automatically
 	name: name, // user specified
-	snapshots: [ tl, center, user-specified ],
+	snapshots: [ tl, center, user-specified ],  # tl & center is file name, not the full path
 	snapshotIndex: index
 }
 

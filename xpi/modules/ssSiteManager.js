@@ -178,7 +178,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	function adjustSite(s) {
 		for (let i = 0; i < s.snapshots.length; ++ i) {
 			if (s.snapshots[i] != null) {
-				s.snapshots[i] = that.regulateUrl(s.snapshots[i]);
+				let st = s.snapshots[i];
+				if (st.indexOf('images/') != 0 && st != '/' && st != ':') {
+					s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
+				}
 			}
 		}
 		s.displayName = s.name || (s.title || s.url);
@@ -201,16 +204,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	function updateSiteInformation(idxes, url, title, name, icon, pathes, custImg, snapshotIndex) {
+	function updateSiteInformation(idxes, url, title, name, icon, shotNames, custImg, snapshotIndex) {
 		if (Array.isArray(idxes) && idxes.length == 2) {
 			let s = getSite(idxes[0], idxes[1]);
-			if (s != null && Array.isArray(pathes) && pathes.length == 2) {
+			if (s != null && Array.isArray(shotNames) && shotNames.length == 2) {
 				s.url = url;
 				s.title = title;
 				s.name = name;
 				s.icon = icon;
-				s.snapshots[0] = pathes[0];
-				s.snapshots[1] = pathes[1];
+				s.snapshots[0] = shotNames[0];
+				s.snapshots[1] = shotNames[1];
 				s.snapshots[2] = custImg;
 				s.snapshotIndex = snapshotIndex;
 
@@ -219,21 +222,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 		}
 	}
-
-	function removeSnapshots(names) {
-		for (let i = 0; i < names.length; ++ i) {
-			try {
-				let name = names[i];
-				if (name && name.indexOf('images/') != 0) {
-					let p = pathFromName(name);
-					p.path.remove(false);
-				}
-			} catch (e) {
-				logger.logStringMessage('remove file: ' + name + ': ' + e);
-			}
-		}
-	}
-
 
 	////////////////////
 	// methods
@@ -271,6 +259,30 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 
 	// snapshots
+	function fileFromName(name) {
+		return FileUtils.getFile('ProfD', ['superstart', 'snapshots', name]);
+	}
+	
+	function pathFromName(name) {
+		return fileFromName(name).path;
+	}
+
+	function removeSnapshots(names) {
+		for (let i = 0, l = names.length; i < l; ++ i) {
+			try {
+				let name = names[i];
+				if (name && name.indexOf('images/') != 0) {
+					let f = fileFromName(name);
+					f.remove(false);
+				}
+			} catch (e) {
+				log('remove file: ' + names[i] + ' failed, exception is below:');
+				log(e);
+			}
+		}
+	}
+
+
 	let takeSnapshot = (function() {
 		let q = [];
 		let max = 3;
@@ -282,29 +294,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return true;
 			}
 			return false;
-		}
-
-		function fileFromName(name) {
-			return FileUtils.getFile('ProfD', ['superstart', 'snapshots', name]);
-		}
-	
-		function pathFromName(name) {
-			return fileFromName(name).path;
-		}
-
-		function removeSnapshots(names) {
-			for (let i = 0, l = names.length; i < l; ++ i) {
-				try {
-					let name = names[i];
-					if (name && name.indexOf('images/') != 0) {
-						let f = fileFromName(name);
-						f.remove(false);
-					}
-				} catch (e) {
-					log('remove file: ' + names[i] + ' failed, exception is below:');
-					log(e);
-				}
-			}
 		}
 
 		function beginTaking() {
@@ -364,7 +353,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						travel(function(s, idxes) {
 							if (s.url == url) {
 								used = true;
-								updateSiteInformation(idxes, url, title, s.names, icon, pathes, s.snapshots[2], s.snapshotIndex);
+								removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+								updateSiteInformation(idxes, url, title, s.name, icon, names, s.snapshots[2], s.snapshotIndex);
 							}
 						});
 						if (!used) {

@@ -34,7 +34,7 @@ a {
 	position: absolute;
 }
 
-.site.empty .background {
+.site.empty .screenshot {
 	height: 100%;
 	border: 2px dashed rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
@@ -81,7 +81,6 @@ a {
 
 .site a:hover .title {
 	text-shadow: .5px .5px 1px white;
-	text-decoration: underline;
 }
 
 .site .title span {

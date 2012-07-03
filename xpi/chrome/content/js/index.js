@@ -72,7 +72,7 @@ var templatess = {
 			{
 				'tag': 'div',
 				'attr': {
-					'class': 'background'
+					'class': 'screenshot'
 				}
 			}
 		]
@@ -119,7 +119,7 @@ function insert(c, s) {
 			e = $(w, '.screenshot')[0];
 			e.style.backgroundImage = 'url("' + s.snapshots[s.snapshotIndex] + '")';
 			e = $(w, '.title')[0];
-			e.appendChild(document.createElement('span')).appendChild(document.createTextNode(s.title));
+			e.appendChild(document.createElement('span')).appendChild(document.createTextNode(s.displayName));
 			// e.appendChild(document.createTextNode(s.displayName));
 		}
 	}

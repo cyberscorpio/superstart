@@ -30,16 +30,21 @@ a {
 	user-select: none;
 }
 
-#sites.notransition .site {
+#sites.notransition .site, .site.notransition {
 	-moz-transition-property: none;
 }
 
 .site {
 	position: absolute;
 	-moz-transition-property: top, left;
-	-moz-transition-duration: 500ms;
-	-moz-transition-timing-function: ease;
+	-moz-transition-duration: 200ms;
+	-moz-transition-timing-function: ease-in;
 }
+/*
+.site:nth-child(2n) {
+	-moz-transition-timing-function: ease-out;
+}
+*/
 
 .site a {
 	position: absolute;
@@ -56,7 +61,7 @@ a {
 	background-size: 100% 100%;
 
 	border: 1px solid rgba(0,0,0,0.2);
-	-moz-transition-property: border, box-shadow, background-image;
+	-moz-transition-property: border, box-shadow;
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease;
 }
@@ -66,16 +71,25 @@ a {
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
+.site .snapshot.snapshoting {
+	-moz-transition-property: background-position;
+	-moz-transition-duration: 200ms;
+	-moz-transition-timing-function: linear;
+}
+
 .site .button {
 	width: 24px;
 	height: 24px;
 	position: absolute;
 	opacity: 0;
 	-moz-transition: opacity 200ms linear;
+	background-color: black;
+	border: 2px solid white;
+	border-radius: 50%;
 }
 
 .site a:hover .button {
-	opacity: .5;
+	opacity: .25;
 }
 
 .site a:hover .button:hover {

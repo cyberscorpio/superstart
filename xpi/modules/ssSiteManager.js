@@ -63,9 +63,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let inLoading = false;
 	let data = null; // see doc/data.txt for details
 
-	// fn is a function and should return **true** if it changes the site
+	// fn is a function and should return **true** to stop the travelling
 	function travel(fn) {
-		let changed = false;
 		for (let i = 0, l = data.sites.length; i < l; ++ i) {
 			let s = data.sites[i];
 			if (s.sites && isArray(s.sites)) {
@@ -75,16 +74,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				}
 				for (; j < k; ++ j) {
 					if (fn(s.sites[j], [i, j])) {
-						changed = true;
+						return;
 					}
 				}
 			} else {
 				if (fn(s, [-1, i])) {
-					changed = true;
+					return;
 				}
 			}
 		}
-		return changed;
 	}
 
 	function create() {
@@ -141,16 +139,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		// check snapshots
-		if (travel(function(s) {
+		travel(function(s) {
 			if (s.snapshots[0] == imgLoading || s.snapshots[1] == imgLoading) {
 				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
-				return true;
-			} else {
-				return false;
+				changed = true;
 			}
-		})) {
-			changed = true;
-		}
+		});
 		return changed;
 	}
 
@@ -178,13 +172,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function adjustSite(s) {
-		for (let i = 0; i < s.snapshots.length; ++ i) {
+		for (let i = 0; i < 2; ++ i) {
 			if (s.snapshots[i] != '') {
 				let st = s.snapshots[i];
-				if (st.indexOf('images/') != 0 && st != '/' && st != ':') {
+				if (st.indexOf('images/')) {
 					s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
 				}
 			}
+		}
+		if (s.snapshots[2] != '') {
+			s.snapshots[2] = that.regulateUrl(s.snapshots[2]).replace(/\\/g, '/');
 		}
 		s.displayName = s.name || (s.title || s.url);
 		return s;
@@ -251,7 +248,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			'title': url,
 			'name': name,
 			'snapshots': [imgLoading, imgLoading, image],
-			'snapshotIndex': 0
+			'snapshotIndex': (image == '' ? 0 : 2)
 		};
 		data.sites.push(s);
 		save();
@@ -267,10 +264,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let found = false;
 				let snapshot = s.snapshots[0];
 				travel(function(s, idxes) {
-					if (!found) {
-						if (s.snapshots[0] == snapshot) {
-							found = true;
-						}
+					if (s.snapshots[0] == snapshot) {
+						found = true;
+						return true;
 					}
 				});
 				if (!found) {

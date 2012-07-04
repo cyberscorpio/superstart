@@ -2,6 +2,7 @@
  * events:
  * 	sites-loaded
  *	sites-added
+ *	site-removed
  *	site-changed
  *	site-snapshot-changed
  */
@@ -256,6 +257,32 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
 		takeSnapshot(url); // TODO: if the url already exists, why not use the existed screenshots instead?
+	}
+
+	this.removeSite = function(group, idx) {
+		let s = getSite(group, idx);
+		if (s != null) {
+			if (group == -1) {
+				data.sites.splice(idx, 1);
+				let found = false;
+				let snapshot = s.snapshots[0];
+				travel(function(s, idxes) {
+					if (!found) {
+						if (s.snapshots[0] == snapshot) {
+							found = true;
+						}
+					}
+				});
+				if (!found) {
+					removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+				}
+			} else {
+				// TODO: in group
+				return;
+			}
+			save();
+			this.fireEvent('site-removed', [group, idx]);
+		}
 	}
 
 	this.nextSnapshot = function(group, idx) {

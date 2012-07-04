@@ -30,8 +30,15 @@ a {
 	user-select: none;
 }
 
+#sites.notransition .site {
+	-moz-transition-property: none;
+}
+
 .site {
 	position: absolute;
+	-moz-transition-property: top, left;
+	-moz-transition-duration: 500ms;
+	-moz-transition-timing-function: ease;
 }
 
 .site a {
@@ -59,26 +66,34 @@ a {
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
-.site .right-arrow {
+.site .button {
 	width: 24px;
 	height: 24px;
 	position: absolute;
-	bottom: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
-	background-image: url(../images/right.png);
 	opacity: 0;
 	-moz-transition: opacity 200ms linear;
 }
 
-.site a:hover .right-arrow {
+.site a:hover .button {
 	opacity: .5;
 }
 
-.site a:hover .right-arrow:hover {
+.site a:hover .button:hover {
 	opacity: 1;
 }
+
+.site .remove {
+	top: 1px;/*-8px;*/
+	right: 1px;/*-8px;*/
+	background-image: url(../images/remove.png);
+}
+
+.site .next-snapshot {
+	bottom: 1px;
+	right: 1px;
+	background-image: url(../images/right.png);
+}
+
 
 .site .title {
 	position: relative;

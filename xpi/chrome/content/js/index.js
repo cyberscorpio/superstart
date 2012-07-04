@@ -71,6 +71,7 @@ function init() {
 	// register events
 	var evts = {
 		'site-added': onSiteAdded,
+		'site-removed': onSiteRemoved,
 		'site-changed': onSiteChanged,
 		'site-snapshot-changed': onSiteSnapshotChanged
 	};
@@ -85,7 +86,7 @@ function init() {
 	}, false);
 }
 
-var templatess = {
+var templates = {
 	'empty': {
 		'tag': 'div',
 		'attr': {
@@ -118,7 +119,13 @@ var templatess = {
 							{
 								'tag': 'div',
 								'attr': {
-									'class': 'right-arrow'
+									'class': 'remove button'
+								}
+							}, // remove
+							{
+								'tag': 'div',
+								'attr': {
+									'class': 'next-snapshot button'
 								}
 							} // right arrow
 						]
@@ -172,11 +179,17 @@ function insert(c, s) {
 	if (s.sites != undefined) { // folder
 		// 
 	} else {
-		se = $.obj2Element(templatess['site']);
+		se = $.obj2Element(templates['site']);
 		updateSite(s, se);
 		
-		var r = $(se, '.right-arrow')[0];
-		r.onclick = nextSnapshot;
+		var cmds = {
+			'.next-snapshot': nextSnapshot,
+			'.remove': removeSite
+		};
+		for (var k in cmds) {
+			var r = $(se, k)[0];
+			r.onclick = cmds[k];
+		}
 	}
 
 	if (se) {
@@ -202,18 +215,40 @@ function indexOf(se) {
 	return -1;
 }
 
-function nextSnapshot() {
-	var se = this.parentNode;
-	while (se && !$.hasClass(se, 'site')) {
-		se = se.parentNode;
+function indexFromNode(elem) {
+	while (elem && !$.hasClass(elem, 'site')) {
+		elem = elem.parentNode;
 	}
-	if (se) {
-		var i = indexOf(se);
+	if (elem) {
+		var i = indexOf(elem);
 		if (i == -1) {
-			alert('TODO!!');
+			alert("Can't get element index!");
+			return null;
 		}
+		return [-1, i];
+	}
+}
 
-		sm.nextSnapshot(-1, i);
+function removeSite() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var s = sm.getSite(g, i);
+		if (s) {
+			var str = getString('ssSiteRemovePrompt');
+			str = xl.utils.template(str, s);
+			if (confirm(str)) {
+				sm.removeSite(g, i);
+			}
+		}
+	}
+	return false;
+}
+
+function nextSnapshot() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		sm.nextSnapshot(idxes[0], idxes[1]);
 	}
 	return false;
 }
@@ -223,6 +258,19 @@ function onSiteAdded(evt, idx) {
 	var c = $$('sites');
 	insert(c, sm.getSite(-1, idx));
 	layout();
+}
+
+function onSiteRemoved(evt, idxes) {
+	var g = idxes[0], i = idxes[1];
+	if (g == -1) {
+		var se = at(i);
+		if (se) {
+			se.parentNode.removeChild(se);
+			layout();
+		}
+	} else {
+		alert('To be implemented');
+	}
 }
 
 function onSiteChanged(evt, idxes) {
@@ -293,20 +341,25 @@ function layout() {
 var urlDialogs = {};
 function showAddSite() {
 	var index = -1;
-        if (urlDialogs[index] != null) {
-                urlDialogs[index].focus();
-        } else {
-                var dlg = window.openDialog('chrome://superstart/content/url.xul',
-                        '',
-                        'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', index, urlDialogs);
-                urlDialogs[index] = dlg;
-        }
+	if (urlDialogs[index] != null) {
+		urlDialogs[index].focus();
+	} else {
+		var dlg = window.openDialog('chrome://superstart/content/url.xul',
+			'',
+			'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', index, urlDialogs);
+		urlDialogs[index] = dlg;
+	}
 }
 
 
 // event handler
 function onResize() {
+	var ss = $$('sites');
+	$.addClass(ss, 'notransition');
 	layout();
+	window.setTimeout(function() {
+		$.removeClass(ss, 'notransition');
+	}, 0);
 }
 
 

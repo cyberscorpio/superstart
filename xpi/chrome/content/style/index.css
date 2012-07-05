@@ -26,8 +26,10 @@ a {
 
 #sites {
 	position: relative;
+	/*
 	-moz-user-select: none;
 	user-select: none;
+	*/
 }
 
 #sites.notransition .site, .site.notransition {
@@ -84,6 +86,8 @@ a {
 	opacity: 0;
 	-moz-transition: opacity 200ms linear;
 	background-color: black;
+	background-repeat: no-repeat;
+	background-position: center;
 	border: 2px solid white;
 	border-radius: 50%;
 }
@@ -107,7 +111,6 @@ a {
 	right: 1px;
 	background-image: url(../images/right.png);
 }
-
 
 .site .title {
 	position: relative;
@@ -147,4 +150,18 @@ a {
 
 #site-add:hover {
 	opacity: 1;
+}
+
+/* drag */
+.drag-elem {
+	width: 1px;
+	height: 1px;
+	background-color: #fff;
+	opacity: 0.01;
+	cursor: move;
+}
+
+.site.dragging {
+	-moz-transition: none;
+	z-index: 1;
 }

@@ -69,20 +69,33 @@ function init() {
 	layout();
 	$.removeClass(container, 'hidden');
 
-	// register events
-	var evts = {
+	// register site events
+	var smevts = {
 		'site-added': onSiteAdded,
 		'site-removed': onSiteRemoved,
 		'site-changed': onSiteChanged,
 		'site-snapshot-changed': onSiteSnapshotChanged
 	};
-	for (var k in evts) {
-		sm.subscribe(k, evts[k]);
+	// register document events
+	var devts = {
+		'dragover': onDragOver,
+		'dragend': onDragEnd
 	}
+
+	for (var k in smevts) {
+		sm.subscribe(k, smevts[k]);
+	}
+	for (var k in devts) {
+		document.addEventListener(k, devts[k]);
+	}
+
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
-		for (var k in evts) {
-			sm.unsubscribe(k, evts[k]);
+		for (var k in smevts) {
+			sm.unsubscribe(k, smevts[k]);
+		}
+		for (var k in devts) {
+			document.removeEventListener(k, devts[k]);
 		}
 	}, false);
 }
@@ -105,11 +118,15 @@ var templates = {
 	'site': {
 		'tag': 'div',
 		'attr': {
-			'class': 'site'
+			'class': 'site',
+			'draggable': 'true'
 		},
 		'children': [
 			{
 				'tag': 'a',
+				'attr': {
+					'draggable': 'false'
+				},
 				'children': [
 					{
 						'tag': 'div',
@@ -181,6 +198,7 @@ function insert(c, s) {
 		// 
 	} else {
 		se = $.obj2Element(templates['site']);
+		se.ondragstart = onDragStart;
 		updateSite(s, se);
 		
 		var cmds = {
@@ -326,8 +344,53 @@ function onSiteSnapshotChanged(evt, idxes) {
 	}
 }
 
-})();
-//// sites end
+
+// dragging
+function onDragStart(evt) {
+	var se = evt.target;
+	seDragging = se;
+	$.addClass(seDragging, 'dragging');
+	var idxes = indexFromNode(se);
+	var s = sm.getSite(idxes[0], idxes[1]);
+	if (s != null) {
+		var dt = evt.dataTransfer;
+		dt.setData("text/uri-list", s.url);
+		dt.setData("text/plain", s.url);
+
+		var img = document.createElement('div');
+		$.addClass(img, 'drag-elem');
+		$$('site-add').appendChild(img);
+
+		dt.setDragImage(img, 0, 0);
+
+		window.setTimeout(function() {
+			$$('site-add').removeChild(img);
+		}, 0);
+	}
+}
+
+function onDragOver(evt) {
+	if (seDragging) {
+		var w = seDragging.clientWidth;
+		var h = $(seDragging, '.snapshot')[0].clientHeight;
+		seDragging.style.left = evt.clientX - (w / 2) + 'px';
+		seDragging.style.top = evt.clientY - (h / 2) + 'px';
+	}
+}
+
+function onDragEnd(evt) {
+	if (seDragging) {
+		$.removeClass(seDragging, 'dragging');
+		seDragging = null;
+		layout();
+	}
+}
+
+
+
+})(); //// sites end
+
+var seDragging = null;
 
 function layout() {
 	var row = cfg.getConfig('row');
@@ -346,17 +409,19 @@ function layout() {
 	var w = 4 * unit
 	var h = Math.floor(w * ratio);
 
-	var sites = $('.site');
+	var ses = $('.site');
 	var x = 2 * unit;
 	var y = 0;
-	for (var i = 0, j = 0, l = sites.length; i < l; ++ i) {
-		var s = sites[i];
-		s.style.width = w + 'px';
-		var snapshot = $(s, '.snapshot')[0];
+	for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
+		var se = ses[i];
+		se.style.width = w + 'px';
+		var snapshot = $(se, '.snapshot')[0];
 		snapshot.style.height = h + 'px';
-		// s.style.height = h + 'px';
-		s.style.top = y + 'px';
-		s.style.left = x + 'px';
+		// se.style.height = h + 'px';
+		if (se != seDragging) {
+			se.style.top = y + 'px';
+			se.style.left = x + 'px';
+		}
 		x += 5 * unit;
 		++ j;
 		if (j == col) {

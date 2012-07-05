@@ -198,12 +198,15 @@ function insert(c, s) {
 	}
 }
 
-function at(i) {
-	var ss = $('.site');
-	if (i < 0 || i >= ss.length) {
+function at(g, i) {
+	if (g != -1) {
+		alert('at(g, i) is to be implement for g is not -1');
+	}
+	var ses = $('.site');
+	if (i < 0 || i >= ses.length) {
 		return null;
 	}
-	return ss[i];
+	return ses[i];
 }
 
 function indexOf(se) {
@@ -249,19 +252,18 @@ function removeSite() {
 function nextSnapshot() {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
-		if (idxes[0] != -1) {
-			alert('to be implemented!');
-		} else {
-			var se = at(idxes[1]);
+		var se = at(idxes[0], idxes[1]);
+		if (se) {
 			var snapshot = $(se, '.snapshot')[0];
 			$.addClass(snapshot, 'snapshoting');
 			snapshot.style.backgroundPosition = '-' + snapshot.clientWidth + 'px 0';
 			snapshot.addEventListener('transitionend', function() {
 				snapshot.removeEventListener('transitionend', arguments.callee, true);
-				snapshot.style.backgroundPosition = snapshot.clientWidth + 'px 0';
+	
 				$.removeClass(snapshot, 'snapshoting');
-
+				snapshot.style.backgroundPosition = snapshot.clientWidth + 'px 0';
 				sm.nextSnapshot(idxes[0], idxes[1]);
+	
 				window.setTimeout(function() {
 					$.addClass(snapshot, 'snapshoting');
 					snapshot.style.backgroundPosition = '0 0';
@@ -286,14 +288,15 @@ function onSiteAdded(evt, idx) {
 
 function onSiteRemoved(evt, idxes) {
 	var g = idxes[0], i = idxes[1];
-	if (g == -1) {
-		var se = at(i);
+	var se = at(g, i);
+	if (se) {
+		if (g != -1) {
+			alert('Something need to do for ingourps removing');
+		}
 		if (se) {
 			se.parentNode.removeChild(se);
 			layout();
 		}
-	} else {
-		alert('To be implemented');
 	}
 }
 
@@ -303,8 +306,10 @@ function onSiteChanged(evt, idxes) {
 	} else {
 		// TODO: folder?
 		var s = sm.getSite(-1, idxes[1]);
-		var se = at(idxes[1]);
-		updateSite(s, se);
+		var se = at(idxes[0], idxes[1]);
+		if (se) {
+			updateSite(s, se);
+		}
 	}
 }
 
@@ -314,8 +319,10 @@ function onSiteSnapshotChanged(evt, idxes) {
 	} else {
 		// TODO: folder?
 		var s = sm.getSite(-1, idxes[1]);
-		var se = at(idxes[1]);
-		updateSite(s, se, UPDATE_SNAPSHOT);
+		var se = at(idxes[0], idxes[1]);
+		if (se) {
+			updateSite(s, se, UPDATE_SNAPSHOT);
+		}
 	}
 }
 

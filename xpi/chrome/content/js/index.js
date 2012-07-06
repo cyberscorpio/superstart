@@ -78,7 +78,10 @@ function init() {
 	};
 	// register document events
 	var devts = {
+		'dragenter': onDragEnter,
+		'dragleave': onDragLeave,
 		'dragover': onDragOver,
+		'drop': onDrop,
 		'dragend': onDragEnd
 	}
 
@@ -346,7 +349,10 @@ function onSiteSnapshotChanged(evt, idxes) {
 
 
 // dragging
+var count = 0;
 function onDragStart(evt) {
+	count = 0;
+
 	var se = evt.target;
 	seDragging = se;
 	$.addClass(seDragging, 'dragging');
@@ -356,25 +362,47 @@ function onDragStart(evt) {
 		var dt = evt.dataTransfer;
 		dt.setData("text/uri-list", s.url);
 		dt.setData("text/plain", s.url);
+		// dt.effectAllowed = 'none';
 
 		var img = document.createElement('div');
 		$.addClass(img, 'drag-elem');
-		$$('site-add').appendChild(img);
 
 		dt.setDragImage(img, 0, 0);
+	}
+}
 
-		window.setTimeout(function() {
-			$$('site-add').removeChild(img);
-		}, 0);
+function onDragEnter(evt) {
+	if (seDragging) {
+		evt.preventDefault();
+		return false;
+	}
+}
+
+function onDragLeave(evt) {
+	if (seDragging) {
+		evt.preventDefault();
+		return false;
 	}
 }
 
 function onDragOver(evt) {
 	if (seDragging) {
+		document.title = evt.clientX + ':' + evt.clientY + '---' + count;
+		count ++;
 		var w = seDragging.clientWidth;
 		var h = $(seDragging, '.snapshot')[0].clientHeight;
 		seDragging.style.left = evt.clientX - (w / 2) + 'px';
 		seDragging.style.top = evt.clientY - (h / 2) + 'px';
+		evt.preventDefault();
+		return false;
+	}
+}
+
+function onDrop(evt) {
+	if (seDragging) {
+		alert('dropped!');
+		evt.preventDefault();
+		return false;
 	}
 }
 
@@ -383,6 +411,7 @@ function onDragEnd(evt) {
 		$.removeClass(seDragging, 'dragging');
 		seDragging = null;
 		layout();
+		alert('end!');
 	}
 }
 

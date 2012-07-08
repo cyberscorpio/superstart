@@ -162,6 +162,13 @@ a {
 }
 
 .site.dragging {
+	opacity: 0.75;
 	-moz-transition: none;
 	z-index: 1;
 }
+/*
+.site.dragging a:hover .snapshot {
+	border-color: white !important;
+	box-shadow: 0 0 5px rgba(0,0,0,1) !important;
+}
+*/

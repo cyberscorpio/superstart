@@ -78,11 +78,11 @@ function init() {
 	};
 	// register document events
 	var devts = {
-		'dragenter': onDragEnter,
-		'dragleave': onDragLeave,
-		'dragover': onDragOver,
-		'drop': onDrop,
-		'dragend': onDragEnd
+		'dragenter': gDrag.onEnter,
+		'dragleave': gDrag.onLeave,
+		'dragover': gDrag.onOver,
+		'drop': gDrag.onDrop,
+		'dragend': gDrag.onEnd
 	}
 
 	for (var k in smevts) {
@@ -201,7 +201,7 @@ function insert(c, s) {
 		// 
 	} else {
 		se = $.obj2Element(templates['site']);
-		se.ondragstart = onDragStart;
+		se.ondragstart = gDrag.onStart;
 		updateSite(s, se);
 		
 		var cmds = {
@@ -252,6 +252,7 @@ function indexFromNode(elem) {
 		}
 		return [-1, i];
 	}
+	return null;
 }
 
 function removeSite() {
@@ -349,77 +350,83 @@ function onSiteSnapshotChanged(evt, idxes) {
 
 
 // dragging
-var count = 0;
-function onDragStart(evt) {
-	count = 0;
+var gDrag = {
+	elem: null,
+	offset: {x: 0, y: 0},
 
-	var se = evt.target;
-	seDragging = se;
-	$.addClass(seDragging, 'dragging');
-	var idxes = indexFromNode(se);
-	var s = sm.getSite(idxes[0], idxes[1]);
-	if (s != null) {
-		var dt = evt.dataTransfer;
-		dt.setData("text/uri-list", s.url);
-		dt.setData("text/plain", s.url);
-		// dt.effectAllowed = 'none';
+	onStart: function(evt) {
+		var se = evt.target;
+		gDrag.elem = se;
+		$.addClass(se, 'dragging');
+		var idxes = indexFromNode(se);
+		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
+		if (s != null) {
+			var dt = evt.dataTransfer;
+			dt.setData("text/uri-list", s.url);
+			dt.setData("text/plain", s.url);
+			dt.effectAllowed = 'move';
+			var img = document.createElement('div');
+			$.addClass(img, 'drag-elem');
+			dt.setDragImage(img, 0, 0);
 
-		var img = document.createElement('div');
-		$.addClass(img, 'drag-elem');
-
-		dt.setDragImage(img, 0, 0);
+			//
+			var ss = $$('sites');
+			var x = ss.offsetLeft + (se.style.left.replace(/px/g, '') - 0);
+			var y = ss.offsetTop + (se.style.top.replace(/px/g, '') - 0);
+			x -= window.scrollX;
+			y -= window.scrollY;
+			gDrag.offset.x = evt.clientX - x;
+			gDrag.offset.y = evt.clientY - y;
+		}
+	},
+	
+	onEnter: function(evt) {
+		if (gDrag.elem) {
+			evt.preventDefault();
+			return false;
+		}
+	},
+	
+	onLeave: function(evt) {
+		if (gDrag.elem) {
+			evt.preventDefault();
+			return false;
+		}
+	},
+	
+	onOver: function(evt) {
+		if (gDrag.elem) {
+			evt.dataTransfer.dropEffect = "move";
+			var el = gDrag.elem;
+			var w = el.clientWidth;
+			var h = $(el, '.snapshot')[0].clientHeight;
+			var ss = $$('sites');
+			el.style.left = evt.clientX - gDrag.offset.x - ss.offsetLeft + window.scrollX + 'px';
+			el.style.top = evt.clientY - gDrag.offset.y - ss.offsetTop + window.scrollY + 'px';
+			evt.preventDefault();
+			return false;
+		}
+	},
+	
+	onDrop: function(evt) {
+		if (gDrag.elem) {
+			evt.preventDefault();
+			return false;
+		}
+	},
+	
+	onEnd: function(evt) {
+		if (gDrag.elem) {
+			$.removeClass(gDrag.elem, 'dragging');
+			gDrag.elem = null;
+			layout();
+		}
 	}
-}
-
-function onDragEnter(evt) {
-	if (seDragging) {
-		evt.preventDefault();
-		return false;
-	}
-}
-
-function onDragLeave(evt) {
-	if (seDragging) {
-		evt.preventDefault();
-		return false;
-	}
-}
-
-function onDragOver(evt) {
-	if (seDragging) {
-		document.title = evt.clientX + ':' + evt.clientY + '---' + count;
-		count ++;
-		var w = seDragging.clientWidth;
-		var h = $(seDragging, '.snapshot')[0].clientHeight;
-		seDragging.style.left = evt.clientX - (w / 2) + 'px';
-		seDragging.style.top = evt.clientY - (h / 2) + 'px';
-		evt.preventDefault();
-		return false;
-	}
-}
-
-function onDrop(evt) {
-	if (seDragging) {
-		alert('dropped!');
-		evt.preventDefault();
-		return false;
-	}
-}
-
-function onDragEnd(evt) {
-	if (seDragging) {
-		$.removeClass(seDragging, 'dragging');
-		seDragging = null;
-		layout();
-		alert('end!');
-	}
-}
+};
 
 
 
 })(); //// sites end
-
-var seDragging = null;
 
 function layout() {
 	var row = cfg.getConfig('row');
@@ -447,7 +454,7 @@ function layout() {
 		var snapshot = $(se, '.snapshot')[0];
 		snapshot.style.height = h + 'px';
 		// se.style.height = h + 'px';
-		if (se != seDragging) {
+		if (!$.hasClass(se, 'dragging')) {
 			se.style.top = y + 'px';
 			se.style.left = x + 'px';
 		}

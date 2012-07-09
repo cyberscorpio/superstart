@@ -159,14 +159,14 @@ var templates = {
 					} // title
 				]
 			} // a
-		]
-	},
+		] // site children
+	}, // site
 	'folder': {
 		'tag': 'div',
 		'attr': {
 			'class': 'site folder'
 		}
-	}
+	} // folder
 };
 
 var UPDATE_HINT = 1;

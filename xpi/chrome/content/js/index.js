@@ -66,7 +66,7 @@ function init() {
 	add.onclick = function() { showAddSite(); };
 	$.removeClass(add, 'hidden');
 
-	layout();
+	layout.act();
 	$.removeClass(container, 'hidden');
 
 	// register site events
@@ -305,7 +305,7 @@ function nextSnapshot() {
 function onSiteAdded(evt, idx) {
 	var c = $$('sites');
 	insert(c, sm.getSite(-1, idx));
-	layout();
+	layout.act();
 }
 
 function onSiteRemoved(evt, idxes) {
@@ -317,7 +317,7 @@ function onSiteRemoved(evt, idxes) {
 		}
 		if (se) {
 			se.parentNode.removeChild(se);
-			layout();
+			layout.act();
 		}
 	}
 }
@@ -419,7 +419,7 @@ var gDrag = {
 		if (gDrag.elem) {
 			$.removeClass(gDrag.elem, 'dragging');
 			gDrag.elem = null;
-			layout();
+			layout.act();
 		}
 	}
 };
@@ -428,45 +428,50 @@ var gDrag = {
 
 })(); //// sites end
 
-function layout() {
-	var row = cfg.getConfig('row');
-	var col = cfg.getConfig('col');
-
-	var cw = document.body.clientWidth;
-	if (cw < pageMinWidth) {
-		cw = pageMinWidth;
-	}
-
-	/** layout **
-	  [ w/2] [site] [ w/4 ] [site] ... [site] [ w/2 ]
-	 */
-
-	var unit = Math.floor(cw / (3 + 5 * col ));
-	var w = 4 * unit
-	var h = Math.floor(w * ratio);
-
-	var ses = $('.site');
-	var x = 2 * unit;
-	var y = 0;
-	for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
-		var se = ses[i];
-		se.style.width = w + 'px';
-		var snapshot = $(se, '.snapshot')[0];
-		snapshot.style.height = h + 'px';
-		// se.style.height = h + 'px';
-		if (!$.hasClass(se, 'dragging')) {
-			se.style.top = y + 'px';
-			se.style.left = x + 'px';
+var layout = {
+	sw: 0,
+	sh: 0,
+	
+	act : function() {
+		var row = cfg.getConfig('row');
+		var col = cfg.getConfig('col');
+	
+		var cw = document.body.clientWidth;
+		if (cw < pageMinWidth) {
+			cw = pageMinWidth;
 		}
-		x += 5 * unit;
-		++ j;
-		if (j == col) {
-			j = 0;
-			x = 2 * unit;
-			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+	
+		/** layout **
+		  [ w/2] [  site  ] [ w/4 ] [site] ... [site] [ w/2 ]
+		         |<-  w ->|
+		 */
+	
+		var unit = Math.floor(cw / (3 + 5 * col ));
+		var w = 4 * unit
+		var h = Math.floor(w * ratio);
+	
+		var ses = $('.site');
+		var x = 2 * unit;
+		var y = 0;
+		for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
+			var se = ses[i];
+			se.style.width = w + 'px';
+			var snapshot = $(se, '.snapshot')[0];
+			snapshot.style.height = h + 'px';
+			if (!$.hasClass(se, 'dragging')) {
+				se.style.top = y + 'px';
+				se.style.left = x + 'px';
+			}
+			x += 5 * unit;
+			++ j;
+			if (j == col) {
+				j = 0;
+				x = 2 * unit;
+				y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+			}
 		}
 	}
-}
+}; // layout
 
 
 // methods
@@ -488,7 +493,7 @@ function showAddSite() {
 function onResize() {
 	var ss = $$('sites');
 	$.addClass(ss, 'notransition');
-	layout();
+	layout.act();
 	window.setTimeout(function() {
 		$.removeClass(ss, 'notransition');
 	}, 0);

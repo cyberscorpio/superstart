@@ -3,6 +3,7 @@
  * 	sites-loaded
  *	sites-added
  *	site-removed
+ *	site-simple-move
  *	site-changed
  *	site-snapshot-changed
  */
@@ -224,6 +225,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	////////////////////
 	// methods
+	this.getTopSiteCount = function() {
+		return data.sites.length;
+	}
+
 	this.getSites = function() {
 		let sites = that.jparse(that.stringify(data.sites));
 		for (let i = 0, l = sites.length; i < l; ++ i) {
@@ -279,6 +284,22 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			save();
 			this.fireEvent('site-removed', [group, idx]);
 		}
+	}
+
+	this.simpleMove = function(from, to) {
+		if (from == to || from < 0 || from >= data.sites.length || to < 0 || to >= data.sites.length) {
+			return;
+		}
+
+		var s = data.sites.splice(from, 1)[0];
+		if (to == data.sites.length) {
+			data.sites.push(s);
+		} else {
+			data.sites.splice(to, 0, s);
+		}
+
+		save();
+		this.fireEvent('site-simple-move', [from, to]);
 	}
 
 	this.nextSnapshot = function(group, idx) {

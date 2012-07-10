@@ -16,7 +16,6 @@ try {
 	var sm = ssObj.getService(Ci.ssISiteManager);
 	var td = ssObj.getService(Ci.ssITodoList);
 	var tm = ssObj.getService(Ci.ssIThemes);
-	sitesPerLine = cfg.getConfig('site-perline');
 } catch (e) {
 	if (logger != null) {
 		logger.logStringMessage(e);
@@ -73,6 +72,7 @@ function init() {
 	var smevts = {
 		'site-added': onSiteAdded,
 		'site-removed': onSiteRemoved,
+		'site-simple-move': onSiteSimpleMove,
 		'site-changed': onSiteChanged,
 		'site-snapshot-changed': onSiteSnapshotChanged
 	};
@@ -322,6 +322,27 @@ function onSiteRemoved(evt, idxes) {
 	}
 }
 
+function onSiteSimpleMove(evt, fromTo) {
+	/*
+	var f, t;
+	f = fromTo[0];
+	t = fromTo[1];
+	*/
+	var [f, t] = fromTo;
+	document.title = f + ' vs ' + t;
+
+	var ss = $('.site');
+	log(ss.length);
+	var from = ss[f];
+	var to = ss[t];
+	var p = from.parentNode;
+	p.removeChild(from);
+	p.insertBefore(from, to);
+
+	layout.act();
+
+}
+
 function onSiteChanged(evt, idxes) {
 	if (idxes[0] != -1) {
 		// site in folder
@@ -350,16 +371,53 @@ function onSiteSnapshotChanged(evt, idxes) {
 
 
 // dragging
-var gDrag = {
+var gDrag = (function() {
+	function getIndex(x, y) { // private function
+		var l = 0;
+		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
+			if (layout.lines[i] > y) {
+				break;
+			}
+		}
+		var col = cfg.getConfig('col');
+		var b = l * col;
+		var e = b + col;
+		if (e > gDrag.topSiteCount) {
+			e = gDrag.topSiteCount;
+		}
+		var ss = $('.site');
+		if (ss.length != gDrag.topSiteCount) {
+			alert('gDrag.topSiteCount != ss.length');
+		}
+		for (var i = b; i < e; ++ i) {
+			var s = ss[i];
+			if (s.offsetLeft + s.offsetParent.offsetLeft > x) {
+				break;
+			}
+		}
+		if (i != b) {
+			-- i;
+		}
+		if (i < 0) {
+			alert("i shouldn't < 0: i = " + i);
+			i = 0;
+		}
+		return [-1, i];
+	}
+	
+return {
 	elem: null,
-	offset: {x: 0, y: 0},
+	offset: {x: 0, y: 0}, // offset of the site
+	idxes: null, // index of the selected site
+	topSiteCount: 0,
+	pause: false,
 
 	onStart: function(evt) {
 		var se = evt.target;
 		gDrag.elem = se;
 		$.addClass(se, 'dragging');
-		var idxes = indexFromNode(se);
-		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
+		gDrag.idxes = indexFromNode(se);
+		var s = gDrag.idxes != null ? sm.getSite(gDrag.idxes[0], gDrag.idxes[1]) : null;
 		if (s != null) {
 			var dt = evt.dataTransfer;
 			dt.setData("text/uri-list", s.url);
@@ -377,6 +435,8 @@ var gDrag = {
 			y -= window.scrollY;
 			gDrag.offset.x = evt.clientX - x;
 			gDrag.offset.y = evt.clientY - y;
+
+			gDrag.topSiteCount = sm.getTopSiteCount();
 		}
 	},
 	
@@ -396,6 +456,7 @@ var gDrag = {
 	
 	onOver: function(evt) {
 		if (gDrag.elem) {
+			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
 			var el = gDrag.elem;
 			var w = el.clientWidth;
@@ -403,7 +464,22 @@ var gDrag = {
 			var ss = $$('sites');
 			el.style.left = evt.clientX - gDrag.offset.x - ss.offsetLeft + window.scrollX + 'px';
 			el.style.top = evt.clientY - gDrag.offset.y - ss.offsetTop + window.scrollY + 'px';
-			evt.preventDefault();
+
+			if (!gDrag.pause) {
+				var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
+				if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) {
+					if (g == -1) {
+						log('begin to move ' + gDrag.idxes[1] + ' to ' + i);
+						sm.simpleMove(gDrag.idxes[1], i);
+						gDrag.idxes[1] = i;
+						gDrag.pause = true;
+						window.setTimeout(function() {
+							gDrag.pause = false;
+						}, 1000);
+					}
+				}
+			}
+
 			return false;
 		}
 	},
@@ -423,23 +499,27 @@ var gDrag = {
 		}
 	}
 };
+})();
 
 
 
 })(); //// sites end
 
 var layout = {
-	sw: 0,
-	sh: 0,
+	lines: [],
 	
 	act : function() {
-		var row = cfg.getConfig('row');
 		var col = cfg.getConfig('col');
 	
 		var cw = document.body.clientWidth;
 		if (cw < pageMinWidth) {
 			cw = pageMinWidth;
 		}
+
+		this.lines = [];
+		var ss = $$('sites');
+		var baseY = ss.offsetTop;
+
 	
 		/** layout **
 		  [ w/2] [  site  ] [ w/4 ] [site] ... [site] [ w/2 ]
@@ -454,6 +534,10 @@ var layout = {
 		var x = 2 * unit;
 		var y = 0;
 		for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
+			if (i % col == 0) {
+				this.lines.push(y + baseY);
+			}
+
 			var se = ses[i];
 			se.style.width = w + 'px';
 			var snapshot = $(se, '.snapshot')[0];
@@ -462,6 +546,7 @@ var layout = {
 				se.style.top = y + 'px';
 				se.style.left = x + 'px';
 			}
+
 			x += 5 * unit;
 			++ j;
 			if (j == col) {

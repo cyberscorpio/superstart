@@ -4,11 +4,14 @@
 [scriptable, uuid(7b77dabb-b47c-4e2e-a370-14c2fd361058)]
 interface ssISiteManager: nsISupports
 {
+	long getTopSiteCount();
 	nsIVariant getSites();
 	nsIVariant getSite(in long group, in long index); // group = -1, or others
 
 	void addSite(in AString url, in AString name, in AString customizeImage);
 	void removeSite(in long group, in long index);
+
+	void simpleMove(in long from, in long to);
 	/*
 	void changeSite(in long index, in string url, in AString name, in AString customizeImage);
 	void exchangeSite(in long index1, in long index2);

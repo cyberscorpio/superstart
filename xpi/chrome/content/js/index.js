@@ -231,9 +231,9 @@ function at(g, i) {
 }
 
 function indexOf(se) {
-	var ss = $('.site');
-	for (var i = 0, l = ss.length; i < l; ++ i) {
-		if (se == ss[i]) {
+	var ses = $('.site');
+	for (var i = 0, l = ses.length; i < l; ++ i) {
+		if (se == ses[i]) {
 			return i;
 		}
 	}
@@ -323,21 +323,20 @@ function onSiteRemoved(evt, idxes) {
 }
 
 function onSiteSimpleMove(evt, fromTo) {
-	/*
-	var f, t;
-	f = fromTo[0];
-	t = fromTo[1];
-	*/
 	var [f, t] = fromTo;
 	document.title = f + ' vs ' + t;
 
-	var ss = $('.site');
-	log(ss.length);
-	var from = ss[f];
-	var to = ss[t];
+	var ses = $('.site');
+	var from = ses[f];
+
+	var to = ses[t];
 	var p = from.parentNode;
 	p.removeChild(from);
-	p.insertBefore(from, to);
+	if (f > t) {
+		p.insertBefore(from, to);
+	} else {
+		p.insertBefore(from, to.nextSibling); // TODO make it more stable?
+	}
 
 	layout.act();
 
@@ -385,13 +384,12 @@ var gDrag = (function() {
 		if (e > gDrag.topSiteCount) {
 			e = gDrag.topSiteCount;
 		}
-		var ss = $('.site');
-		if (ss.length != gDrag.topSiteCount) {
+		var ses = $('.site');
+		if (ses.length != gDrag.topSiteCount) {
 			alert('gDrag.topSiteCount != ss.length');
 		}
 		for (var i = b; i < e; ++ i) {
-			var s = ss[i];
-			if (s.offsetLeft + s.offsetParent.offsetLeft > x) {
+			if ($.offsetLeft(ses[i]) > x) {
 				break;
 			}
 		}
@@ -429,8 +427,8 @@ return {
 
 			//
 			var ss = $$('sites');
-			var x = ss.offsetLeft + (se.style.left.replace(/px/g, '') - 0);
-			var y = ss.offsetTop + (se.style.top.replace(/px/g, '') - 0);
+			var x = $.offsetLeft(ss) + (se.style.left.replace(/px/g, '') - 0);
+			var y = $.offsetTop(ss) + (se.style.top.replace(/px/g, '') - 0);
 			x -= window.scrollX;
 			y -= window.scrollY;
 			gDrag.offset.x = evt.clientX - x;
@@ -462,8 +460,8 @@ return {
 			var w = el.clientWidth;
 			var h = $(el, '.snapshot')[0].clientHeight;
 			var ss = $$('sites');
-			el.style.left = evt.clientX - gDrag.offset.x - ss.offsetLeft + window.scrollX + 'px';
-			el.style.top = evt.clientY - gDrag.offset.y - ss.offsetTop + window.scrollY + 'px';
+			el.style.left = evt.clientX - gDrag.offset.x - $.offsetLeft(ss) + window.scrollX + 'px';
+			el.style.top = evt.clientY - gDrag.offset.y - $.offsetTop(ss) + window.scrollY + 'px';
 
 			if (!gDrag.pause) {
 				var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
@@ -518,7 +516,7 @@ var layout = {
 
 		this.lines = [];
 		var ss = $$('sites');
-		var baseY = ss.offsetTop;
+		var baseY = $.offsetTop(ss);
 
 	
 		/** layout **

@@ -86,6 +86,34 @@ var $$ = function(id) {
 		return [x, y];
 	}
 
+	$.offset = function(el) {
+		var o = {l: 0, t: 0};
+		while(el) {
+			o.l += el.offsetLeft;
+			o.t += el.offsetTop;
+			el = el.offsetParent;
+		}
+		return o;
+	}
+
+	$.offsetTop = function(el) {
+		var t = 0;
+		while(el) {
+			t += el.offsetTop;
+			el = el.offsetParent;
+		}
+		return t;
+	}
+
+	$.offsetLeft = function(el) {
+		var l = 0;
+		while(el) {
+			l += el.offsetLeft;
+			el = el.offsetParent;
+		}
+		return l;
+	}
+
 	// return [width, height] of the element
 	$.getElementDimension = function(el, cs) {
 		try {

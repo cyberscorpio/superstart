@@ -296,7 +296,6 @@ function nextSnapshot() {
 				}, 0);
 			}, true);
 		}
-		// sm.nextSnapshot(idxes[0], idxes[1]);
 	}
 	return false;
 }
@@ -335,18 +334,17 @@ function onSiteSimpleMove(evt, fromTo) {
 	if (f > t) {
 		p.insertBefore(from, to);
 	} else {
-		p.insertBefore(from, to.nextSibling); // TODO make it more stable?
+		p.insertBefore(from, to.nextSibling); // TODO can I make it more stable?
 	}
 
 	layout.act();
-
 }
 
 function onSiteChanged(evt, idxes) {
 	if (idxes[0] != -1) {
 		// site in folder
 	} else {
-		// TODO: folder?
+		// TODO: folder
 		var s = sm.getSite(-1, idxes[1]);
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
@@ -393,13 +391,7 @@ var gDrag = (function() {
 				break;
 			}
 		}
-		if (i != b) {
-			-- i;
-		}
-		if (i < 0) {
-			alert("i shouldn't < 0: i = " + i);
-			i = 0;
-		}
+
 		return [-1, i];
 	}
 	
@@ -408,7 +400,9 @@ return {
 	offset: {x: 0, y: 0}, // offset of the site
 	idxes: null, // index of the selected site
 	topSiteCount: 0,
-	pause: false,
+
+	timeout: null,
+	checkIdxes: [-1, -1],
 
 	onStart: function(evt) {
 		var se = evt.target;
@@ -463,18 +457,47 @@ return {
 			el.style.left = evt.clientX - gDrag.offset.x - $.offsetLeft(ss) + window.scrollX + 'px';
 			el.style.top = evt.clientY - gDrag.offset.y - $.offsetTop(ss) + window.scrollY + 'px';
 
-			if (!gDrag.pause) {
-				var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-				if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) {
-					if (g == -1) {
-						log('begin to move ' + gDrag.idxes[1] + ' to ' + i);
-						sm.simpleMove(gDrag.idxes[1], i);
-						gDrag.idxes[1] = i;
-						gDrag.pause = true;
-						window.setTimeout(function() {
-							gDrag.pause = false;
+			if (layout.inTransition) {
+				return false;
+			}
+
+			var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
+			if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) {
+				if (g == -1) {
+					var from = gDrag.idxes[1];
+					var to = i;
+					if (from > to) {
+						// ++ to;
+					} else {
+						-- to;
+					}
+					if (from == to) {
+						return false;
+					}
+					log('begin to move ' + from + ' to ' + to);
+					sm.simpleMove(from, to);
+					gDrag.idxes[1] = to;
+					/*
+					if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) {
+						if (gDrag.timeout != null) {
+							clearTimeout(gDrag.timeout);
+						}
+						gDrag.checkIdxes = [g, i];
+						gDrag.timeout = window.setTimeout(function() {
+							gDrag.timeout = null;
+							gDrag.checkIdxes = [-1, -1];
+
+							log('begin to move ' + gDrag.idxes[1] + ' to ' + i);
+							gDrag.pause = true;
+							sm.simpleMove(gDrag.idxes[1], i);
+							gDrag.idxes[1] = i;
+
+							window.setTimeout(function() {
+								gDrag.pause = false;
+							}, 1000);
 						}, 1000);
 					}
+					*/
 				}
 			}
 
@@ -505,6 +528,13 @@ return {
 
 var layout = {
 	lines: [],
+	inTransition: false,
+
+	clearTransition: function() {
+		layout.inTransition = false;
+		log('clear transition');
+		this.removeEventListener('transitionend', arguments.callee, true);
+	},
 	
 	act : function() {
 		var col = cfg.getConfig('col');
@@ -541,8 +571,15 @@ var layout = {
 			var snapshot = $(se, '.snapshot')[0];
 			snapshot.style.height = h + 'px';
 			if (!$.hasClass(se, 'dragging')) {
-				se.style.top = y + 'px';
-				se.style.left = x + 'px';
+				var _t = y + 'px';
+				var _l = x + 'px';
+				if (!this.inTransition && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
+					this.inTransition = true;
+					log('now, in transition');
+					se.addEventListener('transitionend', this.clearTransition, true);
+				}
+				se.style.top = _t;
+				se.style.left = _l;
 			}
 
 			x += 5 * unit;

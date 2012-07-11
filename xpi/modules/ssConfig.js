@@ -28,17 +28,11 @@ function ssConfig() {
 	var theme = sbprefs.getCharPref(themeKey);
 
 	var intCfgs = {
-		'site-perline' : {
-			'key' : 'site.perline',
+		'col' : {
+			'key' : 'site.col',
 			'default' : 4,
 			'min' : 3
-		},
-		'site-minimum-lines' : {
-			'key' : 'site.minimum.lines',
-			'default' : 2,
-			'min' : 1,
-			'max' : 20
-		},
+		}
 	};
 
 	for (let k in intCfgs) {
@@ -84,12 +78,6 @@ function ssConfig() {
 			// mutable
 			case 'theme':
 				return theme;
-			// test begin --->
-			case 'row':
-				return 2;
-			case 'col':
-				return 4;
-			// test end <---
 			default:
 				if (intCfgs[name] != undefined) {
 					return intCfgs[name].value;

@@ -481,38 +481,30 @@ return {
 			}
 
 			var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) { // not me
-				if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) { // not the previous "index" saved
-					if (gDrag.timeout != null) { // first clear the timeout func
-						clearTimeout(gDrag.timeout);
-						gDrag.timeout = null;
-					}
-					gDrag.checkIdxes = [g, i]; // save the "current" index
-					gDrag.timeout = window.setTimeout(function() { // we'll do the job after a while
-						gDrag.timeout = null;
-						gDrag.checkIdxes = [-1, -1];
-
-						if (g == -1) {
-							var from = gDrag.idxes[1];
-							var to = i;
-							if (from < to) {
-								-- to;
-							}
-							if (from != to) {
-								log('begin to move ' + from + ' to ' + to);
-								sm.simpleMove(from, to);
-								gDrag.idxes[1] = to;
-							}
-						} // TODO: g != -1
-					}, HOVER);
-				} // if the "current" index is the same as we save, just let the timeout function to "move" the position
-			} else { // it seems never happen, because the "active" site is moved to follow the cursor
-				alert('!!!');
-				if (gDrag.timeout) {
+			if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) { // not the previous "index" saved
+				if (gDrag.timeout != null) { // first clear the timeout func
 					clearTimeout(gDrag.timeout);
 					gDrag.timeout = null;
 				}
-			}
+				gDrag.checkIdxes = [g, i]; // save the "current" index
+				gDrag.timeout = window.setTimeout(function() { // we'll do the job after a while
+					gDrag.timeout = null;
+					gDrag.checkIdxes = [-1, -1];
+
+					if (g == -1) {
+						var from = gDrag.idxes[1];
+						var to = i;
+						if (from < to) {
+							-- to;
+						}
+						if (from != to) {
+							log('begin to move ' + from + ' to ' + to);
+							sm.simpleMove(from, to);
+							gDrag.idxes[1] = to;
+						}
+					} // TODO: g != -1
+				}, HOVER);
+			} // if the "current" index is the same as we save, just let the timeout function to "move" the position
 
 			return false;
 		}

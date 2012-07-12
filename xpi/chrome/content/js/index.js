@@ -205,6 +205,7 @@ function insert(c, s) {
 		updateSite(s, se);
 		
 		var cmds = {
+			'a': onClickLink,
 			'.next-snapshot': nextSnapshot,
 			'.remove': removeSite
 		};
@@ -253,6 +254,17 @@ function indexFromNode(elem) {
 		return [-1, i];
 	}
 	return null;
+}
+
+function onClickLink() {
+	if (layout.inTransition()) {
+		return false;
+	}
+
+	var idxes = indexFromNode(this);
+	var s = sm.getSite(idxes[0], idxes[1]);
+	alert('you click ' + s.displayName);
+	return false;
 }
 
 function removeSite() {
@@ -369,6 +381,7 @@ function onSiteSnapshotChanged(evt, idxes) {
 
 // dragging
 var gDrag = (function() {
+	var HOVER = 300;
 	function getIndex(x, y) { // private function
 		var l = 0;
 		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
@@ -384,10 +397,15 @@ var gDrag = (function() {
 		}
 		var ses = $('.site');
 		if (ses.length != gDrag.topSiteCount) {
-			alert('gDrag.topSiteCount != ss.length');
+			alert('ERR: gDrag.topSiteCount != ss.length');
 		}
 		for (var i = b; i < e; ++ i) {
-			if ($.offsetLeft(ses[i]) > x) {
+			var se = ses[i];
+			if ($.hasClass(se, 'dragging')) { // skip myself
+				continue;
+			}
+
+			if ($.offsetLeft(se) > x) {
 				break;
 			}
 		}
@@ -453,51 +471,46 @@ return {
 			var el = gDrag.elem;
 			var w = el.clientWidth;
 			var h = $(el, '.snapshot')[0].clientHeight;
-			var ss = $$('sites');
-			el.style.left = evt.clientX - gDrag.offset.x - $.offsetLeft(ss) + window.scrollX + 'px';
-			el.style.top = evt.clientY - gDrag.offset.y - $.offsetTop(ss) + window.scrollY + 'px';
+			var base = $.offset($$('sites'));
 
-			if (layout.inTransition) {
+			el.style.left = evt.clientX - gDrag.offset.x - base.left + window.scrollX + 'px';
+			el.style.top = evt.clientY - gDrag.offset.y - base.top + window.scrollY + 'px';
+
+			if (layout.inTransition()) {
 				return false;
 			}
 
 			var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) {
-				if (g == -1) {
-					var from = gDrag.idxes[1];
-					var to = i;
-					if (from > to) {
-						// ++ to;
-					} else {
-						-- to;
+			if (g != gDrag.idxes[0] || i != gDrag.idxes[1]) { // not me
+				if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) { // not the previous "index" saved
+					if (gDrag.timeout != null) { // first clear the timeout func
+						clearTimeout(gDrag.timeout);
+						gDrag.timeout = null;
 					}
-					if (from == to) {
-						return false;
-					}
-					log('begin to move ' + from + ' to ' + to);
-					sm.simpleMove(from, to);
-					gDrag.idxes[1] = to;
-					/*
-					if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) {
-						if (gDrag.timeout != null) {
-							clearTimeout(gDrag.timeout);
-						}
-						gDrag.checkIdxes = [g, i];
-						gDrag.timeout = window.setTimeout(function() {
-							gDrag.timeout = null;
-							gDrag.checkIdxes = [-1, -1];
+					gDrag.checkIdxes = [g, i]; // save the "current" index
+					gDrag.timeout = window.setTimeout(function() { // we'll do the job after a while
+						gDrag.timeout = null;
+						gDrag.checkIdxes = [-1, -1];
 
-							log('begin to move ' + gDrag.idxes[1] + ' to ' + i);
-							gDrag.pause = true;
-							sm.simpleMove(gDrag.idxes[1], i);
-							gDrag.idxes[1] = i;
-
-							window.setTimeout(function() {
-								gDrag.pause = false;
-							}, 1000);
-						}, 1000);
-					}
-					*/
+						if (g == -1) {
+							var from = gDrag.idxes[1];
+							var to = i;
+							if (from < to) {
+								-- to;
+							}
+							if (from != to) {
+								log('begin to move ' + from + ' to ' + to);
+								sm.simpleMove(from, to);
+								gDrag.idxes[1] = to;
+							}
+						} // TODO: g != -1
+					}, HOVER);
+				} // if the "current" index is the same as we save, just let the timeout function to "move" the position
+			} else { // it seems never happen, because the "active" site is moved to follow the cursor
+				alert('!!!');
+				if (gDrag.timeout) {
+					clearTimeout(gDrag.timeout);
+					gDrag.timeout = null;
 				}
 			}
 
@@ -514,6 +527,11 @@ return {
 	
 	onEnd: function(evt) {
 		if (gDrag.elem) {
+			if (gDrag.timeout) {
+				clearTimeout(gDrag.timeout);
+				gDrag.timeout = null;
+			}
+
 			$.removeClass(gDrag.elem, 'dragging');
 			gDrag.elem = null;
 			layout.act();
@@ -526,15 +544,33 @@ return {
 
 })(); //// sites end
 
-var layout = {
-	lines: [],
-	inTransition: false,
+var layout = (function() {
+	
+	var transitionElement = null;
+	function _clearTransition() {
+		if (transitionElement) {
+			log('clear transition');
+			transitionElement.removeEventListener('transitionend', _clearTransition, true);
+			transitionElement = null;
+		}
+	}
 
-	clearTransition: function() {
-		layout.inTransition = false;
-		log('clear transition');
-		this.removeEventListener('transitionend', arguments.callee, true);
+	function _setTransition(se) {
+		if (transitionElement == null) {
+			log('now, in transition');
+
+			transitionElement = se;
+			se.addEventListener('transitionend', _clearTransition, true);
+		}
+	}
+
+return {
+	lines: [],
+	inTransition: function() {
+		return transitionElement != null;
 	},
+
+	clearTransition: _clearTransition,
 	
 	act : function() {
 		var col = cfg.getConfig('col');
@@ -573,10 +609,8 @@ var layout = {
 			if (!$.hasClass(se, 'dragging')) {
 				var _t = y + 'px';
 				var _l = x + 'px';
-				if (!this.inTransition && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
-					this.inTransition = true;
-					log('now, in transition');
-					se.addEventListener('transitionend', this.clearTransition, true);
+				if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
+					_setTransition(se);
 				}
 				se.style.top = _t;
 				se.style.left = _l;
@@ -592,6 +626,7 @@ var layout = {
 		}
 	}
 }; // layout
+})();
 
 
 // methods
@@ -616,6 +651,7 @@ function onResize() {
 	layout.act();
 	window.setTimeout(function() {
 		$.removeClass(ss, 'notransition');
+		layout.clearTransition(); // because there is no transition in the resizing procession, so we must clear the flag
 	}, 0);
 }
 

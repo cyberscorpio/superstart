@@ -87,10 +87,10 @@ var $$ = function(id) {
 	}
 
 	$.offset = function(el) {
-		var o = {l: 0, t: 0};
+		var o = {left: 0, top: 0};
 		while(el) {
-			o.l += el.offsetLeft;
-			o.t += el.offsetTop;
+			o.left += el.offsetLeft;
+			o.top += el.offsetTop;
 			el = el.offsetParent;
 		}
 		return o;

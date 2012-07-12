@@ -73,6 +73,11 @@ a {
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
+.site.grouping .snapshot {
+	border: 1px solid rgba(0,0,0,0.5);
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
 .site .snapshot.snapshoting {
 	-moz-transition-property: background-position;
 	-moz-transition-duration: 200ms;

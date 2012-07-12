@@ -205,7 +205,7 @@ function insert(c, s) {
 		updateSite(s, se);
 		
 		var cmds = {
-			'a': onClickLink,
+			'a': clickLink,
 			'.next-snapshot': nextSnapshot,
 			'.remove': removeSite
 		};
@@ -256,8 +256,8 @@ function indexFromNode(elem) {
 	return null;
 }
 
-function onClickLink() {
-	if (layout.inTransition()) {
+function clickLink(evt) {
+	if (layout.inTransition() || $.hasClass(evt.target, 'button')) {
 		return false;
 	}
 
@@ -346,7 +346,7 @@ function onSiteSimpleMove(evt, fromTo) {
 	if (f > t) {
 		p.insertBefore(from, to);
 	} else {
-		p.insertBefore(from, to.nextSibling); // TODO can I make it more stable?
+		p.insertBefore(from, to.nextSibling);
 	}
 
 	layout.act();
@@ -382,6 +382,24 @@ function onSiteSnapshotChanged(evt, idxes) {
 // dragging
 var gDrag = (function() {
 	var HOVER = 300;
+
+	var elem = null;
+	var offset = {x: 0, y: 0}; // offset of the site
+	var idxes =  null; // index of the dragging site
+
+	var timeoutId = null;
+	var savedIdxes = [-1, -1]; // saved for checking when timeout
+
+	var topSiteCount = 0;
+
+	function inRect(x, y, l, t, w, h) {
+		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function getIndex(x, y) { // private function
 		var l = 0;
 		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
@@ -392,12 +410,12 @@ var gDrag = (function() {
 		var col = cfg.getConfig('col');
 		var b = l * col;
 		var e = b + col;
-		if (e > gDrag.topSiteCount) {
-			e = gDrag.topSiteCount;
+		if (e > topSiteCount) {
+			e = topSiteCount;
 		}
 		var ses = $('.site');
-		if (ses.length != gDrag.topSiteCount) {
-			alert('ERR: gDrag.topSiteCount != ss.length');
+		if (ses.length != topSiteCount) {
+			alert('ERR: topSiteCount != ss.length');
 		}
 		for (var i = b; i < e; ++ i) {
 			var se = ses[i];
@@ -405,7 +423,20 @@ var gDrag = (function() {
 				continue;
 			}
 
-			if ($.offsetLeft(se) > x) {
+			var pos = $.offset(se);
+			var w = se.offsetWidth;
+			var h = se.offsetHeight;
+			if (inRect(x, y, pos.left, pos.top, w, h)) {
+				// get the site!
+				/*
+				$.addClass(se, 'grouping');
+				window.setTimeout(function() {
+					$.removeClass($('.grouping')[0], 'grouping');
+				}, 1000);
+				*/
+			}
+
+			if (pos.left > x) {
 				break;
 			}
 		}
@@ -414,20 +445,12 @@ var gDrag = (function() {
 	}
 	
 return {
-	elem: null,
-	offset: {x: 0, y: 0}, // offset of the site
-	idxes: null, // index of the selected site
-	topSiteCount: 0,
-
-	timeout: null,
-	checkIdxes: [-1, -1],
-
 	onStart: function(evt) {
 		var se = evt.target;
-		gDrag.elem = se;
+		elem = se;
 		$.addClass(se, 'dragging');
-		gDrag.idxes = indexFromNode(se);
-		var s = gDrag.idxes != null ? sm.getSite(gDrag.idxes[0], gDrag.idxes[1]) : null;
+		idxes = indexFromNode(se);
+		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
 		if (s != null) {
 			var dt = evt.dataTransfer;
 			dt.setData("text/uri-list", s.url);
@@ -443,56 +466,56 @@ return {
 			var y = $.offsetTop(ss) + (se.style.top.replace(/px/g, '') - 0);
 			x -= window.scrollX;
 			y -= window.scrollY;
-			gDrag.offset.x = evt.clientX - x;
-			gDrag.offset.y = evt.clientY - y;
+			offset.x = evt.clientX - x;
+			offset.y = evt.clientY - y;
 
-			gDrag.topSiteCount = sm.getTopSiteCount();
+			topSiteCount = sm.getTopSiteCount();
 		}
 	},
 	
 	onEnter: function(evt) {
-		if (gDrag.elem) {
+		if (elem) {
 			evt.preventDefault();
 			return false;
 		}
 	},
 	
 	onLeave: function(evt) {
-		if (gDrag.elem) {
+		if (elem) {
 			evt.preventDefault();
 			return false;
 		}
 	},
 	
 	onOver: function(evt) {
-		if (gDrag.elem) {
+		if (elem) {
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
-			var el = gDrag.elem;
-			var w = el.clientWidth;
-			var h = $(el, '.snapshot')[0].clientHeight;
+			var el = elem;
+			var w = el.offsetWidth;//clientWidth;
+			var h = el.offsetHeight;// $(el, '.snapshot')[0].clientHeight;
 			var base = $.offset($$('sites'));
 
-			el.style.left = evt.clientX - gDrag.offset.x - base.left + window.scrollX + 'px';
-			el.style.top = evt.clientY - gDrag.offset.y - base.top + window.scrollY + 'px';
+			el.style.left = evt.clientX - offset.x - base.left + window.scrollX + 'px';
+			el.style.top = evt.clientY - offset.y - base.top + window.scrollY + 'px';
 
 			if (layout.inTransition()) {
 				return false;
 			}
 
 			var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			if (g != gDrag.checkIdxes[0] || i != gDrag.checkIdxes[1]) { // not the previous "index" saved
-				if (gDrag.timeout != null) { // first clear the timeout func
-					clearTimeout(gDrag.timeout);
-					gDrag.timeout = null;
+			if (g != savedIdxes[0] || i != savedIdxes[1]) { // not the previous "index" saved
+				if (timeoutId != null) { // first clear the timeout func
+					clearTimeout(timeoutId);
+					timeoutId = null;
 				}
-				gDrag.checkIdxes = [g, i]; // save the "current" index
-				gDrag.timeout = window.setTimeout(function() { // we'll do the job after a while
-					gDrag.timeout = null;
-					gDrag.checkIdxes = [-1, -1];
+				savedIdxes = [g, i]; // save the "current" index
+				timeoutId = window.setTimeout(function() { // we'll do the job after a while
+					timeoutId = null;
+					savedIdxes = [-1, -1];
 
 					if (g == -1) {
-						var from = gDrag.idxes[1];
+						var from = idxes[1];
 						var to = i;
 						if (from < to) {
 							-- to;
@@ -500,7 +523,7 @@ return {
 						if (from != to) {
 							log('begin to move ' + from + ' to ' + to);
 							sm.simpleMove(from, to);
-							gDrag.idxes[1] = to;
+							idxes[1] = to;
 						}
 					} // TODO: g != -1
 				}, HOVER);
@@ -511,21 +534,21 @@ return {
 	},
 	
 	onDrop: function(evt) {
-		if (gDrag.elem) {
+		if (elem) {
 			evt.preventDefault();
 			return false;
 		}
 	},
 	
 	onEnd: function(evt) {
-		if (gDrag.elem) {
-			if (gDrag.timeout) {
-				clearTimeout(gDrag.timeout);
-				gDrag.timeout = null;
+		if (elem) {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+				timeoutId = null;
 			}
 
-			$.removeClass(gDrag.elem, 'dragging');
-			gDrag.elem = null;
+			$.removeClass(elem, 'dragging');
+			elem = null;
 			layout.act();
 		}
 	}
@@ -564,7 +587,7 @@ return {
 
 	clearTransition: _clearTransition,
 	
-	act : function() {
+	act: function() {
 		var col = cfg.getConfig('col');
 	
 		var cw = document.body.clientWidth;
@@ -598,6 +621,7 @@ return {
 			se.style.width = w + 'px';
 			var snapshot = $(se, '.snapshot')[0];
 			snapshot.style.height = h + 'px';
+
 			if (!$.hasClass(se, 'dragging')) {
 				var _t = y + 'px';
 				var _l = x + 'px';
@@ -616,6 +640,15 @@ return {
 				y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
 			}
 		}
+
+		// update .site::height
+		window.setTimeout(function() {
+			for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
+				var se = ses[i];
+				var snapshot = $(se, '.snapshot')[0];
+				se.style.height = snapshot.offsetHeight + 'px';
+			}
+		}, 0);
 	}
 }; // layout
 })();

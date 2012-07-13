@@ -385,12 +385,27 @@ var gDrag = (function() {
 
 	var elem = null;
 	var offset = {x: 0, y: 0}; // offset of the site
-	var idxes =  null; // index of the dragging site
+	var activeIdxes =  null;
 
 	var timeoutId = null;
 	var savedIdxes = [-1, -1]; // saved for checking when timeout
 
 	var topSiteCount = 0;
+
+	function begin() {
+		elem = null;
+		offset = {x:0, y:0};
+		activeIdxes = null;
+		_clearTimeout();
+		savedIdxes = [-1,-1];
+	}
+
+	function _clearTimeout() {
+		if (timeoutId != null) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	}
 
 	function inRect(x, y, l, t, w, h) {
 		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
@@ -400,7 +415,8 @@ var gDrag = (function() {
 		}
 	}
 
-	function getIndex(x, y) { // private function
+	function getIndex(x, y) { // private function, return [g, i, is-insite]
+		var inSite = false;
 		var l = 0;
 		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
 			if (layout.lines[i] > y) {
@@ -427,13 +443,8 @@ var gDrag = (function() {
 			var w = se.offsetWidth;
 			var h = se.offsetHeight;
 			if (inRect(x, y, pos.left, pos.top, w, h)) {
-				// get the site!
-				/*
-				$.addClass(se, 'grouping');
-				window.setTimeout(function() {
-					$.removeClass($('.grouping')[0], 'grouping');
-				}, 1000);
-				*/
+				// inSite = true;
+				// break;
 			}
 
 			if (pos.left > x) {
@@ -441,16 +452,18 @@ var gDrag = (function() {
 			}
 		}
 
-		return [-1, i];
+		return [-1, i, inSite];
 	}
 	
 return {
 	onStart: function(evt) {
+		begin();
+
 		var se = evt.target;
 		elem = se;
 		$.addClass(se, 'dragging');
-		idxes = indexFromNode(se);
-		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
+		activeIdxes = indexFromNode(se);
+		var s = activeIdxes != null ? sm.getSite(activeIdxes[0], activeIdxes[1]) : null;
 		if (s != null) {
 			var dt = evt.dataTransfer;
 			dt.setData("text/uri-list", s.url);
@@ -460,14 +473,10 @@ return {
 			$.addClass(img, 'drag-elem');
 			dt.setDragImage(img, 0, 0);
 
-			//
 			var ss = $$('sites');
-			var x = $.offsetLeft(ss) + (se.style.left.replace(/px/g, '') - 0);
-			var y = $.offsetTop(ss) + (se.style.top.replace(/px/g, '') - 0);
-			x -= window.scrollX;
-			y -= window.scrollY;
-			offset.x = evt.clientX - x;
-			offset.y = evt.clientY - y;
+			var oft = $.offset(ss);
+			offset.x = evt.clientX - (oft.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
+			offset.y = evt.clientY - (oft.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
 
 			topSiteCount = sm.getTopSiteCount();
 		}
@@ -492,8 +501,8 @@ return {
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
 			var el = elem;
-			var w = el.offsetWidth;//clientWidth;
-			var h = el.offsetHeight;// $(el, '.snapshot')[0].clientHeight;
+			var w = el.offsetWidth;
+			var h = el.offsetHeight;
 			var base = $.offset($$('sites'));
 
 			el.style.left = evt.clientX - offset.x - base.left + window.scrollX + 'px';
@@ -503,31 +512,35 @@ return {
 				return false;
 			}
 
-			var [g, i] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			if (g != savedIdxes[0] || i != savedIdxes[1]) { // not the previous "index" saved
-				if (timeoutId != null) { // first clear the timeout func
-					clearTimeout(timeoutId);
-					timeoutId = null;
-				}
-				savedIdxes = [g, i]; // save the "current" index
-				timeoutId = window.setTimeout(function() { // we'll do the job after a while
-					timeoutId = null;
-					savedIdxes = [-1, -1];
+			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
+			/*if (inSite) {
+			} else */{
+				if (g == activeIdxes[0]) { // in the same level
+					var from = activeIdxes[1];
+					var to = i;
+					if (from < to) {
+						-- to;
+					}
+					if (from == to) {
+						_clearTimeout();
+						return false;
+					}
+					if (g != savedIdxes[0] || to != savedIdxes[1]) {
+						_clearTimeout(timeoutId);
+						savedIdxes = [g, to];
+						timeoutId = window.setTimeout(function() {
+							timeoutId = null;
+							savedIdxes = [-1, -1];
 
-					if (g == -1) {
-						var from = idxes[1];
-						var to = i;
-						if (from < to) {
-							-- to;
-						}
-						if (from != to) {
-							log('begin to move ' + from + ' to ' + to);
-							sm.simpleMove(from, to);
-							idxes[1] = to;
-						}
-					} // TODO: g != -1
-				}, HOVER);
-			} // if the "current" index is the same as we save, just let the timeout function to "move" the position
+							if (g == -1) {
+								log('begin to move ' + from + ' to ' + to);
+								sm.simpleMove(from, to);
+								activeIdxes[1] = to;
+							} // TODO: g != -1
+						}, HOVER);
+					}
+				}
+			}
 
 			return false;
 		}
@@ -542,10 +555,7 @@ return {
 	
 	onEnd: function(evt) {
 		if (elem) {
-			if (timeoutId) {
-				clearTimeout(timeoutId);
-				timeoutId = null;
-			}
+			_clearTimeout(timeoutId);
 
 			$.removeClass(elem, 'dragging');
 			elem = null;
@@ -560,7 +570,6 @@ return {
 })(); //// sites end
 
 var layout = (function() {
-	
 	var transitionElement = null;
 	function _clearTransition() {
 		if (transitionElement) {

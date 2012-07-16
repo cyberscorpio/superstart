@@ -3,6 +3,15 @@ body {
 	background-attachment: fixed;
 }
 
+#debug {
+	width: 400px;
+	height: 200px;
+	position: absolute;
+	z-index: 1;
+	background-color: transparent;
+	color: red;
+}
+
 a {
 	text-decoration: none;
 }

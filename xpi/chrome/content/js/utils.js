@@ -6,7 +6,7 @@ var $ = function(e, s) {
 	if (typeof(s) != 'string' || s == '') {
 		return null;
 	}
-	if (s.charAt(0) == '#') {
+	if (s.charAt(0) == '#' && s.indexOf(' ') == -1 && s.indexOf('>') == -1) {
 		return document.getElementById(s.substr(1));
 	} else {
 		return e.querySelectorAll(s);

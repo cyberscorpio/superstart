@@ -23,8 +23,32 @@ try {
 	return;
 }
 
+/**** used for debug ****/
 function log(s) {
 	logger.logStringMessage(s);
+}
+
+function assert(condition, description) {
+	if (!condition) {
+		var debug = $('#debug');
+		if (debug == null) {
+			debug = document.createElement('div');
+			debug.id = 'debug';
+			debug.style.display = 'block';
+			var container = $('#container');
+			container.appendChild(debug);
+
+			var ul = document.createElement('ul');
+			debug.appendChild(ul);
+		}
+		var ul = $('#debug ul')[0];
+
+		var li = document.createElement('li');
+		var text = document.createTextNode(description);
+		li.appendChild(text);
+		ul.appendChild(li);
+		// log('assert failed: ' + description);
+	}
 }
 
 // global init
@@ -174,19 +198,19 @@ var UPDATE_URL = 2;
 var UPDATE_SNAPSHOT = 4;
 var UPDATE_TITLE = 8;
 function updateSite(s, se, flag) {
-	var all = (flag === undefined);
+	var updateAllFields = (flag === undefined);
 	var e = $(se, 'a')[0];
-	if (all || (flag & UPDATE_HINT)) {
+	if (updateAllFields || (flag & UPDATE_HINT)) {
 		e.title = s.title || s.url;
 	}
-	if (all || (flag & UPDATE_URL)) {
+	if (updateAllFields || (flag & UPDATE_URL)) {
 		e.href = s.url;
 	}
-	if (all || (flag & UPDATE_SNAPSHOT)) {
+	if (updateAllFields || (flag & UPDATE_SNAPSHOT)) {
 		e = $(se, '.snapshot')[0];
 		e.style.backgroundImage = 'url("' + s.snapshots[s.snapshotIndex] + '")';
 	}
-	if (all || (flag & UPDATE_TITLE)) {
+	if (updateAllFields || (flag & UPDATE_TITLE)) {
 		e = $(se, '.title')[0];
 		while(e.firstChild) {
 			e.removeChild(e.firstChild);
@@ -195,6 +219,9 @@ function updateSite(s, se, flag) {
 	}
 }
 
+/**
+ * always insert into the end
+ */
 function insert(c, s) {
 	var se = null;
 	if (s.sites != undefined) { // folder
@@ -220,10 +247,11 @@ function insert(c, s) {
 	}
 }
 
+/**
+ * get the DIV from index g/i
+ */
 function at(g, i) {
-	if (g != -1) {
-		alert('at(g, i) is to be implement for g is not -1');
-	}
+	assert(g == -1, 'at(g, i) is to be implement for g is not -1'); // TODO
 	var ses = $('.site');
 	if (i < 0 || i >= ses.length) {
 		return null;
@@ -231,27 +259,38 @@ function at(g, i) {
 	return ses[i];
 }
 
+/**
+ * get index g/i from the DIV
+ */
 function indexOf(se) {
-	var ses = $('.site');
-	for (var i = 0, l = ses.length; i < l; ++ i) {
-		if (se == ses[i]) {
-			return i;
+	assert($.hasClass(se, 'site'), 'indexOf(se), se should has class name .site');
+
+	var p = se.parentNode;
+	var g = -1;
+	if (p.id != 'sites') {
+		// TODO: Get the group index
+		assert(false, 'TODO: get group index in indexOf(se)');
+	} else {
+		var ses = $(p, '.site');
+		for (var i = 0, l = ses.length; i < l; ++ i) {
+			if (se == ses[i]) {
+				return [g, i];
+			}
 		}
 	}
-	return -1;
+	assert(false, "indexOf(se) can't find index!");
+	return [-1, -1]; // shouldn't happen
 }
 
+/**
+ * get index g/i from element of DIV
+ */
 function indexFromNode(elem) {
 	while (elem && !$.hasClass(elem, 'site')) {
 		elem = elem.parentNode;
 	}
 	if (elem) {
-		var i = indexOf(elem);
-		if (i == -1) {
-			alert("Can't get element index!");
-			return null;
-		}
-		return [-1, i];
+		return indexOf(elem);
 	}
 	return null;
 }
@@ -323,9 +362,7 @@ function onSiteRemoved(evt, idxes) {
 	var g = idxes[0], i = idxes[1];
 	var se = at(g, i);
 	if (se) {
-		if (g != -1) {
-			alert('Something need to do for ingourps removing');
-		}
+		assert(g == -1, 'Something need to do for ingourps removing');
 		if (se) {
 			se.parentNode.removeChild(se);
 			layout.act();
@@ -396,11 +433,11 @@ var gDrag = (function() {
 		elem = null;
 		offset = {x:0, y:0};
 		activeIdxes = null;
-		_clearTimeout();
+		clrTimeout();
 		savedIdxes = [-1,-1];
 	}
 
-	function _clearTimeout() {
+	function clrTimeout() {
 		if (timeoutId != null) {
 			clearTimeout(timeoutId);
 			timeoutId = null;
@@ -415,7 +452,7 @@ var gDrag = (function() {
 		}
 	}
 
-	function getIndex(x, y) { // private function, return [g, i, is-insite]
+	function getIndex(x, y) { // return [g, i, is-insite]
 		var inSite = false;
 		var l = 0;
 		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
@@ -430,9 +467,7 @@ var gDrag = (function() {
 			e = topSiteCount;
 		}
 		var ses = $('.site');
-		if (ses.length != topSiteCount) {
-			alert('ERR: topSiteCount != ss.length');
-		}
+		assert(ses.length == topSiteCount, 'ERR: topSiteCount != ss.length');
 		for (var i = b; i < e; ++ i) {
 			var se = ses[i];
 			if ($.hasClass(se, 'dragging')) { // skip myself
@@ -522,18 +557,18 @@ return {
 						-- to;
 					}
 					if (from == to) {
-						_clearTimeout();
+						clrTimeout();
 						return false;
 					}
 					if (g != savedIdxes[0] || to != savedIdxes[1]) {
-						_clearTimeout(timeoutId);
+						clrTimeout(timeoutId);
 						savedIdxes = [g, to];
 						timeoutId = window.setTimeout(function() {
 							timeoutId = null;
 							savedIdxes = [-1, -1];
 
 							if (g == -1) {
-								log('begin to move ' + from + ' to ' + to);
+								// log('begin to move ' + from + ' to ' + to);
 								sm.simpleMove(from, to);
 								activeIdxes[1] = to;
 							} // TODO: g != -1
@@ -555,7 +590,7 @@ return {
 	
 	onEnd: function(evt) {
 		if (elem) {
-			_clearTimeout(timeoutId);
+			clrTimeout(timeoutId);
 
 			$.removeClass(elem, 'dragging');
 			elem = null;
@@ -571,20 +606,20 @@ return {
 
 var layout = (function() {
 	var transitionElement = null;
-	function _clearTransition() {
+	function clrTransitionedCallback() {
 		if (transitionElement) {
 			log('clear transition');
-			transitionElement.removeEventListener('transitionend', _clearTransition, true);
+			transitionElement.removeEventListener('transitionend', clrTransition, true);
 			transitionElement = null;
 		}
 	}
 
-	function _setTransition(se) {
+	function setTransitionedCallback(se) {
 		if (transitionElement == null) {
 			log('now, in transition');
 
 			transitionElement = se;
-			se.addEventListener('transitionend', _clearTransition, true);
+			se.addEventListener('transitionend', clrTransition, true);
 		}
 	}
 
@@ -594,7 +629,7 @@ return {
 		return transitionElement != null;
 	},
 
-	clearTransition: _clearTransition,
+	clearTransitionedCallback: clrTransitionedCallback,
 	
 	act: function() {
 		var col = cfg.getConfig('col');
@@ -635,7 +670,7 @@ return {
 				var _t = y + 'px';
 				var _l = x + 'px';
 				if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
-					_setTransition(se);
+					setTransitionedCallback(se);
 				}
 				se.style.top = _t;
 				se.style.left = _l;
@@ -685,7 +720,7 @@ function onResize() {
 	layout.act();
 	window.setTimeout(function() {
 		$.removeClass(ss, 'notransition');
-		layout.clearTransition(); // because there is no transition in the resizing procession, so we must clear the flag
+		layout.clearTransitionedCallback(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually
 	}, 0);
 }
 

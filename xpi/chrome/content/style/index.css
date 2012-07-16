@@ -134,14 +134,13 @@ a {
 
 	font-size: 12px;
 	color: black;
-	text-shadow: .5px .5px 1px rgba(255,255,255,0.5);
+	text-shadow: -1px 0 1px white, 1px 0 1px white, 0 1px 1px white, 0 -1px 1px white;
 	-moz-transition: text-shadow 200ms linear;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
 .site a:hover .title {
-	text-shadow: .5px .5px 1px white;
 }
 
 .site .title span {

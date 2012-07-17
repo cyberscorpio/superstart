@@ -4,12 +4,16 @@ body {
 }
 
 #debug {
-	width: 400px;
+	width: 200px;
 	height: 200px;
 	position: absolute;
-	z-index: 1;
+	z-index: -1;
 	background-color: transparent;
 	color: red;
+}
+
+#debug:hover {
+	z-index: 1;
 }
 
 a {
@@ -145,6 +149,21 @@ a {
 
 .site .title span {
 	line-height: 1.6em;
+}
+
+/* folder */
+.site.folder {
+}
+
+.site.folder .snapshot, .site.folder a:hover .snapshot {
+	/* box-shadow: none;*/
+	overflow: hidden;
+}
+
+.site.folder .snapshot img {
+	position: absolute;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 

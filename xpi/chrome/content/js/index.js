@@ -128,20 +128,6 @@ function init() {
 }
 
 var templates = {
-	'empty': {
-		'tag': 'div',
-		'attr': {
-			'class': 'site empty'
-		},
-		'children': [
-			{
-				'tag': 'div',
-				'attr': {
-					'class': 'snapshot'
-				}
-			}
-		]
-	},
 	'site': {
 		'tag': 'div',
 		'attr': {
@@ -159,21 +145,7 @@ var templates = {
 						'tag': 'div',
 						'attr': {
 							'class': 'snapshot'
-						},
-						'children': [
-							{
-								'tag': 'div',
-								'attr': {
-									'class': 'remove button'
-								}
-							}, // remove
-							{
-								'tag': 'div',
-								'attr': {
-									'class': 'next-snapshot button'
-								}
-							} // right arrow
-						]
+						}
 					}, // background
 					{
 						'tag': 'p',
@@ -189,7 +161,7 @@ var templates = {
 		'tag': 'div',
 		'attr': {
 			'class': 'site folder'
-		}
+		},
 	} // folder
 };
 
@@ -219,17 +191,45 @@ function updateSite(s, se, flag) {
 	}
 }
 
+function updateFolder(ss, se) {
+	assert(Array.isArray(ss.sites) && ss.sites.length > 1, "ERR: updateFolder get an invalid 'ss'");
+	var e = $(se, 'a')[0];
+	e.href = '#';
+	var snapshot = $(se, '.snapshot')[0];
+	while(snapshot.lastChild) {
+		snapshot.removeChild(snapshot.lastChild);
+	}
+	for (var i = 0; i < ss.sites.length; ++ i) {
+		var s = ss.sites[i];
+		var img = document.createElement('img');
+		img.src = s.snapshots[s.snapshotIndex];
+		snapshot.appendChild(img);
+	}
+	e = $(se, '.title')[0];
+	while(e.firstChild) {
+		e.removeChild(e.firstChild);
+	}
+	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(ss.displayName));
+}
+
 /**
  * always insert into the end
  */
 function insert(c, s) {
-	var se = null;
+	var se = $.obj2Element(templates['site']);
+	se.ondragstart = gDrag.onStart;
 	if (s.sites != undefined) { // folder
-		// 
+		$.addClass(se, 'folder');
+		updateFolder(s, se);
 	} else {
-		se = $.obj2Element(templates['site']);
-		se.ondragstart = gDrag.onStart;
 		updateSite(s, se);
+		var buttons = ['remove', 'next-snapshot'];
+		var a = $(se, 'a')[0];
+		for (var i = 0; i < buttons.length; ++ i) {
+			var b = document.createElement('div');
+			b.className = buttons[i] + ' button';
+			a.appendChild(b);
+		}
 		
 		var cmds = {
 			'a': clickLink,
@@ -538,7 +538,7 @@ return {
 			var el = elem;
 			var w = el.offsetWidth;
 			var h = el.offsetHeight;
-			var base = $.offset($$('sites'));
+			var base = $.offset(el.parentNode);
 
 			el.style.left = evt.clientX - offset.x - base.left + window.scrollX + 'px';
 			el.style.top = evt.clientY - offset.y - base.top + window.scrollY + 'px';
@@ -568,7 +568,6 @@ return {
 							savedIdxes = [-1, -1];
 
 							if (g == -1) {
-								// log('begin to move ' + from + ' to ' + to);
 								sm.simpleMove(from, to);
 								activeIdxes[1] = to;
 							} // TODO: g != -1
@@ -609,7 +608,7 @@ var layout = (function() {
 	function clrTransitionedCallback() {
 		if (transitionElement) {
 			log('clear transition');
-			transitionElement.removeEventListener('transitionend', clrTransition, true);
+			transitionElement.removeEventListener('transitionend', clrTransitionedCallback, true);
 			transitionElement = null;
 		}
 	}
@@ -619,7 +618,41 @@ var layout = (function() {
 			log('now, in transition');
 
 			transitionElement = se;
-			se.addEventListener('transitionend', clrTransition, true);
+			se.addEventListener('transitionend', clrTransitionedCallback, true);
+		}
+	}
+
+	// 3 items per line
+	// 3 items per column
+	// < w > <  2w  > < w > <  2w  > < w > <  2w  > < w >
+	function layoutFolder(se, cw, ch) {
+		var snapshot = $(se, '.snapshot')[0];
+		var w = cw;
+		w /= 10;
+		var h = w * ratio;
+		var ww = Math.floor(w * 2);
+		var hh = Math.floor(h * 2);
+		var mh = Math.floor((ch - 3 * hh) / 4);
+		w = Math.floor(w);
+		h = Math.floor(h);
+		
+		var imgs = snapshot.getElementsByTagName('img');
+		var x = w;
+		var y = mh;
+		for (var i = 0; i < imgs.length;) {
+			var img = imgs[i];
+			img.style.left = x + 'px';
+			img.style.top = y + 'px';
+			img.style.width = ww + 'px';
+			img.style.height = hh + 'px';
+			x += ww + w;
+
+			++ i;
+			if (i % 3 == 0) {
+				x = w;
+				y += hh + mh;
+			}
+
 		}
 	}
 
@@ -682,6 +715,10 @@ return {
 				j = 0;
 				x = 2 * unit;
 				y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+			}
+
+			if ($.hasClass(se, 'folder')) {
+				layoutFolder(se, w, h);
 			}
 		}
 

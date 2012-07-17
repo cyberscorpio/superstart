@@ -53,7 +53,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 256;//512; // TODO: make it small
+	let imgWidth = 512; // TODO: make it small
 	let ratio = 0.625;
 	let imgHeight = Math.floor(imgWidth * ratio);
 
@@ -68,7 +68,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	function travel(fn) {
 		for (let i = 0, l = data.sites.length; i < l; ++ i) {
 			let s = data.sites[i];
-			if (s.sites && isArray(s.sites)) {
+			if (s.sites && Array.isArray(s.sites)) {
 				let j = 0, k = s.sites.length;
 				if (k == 0) {
 					log('siteManager::travel get error data at index ' + i);
@@ -104,7 +104,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let s = sites[i];
 				// folder
 				if (s.sites) {
-					if (!isArray(s.sites) || s.sites.length == 0) {
+					if (!Array.isArray(s.sites) || s.sites.length == 0) {
 						delete s.sites;
 						-- i; // check it as an URL in the next round
 						changed = true;
@@ -173,18 +173,25 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function adjustSite(s) {
-		for (let i = 0; i < 2; ++ i) {
-			if (s.snapshots[i] != '') {
-				let st = s.snapshots[i];
-				if (st.indexOf('images/')) {
-					s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
+		if (s.sites != undefined) {
+			for (let i = 0; i < s.sites.length; ++ i) {
+				adjustSite(s.sites[i]);
+			}
+			s.displayName = s.title || 'Group';
+		} else {
+			for (let i = 0; i < 2; ++ i) {
+				if (s.snapshots[i] != '') {
+					let st = s.snapshots[i];
+					if (st.indexOf('images/')) {
+						s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
+					}
 				}
 			}
+			if (s.snapshots[2] != '') {
+				s.snapshots[2] = that.regulateUrl(s.snapshots[2]).replace(/\\/g, '/');
+			}
+			s.displayName = s.name || (s.title || s.url);
 		}
-		if (s.snapshots[2] != '') {
-			s.snapshots[2] = that.regulateUrl(s.snapshots[2]).replace(/\\/g, '/');
-		}
-		s.displayName = s.name || (s.title || s.url);
 		return s;
 	}
 

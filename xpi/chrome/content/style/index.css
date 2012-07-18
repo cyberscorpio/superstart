@@ -45,8 +45,22 @@ a {
 	*/
 }
 
+#sites.folderopened a {
+	cursor: default !important;
+}
+
 #sites.notransition .site, .site.notransition {
 	-moz-transition-property: none;
+}
+
+#mask {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	background-color: black;
+	opacity: 0.5;
 }
 
 .site {
@@ -55,11 +69,6 @@ a {
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease-in;
 }
-/*
-.site:nth-child(2n) {
-	-moz-transition-timing-function: ease-out;
-}
-*/
 
 .site a {
 	position: absolute;
@@ -155,7 +164,9 @@ a {
 .site.folder {
 }
 
-.site.folder .snapshot, .site.folder a:hover .snapshot {
+.site.folder .snapshot
+/*, .site.folder a:hover .snapshot*/
+{
 	/* box-shadow: none;*/
 	overflow: hidden;
 }
@@ -198,9 +209,14 @@ a {
 	-moz-transition: none;
 	z-index: 1;
 }
-/*
-.site.dragging a:hover .snapshot {
-	border-color: white !important;
-	box-shadow: 0 0 5px rgba(0,0,0,1) !important;
+
+/** folder opened **/
+#folder {
+position: absolute;
+width: 100%;
+background-color: black;
+border-top: 2px solid white;
+border-bottom: 2px solid white;
+
+color: white;
 }
-*/

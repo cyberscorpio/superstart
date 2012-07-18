@@ -218,9 +218,15 @@ function updateFolder(ss, se) {
 function insert(c, s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
+	var cmd = {};
+
 	if (s.sites != undefined) { // folder
 		$.addClass(se, 'folder');
 		updateFolder(s, se);
+
+		cmds = {
+			'a': clickLink
+		};
 	} else {
 		updateSite(s, se);
 		var buttons = ['remove', 'next-snapshot'];
@@ -231,15 +237,17 @@ function insert(c, s) {
 			a.appendChild(b);
 		}
 		
-		var cmds = {
+		cmds = {
 			'a': clickLink,
 			'.next-snapshot': nextSnapshot,
 			'.remove': removeSite
 		};
-		for (var k in cmds) {
-			var r = $(se, k)[0];
-			r.onclick = cmds[k];
-		}
+	}
+
+	// install the command handlers
+	for (var k in cmds) {
+		var r = $(se, k)[0];
+		r.onclick = cmds[k];
 	}
 
 	if (se) {
@@ -295,6 +303,24 @@ function indexFromNode(elem) {
 	return null;
 }
 
+function openFolder(idxes, f) {
+	var se = at(idxes[0], idxes[1]);
+	var offset = $.offset(se);
+	var top = offset.top + se.offsetHeight + 32;
+
+	var folderDiv = $$('folder');
+	if (folderDiv == null) {
+		folderDiv = document.createElement('div');
+		folderDiv.id = 'folder';
+		folderDiv.style.zIndex = 1;
+		document.body.appendChild(folderDiv);
+	}
+	folderDiv.idxes = idxes;
+
+	folderDiv.style.top = top + 'px';
+	folderDiv.style.height = '200px';
+}
+
 function clickLink(evt) {
 	if (layout.inTransition() || $.hasClass(evt.target, 'button')) {
 		return false;
@@ -302,7 +328,11 @@ function clickLink(evt) {
 
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
-	alert('you click ' + s.displayName);
+	if (s.sites != undefined && Array.isArray(s.sites)) {
+		openFolder(idxes, s);
+	} else {
+		alert('you click ' + s.displayName);
+	}
 	return false;
 }
 
@@ -605,20 +635,19 @@ return {
 
 var layout = (function() {
 	var transitionElement = null;
-	function clrTransitionedCallback() {
+	function clrTransitionState() {
 		if (transitionElement) {
 			log('clear transition');
-			transitionElement.removeEventListener('transitionend', clrTransitionedCallback, true);
+			transitionElement.removeEventListener('transitionend', clrTransitionState, true);
 			transitionElement = null;
 		}
 	}
 
-	function setTransitionedCallback(se) {
+	function setTransitionState(se) {
 		if (transitionElement == null) {
 			log('now, in transition');
-
 			transitionElement = se;
-			se.addEventListener('transitionend', clrTransitionedCallback, true);
+			se.addEventListener('transitionend', clrTransitionState, true);
 		}
 	}
 
@@ -662,7 +691,7 @@ return {
 		return transitionElement != null;
 	},
 
-	clearTransitionedCallback: clrTransitionedCallback,
+	clearTransitionState: clrTransitionState,
 	
 	act: function() {
 		var col = cfg.getConfig('col');
@@ -703,7 +732,7 @@ return {
 				var _t = y + 'px';
 				var _l = x + 'px';
 				if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
-					setTransitionedCallback(se);
+					setTransitionState(se);
 				}
 				se.style.top = _t;
 				se.style.left = _l;
@@ -721,6 +750,9 @@ return {
 				layoutFolder(se, w, h);
 			}
 		}
+
+		var mask = $$('mask');
+		mask.style.height = window.innerHeight + 'px';
 
 		// update .site::height
 		window.setTimeout(function() {
@@ -757,7 +789,7 @@ function onResize() {
 	layout.act();
 	window.setTimeout(function() {
 		$.removeClass(ss, 'notransition');
-		layout.clearTransitionedCallback(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually
+		layout.clearTransitionState(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually
 	}, 0);
 }
 

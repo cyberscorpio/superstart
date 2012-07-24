@@ -4,8 +4,8 @@ body {
 }
 
 #debug {
-	width: 200px;
-	height: 200px;
+	width: 400px;
+	height: 0;
 	position: absolute;
 	z-index: -1;
 	background-color: transparent;
@@ -45,10 +45,6 @@ a {
 	*/
 }
 
-#sites.folderopened a {
-	cursor: default !important;
-}
-
 #sites.notransition .site, .site.notransition {
 	-moz-transition-property: none;
 }
@@ -63,11 +59,16 @@ a {
 	opacity: 0.5;
 }
 
-.site {
-	position: absolute;
-	-moz-transition-property: top, left;
+/* site & folder transition */
+.site
+, #folder {
+	-moz-transition-property: top, left, width, height;
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease-in;
+}
+
+.site {
+	position: absolute;
 }
 
 .site a {

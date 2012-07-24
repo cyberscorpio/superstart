@@ -209,13 +209,21 @@ function updateFolder(ss, se) {
 	while(e.firstChild) {
 		e.removeChild(e.firstChild);
 	}
-	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(ss.displayName));
+	var title = ss.displayName + ' (' + ss.sites.length + ')';
+	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(title));
 }
 
 /**
  * always insert into the end
  */
 function insert(c, s) {
+	var se = createSiteElement(s);
+	if (se) {
+		c.appendChild(se);
+	}
+}
+
+function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
 	var cmd = {};
@@ -249,10 +257,7 @@ function insert(c, s) {
 		var r = $(se, k)[0];
 		r.onclick = cmds[k];
 	}
-
-	if (se) {
-		c.appendChild(se);
-	}
+	return se;
 }
 
 /**
@@ -308,17 +313,23 @@ function openFolder(idxes, f) {
 	var offset = $.offset(se);
 	var top = offset.top + se.offsetHeight + 32;
 
-	var folderDiv = $$('folder');
-	if (folderDiv == null) {
-		folderDiv = document.createElement('div');
-		folderDiv.id = 'folder';
-		folderDiv.style.zIndex = 1;
-		document.body.appendChild(folderDiv);
+	var folderArea = $$('folder');
+	if (folderArea == null) {
+		folderArea = document.createElement('div');
+		folderArea.id = 'folder';
+		folderArea.style.zIndex = 1;
+		document.body.appendChild(folderArea);
+	} else {
+		while (folderArea.lastChild) {
+			folderArea.removeChild(folderArea.lastChild);
+		}
 	}
-	folderDiv.idxes = idxes;
+	folderArea.idxes = idxes;
 
-	folderDiv.style.top = top + 'px';
-	folderDiv.style.height = '200px';
+	for (var i = 0; i < f.sites.length; ++ i) {
+		var s = f.sites[i];
+		insert(folderArea, s);
+	}
 }
 
 function clickLink(evt) {
@@ -654,7 +665,7 @@ var layout = (function() {
 	// 3 items per line
 	// 3 items per column
 	// < w > <  2w  > < w > <  2w  > < w > <  2w  > < w >
-	function layoutFolder(se, cw, ch) {
+	function layoutFolderElement(se, cw, ch) {
 		var snapshot = $(se, '.snapshot')[0];
 		var w = cw;
 		w /= 10;
@@ -684,6 +695,9 @@ var layout = (function() {
 
 		}
 	}
+
+	// used for layout opened folder
+	var folderAreaHeight = 0;
 
 return {
 	lines: [],
@@ -715,7 +729,7 @@ return {
 		var w = 4 * unit
 		var h = Math.floor(w * ratio);
 	
-		var ses = $('.site');
+		var ses = $('#sites > .site');
 		var x = 2 * unit;
 		var y = 0;
 		for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
@@ -747,7 +761,7 @@ return {
 			}
 
 			if ($.hasClass(se, 'folder')) {
-				layoutFolder(se, w, h);
+				layoutFolderElement(se, w, h);
 			}
 		}
 

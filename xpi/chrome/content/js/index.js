@@ -754,39 +754,38 @@ return {
 		var h = Math.floor(w * ratio);
 	
 		var ses = $('#sites > .site');
-		var x = 2 * unit;
 		var y = 0;
-		for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
-			if (i % col == 0) {
-				this.lines.push(y + baseY);
-			}
+		var lineCount = Math.floor(ses.length / col);
+		if (ses.length % col > 0) {
+			++ lineCount;
+		}
+		for (var l = 0, i = 0; l < lineCount; ++ l) {
+			this.lines.push(y + baseY);
+			var x = 2 * unit;
 
-			var se = ses[i];
-			se.style.width = w + 'px';
-			var snapshot = $(se, '.snapshot')[0];
-			snapshot.style.height = h + 'px';
+			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
+				var se = ses[i];
+				se.style.width = w + 'px';
+				var snapshot = $(se, '.snapshot')[0];
+				snapshot.style.height = h + 'px';
 
-			if (!$.hasClass(se, 'dragging')) {
-				var _t = y + 'px';
-				var _l = x + 'px';
-				if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
-					setTransitionState(se);
+				if (!$.hasClass(se, 'dragging')) {
+					var _t = y + 'px';
+					var _l = x + 'px';
+					if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
+						setTransitionState(se);
+					}
+					se.style.top = _t;
+					se.style.left = _l;
 				}
-				se.style.top = _t;
-				se.style.left = _l;
-			}
 
-			x += 5 * unit;
-			++ j;
-			if (j == col) {
-				j = 0;
-				x = 2 * unit;
-				y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
-			}
+				x += 5 * unit;
 
-			if ($.hasClass(se, 'folder')) {
-				layoutFolderElement(se, w, h);
+				if ($.hasClass(se, 'folder')) {
+					layoutFolderElement(se, w, h);
+				}
 			}
+			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
 		}
 
 		var mask = $$('mask');

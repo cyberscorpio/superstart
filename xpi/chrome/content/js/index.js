@@ -308,28 +308,52 @@ function indexFromNode(elem) {
 	return null;
 }
 
+function onClickFolder(idxes, f) {
+	var folderArea = $$('folder');
+	if (folderArea == null) {
+		openFolder(idxes, f);
+	} else {
+		closeFolder(idxes, f);
+	}
+}
+
 function openFolder(idxes, f) {
 	var se = at(idxes[0], idxes[1]);
 	var offset = $.offset(se);
 	var top = offset.top + se.offsetHeight + 32;
 
 	var folderArea = $$('folder');
-	if (folderArea == null) {
-		folderArea = document.createElement('div');
-		folderArea.id = 'folder';
-		folderArea.style.zIndex = 1;
-		document.body.appendChild(folderArea);
-	} else {
-		while (folderArea.lastChild) {
-			folderArea.removeChild(folderArea.lastChild);
-		}
-	}
+	assert(folderArea == null, "When opening the folder, the folderArea should be null");
+	folderArea = document.createElement('div');
+	folderArea.id = 'folder';
+	folderArea.style.zIndex = 1;
+	document.body.appendChild(folderArea);
 	folderArea.idxes = idxes;
 
 	for (var i = 0; i < f.sites.length; ++ i) {
 		var s = f.sites[i];
 		insert(folderArea, s);
 	}
+
+	var mask = $$('mask');
+	mask.style.display = 'block';
+	se.style.zIndex = '2';
+
+	layout.act();
+}
+
+function closeFolder(idxes, f) {
+	var folderArea = $$('folder');
+	assert(folderArea != null, "When closing the folder, the folderArea shouldn't be null");
+	// TODO: using animation
+	folderArea.parentNode.removeChild(folderArea);
+	folderArea = null;
+
+	var mask = $$('mask');
+	mask.style.display = '';
+
+	var se = at(idxes[0], idxes[1]);
+	se.style.zIndex = '';
 }
 
 function clickLink(evt) {
@@ -340,7 +364,7 @@ function clickLink(evt) {
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
-		openFolder(idxes, s);
+		onClickFolder(idxes, s);
 	} else {
 		alert('you click ' + s.displayName);
 	}
@@ -770,6 +794,7 @@ return {
 
 		// update .site::height
 		window.setTimeout(function() {
+			var ses = $('.site');
 			for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
 				var se = ses[i];
 				var snapshot = $(se, '.snapshot')[0];

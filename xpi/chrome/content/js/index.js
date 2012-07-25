@@ -747,7 +747,7 @@ var layout = (function() {
 			++ lineCount;
 		}
 
-		var y = 20;
+		var y = 32;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			var x = 2 * unit;
 
@@ -771,7 +771,7 @@ var layout = (function() {
 			}
 			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
 		}
-		y += 8; // 20 - 12
+		y += 20; // 32 - 12
 
 		folder.style.height = y + 'px';
 		folder.style.top = ft + 'px';
@@ -832,7 +832,7 @@ return {
 					layoutFolderElement(se, w, h);
 
 					if ($.hasClass(se, 'opened')) {
-						var folderAreaTop = Math.floor(h + unit * ratio) + 12;
+						var folderAreaTop = y + Math.floor(h + unit * ratio) + 12;
 						folderAreaHeight = layoutFolderArea(col + 1, folderAreaTop);
 						folderAreaHeight += 12;
 					}
@@ -889,6 +889,7 @@ function onResize() {
 function onScroll() {
 	var mask = $$('mask');
 	mask.style.top = window.pageYOffset + 'px';
+	mask.style.left = window.pageXOffset + 'px';
 }
 
 function onDblClick(e) {

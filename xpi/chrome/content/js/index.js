@@ -54,6 +54,7 @@ function assert(condition, description) {
 // global init
 var gEvts = {
 	'resize': onResize,
+	'scroll': onScroll,
 	'dblclick': onDblClick
 };
 for (var k in gEvts) {
@@ -320,7 +321,7 @@ function onClickFolder(idxes, f) {
 function openFolder(idxes, f) {
 	var se = at(idxes[0], idxes[1]);
 	var offset = $.offset(se);
-	var top = offset.top + se.offsetHeight + 32;
+	var top = offset.top + se.offsetHeight + 32; // 32 is a hardcoded value.
 
 	var folderArea = $$('folder');
 	assert(folderArea == null, "When opening the folder, the folderArea should be null");
@@ -337,7 +338,8 @@ function openFolder(idxes, f) {
 
 	var mask = $$('mask');
 	mask.style.display = 'block';
-	se.style.zIndex = '2';
+
+	$.addClass(se, 'opened');
 
 	layout.act();
 }
@@ -353,7 +355,9 @@ function closeFolder(idxes, f) {
 	mask.style.display = '';
 
 	var se = at(idxes[0], idxes[1]);
-	se.style.zIndex = '';
+	$.removeClass(se, 'opened');
+
+	layout.act();
 }
 
 function clickLink(evt) {
@@ -720,8 +724,60 @@ var layout = (function() {
 		}
 	}
 
-	// used for layout opened folder
-	var folderAreaHeight = 0;
+	function calcSize(containerWidth, col) {
+		/** layout **
+		  [ w/2] [  site  ] [ w/4 ] [site] ... [site] [ w/2 ]
+		         |<-  w ->|
+		 */
+		var unit = Math.floor(containerWidth / (3 + 5 * col ));
+		var w = 4 * unit
+		var h = Math.floor(w * ratio);
+		return [unit, w, h];
+	}
+
+	function layoutFolderArea(col, ft) { 
+		var folder = $$('folder');
+		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
+		var [unit, w, h] = calcSize(folder.clientWidth, col);
+		var ses = $(folder, '.site');
+
+		// TODO: save the lines
+		var lineCount = Math.floor(ses.length / col);
+		if (ses.length % col) {
+			++ lineCount;
+		}
+
+		var y = 20;
+		for (var l = 0, i = 0; l < lineCount; ++ l) {
+			var x = 2 * unit;
+
+			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
+				var se = ses[i];
+				se.style.width = w + 'px';
+				var snapshot = $(se, '.snapshot')[0];
+				snapshot.style.height = h + 'px';
+
+				if (!$.hasClass(se, 'dragging')) {
+					var top = y + 'px';
+					var left = x + 'px';
+					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
+						setTransitionState(se);
+					}
+					se.style.top = top;
+					se.style.left = left;
+				}
+
+				x += 5 * unit;
+			}
+			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+		}
+		y += 8; // 20 - 12
+
+		folder.style.height = y + 'px';
+		folder.style.top = ft + 'px';
+
+		return y;
+	}
 
 return {
 	lines: [],
@@ -743,25 +799,18 @@ return {
 		var ss = $$('sites');
 		var baseY = $.offsetTop(ss);
 
-	
-		/** layout **
-		  [ w/2] [  site  ] [ w/4 ] [site] ... [site] [ w/2 ]
-		         |<-  w ->|
-		 */
-	
-		var unit = Math.floor(cw / (3 + 5 * col ));
-		var w = 4 * unit
-		var h = Math.floor(w * ratio);
-	
 		var ses = $('#sites > .site');
 		var y = 0;
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col > 0) {
 			++ lineCount;
 		}
+
+		var [unit, w, h] = calcSize(cw, col);
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			this.lines.push(y + baseY);
 			var x = 2 * unit;
+			var folderAreaHeight = 0;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
 				var se = ses[i];
@@ -770,22 +819,28 @@ return {
 				snapshot.style.height = h + 'px';
 
 				if (!$.hasClass(se, 'dragging')) {
-					var _t = y + 'px';
-					var _l = x + 'px';
-					if (!this.inTransition() && ((se.style.top && _t != se.style.top) || (se.style.left && _l != se.style.left))) {
+					var top = y + 'px';
+					var left = x + 'px';
+					if (!this.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
 						setTransitionState(se);
 					}
-					se.style.top = _t;
-					se.style.left = _l;
+					se.style.top = top;
+					se.style.left = left;
 				}
-
-				x += 5 * unit;
 
 				if ($.hasClass(se, 'folder')) {
 					layoutFolderElement(se, w, h);
+
+					if ($.hasClass(se, 'opened')) {
+						var folderAreaTop = Math.floor(h + unit * ratio) + 12;
+						folderAreaHeight = layoutFolderArea(col + 1, folderAreaTop);
+						folderAreaHeight += 12;
+					}
 				}
+
+				x += 5 * unit;
 			}
-			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+			y += Math.floor(h + unit * ratio) + folderAreaHeight + 12; // 12 is the title height (hardcoded)
 		}
 
 		var mask = $$('mask');
@@ -829,6 +884,11 @@ function onResize() {
 		$.removeClass(ss, 'notransition');
 		layout.clearTransitionState(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually
 	}, 0);
+}
+
+function onScroll() {
+	var mask = $$('mask');
+	mask.style.top = window.pageYOffset + 'px';
 }
 
 function onDblClick(e) {

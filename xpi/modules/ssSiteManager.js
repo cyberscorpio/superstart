@@ -226,6 +226,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
+			} else {
+				log('--------- update site information with: ' + idxes[0] + ' : ' + idxes[1] + ' failed .....');
 			}
 		}
 	}

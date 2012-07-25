@@ -56,7 +56,7 @@ a {
 	left: 0;
 	z-index: 1;
 	background-color: black;
-	opacity: 0.5;
+	opacity: 0.75;
 }
 
 /* site & folder transition */
@@ -66,6 +66,7 @@ a {
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease-in;
 }
+
 
 .site {
 	position: absolute;
@@ -100,6 +101,21 @@ a {
 	border: 1px solid rgba(0,0,0,0.5);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+#folder .site .snapshot {
+	border-color: rgba(255,255,255,0.2);
+}
+
+#folder .site a:hover .snapshot {
+	border-color: rgba(255,255,255,.5);
+	box-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+#folder .site.grouping .snapshot {
+	border-color: rgba(255,255,255,0.5);
+	box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
 
 .site .snapshot.snapshoting {
 	-moz-transition-property: background-position;
@@ -154,6 +170,11 @@ a {
 	text-overflow: ellipsis;
 }
 
+#folder .site .title {
+	color: white;
+	text-shadow: none;
+}
+
 .site a:hover .title {
 }
 
@@ -162,7 +183,8 @@ a {
 }
 
 /* folder */
-.site.folder {
+.site.folder.opened {
+	z-index: 2;
 }
 
 .site.folder .snapshot
@@ -213,11 +235,15 @@ a {
 
 /** folder opened **/
 #folder {
-position: absolute;
-width: 100%;
-background-color: black;
-border-top: 2px solid white;
-border-bottom: 2px solid white;
+	position: absolute;
+	width: 100%;
+	height: 0;
+	overflow: hidden;
 
-color: white;
+	background-color: black;
+	border-top: 2px solid white;
+	border-bottom: 2px solid white;
+
+	color: white;
 }
+

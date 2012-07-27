@@ -23,6 +23,7 @@ if ("undefined" == typeof(SuperStart)) {
 		if (window.gInitialPages) {
 			try {
 				window.gInitialPages.push(indexUrl);
+				window.gInitialPages.push(indexUrl + '#');
 			} catch (e) {}
 		}
 

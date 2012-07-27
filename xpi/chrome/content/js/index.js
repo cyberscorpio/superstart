@@ -90,7 +90,7 @@ function init() {
 	add.onclick = function() { showAddSite(); };
 	$.removeClass(add, 'hidden');
 
-	layout.act();
+	layout.begin();
 	$.removeClass(container, 'hidden');
 
 	// register site events
@@ -117,6 +117,12 @@ function init() {
 		document.addEventListener(k, devts[k]);
 	}
 
+	var mask = $$('mask');
+	mask.onclick = function() {
+		closeFolder();
+	};
+	mask = null;
+
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		for (var k in smevts) {
@@ -125,6 +131,8 @@ function init() {
 		for (var k in devts) {
 			document.removeEventListener(k, devts[k]);
 		}
+		var mask = $$('mask');
+		mask.onclick = null;
 	}, false);
 }
 
@@ -296,32 +304,36 @@ function indexOf(se) {
 	return [-1, -1]; // shouldn't happen
 }
 
+function elemFromNode(n) {
+	while (n && !$.hasClass(n, 'site')) {
+		n = n.parentNode;
+	}
+	return n;
+}
+
 /**
  * get index g/i from element of DIV
  */
-function indexFromNode(elem) {
-	while (elem && !$.hasClass(elem, 'site')) {
-		elem = elem.parentNode;
-	}
+function indexFromNode(n) {
+	var elem = elemFromNode(n);
 	if (elem) {
 		return indexOf(elem);
 	}
 	return null;
 }
 
-function onClickFolder(idxes, f) {
+function onClickFolder(idx, f) {
 	var folderArea = $$('folder');
 	if (folderArea == null) {
-		openFolder(idxes, f);
+		openFolder(idx, f);
 	} else {
-		closeFolder(idxes, f);
+		closeFolder();
 	}
 }
 
-function openFolder(idxes, f) {
-	var se = at(idxes[0], idxes[1]);
-	var offset = $.offset(se);
-	var top = offset.top + se.offsetHeight + 32; // 32 is a hardcoded value.
+function openFolder(idx, f) {
+	var se = at(-1, idx);
+	se.draggable = false;
 
 	var folderArea = $$('folder');
 	assert(folderArea == null, "When opening the folder, the folderArea should be null");
@@ -329,7 +341,7 @@ function openFolder(idxes, f) {
 	folderArea.id = 'folder';
 	folderArea.style.zIndex = 1;
 	document.body.appendChild(folderArea);
-	folderArea.idxes = idxes;
+	folderArea.idx = idx;
 
 	for (var i = 0; i < f.sites.length; ++ i) {
 		var s = f.sites[i];
@@ -341,23 +353,50 @@ function openFolder(idxes, f) {
 
 	$.addClass(se, 'opened');
 
-	layout.act();
+	/* TODO: use an animated function to scroll the page 
+	// make the folder all been shown
+	folderArea.addEventListener('transitionend', function() {
+		this.removeEventListener('transitionend', arguments.callee, false);
+		var t = $.offsetTop(this);
+		var h = this.offsetHeight;
+		if (h + t - window.pageYOffset > window.innerHeight) {
+			var y = h + t - window.innerHeight;
+			if (y > (t - 32)) {
+				y = t - 32;
+			}
+			window.scroll(window.pageXOffset, y);
+		}
+	}, false);
+	*/
+
+	layout.begin();
 }
 
-function closeFolder(idxes, f) {
+function closeFolder() {
 	var folderArea = $$('folder');
 	assert(folderArea != null, "When closing the folder, the folderArea shouldn't be null");
-	// TODO: using animation
-	folderArea.parentNode.removeChild(folderArea);
-	folderArea = null;
 
-	var mask = $$('mask');
-	mask.style.display = '';
+	folderArea.style.height = '0px';
+	folderArea.addEventListener('transitionend', function() {
+		this.removeEventListener('transitionend', arguments.callee, false);
+		this.parentNode.removeChild(this);
 
-	var se = at(idxes[0], idxes[1]);
+		$.removeClass(se, 'closing');
+		se.draggable = true;
+
+		var mask = $$('mask');
+		mask.style.display = '';
+
+		layout.begin();
+	}, false);
+
+	var idx = folderArea.idx;
+	var se = at(-1, idx);
+	se.draggable = false;
 	$.removeClass(se, 'opened');
+	$.addClass(se, 'closing');
 
-	layout.act();
+	layout.begin();
 }
 
 function clickLink(evt) {
@@ -368,7 +407,8 @@ function clickLink(evt) {
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
-		onClickFolder(idxes, s);
+		assert(idxes[0] == -1, 'only top level sites can be folders');
+		onClickFolder(idxes[1], s);
 	} else {
 		alert('you click ' + s.displayName);
 	}
@@ -424,7 +464,7 @@ function nextSnapshot() {
 function onSiteAdded(evt, idx) {
 	var c = $$('sites');
 	insert(c, sm.getSite(-1, idx));
-	layout.act();
+	layout.begin();
 }
 
 function onSiteRemoved(evt, idxes) {
@@ -434,7 +474,7 @@ function onSiteRemoved(evt, idxes) {
 		assert(g == -1, 'Something need to do for ingourps removing');
 		if (se) {
 			se.parentNode.removeChild(se);
-			layout.act();
+			layout.begin();
 		}
 	}
 }
@@ -455,7 +495,7 @@ function onSiteSimpleMove(evt, fromTo) {
 		p.insertBefore(from, to.nextSibling);
 	}
 
-	layout.act();
+	layout.begin();
 }
 
 function onSiteChanged(evt, idxes) {
@@ -498,7 +538,7 @@ var gDrag = (function() {
 
 	var topSiteCount = 0;
 
-	function begin() {
+	function init() {
 		elem = null;
 		offset = {x:0, y:0};
 		activeIdxes = null;
@@ -524,8 +564,9 @@ var gDrag = (function() {
 	function getIndex(x, y) { // return [g, i, is-insite]
 		var inSite = false;
 		var l = 0;
-		for (var i = 1; i < layout.lines.length; ++ i, ++ l) {
-			if (layout.lines[i] > y) {
+		var lines = layout.getLines();
+		for (var i = 1; i < lines.length; ++ i, ++ l) {
+			if (lines[i] > y) {
 				break;
 			}
 		}
@@ -561,9 +602,15 @@ var gDrag = (function() {
 	
 return {
 	onStart: function(evt) {
-		begin();
+		init();
 
-		var se = evt.target;
+		var se = elemFromNode(evt.target);
+		if (!se || $.hasClass(se, 'opened') || !$.hasClass(se, 'site')) {
+			// log('888 move: ' + se.className);
+			evt.preventDefault();
+			return false;
+		}
+
 		elem = se;
 		$.addClass(se, 'dragging');
 		activeIdxes = indexFromNode(se);
@@ -662,7 +709,7 @@ return {
 
 			$.removeClass(elem, 'dragging');
 			elem = null;
-			layout.act();
+			layout.begin();
 		}
 	}
 };
@@ -674,6 +721,8 @@ return {
 
 var layout = (function() {
 	var transitionElement = null;
+	var lines = [];
+
 	function clrTransitionState() {
 		if (transitionElement) {
 			log('clear transition');
@@ -776,26 +825,19 @@ var layout = (function() {
 		folder.style.height = y + 'px';
 		folder.style.top = ft + 'px';
 
+
 		return y;
 	}
 
-return {
-	lines: [],
-	inTransition: function() {
-		return transitionElement != null;
-	},
-
-	clearTransitionState: clrTransitionState,
-	
-	act: function() {
+	function act() {
 		var col = cfg.getConfig('col');
 	
-		var cw = document.body.clientWidth;
+		var cw = window.innerWidth;//document.body.clientWidth;
 		if (cw < pageMinWidth) {
 			cw = pageMinWidth;
 		}
 
-		this.lines = [];
+		lines = [];
 		var ss = $$('sites');
 		var baseY = $.offsetTop(ss);
 
@@ -808,7 +850,7 @@ return {
 
 		var [unit, w, h] = calcSize(cw, col);
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			this.lines.push(y + baseY);
+			lines.push(y + baseY);
 			var x = 2 * unit;
 			var folderAreaHeight = 0;
 
@@ -821,7 +863,7 @@ return {
 				if (!$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
 					var left = x + 'px';
-					if (!this.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
+					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
 						setTransitionState(se);
 					}
 					se.style.top = top;
@@ -833,8 +875,8 @@ return {
 
 					if ($.hasClass(se, 'opened')) {
 						var folderAreaTop = y + Math.floor(h + unit * ratio) + 12;
-						folderAreaHeight = layoutFolderArea(col + 1, folderAreaTop);
-						folderAreaHeight += 12;
+						folderAreaHeight = layoutFolderArea(col/* + 1*/, folderAreaTop);
+						folderAreaHeight += 32;
 					}
 				}
 
@@ -856,7 +898,38 @@ return {
 			}
 		}, 0);
 	}
+
+	var actID = null;
+
+var layout = {
+	getLines: function() {
+		return lines;
+	},
+
+	inTransition: function() {
+		return transitionElement != null;
+	},
+
+	clearTransitionState: clrTransitionState,
+	begin: function(actingNow) {
+		if (actingNow) {
+			if (actID) {
+				window.clearTimeout(actID);
+				actID = null;
+			}
+			act();
+		} else {
+			if (actID == null) {
+				actID = window.setTimeout(function(){
+					actID = null;
+					act();
+				}, 0);
+			}
+		}
+	},
+	
 }; // layout
+	return layout;
 })();
 
 
@@ -879,7 +952,7 @@ function showAddSite() {
 function onResize() {
 	var ss = $$('sites');
 	$.addClass(ss, 'notransition');
-	layout.act();
+	layout.begin();
 	window.setTimeout(function() {
 		$.removeClass(ss, 'notransition');
 		layout.clearTransitionState(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually

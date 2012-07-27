@@ -254,12 +254,12 @@ var $$ = function(id) {
 		if (e) {
 			if (obj.attr) {
 				var a = obj.attr;
-				for (var name in a) {
-					if (name == 'text') {
-						var t = document.createTextNode(a[name]);
+				for (var k in a) {
+					if (k == 'text') {
+						var t = document.createTextNode(a[k]);
 						e.appendChild(t);
 					} else {
-						e.setAttribute(name, a[name]);
+						e.setAttribute(k, a[k]);
 					}
 				}
 			}

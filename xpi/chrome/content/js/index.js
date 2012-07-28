@@ -875,7 +875,7 @@ var layout = (function() {
 
 					if ($.hasClass(se, 'opened')) {
 						var folderAreaTop = y + Math.floor(h + unit * ratio) + 12;
-						folderAreaHeight = layoutFolderArea(col/* + 1*/, folderAreaTop);
+						folderAreaHeight = layoutFolderArea(col + 1, folderAreaTop);
 						folderAreaHeight += 32;
 					}
 				}

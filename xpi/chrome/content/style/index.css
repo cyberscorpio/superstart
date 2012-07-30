@@ -27,6 +27,7 @@ a {
 
 #container {
 	position: relative;
+	top: 0;
 }
 
 #topbar {
@@ -53,7 +54,8 @@ a {
 }
 
 /* site & folder transition */
-.site
+#container
+, .site
 , #folder {
 	-moz-transition-property: top, left, width, height;
 	-moz-transition-duration: 200ms;

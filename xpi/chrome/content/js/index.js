@@ -335,12 +335,13 @@ function openFolder(idx, f) {
 	var se = at(-1, idx);
 	se.draggable = false;
 
+	var container = $$('container');
 	var folderArea = $$('folder');
 	assert(folderArea == null, "When opening the folder, the folderArea should be null");
 	folderArea = document.createElement('div');
 	folderArea.id = 'folder';
-	folderArea.style.zIndex = 1;
-	document.body.appendChild(folderArea);
+	folderArea.style.zIndex = 2;
+	container.appendChild(folderArea);
 	folderArea.idx = idx;
 
 	for (var i = 0; i < f.sites.length; ++ i) {
@@ -353,23 +354,22 @@ function openFolder(idx, f) {
 
 	$.addClass(se, 'opened');
 
-	/* TODO: use an animated function to scroll the page 
-	// make the folder all been shown
-	folderArea.addEventListener('transitionend', function() {
-		this.removeEventListener('transitionend', arguments.callee, false);
-		var t = $.offsetTop(this);
-		var h = this.offsetHeight;
+	layout.begin();
+
+	// set 'container'.style.top so we can make the foler all been shown, if necessary and possible
+	window.setTimeout(function() {
+		var fa = $$('folder');
+		var t = $.offsetTop(fa);
+		var h = fa.style.height.replace(/px/g, '') - 0;//layout.act() will save the height in fa's style, so we can get it safely
 		if (h + t - window.pageYOffset > window.innerHeight) {
 			var y = h + t - window.innerHeight;
 			if (y > (t - 32)) {
 				y = t - 32;
 			}
-			window.scroll(window.pageXOffset, y);
+			var container = $$('container');
+			container.style.top = '-' + y + 'px';
 		}
-	}, false);
-	*/
-
-	layout.begin();
+	}, 0);
 }
 
 function closeFolder() {
@@ -397,6 +397,9 @@ function closeFolder() {
 	$.addClass(se, 'closing');
 
 	layout.begin();
+
+	var container = $$('container');
+	container.style.top = '0';
 }
 
 function clickLink(evt) {

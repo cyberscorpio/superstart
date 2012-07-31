@@ -360,11 +360,11 @@ function openFolder(idx, f) {
 	window.setTimeout(function() {
 		var fa = $$('folder');
 		var t = $.offsetTop(fa);
-		var h = fa.style.height.replace(/px/g, '') - 0;//layout.act() will save the height in fa's style, so we can get it safely
+		var h = fa.style.height.replace(/px/g, '') - 0;// layout.act() will save the height in fa's style, so we can get it safely
 		if (h + t - window.pageYOffset > window.innerHeight) {
-			var y = h + t - window.innerHeight;
-			if (y > (t - 32)) {
-				y = t - 32;
+			var y = h + t - window.pageYOffset - window.innerHeight;
+			if (y > (t - window.pageYOffset - 48)) {
+				y = t - window.pageYOffset - 48;
 			}
 			var container = $$('container');
 			container.style.top = '-' + y + 'px';
@@ -455,6 +455,7 @@ function nextSnapshot() {
 					snapshot.addEventListener('transitionend', function() {
 						snapshot.removeEventListener('transitionend', arguments.callee, true);
 						$.removeClass(snapshot, 'snapshoting');
+						snapshot.style.backgroundPosition = '';
 					}, true);
 				}, 0);
 			}, true);
@@ -564,22 +565,57 @@ var gDrag = (function() {
 		}
 	}
 
-	function getIndex(x, y) { // return [g, i, is-insite]
+	function inElem(x, y, el) {
+		var pos = $.offset(el);
+		var w = el.offsetWidth;
+		var h = el.offsetHeight;
+		return inRect(x, y, pos.left, pos.top, w, h);
+	}
+
+	function getIndex(x, y) { // return [g, i, is-insite], if [-1, -1, ] means the folder is opened, but the item is not in mask
 		var inSite = false;
 		var l = 0;
-		var lines = layout.getLines();
+		var lines = null;
+
+		// first, whether the folder is opened?
+		var folderArea = $$('folder');
+		var sites = $$('sites');
+		var g = -1;
+		if (folderArea != null) {
+			lines = folderArea.lines;
+			assert(lines != undefined && Array.isArray(lines), '#folder.lines should be set in dragging');
+			var folder = $('.folder.opened');
+			assert(folder.length == 1, 'Only one folder can be opened');
+			folder = folder[0];
+			var idxes = indexOf(folder);
+			if (inElem(x, y, folder)) {
+				return [-1, idxes[1], true];
+			} else if (!inElem(x, y, folderArea)) {
+				return [-1, -1, false];
+			}
+
+			g = idxes[1];
+		} else {
+			lines = sites.lines;
+			assert(lines != undefined && Array.isArray(lines), '#sites.lines should be set in dragging');
+		}
+
 		for (var i = 1; i < lines.length; ++ i, ++ l) {
 			if (lines[i] > y) {
 				break;
 			}
 		}
 		var col = cfg.getConfig('col');
+		if (g != -1) { // folder is opened
+			col = layout.getFolderCol(col);
+		}
+
 		var b = l * col;
 		var e = b + col;
 		if (e > topSiteCount) {
 			e = topSiteCount;
 		}
-		var ses = $('.site');
+		var ses = $('#sites > .site');
 		assert(ses.length == topSiteCount, 'ERR: topSiteCount != ss.length');
 		for (var i = b; i < e; ++ i) {
 			var se = ses[i];
@@ -588,9 +624,7 @@ var gDrag = (function() {
 			}
 
 			var pos = $.offset(se);
-			var w = se.offsetWidth;
-			var h = se.offsetHeight;
-			if (inRect(x, y, pos.left, pos.top, w, h)) {
+			if (inElem(x, y, se)) {
 				// inSite = true;
 				// break;
 			}
@@ -600,7 +634,7 @@ var gDrag = (function() {
 			}
 		}
 
-		return [-1, i, inSite];
+		return [g, i, inSite];
 	}
 	
 return {
@@ -609,7 +643,6 @@ return {
 
 		var se = elemFromNode(evt.target);
 		if (!se || $.hasClass(se, 'opened') || !$.hasClass(se, 'site')) {
-			// log('888 move: ' + se.className);
 			evt.preventDefault();
 			return false;
 		}
@@ -667,8 +700,9 @@ return {
 			}
 
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			/*if (inSite) {
-			} else */{
+			if (inSite) {
+				assert(false, 'in site');
+			} else {
 				if (g == activeIdxes[0]) { // in the same level
 					var from = activeIdxes[1];
 					var to = i;
@@ -742,6 +776,10 @@ var layout = (function() {
 		}
 	}
 
+	function getFolderColumn(col) {
+		return col + 1;
+	}
+
 	// 3 items per line
 	// 3 items per column
 	// < w > <  2w  > < w > <  2w  > < w > <  2w  > < w >
@@ -794,13 +832,17 @@ var layout = (function() {
 		var ses = $(folder, '.site');
 
 		// TODO: save the lines
+		folder.lines = [];
+		var lines = folder.lines;
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col) {
 			++ lineCount;
 		}
 
 		var y = 32;
+		var baseY = $.offsetTop(folder);
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
+			lines.push(y + baseY);
 			var x = 2 * unit;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
@@ -840,7 +882,9 @@ var layout = (function() {
 			cw = pageMinWidth;
 		}
 
-		lines = [];
+		var sites = $$('sites');
+		sites.lines = [];
+		var lines = sites.lines;
 		var ss = $$('sites');
 		var baseY = $.offsetTop(ss);
 
@@ -878,7 +922,7 @@ var layout = (function() {
 
 					if ($.hasClass(se, 'opened')) {
 						var folderAreaTop = y + Math.floor(h + unit * ratio) + 12;
-						folderAreaHeight = layoutFolderArea(col + 1, folderAreaTop);
+						folderAreaHeight = layoutFolderArea(getFolderColumn(col), folderAreaTop);
 						folderAreaHeight += 32;
 					}
 				}
@@ -905,15 +949,13 @@ var layout = (function() {
 	var actID = null;
 
 var layout = {
-	getLines: function() {
-		return lines;
-	},
-
 	inTransition: function() {
 		return transitionElement != null;
 	},
-
 	clearTransitionState: clrTransitionState,
+
+	getFolderCol: getFolderColumn,
+
 	begin: function(actingNow) {
 		if (actingNow) {
 			if (actID) {
@@ -964,8 +1006,8 @@ function onResize() {
 
 function onScroll() {
 	var mask = $$('mask');
-	mask.style.top = window.pageYOffset + 'px';
-	mask.style.left = window.pageXOffset + 'px';
+	mask.style.top = window.scrollY + 'px';
+	mask.style.left = window.scrollX + 'px';
 }
 
 function onDblClick(e) {

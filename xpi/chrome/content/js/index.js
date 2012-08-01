@@ -46,7 +46,7 @@ function assert(condition, description) {
 		var li = document.createElement('li');
 		var text = document.createTextNode(description);
 		li.appendChild(text);
-		ul.appendChild(li);
+		ul.insertBefore(li, ul.firstChild);
 		// log('assert failed: ' + description);
 	}
 }
@@ -357,10 +357,12 @@ function openFolder(idx, f) {
 	layout.begin();
 
 	// set 'container'.style.top so we can make the foler all been shown, if necessary and possible
+	var exH = folderArea.offsetHeight;
 	window.setTimeout(function() {
 		var fa = $$('folder');
 		var t = $.offsetTop(fa);
 		var h = fa.style.height.replace(/px/g, '') - 0;// layout.act() will save the height in fa's style, so we can get it safely
+		h += exH;
 		if (h + t - window.pageYOffset > window.innerHeight) {
 			var y = h + t - window.pageYOffset - window.innerHeight;
 			if (y > (t - window.pageYOffset - 48)) {
@@ -538,7 +540,7 @@ var gDrag = (function() {
 	var activeIdxes =  null;
 
 	var timeoutId = null;
-	var savedIdxes = [-1, -1]; // saved for checking when timeout
+	var savedIdxes = [-1, -1, false]; // saved for checking when timeout
 
 	var topSiteCount = 0;
 
@@ -547,7 +549,7 @@ var gDrag = (function() {
 		offset = {x:0, y:0};
 		activeIdxes = null;
 		clrTimeout();
-		savedIdxes = [-1,-1];
+		savedIdxes = [-1,-1, false];
 	}
 
 	function clrTimeout() {
@@ -625,8 +627,8 @@ var gDrag = (function() {
 
 			var pos = $.offset(se);
 			if (inElem(x, y, se)) {
-				// inSite = true;
-				// break;
+				inSite = true;
+				break;
 			}
 
 			if (pos.left > x) {
@@ -700,8 +702,14 @@ return {
 			}
 
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
+			// assert(false, 'At ' + g + ':' + i + '-' + inSite);
+			var folderArea = $$('folder');
+			if (folderArea) {
+			} else {
+			}
+
 			if (inSite) {
-				assert(false, 'in site');
+				assert(false, 'In site: (' + g + ',' + i + ')');
 			} else {
 				if (g == activeIdxes[0]) { // in the same level
 					var from = activeIdxes[1];
@@ -713,12 +721,12 @@ return {
 						clrTimeout();
 						return false;
 					}
-					if (g != savedIdxes[0] || to != savedIdxes[1]) {
+					if (g != savedIdxes[0] || to != savedIdxes[1] || inSite != savedIdxes[2]) {
 						clrTimeout(timeoutId);
-						savedIdxes = [g, to];
+						savedIdxes = [g, to, inSite];
 						timeoutId = window.setTimeout(function() {
 							timeoutId = null;
-							savedIdxes = [-1, -1];
+							savedIdxes = [-1, -1, false];
 
 							if (g == -1) {
 								sm.simpleMove(from, to);

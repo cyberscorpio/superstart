@@ -11,7 +11,7 @@ interface ssISiteManager: nsISupports
 	void addSite(in AString url, in AString name, in AString customizeImage);
 	void removeSite(in long group, in long index);
 
-	void simpleMove(in long from, in long to);
+	void simpleMove(in long group, in long from, in long to);
 	/*
 	void changeSite(in long index, in string url, in AString name, in AString customizeImage);
 	void exchangeSite(in long index1, in long index2);

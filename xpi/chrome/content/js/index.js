@@ -498,13 +498,13 @@ function onSiteRemoved(evt, idxes) {
 }
 
 function onSiteSimpleMove(evt, fromTo) {
-	var [f, t] = fromTo;
-	document.title = f + ' vs ' + t;
+	var [g, f, t] = fromTo;
+	// document.title = f + ' vs ' + t;
 
-	var ses = $('.site');
-	var from = ses[f];
+	var from = at(g, f);
+	var to = at(g, t);
+	assert(from && to && from.parentNode == to.parentNode, 'onSimpleMove from and to should be in the same level');
 
-	var to = ses[t];
 	var p = from.parentNode;
 	p.removeChild(from);
 	if (f > t) {
@@ -558,7 +558,7 @@ var gDrag = (function() {
 
 	var elem = null;
 	var offset = {x: 0, y: 0}; // offset of the site
-	var activeIdxes =  null;
+	var activeIdxes = null;
 
 	var timeoutId = null;
 	var savedIdxes = [-1, -1, false]; // saved for checking when timeout
@@ -595,7 +595,7 @@ var gDrag = (function() {
 		return inRect(x, y, pos.left, pos.top, w, h);
 	}
 
-	function getIndex(x, y) { // return [g, i, is-insite], if [-1, -1, ] means the folder is opened, but the item is not in mask
+	function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
 		var inSite = false;
 		var l = 0;
 		var lines = null;
@@ -639,7 +639,7 @@ var gDrag = (function() {
 			e = topSiteCount;
 		}
 		var ses = $('#sites > .site');
-		assert(ses.length == topSiteCount, 'ERR: topSiteCount != ss.length');
+		assert(ses.length == topSiteCount, 'ERR: ses.length != topSiteCount ' + ses.length + ' vs ' + topSiteCount);
 		for (var i = b; i < e; ++ i) {
 			var se = ses[i];
 			if ($.hasClass(se, 'dragging')) { // skip myself
@@ -647,7 +647,7 @@ var gDrag = (function() {
 			}
 
 			var pos = $.offset(se);
-			if (inElem(x, y, se)) {
+			if (folderArea == null && inElem(x, y, se)) { // only check "inSite" on top level
 				inSite = true;
 				break;
 			}
@@ -723,16 +723,13 @@ return {
 			}
 
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			// assert(false, 'At ' + g + ':' + i + '-' + inSite);
 			var folderArea = $$('folder');
 			if (folderArea) {
 			} else {
-			}
+				if (inSite) {
 
-			if (inSite) {
-				assert(false, 'In site: (' + g + ',' + i + ')');
-			} else {
-				if (g == activeIdxes[0]) { // in the same level
+				} else {
+					assert(g == activeIdxes[0], 'g should be the same as activeIdxes[0]: ' + g + ' vs ' + activeIdxes[0]);
 					var from = activeIdxes[1];
 					var to = i;
 					if (from < to) {
@@ -750,9 +747,9 @@ return {
 							savedIdxes = [-1, -1, false];
 
 							if (g == -1) {
-								sm.simpleMove(from, to);
+								sm.simpleMove(g, from, to);
 								activeIdxes[1] = to;
-							} // TODO: g != -1
+							}
 						}, HOVER);
 					}
 				}

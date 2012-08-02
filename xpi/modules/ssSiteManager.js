@@ -300,7 +300,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	this.simpleMove = function(from, to) {
+	this.simpleMove = function(group, from, to) {
 		if (from == to || from < 0 || from >= data.sites.length || to < 0 || to >= data.sites.length) {
 			return;
 		}
@@ -313,7 +313,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		save();
-		this.fireEvent('site-simple-move', [from, to]);
+		this.fireEvent('site-simple-move', [group, from, to]);
 	}
 
 	this.nextSnapshot = function(group, idx) {

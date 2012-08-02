@@ -199,15 +199,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if ((group == -1 && (idx < 0 || idx >= data.sites.length)) || ((group < 0 && group != -1) || group >= data.sites.length)) {
 			return null;
 		} else {
-			let s = data.sites[idx];
-			if (group != -1) {
+			if (group == -1) {
+				return data.sites[idx];
+			} else {
 				let g = data.sites[group];
 				if (g.sites == null || !Array.isArray(g.sites) || (idx < 0 || idx >= g.sites.length)) {
 					return null;
 				}
-				s = g[idx];
+				return g.sites[idx];
 			}
-			return s;
 		}
 	}
 
@@ -226,8 +226,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
+				/*
+				if (idxes[0] != -1) {
+					that.fireEvent('folder-changed', [-1, idxes[0]]);
+				}
+				*/
 			} else {
-				log('--------- update site information with: ' + idxes[0] + ' : ' + idxes[1] + ' failed .....');
+				log('----- Update site information with: ' + idxes[0] + ' : ' + idxes[1] + ' failed -----');
 			}
 		}
 	}

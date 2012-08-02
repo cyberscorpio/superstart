@@ -177,7 +177,7 @@ a {
 }
 
 .site .title span {
-	line-height: 1.6em;
+	line-height: 1.8em;
 }
 
 /* folder */
@@ -234,7 +234,7 @@ a {
 .site.dragging {
 	opacity: 0.75;
 	-moz-transition: none;
-	z-index: 1;
+	z-index: 3;
 }
 
 /** folder opened **/

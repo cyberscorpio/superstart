@@ -220,6 +220,8 @@ function updateFolder(ss, se) {
 	}
 	var title = ss.displayName + ' (' + ss.sites.length + ')';
 	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(title));
+
+	layout.begin(); // the little images in the folder needs to be re-layouted
 }
 
 /**
@@ -273,9 +275,19 @@ function createSiteElement(s) {
  * get the DIV from index g/i
  */
 function at(g, i) {
-	assert(g == -1, 'at(g, i) is to be implement for g is not -1'); // TODO
-	var ses = $('.site');
+	var ses = null;
+	if (g != -1) {
+		var fa = $$('folder');
+		if (!fa || fa.idx != g) {
+			return null;
+		}
+		ses = $(fa, '.site');
+	} else {
+		ses = $('#sites > .site');
+	}
+
 	if (i < 0 || i >= ses.length) {
+		assert(false, 'at(' + g + ',' + i + ') out of range');
 		return null;
 	}
 	return ses[i];
@@ -505,29 +517,38 @@ function onSiteSimpleMove(evt, fromTo) {
 }
 
 function onSiteChanged(evt, idxes) {
-	if (idxes[0] != -1) {
-		// site in folder
-	} else {
-		// TODO: folder
-		var s = sm.getSite(-1, idxes[1]);
-		var se = at(idxes[0], idxes[1]);
+	var g = idxes[0], i = idxes[1];
+	var s = sm.getSite(g, i);
+	var se = at(g, i);
+
+	if (g != -1) {
+		// 1. update the folder
+		var f = sm.getSite(-1, g);
+		var fe = at(-1, g);
+		if (fe) {
+			updateFolder(f, fe);
+		}
+
+		// 2. update the site, if exists
+		assert(se != null, 'the se should be found!');
 		if (se) {
 			updateSite(s, se);
 		}
 	}
+
+	if (!se) {
+		return;
+	}
+
+	if (s.sites === undefined) {
+		updateSite(s, se);
+	} else {
+		updateFolder(s, se);
+	}
 }
 
 function onSiteSnapshotChanged(evt, idxes) {
-	if (idxes[0] != -1) {
-		// site in folder
-	} else {
-		// TODO: folder?
-		var s = sm.getSite(-1, idxes[1]);
-		var se = at(idxes[0], idxes[1]);
-		if (se) {
-			updateSite(s, se, UPDATE_SNAPSHOT);
-		}
-	}
+	onSiteChanged(null, idxes);
 }
 
 
@@ -839,7 +860,6 @@ var layout = (function() {
 		var [unit, w, h] = calcSize(folder.clientWidth, col);
 		var ses = $(folder, '.site');
 
-		// TODO: save the lines
 		folder.lines = [];
 		var lines = folder.lines;
 		var lineCount = Math.floor(ses.length / col);
@@ -929,7 +949,7 @@ var layout = (function() {
 					layoutFolderElement(se, w, h);
 
 					if ($.hasClass(se, 'opened')) {
-						var folderAreaTop = y + Math.floor(h + unit * ratio) + 12;
+						var folderAreaTop = $.offsetTop(sites) + y + Math.floor(h + unit * ratio) + 12;
 						folderAreaHeight = layoutFolderArea(getFolderColumn(col), folderAreaTop);
 						folderAreaHeight += 32;
 					}

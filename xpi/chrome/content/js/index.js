@@ -301,17 +301,20 @@ function indexOf(se) {
 
 	var p = se.parentNode;
 	var g = -1;
-	if (p.id != 'sites') {
-		// TODO: Get the group index
-		assert(false, 'TODO: get group index in indexOf(se)');
-	} else {
-		var ses = $(p, '.site');
-		for (var i = 0, l = ses.length; i < l; ++ i) {
-			if (se == ses[i]) {
-				return [g, i];
-			}
+	var ses = [];
+	if (p.id == 'folder') {
+		g = p.idx;
+		ses = $(p, '.site');
+	} else if (p.id == 'sites') {
+		ses = $(p, '.site');
+	}
+
+	for (var i = 0, l = ses.length; i < l; ++ i) {
+		if (se == ses[i]) {
+			return [g, i];
 		}
 	}
+
 	assert(false, "indexOf(se) can't find index!");
 	return [-1, -1]; // shouldn't happen
 }
@@ -355,6 +358,11 @@ function openFolder(idx, f) {
 	folderArea.style.zIndex = 2;
 	container.appendChild(folderArea);
 	folderArea.idx = idx;
+	$.addClass(folderArea, 'resizing');
+	folderArea.addEventListener('transitionend', function() {
+		this.removeEventListener('transitionend', arguments.callee, false);
+		$.removeClass(this, 'resizing');
+	}, false);
 
 	for (var i = 0; i < f.sites.length; ++ i) {
 		var s = f.sites[i];
@@ -391,9 +399,11 @@ function closeFolder() {
 	assert(folderArea != null, "When closing the folder, the folderArea shouldn't be null");
 
 	folderArea.style.height = '0px';
+	$.addClass(folderArea, 'resizing');
 	folderArea.addEventListener('transitionend', function() {
 		this.removeEventListener('transitionend', arguments.callee, false);
 		this.parentNode.removeChild(this);
+		$.addClass(this, 'resizing');
 
 		$.removeClass(se, 'closing');
 		se.draggable = true;
@@ -595,6 +605,15 @@ var gDrag = (function() {
 		return inRect(x, y, pos.left, pos.top, w, h);
 	}
 
+	function moveElem(el, x, y) { // move the element to follow the cursor (x, y), "offset" should be set in "onStart".
+		var w = el.offsetWidth;
+		var h = el.offsetHeight;
+		var base = $.offset(el.parentNode);
+
+		el.style.left = x - offset.x - base.left + window.scrollX + 'px';
+		el.style.top = y - offset.y - base.top + window.scrollY + 'px';
+	}
+
 	function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
 		var inSite = false;
 		var l = 0;
@@ -683,8 +702,8 @@ return {
 			$.addClass(img, 'drag-elem');
 			dt.setDragImage(img, 0, 0);
 
-			var ss = $$('sites');
-			var oft = $.offset(ss);
+			var p = elem.parentNode;
+			var oft = $.offset(p);
 			offset.x = evt.clientX - (oft.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
 			offset.y = evt.clientY - (oft.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
 
@@ -710,14 +729,8 @@ return {
 		if (elem) {
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
-			var el = elem;
-			var w = el.offsetWidth;
-			var h = el.offsetHeight;
-			var base = $.offset(el.parentNode);
 
-			el.style.left = evt.clientX - offset.x - base.left + window.scrollX + 'px';
-			el.style.top = evt.clientY - offset.y - base.top + window.scrollY + 'px';
-
+			moveElem(elem, evt.clientX, evt.clientY);
 			if (layout.inTransition()) {
 				return false;
 			}
@@ -907,6 +920,7 @@ var layout = (function() {
 			cw = pageMinWidth;
 		}
 
+		var container = $$('container');
 		var sites = $$('sites');
 		sites.lines = [];
 		var lines = sites.lines;
@@ -946,7 +960,7 @@ var layout = (function() {
 					layoutFolderElement(se, w, h);
 
 					if ($.hasClass(se, 'opened')) {
-						var folderAreaTop = $.offsetTop(sites) + y + Math.floor(h + unit * ratio) + 12;
+						var folderAreaTop = $.offsetTop(sites) - $.offsetTop(container) + y + Math.floor(h + unit * ratio) + 12; // top(sites) - top(container) because folerArea is related to '#sites'.
 						folderAreaHeight = layoutFolderArea(getFolderColumn(col), folderAreaTop);
 						folderAreaHeight += 32;
 					}

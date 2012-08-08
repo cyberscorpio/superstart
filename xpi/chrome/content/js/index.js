@@ -568,7 +568,7 @@ var gDrag = (function() {
 
 	var elem = null;
 	var offset = {x: 0, y: 0}; // offset of the site
-	var activeIdxes = null;
+	var dragIdxes = null;
 
 	var timeoutId = null;
 	var savedIdxes = [-1, -1, false]; // saved for checking when timeout
@@ -578,7 +578,7 @@ var gDrag = (function() {
 	function init() {
 		elem = null;
 		offset = {x:0, y:0};
-		activeIdxes = null;
+		dragIdxes = null;
 		clrTimeout();
 		savedIdxes = [-1,-1, false];
 	}
@@ -689,11 +689,12 @@ return {
 			return false;
 		}
 
-		elem = se;
-		$.addClass(se, 'dragging');
-		activeIdxes = indexFromNode(se);
-		var s = activeIdxes != null ? sm.getSite(activeIdxes[0], activeIdxes[1]) : null;
+		dragIdxes = indexFromNode(se);
+		var s = dragIdxes != null ? sm.getSite(dragIdxes[0], dragIdxes[1]) : null;
 		if (s != null) {
+			elem = se;
+			$.addClass(se, 'dragging');
+
 			var dt = evt.dataTransfer;
 			dt.setData("text/uri-list", s.url);
 			dt.setData("text/plain", s.url);
@@ -703,11 +704,13 @@ return {
 			dt.setDragImage(img, 0, 0);
 
 			var p = elem.parentNode;
-			var oft = $.offset(p);
-			offset.x = evt.clientX - (oft.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
-			offset.y = evt.clientY - (oft.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
+			var of = $.offset(p);
+			offset.x = evt.clientX - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
+			offset.y = evt.clientY - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
 
 			topSiteCount = sm.getTopSiteCount();
+		} else {
+			dragIdxes = null;
 		}
 	},
 	
@@ -737,13 +740,13 @@ return {
 
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
 			var folderArea = $$('folder');
-			if (folderArea) {
-			} else {
+			/*if (folderArea) {
+			} else*/ {
 				if (inSite) {
 
 				} else {
-					assert(g == activeIdxes[0], 'g should be the same as activeIdxes[0]: ' + g + ' vs ' + activeIdxes[0]);
-					var from = activeIdxes[1];
+					assert(g == dragIdxes[0], 'g should be the same as dragIdxes[0]: ' + g + ' vs ' + dragIdxes[0]);
+					var from = dragIdxes[1];
 					var to = i;
 					if (from < to) {
 						-- to;
@@ -761,7 +764,8 @@ return {
 
 							if (g == -1) {
 								sm.simpleMove(g, from, to);
-								activeIdxes[1] = to;
+								dragIdxes[1] = to;
+								// assert(false, 'simple move from ' + from + ' to ' + to);
 							}
 						}, HOVER);
 					}

@@ -301,15 +301,23 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	this.simpleMove = function(group, from, to) {
-		if (from == to || from < 0 || from >= data.sites.length || to < 0 || to >= data.sites.length) {
+		var sites = data.sites;
+		if (group != -1) {
+			if (group < 0 || group >= sites.length || !Array.isArray(sites[group].sites)) {
+				return;
+			}
+			sites = sites[group].sites;
+		}
+
+		if (from == to || from < 0 || from >= sites.length || to < 0 || to >= sites.length) {
 			return;
 		}
 
-		var s = data.sites.splice(from, 1)[0];
-		if (to == data.sites.length) {
-			data.sites.push(s);
+		var s = sites.splice(from, 1)[0];
+		if (to == sites.length) {
+			sites.push(s);
 		} else {
-			data.sites.splice(to, 0, s);
+			sites.splice(to, 0, s);
 		}
 
 		save();

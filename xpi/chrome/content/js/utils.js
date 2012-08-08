@@ -115,7 +115,7 @@ var $$ = function(id) {
 	}
 
 
-	$.inRect = function inRect(x, y, l, t, w, h) {
+	$.inRect = function(x, y, l, t, w, h) {
 		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
 			return true;
 		} else {
@@ -123,11 +123,11 @@ var $$ = function(id) {
 		}
 	}
 
-	$.inElem = function inElem(x, y, el) {
+	$.inElem = function(x, y, el) {
 		var pos = $.offset(el);
 		var w = el.offsetWidth;
 		var h = el.offsetHeight;
-		return inRect(x, y, pos.left, pos.top, w, h);
+		return this.inRect(x, y, pos.left, pos.top, w, h);
 	}
 
 

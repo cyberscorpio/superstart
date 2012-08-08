@@ -190,7 +190,7 @@ a {
 	-moz-user-select: -moz-none !important;
 }
 
-.site.folder .snapshot
+.site.folder > a > .snapshot
 /*, .site.folder a:hover .snapshot*/
 {
 	overflow: hidden;

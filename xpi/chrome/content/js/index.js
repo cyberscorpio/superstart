@@ -98,6 +98,7 @@ function init() {
 		'site-added': onSiteAdded,
 		'site-removed': onSiteRemoved,
 		'site-simple-move': onSiteSimpleMove,
+		'site-move-in': onSiteMoveIn,
 		'site-changed': onSiteChanged,
 		'site-snapshot-changed': onSiteSnapshotChanged
 	};
@@ -174,12 +175,33 @@ var templates = {
 	} // folder
 };
 
+function swapSiteItem(se, tmp) {
+	var dragging = null;
+	while (se.lastChild) {
+		if ($.hasClass(se.lastChild, 'dragging')) {
+			dragging = se.lastChild;
+		}
+		se.removeChild(se.lastChild);
+	}
+	while (tmp.firstChild) {
+		se.appendChild(tmp.removeChild(tmp.firstChild));
+	}
+	if (dragging != null) {
+		se.appendChild(dragging);
+	}
+}
+
 var UPDATE_HINT = 1;
 var UPDATE_URL = 2;
 var UPDATE_SNAPSHOT = 4;
 var UPDATE_TITLE = 8;
 function updateSite(s, se, flag) {
 	var updateAllFields = (flag === undefined);
+	if ($.hasClass(se, 'folder')) {
+		$.removeClass(se, 'folder');
+		var tmp = createSiteElement(ss);
+		swapSiteItem(se, tmp);
+	}
 	var e = $(se, 'a')[0];
 	if (updateAllFields || (flag & UPDATE_HINT)) {
 		e.title = s.title || s.url;
@@ -202,6 +224,11 @@ function updateSite(s, se, flag) {
 
 function updateFolder(ss, se) {
 	assert(Array.isArray(ss.sites) && ss.sites.length > 1, "ERR: updateFolder get an invalid 'ss'");
+	if (!$.hasClass(se, 'folder')) {
+		$.addClass(se, 'folder');
+		var tmp = createSiteElement(ss);
+		swapSiteItem(se, tmp);
+	}
 	var e = $(se, 'a')[0];
 	e.href = '#';
 	var snapshot = $(se, '.snapshot')[0];
@@ -507,8 +534,8 @@ function onSiteRemoved(evt, idxes) {
 	}
 }
 
-function onSiteSimpleMove(evt, fromTo) {
-	var [g, f, t] = fromTo;
+function onSiteSimpleMove(evt, groupFromTo) {
+	var [g, f, t] = groupFromTo;
 	// document.title = f + ' vs ' + t;
 
 	var from = at(g, f);
@@ -526,23 +553,39 @@ function onSiteSimpleMove(evt, fromTo) {
 	layout.begin();
 }
 
+function onSiteMoveIn(evt, fromTo) {
+	var [f, t] = fromTo;
+	var g = -1;
+	var from = at(g, f);
+	var to = at(g, t);
+	assert($$('folder') == null, 'In MoveIn, #folder should not exist');
+
+	if (t > f) {
+		-- t;
+	}
+
+	from.parentNode.removeChild(from);
+	if ($.hasClass(from, 'dragging')) {
+		to.appendChild(from);
+	}
+
+	t = sm.getSite(-1, t);
+	updateFolder(t, to);
+
+	layout.begin();
+}
+
 function onSiteChanged(evt, idxes) {
 	var g = idxes[0], i = idxes[1];
 	var s = sm.getSite(g, i);
 	var se = at(g, i);
 
 	if (g != -1) {
-		// 1. update the folder
+		// Update the parent folder (item)
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
 			updateFolder(f, fe);
-		}
-
-		// 2. update the site, if exists
-		assert(se != null, 'the se should be found!');
-		if (se) {
-			updateSite(s, se);
 		}
 	}
 
@@ -564,23 +607,25 @@ function onSiteSnapshotChanged(evt, idxes) {
 
 // dragging
 var gDrag = (function() {
-	var HOVER = 300;
+	var HOVER = 500;
 
 	var elem = null;
 	var offset = {x: 0, y: 0}; // offset of the site
 	var dragIdxes = null;
 
 	var timeoutId = null;
-	var savedIdxes = [-1, -1, false]; // saved for checking when timeout
+	var saved = {idxes:[-1,-1], inSite:false}; // saved for checking when timeout
 
-	var topSiteCount = 0;
+	var x = 0;
+	var y = 0;
 
 	function init() {
 		elem = null;
 		offset = {x:0, y:0};
 		dragIdxes = null;
 		clrTimeout();
-		savedIdxes = [-1,-1, false];
+		saved = {idxes:[-1,-1], inSite:false};
+		x = y = 0;
 	}
 
 	function clrTimeout() {
@@ -607,6 +652,7 @@ var gDrag = (function() {
 		// first, whether the folder is opened?
 		var folderArea = $$('folder');
 		var sites = $$('sites');
+		var par = sites;
 		var g = -1;
 		if (folderArea != null) {
 			lines = folderArea.lines;
@@ -622,6 +668,7 @@ var gDrag = (function() {
 			}
 
 			g = idxes[1];
+			par = folderArea;
 		} else {
 			lines = sites.lines;
 			assert(lines != undefined && Array.isArray(lines), '#sites.lines should be set in dragging');
@@ -637,13 +684,12 @@ var gDrag = (function() {
 			col = layout.getFolderCol(col);
 		}
 
+		var ses = $(par, '.site');
 		var b = l * col;
 		var e = b + col;
-		if (e > topSiteCount) {
-			e = topSiteCount;
+		if (e > ses.length) {
+			e = ses.length;
 		}
-		var ses = $('#sites > .site');
-		assert(ses.length == topSiteCount, 'ERR: ses.length != topSiteCount ' + ses.length + ' vs ' + topSiteCount);
 		for (var i = b; i < e; ++ i) {
 			var se = ses[i];
 			if ($.hasClass(se, 'dragging')) { // skip myself
@@ -651,7 +697,7 @@ var gDrag = (function() {
 			}
 
 			var pos = $.offset(se);
-			if (folderArea == null && $.inElem(x, y, se)) { // only check "inSite" on top level
+			if (folderArea == null && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) { // only check "inSite" on top level
 				inSite = true;
 				break;
 			}
@@ -664,13 +710,33 @@ var gDrag = (function() {
 		return [g, i, inSite];
 	}
 
+	/**
+	 * x, y are the x, y from the document's origin
+	 */
 	function getPos(x, y) { // 
 		var pos = { idxes: null, pos: null };
+		var ses = [];
+		var g = -1;
 		var fa = $$('folder');
 		if (fa) {
 		} else {
-			var ses = $('#sites > .site');
+			ses = $('#sites > .site');
 		}
+
+		for (var i = ses.length - 1; i >= 0; -- i) {
+			var se = ses[i];
+			if ($.hasClass('dragging')) {
+				continue;
+			}
+
+			if ($.inElem(se, x, y)) {
+				pos.idxes = [g, i];
+				pos.pos = 'in';
+				break;
+			}
+		}
+
+		return pos;
 	}
 	
 return {
@@ -701,8 +767,6 @@ return {
 			var of = $.offset(p);
 			offset.x = evt.clientX - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
 			offset.y = evt.clientY - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
-
-			topSiteCount = sm.getTopSiteCount();
 		} else {
 			dragIdxes = null;
 		}
@@ -727,18 +791,39 @@ return {
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
 
-			moveElem(elem, evt.clientX, evt.clientY);
+			x = evt.clientX;
+			y = evt.clientY;
+			moveElem(elem, x, y);
 			if (layout.inTransition()) {
 				return false;
 			}
 
-			/*
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
 			var folderArea = $$('folder');
 			if (folderArea) {
 			} else {
 				if (inSite) {
+					assert(g != dragIdxes[0] || i != dragIdxes[1], "Can't moved to itself: " + g + ', ' + i);
+					if (dragIdxes[0] != -1) {
+						return false;
+					}
 
+					if (g != saved.idxes[0] || i != saved.idxes[1] || inSite != saved.inSite) {
+						clrTimeout(timeoutId);
+						saved.idxes = [g, i];
+						saved.inSite = inSite;
+						timeoutId = window.setTimeout(function() {
+							timeoutId = null;
+							saved = {idxes:[-1,-1], inSite:false};
+
+							var target = sm.getSite(-1, i);
+							sm.moveIn(dragIdxes[1], i);
+
+							dragIdxes[0] = i;
+							dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
+							moveElem(elem, x, y);
+						}, HOVER);
+					}
 				} else {
 					assert(g == dragIdxes[0], 'g should be the same as dragIdxes[0]: ' + g + ' vs ' + dragIdxes[0]);
 					var from = dragIdxes[1];
@@ -750,12 +835,13 @@ return {
 						clrTimeout();
 						return false;
 					}
-					if (g != savedIdxes[0] || to != savedIdxes[1] || inSite != savedIdxes[2]) {
+					if (g != saved.idxes[0] || to != saved.idxes[1] || inSite != saved.inSite) {
 						clrTimeout(timeoutId);
-						savedIdxes = [g, to, inSite];
+						saved.idxes = [g, to];
+						saved.inSite = inSite;
 						timeoutId = window.setTimeout(function() {
 							timeoutId = null;
-							savedIdxes = [-1, -1, false];
+							saved = {idxes:[-1,-1], inSite:false};
 
 							if (g == -1) {
 								sm.simpleMove(g, from, to);
@@ -766,7 +852,6 @@ return {
 					}
 				}
 			}
-			*/
 
 			return false;
 		}
@@ -784,6 +869,9 @@ return {
 			clrTimeout(timeoutId);
 
 			$.removeClass(elem, 'dragging');
+			if (dragIdxes[0] != -1 && $$('folder') == null) {
+				elem.parentNode.removeChild(elem);
+			}
 			elem = null;
 			layout.begin();
 		}

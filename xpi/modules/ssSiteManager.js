@@ -117,7 +117,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						}
 
 						if (s.sites.length == 1) {
-							sites[i] = s.sites[j];
+							sites[i] = s.sites[0];
 							changed = true;
 						} else if (s.sites.length == 0) {
 							sites.splice(i, 1);
@@ -173,12 +173,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function adjustSite(s) {
-		if (s.sites != undefined) {
+		if (s.sites != undefined && Array.isArray(s.sites)) {
 			for (let i = 0; i < s.sites.length; ++ i) {
 				adjustSite(s.sites[i]);
 			}
 			s.displayName = s.title || 'Group';
 		} else {
+			s.sites = undefined;
 			for (let i = 0; i < 2; ++ i) {
 				if (s.snapshots[i] != '') {
 					let st = s.snapshots[i];
@@ -322,6 +323,37 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 		save();
 		this.fireEvent('site-simple-move', [group, from, to]);
+	}
+
+	this.moveIn = function(from, to) {
+		var sites = data.sites;
+		if (from < 0 || from >= sites.length || to < 0 || to >= sites.length || from == to) {
+			return;
+		}
+
+		var d = sites[to];
+		if (d.sites == null || !Array.isArray(d.sites)) {
+			sites[to] = {
+				'title': 'Group',
+				'sites': [d]
+			};
+			d = sites[to];
+		}
+		var s = sites.splice(from, 1)[0];
+		d.sites.push(s);
+		save();
+
+		this.fireEvent('site-move-in', [from, to]);
+	}
+
+	this.moveOut = function(g, i) {
+		var sites = data.sites;
+		var f = getSite(-1, g);
+		var s = getSite(g, i);
+		if (f == null || s == null) {
+			log('moveOut(' + g + ', ' + i + ') is not available');
+			return;
+		}
 	}
 
 	this.nextSnapshot = function(group, idx) {

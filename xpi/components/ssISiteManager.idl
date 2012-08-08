@@ -12,6 +12,8 @@ interface ssISiteManager: nsISupports
 	void removeSite(in long group, in long index);
 
 	void simpleMove(in long group, in long from, in long to);
+	void moveIn(in long from, in long to);
+	void moveOut(in long group, in long index);
 	/*
 	void changeSite(in long index, in string url, in AString name, in AString customizeImage);
 	void exchangeSite(in long index1, in long index2);

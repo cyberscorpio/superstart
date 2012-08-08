@@ -663,6 +663,15 @@ var gDrag = (function() {
 
 		return [g, i, inSite];
 	}
+
+	function getPos(x, y) { // 
+		var pos = { idxes: null, pos: null };
+		var fa = $$('folder');
+		if (fa) {
+		} else {
+			var ses = $('#sites > .site');
+		}
+	}
 	
 return {
 	onStart: function(evt) {
@@ -723,10 +732,11 @@ return {
 				return false;
 			}
 
+			/*
 			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
 			var folderArea = $$('folder');
-			/*if (folderArea) {
-			} else*/ {
+			if (folderArea) {
+			} else {
 				if (inSite) {
 
 				} else {
@@ -756,6 +766,7 @@ return {
 					}
 				}
 			}
+			*/
 
 			return false;
 		}

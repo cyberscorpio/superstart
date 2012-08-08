@@ -590,21 +590,6 @@ var gDrag = (function() {
 		}
 	}
 
-	function inRect(x, y, l, t, w, h) {
-		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function inElem(x, y, el) {
-		var pos = $.offset(el);
-		var w = el.offsetWidth;
-		var h = el.offsetHeight;
-		return inRect(x, y, pos.left, pos.top, w, h);
-	}
-
 	function moveElem(el, x, y) { // move the element to follow the cursor (x, y), "offset" should be set in "onStart".
 		var w = el.offsetWidth;
 		var h = el.offsetHeight;
@@ -630,9 +615,9 @@ var gDrag = (function() {
 			assert(folder.length == 1, 'Only one folder can be opened');
 			folder = folder[0];
 			var idxes = indexOf(folder);
-			if (inElem(x, y, folder)) {
+			if ($.inElem(x, y, folder)) {
 				return [-1, idxes[1], true];
-			} else if (!inElem(x, y, folderArea)) {
+			} else if (!$.inElem(x, y, folderArea)) {
 				return [-1, -1, false];
 			}
 
@@ -666,7 +651,7 @@ var gDrag = (function() {
 			}
 
 			var pos = $.offset(se);
-			if (folderArea == null && inElem(x, y, se)) { // only check "inSite" on top level
+			if (folderArea == null && $.inElem(x, y, se)) { // only check "inSite" on top level
 				inSite = true;
 				break;
 			}

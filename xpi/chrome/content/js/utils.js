@@ -114,6 +114,23 @@ var $$ = function(id) {
 		return l;
 	}
 
+
+	$.inRect = function inRect(x, y, l, t, w, h) {
+		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	$.inElem = function inElem(x, y, el) {
+		var pos = $.offset(el);
+		var w = el.offsetWidth;
+		var h = el.offsetHeight;
+		return inRect(x, y, pos.left, pos.top, w, h);
+	}
+
+
 	// return [width, height] of the element
 	$.getElementDimension = function(el, cs) {
 		try {

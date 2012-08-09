@@ -846,7 +846,6 @@ return {
 							if (g == -1) {
 								sm.simpleMove(g, from, to);
 								dragIdxes[1] = to;
-								// assert(false, 'simple move from ' + from + ' to ' + to);
 							}
 						}, HOVER);
 					}

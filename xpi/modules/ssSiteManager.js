@@ -354,6 +354,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			log('moveOut(' + g + ', ' + i + ') is not available');
 			return;
 		}
+		f.sites.splice(i, 1);
+		if (f.sites.length == 1) {
+			sites[g] = f.sites[0];
+		}
+		sites.push(s);
+		save();
+
+		this.fireEvent('site-move-out', [g, i]);
 	}
 
 	this.nextSnapshot = function(group, idx) {

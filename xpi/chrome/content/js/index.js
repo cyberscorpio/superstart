@@ -99,6 +99,7 @@ function init() {
 		'site-removed': onSiteRemoved,
 		'site-simple-move': onSiteSimpleMove,
 		'site-move-in': onSiteMoveIn,
+		'site-move-out': onSiteMoveOut,
 		'site-changed': onSiteChanged,
 		'site-snapshot-changed': onSiteSnapshotChanged
 	};
@@ -199,7 +200,8 @@ function updateSite(s, se, flag) {
 	var updateAllFields = (flag === undefined);
 	if ($.hasClass(se, 'folder')) {
 		$.removeClass(se, 'folder');
-		var tmp = createSiteElement(ss);
+		log('folder class has been removed! > ' + s.url);
+		var tmp = createSiteElement(s);
 		swapSiteItem(se, tmp);
 	}
 	var e = $(se, 'a')[0];
@@ -575,8 +577,41 @@ function onSiteMoveIn(evt, fromTo) {
 	layout.begin();
 }
 
+function onSiteMoveOut(evt, idxes) {
+	var [g, i] = idxes;
+	var f = sm.getSite(-1, g);
+	var s = sm.getSite(-1, sm.getTopSiteCount() - 1);
+	var fe = at(-1, g);
+	var se = at(g, i);
+
+	// log('se: ' + se.innerHTML);
+	if (f.sites == undefined) {
+		updateSite(f, fe);
+	} else {
+		updateFolder(f, fe);
+	}
+
+	if (se && !$.hasClass(se, 'dragging')) {
+		se.parentNode.removeChild(se);
+		$$('sites').appendChild(se);
+	}
+	if (!se) {
+		se = at(-1, sm.getTopSiteCount() - 1);
+		if (!se) {
+			insert($$('sites'), s);
+		}
+	}
+
+	var folder = $$('folder');
+	if (folder != null) {
+		closeFolder();
+	}
+
+	layout.begin();
+}
+
 function onSiteChanged(evt, idxes) {
-	var g = idxes[0], i = idxes[1];
+	var [g, i] = idxes;
 	var s = sm.getSite(g, i);
 	var se = at(g, i);
 
@@ -802,9 +837,24 @@ return {
 			var folderArea = $$('folder');
 			if (folderArea) {
 			} else {
-				if (inSite) {
+				if (dragIdxes[0] != -1 && (!inSite || i != dragIdxes[0])) {
+					clrTimeout(timeoutId);
+					log('i vs dragIdx[0]: ' + i + ':' + dragIdxes[0]);
+					saved = {idxes:[-1,-1], inSite:false};
+
+					elem.parentNode.removeChild(elem);
+					$$('sites').appendChild(elem);
+
+					sm.moveOut(dragIdxes[0], dragIdxes[1]);
+
+					dragIdxes[0] = -1;
+					dragIdxes[1] = sm.getTopSiteCount() - 1;
+					moveElem(elem, x, y);
+				} else if (inSite) {
 					assert(g != dragIdxes[0] || i != dragIdxes[1], "Can't moved to itself: " + g + ', ' + i);
 					if (dragIdxes[0] != -1) {
+						if (dragIdxes[0] == i) {
+						}
 						return false;
 					}
 
@@ -816,16 +866,17 @@ return {
 							timeoutId = null;
 							saved = {idxes:[-1,-1], inSite:false};
 
+							layout.lock();
+
 							var target = sm.getSite(-1, i);
 							sm.moveIn(dragIdxes[1], i);
 
-							dragIdxes[0] = i;
+							dragIdxes[0] = dragIdxes[1] < i ? i - 1 : i;
 							dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
 							moveElem(elem, x, y);
 						}, HOVER);
 					}
 				} else {
-					assert(g == dragIdxes[0], 'g should be the same as dragIdxes[0]: ' + g + ' vs ' + dragIdxes[0]);
 					var from = dragIdxes[1];
 					var to = i;
 					if (from < to) {
@@ -842,7 +893,7 @@ return {
 						timeoutId = window.setTimeout(function() {
 							timeoutId = null;
 							saved = {idxes:[-1,-1], inSite:false};
-
+	
 							if (g == -1) {
 								sm.simpleMove(g, from, to);
 								dragIdxes[1] = to;
@@ -872,6 +923,8 @@ return {
 				elem.parentNode.removeChild(elem);
 			}
 			elem = null;
+
+			layout.unlock();
 			layout.begin();
 		}
 	}
@@ -885,6 +938,7 @@ return {
 var layout = (function() {
 	var transitionElement = null;
 	var lines = [];
+	var lockWhenMoveIn = false; // lock the top sites, but it won't affect the #folder to be opened
 
 	function clrTransitionState() {
 		if (transitionElement) {
@@ -1033,7 +1087,7 @@ var layout = (function() {
 				var snapshot = $(se, '.snapshot')[0];
 				snapshot.style.height = h + 'px';
 
-				if (!$.hasClass(se, 'dragging')) {
+				if (!lockWhenMoveIn && !$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
 					var left = x + 'px';
 					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
@@ -1081,6 +1135,16 @@ var layout = {
 	clearTransitionState: clrTransitionState,
 
 	getFolderCol: getFolderColumn,
+
+	lock: function() {
+		lockWhenMoveIn = true;
+	},
+	unlock: function() {
+		if (lockWhenMoveIn) {
+			this.begin();
+		}
+		lockWhenMoveIn = false;
+	},
 
 	begin: function(actingNow) {
 		if (actingNow) {

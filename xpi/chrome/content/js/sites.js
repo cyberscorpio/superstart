@@ -17,7 +17,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	init();
 }, false);
 
-var col = 4;
 function init() {
 	var sites = sm.getSites();
 
@@ -307,6 +306,9 @@ function indexFromNode(n) {
 	return null;
 }
 
+gDrag.elemFromNode = elemFromNode;
+gDrag.indexFromNode = indexFromNode;
+
 function onClickFolder(idx, f) {
 	var folderArea = $$('folder');
 	if (folderArea == null) {
@@ -579,6 +581,5 @@ function onSiteChanged(evt, idxes) {
 function onSiteSnapshotChanged(evt, idxes) {
 	onSiteChanged(null, idxes);
 }
-
 
 })();

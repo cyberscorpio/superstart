@@ -150,8 +150,8 @@ return {
 			return false;
 		}
 	
-		dragIdxes = gDrag.indexFromNode(se);
-		var s = dragIdxes != null ? sm.getSite(dragIdxes[0], dragIdxes[1]) : null;
+		var idxes = gDrag.indexFromNode(se);
+		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
 		if (s != null) {
 			elem = se;
 			$.addClass(se, 'dragging');
@@ -164,12 +164,11 @@ return {
 			$.addClass(img, 'drag-elem');
 			dt.setDragImage(img, 0, 0);
 	
-			var p = elem.parentNode;
-			var of = $.offset(p);
+			var of = $.offset(elem.parentNode);
 			offset.x = evt.clientX - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
 			offset.y = evt.clientY - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
-		} else {
-			dragIdxes = null;
+
+			dragIdxes = idxes;
 		}
 	},
 	

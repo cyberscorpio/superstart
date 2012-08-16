@@ -154,8 +154,8 @@ a {
 
 .site .title {
 	position: relative;
-	height: 1.6em;
-	padding: .3em .5em;
+	height: 1.8em;
+	padding: .3em .5em .5em .5em;
 	text-align: center;
 
 	font-size: 12px;
@@ -177,7 +177,7 @@ a {
 }
 
 .site .title span {
-	line-height: 1.8em;
+	line-height: 2em;
 }
 
 /* folder */

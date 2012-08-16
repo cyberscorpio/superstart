@@ -3,6 +3,7 @@ var layout = (function() {
 	const Ci = Components.interfaces;
 	const pageMinWidth = 800;
 	const ratio = 0.625; // h = w * 0.625 <=> w = h * 1.6
+	const folderAreaPadding = 20;
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 	var cfg = ssObj.getService(Ci.ssIConfig);
@@ -91,8 +92,9 @@ var layout = (function() {
 			++ lineCount;
 		}
 
-		var y = 32;
+		var y = folderAreaPadding;
 		var baseY = $.offsetTop(folder);
+		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			lines.push(y + baseY);
 			var x = 2 * unit;
@@ -102,6 +104,11 @@ var layout = (function() {
 				se.style.width = w + 'px';
 				var snapshot = $(se, '.snapshot')[0];
 				snapshot.style.height = h + 'px';
+
+				if (titleHeight == 0) {
+					var t = $(se, '.title')[0];
+					titleHeight = t.clientHeight;
+				}
 
 				if (!$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
@@ -115,9 +122,9 @@ var layout = (function() {
 
 				x += 5 * unit;
 			}
-			y += Math.floor(h + unit * ratio) + 12; // 12 is the title height (hardcoded)
+			y += h + titleHeight + Math.floor(unit * ratio);
 		}
-		y += 20; // 32 - 12
+		y += folderAreaPadding - Math.floor(unit * ratio);
 
 		folder.style.height = y + 'px';
 		folder.style.top = ft + 'px';
@@ -149,6 +156,7 @@ var layout = (function() {
 		}
 
 		var [unit, w, h] = calcSize(cw, col);
+		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			lines.push(y + baseY);
 			var x = 2 * unit;
@@ -159,6 +167,10 @@ var layout = (function() {
 				se.style.width = w + 'px';
 				var snapshot = $(se, '.snapshot')[0];
 				snapshot.style.height = h + 'px';
+				if (titleHeight == 0) {
+					var t = $(se, '.title')[0];
+					titleHeight = t.clientHeight;
+				}
 
 				if (!lockWhenMoveIn && !$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
@@ -174,15 +186,14 @@ var layout = (function() {
 					layoutFolderElement(se, w, h);
 
 					if ($.hasClass(se, 'opened')) {
-						var folderAreaTop = $.offsetTop(sites) - $.offsetTop(container) + y + Math.floor(h + unit * ratio) + 12; // top(sites) - top(container) because folerArea is related to '#sites'.
+						var folderAreaTop = $.offsetTop(sites) - $.offsetTop(container) + y + h + titleHeight; // top(sites) - top(container) because folerArea is related to '#sites'.
 						folderAreaHeight = layoutFolderArea(getFolderColumn(col), folderAreaTop);
-						folderAreaHeight += 32;
 					}
 				}
 
 				x += 5 * unit;
 			}
-			y += Math.floor(h + unit * ratio) + folderAreaHeight + 12; // 12 is the title height (hardcoded)
+			y += folderAreaHeight + h + titleHeight + Math.floor(unit * ratio);
 		}
 
 		var mask = $$('mask');

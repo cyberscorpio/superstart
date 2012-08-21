@@ -11,7 +11,6 @@ ssObj = undefined;
 const HOVER = 500;
 
 var elem = null;
-var offset = {x: 0, y: 0}; // offset of the site
 var dragIdxes = null;
 
 var timeoutId = null;
@@ -20,9 +19,31 @@ var saved = {idxes:[-1,-1], inSite:false}; // saved for checking when timeout
 var x = 0;
 var y = 0;
 
+var mover = (function() {
+	var oft = {x: 0, y: 0};
+	function _init(se, x, y) {
+		var of = $.offset(elem.parentNode);
+		oft.x = x - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
+		oft.y = y - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
+	}
+
+	function _onMove(el, x, y) {
+		var w = el.offsetWidth;
+		var h = el.offsetHeight;
+		var base = $.offset(el.parentNode);
+	
+		el.style.left = x - oft.x - base.left + window.scrollX + 'px';
+		el.style.top = y - oft.y - base.top + window.scrollY + 'px';
+	}
+
+	return {
+		init: _init,
+		onMove: _onMove
+	};
+})();
+
 function init() {
 	elem = null;
-	offset = {x:0, y:0};
 	dragIdxes = null;
 	clrTimeout();
 	saved = {idxes:[-1,-1], inSite:false};
@@ -34,15 +55,6 @@ function clrTimeout() {
 		clearTimeout(timeoutId);
 		timeoutId = null;
 	}
-}
-
-function moveElem(el, x, y) { // move the element to follow the cursor (x, y), "offset" should be set in "onStart".
-	var w = el.offsetWidth;
-	var h = el.offsetHeight;
-	var base = $.offset(el.parentNode);
-
-	el.style.left = x - offset.x - base.left + window.scrollX + 'px';
-	el.style.top = y - offset.y - base.top + window.scrollY + 'px';
 }
 
 function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
@@ -164,9 +176,7 @@ return {
 			$.addClass(img, 'drag-elem');
 			dt.setDragImage(img, 0, 0);
 	
-			var of = $.offset(elem.parentNode);
-			offset.x = evt.clientX - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
-			offset.y = evt.clientY - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
+			mover.init(se, evt.clientX, evt.clientY);
 
 			dragIdxes = idxes;
 		}
@@ -193,7 +203,7 @@ return {
 	
 			x = evt.clientX;
 			y = evt.clientY;
-			moveElem(elem, x, y);
+			mover.onMove(elem, x, y);
 			if (layout.inTransition()) {
 				return false;
 			}
@@ -214,7 +224,7 @@ return {
 	
 					dragIdxes[0] = -1;
 					dragIdxes[1] = sm.getTopSiteCount() - 1;
-					moveElem(elem, x, y);
+					mover.onMove(elem, x, y);
 				} else if (inSite) {
 					assert(g != dragIdxes[0] || i != dragIdxes[1], "Can't moved to itself: " + g + ', ' + i);
 					if (dragIdxes[0] != -1) {
@@ -238,7 +248,7 @@ return {
 	
 							dragIdxes[0] = dragIdxes[1] < i ? i - 1 : i;
 							dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
-							moveElem(elem, x, y);
+							mover.onMove(elem, x, y);
 						}, HOVER);
 					}
 				} else {

@@ -31,6 +31,8 @@ cd ..
 # add jar into superstart
 7z a superstart.xpi chrome/superstart.jar
 
+echo TODO: use pngquant to reduce the png size...
+
 # cleanup
 rm chrome/superstart.jar
 

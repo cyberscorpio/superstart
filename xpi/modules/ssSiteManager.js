@@ -53,7 +53,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	////////////////////
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 512; // TODO: make it small
+	let imgWidth = 256;
 	let ratio = 0.625;
 	let imgHeight = Math.floor(imgWidth * ratio);
 

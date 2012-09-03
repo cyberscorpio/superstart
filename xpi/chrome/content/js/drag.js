@@ -17,6 +17,8 @@ var timeoutId = null;
 
 var mover = (function() {
 	var oft = {x: 0, y: 0};
+	var _x = 0;
+	var _y = 0;
 	function _init(se, x, y) {
 		var of = $.offset(elem.parentNode);
 		oft.x = x - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
@@ -24,6 +26,8 @@ var mover = (function() {
 	}
 
 	function _onMove(el, x, y) {
+		_x = x;
+		_y = y;
 		var w = el.offsetWidth;
 		var h = el.offsetHeight;
 		var base = $.offset(el.parentNode);
@@ -32,18 +36,24 @@ var mover = (function() {
 		el.style.top = y - oft.y - base.top + window.scrollY + 'px';
 	}
 
+	function _refresh(el) {
+		_onMove(el, _x, _y);
+	}
+
 	return {
 		init: _init,
-		onMove: _onMove
+		onMove: _onMove,
+		refresh: _refresh
 	};
 })();
 
-const MOVE_NONE = 0;
-const MOVE_NORMAL = 1;
-const MOVE_IN = 2;
-const MOVE_OUT = 3;
+const DO_NONE = 0;
+const DO_MOVE = 1;
+const DO_MOVE_IN = 2;
+const DO_MOVE_OUT = 3;
+const DO_OPEN_FOLDER = 4;
 function DragOperator(type, p1, p2, p3) {
-	this.type = type === undefined ? MOVE_NONE : type;
+	this.type = type === undefined ? DO_NONE : type;
 	this.p1 = p1;
 	this.p2 = p2;
 	this.p3 = p3;
@@ -53,19 +63,33 @@ DragOperator.prototype.isEqual = function(rhs) {
 		return false;
 	}
 	switch (this.type) {
-	case MOVE_NORMAL:
-	case MOVE_IN:
+	case DO_MOVE:
 		return this.p1 == rhs.p1 && this.p2 == rhs.p2 && this.p3 == rhs.p3;
-	case MOVE_OUT:
+	case DO_MOVE_IN:
+	case DO_MOVE_OUT:
 		return this.p1 == rhs.p1 && this.p2 == rhs.p2;
+	case DO_OPEN_FOLDER:
+		return this.p1 == rhs.p1;
 	}
 	return false;
 }
 DragOperator.prototype.act = function() {
 	switch (this.type) {
-	case MOVE_NORMAL:
+	case DO_MOVE:
 		sm.simpleMove(this.p1, this.p2, this.p3);
 		dragIdxes[1] = this.p3;
+		break;
+	case DO_MOVE_IN:
+		var from = this.p1, to = this.p2;
+
+		layout.lock();
+		var target = sm.getSite(-1, to);
+		sm.moveIn(from, to);
+		dragIdxes[0] = from < to ? to - 1 : to;
+		dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
+		mover.refresh(elem);
+		break;
+	case DO_OPEN_FOLDER:
 		break;
 	default:
 		log('Begin to do the action: ' + this.type);
@@ -92,6 +116,13 @@ function clrTimeout() {
 }
 
 function getOpt(x, y) {
+	if (dragIdxes[0] != -1) {
+		var p = at(-1, dragIdxes[0]);
+		if ($.inElem(x, y, p)) {
+			return new DragOperator();
+		}
+	}
+
 	var sites = $$('sites');
 	var p = sites;
 	var lines = sites.lines;
@@ -120,8 +151,11 @@ function getOpt(x, y) {
 			continue;
 		}
 
-		var pos = $.offset(se);
+		if (!$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
+			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
+		}
 
+		var pos = $.offset(se);
 		if (pos.left > x) {
 			break;
 		}
@@ -136,7 +170,7 @@ function getOpt(x, y) {
 		return new DragOperator();
 	}
 
-	return new DragOperator(MOVE_NORMAL, -1, from, to);
+	return new DragOperator(DO_MOVE, -1, from, to);
 }
 
 function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
@@ -205,35 +239,6 @@ function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means t
 	return [g, i, inSite];
 }
 
-/**
- * x, y are the x, y from the document's origin
- */
-function getPos(x, y) { // 
-	var pos = { idxes: null, pos: null };
-	var ses = [];
-	var g = -1;
-	var fa = $$('folder');
-	if (fa) {
-	} else {
-		ses = $('#sites > .site');
-	}
-
-	for (var i = ses.length - 1; i >= 0; -- i) {
-		var se = ses[i];
-		if ($.hasClass('dragging')) {
-			continue;
-		}
-
-		if ($.inElem(se, x, y)) {
-			pos.idxes = [g, i];
-			pos.pos = 'in';
-			break;
-		}
-	}
-
-	return pos;
-}
-
 return {
 	onStart: function(evt) {
 		init();
@@ -294,7 +299,7 @@ return {
 			if (!newOpt.isEqual(currOpt)) {
 				clrTimeout(timeoutId);
 				currOpt = newOpt;
-				if (currOpt.type != MOVE_NONE) {
+				if (currOpt.type != DO_NONE) {
 					timeoutId = window.setTimeout(function() {
 						timeoutId = null;
 						currOpt.act();

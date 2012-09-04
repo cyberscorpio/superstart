@@ -220,7 +220,7 @@ var layout = {
 
 	getFolderCol: getFolderColumn,
 
-	lock: function() {
+	lock: function() { // TODO: for '#folder' there is a bug for the position
 		lockWhenMoveIn = true;
 	},
 	unlock: function() {

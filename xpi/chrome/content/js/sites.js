@@ -306,9 +306,6 @@ function indexFromNode(n) {
 	return null;
 }
 
-gDrag.elemFromNode = elemFromNode;
-gDrag.indexFromNode = indexFromNode;
-
 function onClickFolder(idx, f) {
 	var folderArea = $$('folder');
 	if (folderArea == null) {
@@ -321,6 +318,14 @@ function onClickFolder(idx, f) {
 function openFolder(idx, f) {
 	var se = at(-1, idx);
 	se.draggable = false;
+	var removeLastElem = false;
+	if ($(se, '.dragging').length == 1) {
+		removeLastElem = true; // the last item is just moved in, so it has already existed, however, we need the item to calc the height of the #folder, so we create a duplicated one, then remove it.
+	}
+
+	if (f === undefined) {
+		f = sm.getSite(-1, idx);
+	}
 
 	var container = $$('container');
 	var folderArea = $$('folder');
@@ -336,7 +341,7 @@ function openFolder(idx, f) {
 		$.removeClass(this, 'resizing');
 	}, false);
 
-	for (var i = 0; i < f.sites.length; ++ i) {
+	for (var i = 0, l = f.sites.length; i < l; ++ i) {
 		var s = f.sites[i];
 		insert(folderArea, s);
 	}
@@ -362,6 +367,11 @@ function openFolder(idx, f) {
 			}
 			var container = $$('container');
 			container.style.top = '-' + y + 'px';
+		}
+
+		if (removeLastElem) {
+			var ses = $(fa, '.site');
+			fa.removeChild(ses[ses.length - 1]);
 		}
 	}, 0);
 }
@@ -581,5 +591,14 @@ function onSiteChanged(evt, idxes) {
 function onSiteSnapshotChanged(evt, idxes) {
 	onSiteChanged(null, idxes);
 }
+
+
+
+// export methods to drag.js
+gDrag.elemFromNode = elemFromNode;
+gDrag.indexFromNode = indexFromNode;
+gDrag.at = at;
+gDrag.openFolder = openFolder;
+
 
 })();

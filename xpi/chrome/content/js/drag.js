@@ -90,6 +90,7 @@ DragOperator.prototype.act = function() {
 		mover.refresh(elem);
 		break;
 	case DO_OPEN_FOLDER:
+		gDrag.openFolder(this.p1);
 		break;
 	default:
 		log('Begin to do the action: ' + this.type);
@@ -117,8 +118,11 @@ function clrTimeout() {
 
 function getOpt(x, y) {
 	if (dragIdxes[0] != -1) {
-		var p = at(-1, dragIdxes[0]);
+		var p = gDrag.at(-1, dragIdxes[0]);
 		if ($.inElem(x, y, p)) {
+			if ($$('folder') == null) {
+				return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
+			}
 			return new DragOperator();
 		}
 	}
@@ -396,8 +400,12 @@ return {
 			clrTimeout(timeoutId);
 	
 			$.removeClass(elem, 'dragging');
-			if (dragIdxes[0] != -1 && $$('folder') == null) {
+			if (dragIdxes[0] != -1) {
 				elem.parentNode.removeChild(elem);
+				var fa = $$('folder');
+				if (fa != null) {
+					fa.appendChild(elem);
+				}
 			}
 			elem = null;
 	

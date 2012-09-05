@@ -599,6 +599,7 @@ gDrag.elemFromNode = elemFromNode;
 gDrag.indexFromNode = indexFromNode;
 gDrag.at = at;
 gDrag.openFolder = openFolder;
+gDrag.closeFolder = closeFolder;
 
 
 })();

@@ -89,8 +89,30 @@ DragOperator.prototype.act = function() {
 		dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
 		mover.refresh(elem);
 		break;
+	case DO_MOVE_OUT:
+		var g = this.p1, i = this.p2;
+		elem.parentNode.removeChild(elem);
+		$$('sites').appendChild(elem);
+	
+		sm.moveOut(g, i);
+	
+		dragIdxes[0] = -1;
+		dragIdxes[1] = sm.getTopSiteCount() - 1;
+		mover.refresh(elem);
+		if ($$('folder') != null) {
+			gDrag.closeFolder();
+		}
+		layout.unlock();
+
+		break;
 	case DO_OPEN_FOLDER:
 		gDrag.openFolder(this.p1);
+		window.setTimeout(function() {
+			var fa = $$('folder');
+			elem.parentNode.removeChild(elem);
+			fa.appendChild(elem);
+			mover.refresh(elem);
+		}, 0);
 		break;
 	default:
 		log('Begin to do the action: ' + this.type);
@@ -117,17 +139,31 @@ function clrTimeout() {
 }
 
 function getOpt(x, y) {
+	var sites = $$('sites');
+	var fa = $$('folder');
 	if (dragIdxes[0] != -1) {
 		var p = gDrag.at(-1, dragIdxes[0]);
-		if ($.inElem(x, y, p)) {
-			if ($$('folder') == null) {
+		if ($.inElem(x, y, p) && fa == null) {
+			return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
+		}
+
+		if (fa == null) {
+			if ($.inElem(x, y, p)) {
 				return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
+			} else {
+				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
-			return new DragOperator();
+		} else {
+			if ($.inElem(x, y, p)) {
+				return new DragOperator();
+			} else if ($.inElem(x, y, fa)) {
+				return new DragOperator();
+			} else {
+				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
+			}
 		}
 	}
 
-	var sites = $$('sites');
 	var p = sites;
 	var lines = sites.lines;
 	var l = 0;

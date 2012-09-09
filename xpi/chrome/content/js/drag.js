@@ -81,7 +81,6 @@ DragOperator.prototype.act = function() {
 		break;
 	case DO_MOVE_IN:
 		var from = this.p1, to = this.p2;
-
 		layout.lock();
 		var target = sm.getSite(-1, to);
 		sm.moveIn(from, to);
@@ -91,22 +90,11 @@ DragOperator.prototype.act = function() {
 		break;
 	case DO_MOVE_OUT:
 		var g = this.p1, i = this.p2;
-		// log('Move out item: (' + g + ', ' + i + ')');
-		// elem.parentNode.removeChild(elem);
-		// $$('sites').appendChild(elem);
-	
 		sm.moveOut(g, i);
-	
 		dragIdxes[0] = -1;
 		dragIdxes[1] = sm.getTopSiteCount() - 1;
 		mover.refresh(elem);
-		/*
-		if ($$('folder') != null) {
-			gDrag.closeFolder();
-		}
-		*/
 		layout.unlock();
-
 		break;
 	case DO_OPEN_FOLDER:
 		gDrag.openFolder(this.p1);
@@ -141,6 +129,53 @@ function clrTimeout() {
 	}
 }
 
+function getMoveOpt(x, y, parentArea, lines, inFolder) {
+	var l = 0;
+	for (var i = 1; i < lines.length; ++ i, ++ l) {
+		// log('line[' + i + '] = ' + lines[i] + ' vs y = ' + y);
+		if (lines[i] > y) {
+			break;
+		}
+	}
+	var col = cfg.getConfig('col');
+	if (inFolder) { // folder is opened
+		col = layout.getFolderCol(col);
+	}
+
+	var ses = $(parentArea, '.site');
+	var b = l * col;
+	var e = b + col;
+	if (e > ses.length) {
+		e = ses.length;
+	}
+	for (var i = b; i < e; ++ i) {
+		var se = ses[i];
+		if ($.hasClass(se, 'dragging')) { // skip myself
+			continue;
+		}
+
+		if (!inFolder && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
+			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
+		}
+
+		var pos = $.offset(se);
+		if (pos.left > x) {
+			break;
+		}
+	}
+
+	var from = dragIdxes[1];
+	var to = i;
+	if (from < to) {
+		-- to;
+	}
+	if (from == to) {
+		return new DragOperator();
+	}
+
+	return new DragOperator(DO_MOVE, dragIdxes[0], from, to);
+}
+
 function getOpt(x, y) {
 	var sites = $$('sites');
 	var fa = $$('folder');
@@ -160,7 +195,9 @@ function getOpt(x, y) {
 			if ($.inElem(x, y, p)) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
-				return new DragOperator();
+				var p = fa;
+				var lines = fa.lines;
+				return getMoveOpt(x, y, p, lines, true);
 			} else {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
@@ -169,51 +206,7 @@ function getOpt(x, y) {
 
 	var p = sites;
 	var lines = sites.lines;
-	var l = 0;
-	for (var i = 1; i < lines.length; ++ i, ++ l) {
-		if (lines[i] > y) {
-			break;
-		}
-	}
-	var col = cfg.getConfig('col');
-	/*
-	if (g != -1) { // folder is opened
-		col = layout.getFolderCol(col);
-	}
-	*/
-
-	var ses = $(p, '.site');
-	var b = l * col;
-	var e = b + col;
-	if (e > ses.length) {
-		e = ses.length;
-	}
-	for (var i = b; i < e; ++ i) {
-		var se = ses[i];
-		if ($.hasClass(se, 'dragging')) { // skip myself
-			continue;
-		}
-
-		if (!$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
-			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
-		}
-
-		var pos = $.offset(se);
-		if (pos.left > x) {
-			break;
-		}
-	}
-
-	var from = dragIdxes[1];
-	var to = i;
-	if (from < to) {
-		-- to;
-	}
-	if (from == to) {
-		return new DragOperator();
-	}
-
-	return new DragOperator(DO_MOVE, -1, from, to);
+	return getMoveOpt(x, y, p, lines, false);
 }
 
 function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
@@ -351,78 +344,6 @@ return {
 				}
 			}
 	
-			/*
-			var [g, i, inSite] = getIndex(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
-			var folderArea = $$('folder');
-			if (folderArea) {
-			} else {
-				if (dragIdxes[0] != -1 && (!inSite || i != dragIdxes[0])) {
-					clrTimeout(timeoutId);
-					log('i vs dragIdx[0]: ' + i + ':' + dragIdxes[0]);
-					saved = {idxes:[-1,-1], inSite:false};
-	
-					elem.parentNode.removeChild(elem);
-					$$('sites').appendChild(elem);
-	
-					sm.moveOut(dragIdxes[0], dragIdxes[1]);
-	
-					dragIdxes[0] = -1;
-					dragIdxes[1] = sm.getTopSiteCount() - 1;
-					mover.onMove(elem, x, y);
-				} else if (inSite) {
-					assert(g != dragIdxes[0] || i != dragIdxes[1], "Can't moved to itself: " + g + ', ' + i);
-					if (dragIdxes[0] != -1) {
-						if (dragIdxes[0] == i) {
-						}
-						return false;
-					}
-	
-					if (g != saved.idxes[0] || i != saved.idxes[1] || inSite != saved.inSite) {
-						clrTimeout(timeoutId);
-						saved.idxes = [g, i];
-						saved.inSite = inSite;
-						timeoutId = window.setTimeout(function() {
-							timeoutId = null;
-							saved = {idxes:[-1,-1], inSite:false};
-	
-							layout.lock();
-	
-							var target = sm.getSite(-1, i);
-							sm.moveIn(dragIdxes[1], i);
-	
-							dragIdxes[0] = dragIdxes[1] < i ? i - 1 : i;
-							dragIdxes[1] = target.sites === undefined ? 1 : target.sites.length;
-							mover.onMove(elem, x, y);
-						}, HOVER);
-					}
-				} else {
-					var from = dragIdxes[1];
-					var to = i;
-					if (from < to) {
-						-- to;
-					}
-					if (from == to) {
-						clrTimeout();
-						return false;
-					}
-					if (g != saved.idxes[0] || to != saved.idxes[1] || inSite != saved.inSite) {
-						clrTimeout(timeoutId);
-						saved.idxes = [g, to];
-						saved.inSite = inSite;
-						timeoutId = window.setTimeout(function() {
-							timeoutId = null;
-							saved = {idxes:[-1,-1], inSite:false};
-	
-							if (g == -1) {
-								sm.simpleMove(g, from, to);
-								dragIdxes[1] = to;
-							}
-						}, HOVER);
-					}
-				}
-			}
-			*/
-	
 			return false;
 		}
 	},
@@ -440,10 +361,12 @@ return {
 	
 			$.removeClass(elem, 'dragging');
 			if (dragIdxes[0] != -1) {
-				elem.parentNode.removeChild(elem);
-				var fa = $$('folder');
-				if (fa != null) {
-					fa.appendChild(elem);
+				if ($.hasClass(elem.parentNode, 'site')) {
+					elem.parentNode.removeChild(elem);
+					var fa = $$('folder');
+					if (fa) {
+						fa.appendChild(elem);
+					}
 				}
 			}
 			elem = null;

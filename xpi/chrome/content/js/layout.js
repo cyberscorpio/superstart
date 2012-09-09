@@ -93,7 +93,7 @@ var layout = (function() {
 		}
 
 		var y = folderAreaPadding;
-		var baseY = $.offsetTop(folder);
+		var baseY = ft;//$.offsetTop(folder);
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			lines.push(y + baseY);

@@ -91,17 +91,20 @@ DragOperator.prototype.act = function() {
 		break;
 	case DO_MOVE_OUT:
 		var g = this.p1, i = this.p2;
-		elem.parentNode.removeChild(elem);
-		$$('sites').appendChild(elem);
+		// log('Move out item: (' + g + ', ' + i + ')');
+		// elem.parentNode.removeChild(elem);
+		// $$('sites').appendChild(elem);
 	
 		sm.moveOut(g, i);
 	
 		dragIdxes[0] = -1;
 		dragIdxes[1] = sm.getTopSiteCount() - 1;
 		mover.refresh(elem);
+		/*
 		if ($$('folder') != null) {
 			gDrag.closeFolder();
 		}
+		*/
 		layout.unlock();
 
 		break;

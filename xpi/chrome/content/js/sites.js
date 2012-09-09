@@ -536,6 +536,13 @@ function onSiteMoveOut(evt, idxes) {
 	var s = sm.getSite(-1, sm.getTopSiteCount() - 1);
 	var fe = at(-1, g);
 	var se = at(g, i);
+	if (se == null) {
+		var dragging = $('.dragging');
+		if (dragging.length > 0) {
+			assert(dragging.length == 1, 'Only one item should be dragging');
+			se = dragging[0];
+		}
+	}
 
 	// log('se: ' + se.innerHTML);
 	if (f.sites == undefined) {
@@ -544,14 +551,13 @@ function onSiteMoveOut(evt, idxes) {
 		updateFolder(f, fe);
 	}
 
-	if (se && !$.hasClass(se, 'dragging')) {
+	if (se) {// && !$.hasClass(se, 'dragging')) {
 		se.parentNode.removeChild(se);
 		$$('sites').appendChild(se);
-	}
-	if (!se) {
-		se = at(-1, sm.getTopSiteCount() - 1);
-		if (!se) {
-			insert($$('sites'), s);
+	} else {
+		var sites = $$('sites');
+		if ($(sites, '.site').length == sm.getTopSiteCount() - 1) {
+			insert(sites, s);
 		}
 	}
 

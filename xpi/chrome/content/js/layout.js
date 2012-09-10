@@ -12,7 +12,7 @@ var layout = (function() {
 
 	var transitionElement = null;
 	var lines = [];
-	var lockWhenMoveIn = false; // lock the top sites, but it won't affect the #folder to be opened
+	var lockTopSites = false; // lock the top sites, but it won't affect the #folder to be opened
 
 	function clrTransitionState() {
 		if (transitionElement) {
@@ -172,7 +172,7 @@ var layout = (function() {
 					titleHeight = t.clientHeight;
 				}
 
-				if (!lockWhenMoveIn && !$.hasClass(se, 'dragging')) {
+				if (!lockTopSites && !$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
 					var left = x + 'px';
 					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
@@ -221,13 +221,13 @@ var layout = {
 	getFolderCol: getFolderColumn,
 
 	lock: function() { // TODO: for '#folder' there is a bug for the position
-		lockWhenMoveIn = true;
+		lockTopSites = true;
 	},
 	unlock: function() {
-		if (lockWhenMoveIn) {
+		if (lockTopSites) {
 			this.begin();
 		}
-		lockWhenMoveIn = false;
+		lockTopSites = false;
 	},
 
 	begin: function(actingNow) {

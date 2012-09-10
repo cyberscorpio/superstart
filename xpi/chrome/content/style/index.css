@@ -82,6 +82,7 @@ a {
 	background-size: 100% 100%;
 
 	border: 1px solid rgba(0,0,0,0.2);
+	/*border-radius: 10px;*/
 	-moz-transition-property: border, box-shadow;
 	-moz-transition-duration: 200ms;
 	-moz-transition-timing-function: ease;
@@ -194,8 +195,12 @@ a {
 /*, .site.folder a:hover .snapshot*/
 {
 	overflow: hidden;
+	/*
 	border-width: 2px;
 	border-style: dashed;
+	*/
+	border: 2px solid rgba(255,255,255,0.75);
+	background-color: rgba(127,127,127,0.75);
 }
 
 .site.folder .snapshot img {

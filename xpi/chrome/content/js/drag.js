@@ -132,7 +132,6 @@ function clrTimeout() {
 function getMoveOpt(x, y, parentArea, lines, inFolder) {
 	var l = 0;
 	for (var i = 1; i < lines.length; ++ i, ++ l) {
-		// log('line[' + i + '] = ' + lines[i] + ' vs y = ' + y);
 		if (lines[i] > y) {
 			break;
 		}
@@ -197,6 +196,11 @@ function getOpt(x, y) {
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;
 				var lines = fa.lines;
+				var container = $$('container');
+				if (container.style.top) {
+					var t = container.style.top.replace(/px/g, '') - 0;
+					y -= t;
+				}
 				return getMoveOpt(x, y, p, lines, true);
 			} else {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
@@ -209,71 +213,6 @@ function getOpt(x, y) {
 	return getMoveOpt(x, y, p, lines, false);
 }
 
-function getIndex(x, y) { // return [g, i, is-insite], return [-1, -1, ] means the folder is opened, but the item is not in mask
-	var inSite = false;
-	var l = 0;
-	var lines = null;
-
-	// first, whether the folder is opened?
-	var folderArea = $$('folder');
-	var sites = $$('sites');
-	var par = sites;
-	var g = -1;
-	if (folderArea != null) {
-		lines = folderArea.lines;
-		assert(lines != undefined && Array.isArray(lines), '#folder.lines should be set in dragging');
-		var folder = $('.folder.opened');
-		assert(folder.length == 1, 'Only one folder can be opened');
-		folder = folder[0];
-		var idxes = indexOf(folder);
-		if ($.inElem(x, y, folder)) {
-			return [-1, idxes[1], true];
-		} else if (!$.inElem(x, y, folderArea)) {
-			return [-1, -1, false];
-		}
-
-		g = idxes[1];
-		par = folderArea;
-	} else {
-		lines = sites.lines;
-		assert(lines != undefined && Array.isArray(lines), '#sites.lines should be set in dragging');
-	}
-
-	for (var i = 1; i < lines.length; ++ i, ++ l) {
-		if (lines[i] > y) {
-			break;
-		}
-	}
-	var col = cfg.getConfig('col');
-	if (g != -1) { // folder is opened
-		col = layout.getFolderCol(col);
-	}
-
-	var ses = $(par, '.site');
-	var b = l * col;
-	var e = b + col;
-	if (e > ses.length) {
-		e = ses.length;
-	}
-	for (var i = b; i < e; ++ i) {
-		var se = ses[i];
-		if ($.hasClass(se, 'dragging')) { // skip myself
-			continue;
-		}
-
-		var pos = $.offset(se);
-		if (folderArea == null && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) { // only check "inSite" on top level
-			inSite = true;
-			break;
-		}
-
-		if (pos.left > x) {
-			break;
-		}
-	}
-
-	return [g, i, inSite];
-}
 
 return {
 	onStart: function(evt) {

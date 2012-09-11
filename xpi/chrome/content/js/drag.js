@@ -12,7 +12,6 @@ const HOVER = 500;
 
 var elem = null;
 var dragIdxes = null;
-
 var timeoutId = null;
 
 var mover = (function() {
@@ -215,6 +214,10 @@ function getOpt(x, y) {
 
 
 return {
+	inDragging: function() {
+		return elem != null;
+	},
+
 	onStart: function(evt) {
 		init();
 	

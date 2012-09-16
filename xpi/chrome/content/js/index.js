@@ -1,7 +1,6 @@
 (function() {
  
 var gEvts = {
-	'resize': onResize,
 	'scroll': onScroll,
 	'dblclick': onDblClick
 };
@@ -32,16 +31,6 @@ function showAddSite() {
 
 
 // event handler
-function onResize() {
-	var ss = $$('sites');
-	$.addClass(ss, 'notransition');
-	layout.begin();
-	window.setTimeout(function() {
-		$.removeClass(ss, 'notransition');
-		layout.clearTransitionState(); // No transition when resizing, say, the "transitioned" callback won't be called, so we clear it manually
-	}, 0);
-}
-
 function onScroll() {
 	var mask = $$('mask');
 	mask.style.top = window.scrollY + 'px';

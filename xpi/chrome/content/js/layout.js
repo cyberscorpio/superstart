@@ -1,7 +1,6 @@
 var layout = (function() {
 	const Cc = Components.classes;
 	const Ci = Components.interfaces;
-	const pageMinWidth = 800;
 	const ratio = 0.625; // h = w * 0.625 <=> w = h * 1.6
 	const folderAreaPadding = 20;
 
@@ -9,6 +8,45 @@ var layout = (function() {
 	var cfg = ssObj.getService(Ci.ssIConfig);
 	var sm = ssObj.getService(Ci.ssISiteManager);
 	ssObj = undefined;
+
+	var winWidth = 0;
+	var siteWidth = 0;
+	var startX = 0;
+	var startY = 20;
+	var xPadding = 20;
+	var yPadding = 20;
+
+	function calcLayout() {
+		winWidth = window.innerWidth;//document.body.clientWidth;
+		if (winWidth < 800) {
+			winWidth = 800;
+		}
+		var col = cfg.getConfig('col');
+		siteWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
+		startX = Math.floor(siteWidth / 2);
+	}
+
+	window.addEventListener('DOMContentLoaded', function() {
+		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+		calcLayout();
+	}, false);
+	window.addEventListener('resize', onResize, false);
+	window.addEventListener('unload', function() {
+		window.removeEventListener('unload', arguments.callee, false);
+		window.removeEventListener('resize', onResize, false);
+	}, false);
+
+	function onResize() {
+		calcLayout();
+
+		var ss = $$('sites');
+		$.addClass(ss, 'notransition');
+		layout.begin();
+		window.setTimeout(function() {
+			$.removeClass(ss, 'notransition');
+			clrTransitionState();
+		}, 0);
+	}
 
 	var transitionElement = null;
 	var lines = [];
@@ -135,11 +173,7 @@ var layout = (function() {
 
 	function act() {
 		var col = cfg.getConfig('col');
-	
-		var cw = window.innerWidth;//document.body.clientWidth;
-		if (cw < pageMinWidth) {
-			cw = pageMinWidth;
-		}
+		var cw = winWidth;
 
 		var container = $$('container');
 		var sites = $$('sites');
@@ -149,17 +183,21 @@ var layout = (function() {
 		var baseY = $.offsetTop(ss);
 
 		var ses = $('#sites > .site');
-		var y = 0;
+		var y = startY;
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col > 0) {
 			++ lineCount;
 		}
 
 		var [unit, w, h] = calcSize(cw, col);
+
+		var w = siteWidth;
+		var h = Math.floor(w * ratio);
+
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			lines.push(y + baseY);
-			var x = 2 * unit;
+			var x = startX;
 			var folderAreaHeight = 0;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
@@ -191,9 +229,9 @@ var layout = (function() {
 					}
 				}
 
-				x += 5 * unit;
+				x += w + xPadding;
 			}
-			y += folderAreaHeight + h + titleHeight + Math.floor(unit * ratio);
+			y += folderAreaHeight + h + titleHeight + yPadding;
 		}
 
 		var mask = $$('mask');
@@ -216,7 +254,6 @@ var layout = {
 	inTransition: function() {
 		return transitionElement != null;
 	},
-	clearTransitionState: clrTransitionState,
 
 	getFolderCol: getFolderColumn,
 

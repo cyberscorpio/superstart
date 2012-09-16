@@ -190,6 +190,9 @@ a {
 , .site.folder.opened * {
 	-moz-user-select: -moz-none !important;
 }
+.site.folder.opened .title {
+	display: none;
+}
 
 .site.folder > a > .snapshot
 /*, .site.folder a:hover .snapshot*/

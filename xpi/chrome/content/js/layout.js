@@ -14,7 +14,7 @@ var layout = (function() {
 	var startX = 0;
 	var startY = 20;
 	var xPadding = 20;
-	var yPadding = 20;
+	var yPadding = 10;
 
 	function calcLayout() {
 		winWidth = window.innerWidth;//document.body.clientWidth;
@@ -22,8 +22,8 @@ var layout = (function() {
 			winWidth = 800;
 		}
 		var col = cfg.getConfig('col');
-		siteWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
-		startX = Math.floor(siteWidth / 2);
+		siteWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 2));
+		startX = siteWidth;//Math.floor(siteWidth / 2);
 	}
 
 	window.addEventListener('DOMContentLoaded', function() {

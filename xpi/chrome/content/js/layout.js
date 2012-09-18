@@ -1,7 +1,7 @@
 var layout = (function() {
 	const Cc = Components.classes;
 	const Ci = Components.interfaces;
-	const ratio = 0.625; // h = w * 0.625 <=> w = h * 1.6
+	const ratio = 0.5625;//0.625; // h = w * 0.625 <=> w = h * 1.6
 	const folderAreaPadding = 20;
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
@@ -11,6 +11,7 @@ var layout = (function() {
 
 	var winWidth = 0;
 	var siteWidth = 0;
+	var subWidth = 0;
 	var startX = 0;
 	var startY = 20;
 	var xPadding = 30;
@@ -24,8 +25,13 @@ var layout = (function() {
 		var col = cfg.getConfig('col');
 		siteWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
 		startX = Math.floor(siteWidth / 2);
+
+		col = getFolderColumn(col);
+		subWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
+		subStartX = Math.floor(subWidth / 2);
 	}
 
+	// -- register events begin ---
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 		calcLayout();
@@ -35,6 +41,7 @@ var layout = (function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		window.removeEventListener('resize', onResize, false);
 	}, false);
+	// -- register events ended ---
 
 	function onResize() {
 		calcLayout();
@@ -120,7 +127,8 @@ var layout = (function() {
 	function layoutFolderArea(col, ft) { 
 		var folder = $$('folder');
 		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
-		var [unit, w, h] = calcSize(folder.clientWidth, col);
+		var w = subWidth;
+		var h = Math.floor(w * ratio);
 		var ses = $(folder, '.site');
 
 		folder.lines = [];
@@ -135,7 +143,7 @@ var layout = (function() {
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			lines.push(y + baseY);
-			var x = 2 * unit;
+			var x = subStartX;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
 				var se = ses[i];
@@ -158,11 +166,11 @@ var layout = (function() {
 					se.style.left = left;
 				}
 
-				x += 5 * unit;
+				x += w + xPadding;
 			}
-			y += h + titleHeight + Math.floor(unit * ratio);
+			y += h + titleHeight + yPadding;
 		}
-		y += folderAreaPadding - Math.floor(unit * ratio);
+		y += folderAreaPadding - yPadding;
 
 		folder.style.height = y + 'px';
 		folder.style.top = ft + 'px';
@@ -179,8 +187,7 @@ var layout = (function() {
 		var sites = $$('sites');
 		sites.lines = [];
 		var lines = sites.lines;
-		var ss = $$('sites');
-		var baseY = $.offsetTop(ss);
+		var baseY = $.offsetTop(sites);
 
 		var ses = $('#sites > .site');
 		var y = startY;
@@ -188,8 +195,6 @@ var layout = (function() {
 		if (ses.length % col > 0) {
 			++ lineCount;
 		}
-
-		var [unit, w, h] = calcSize(cw, col);
 
 		var w = siteWidth;
 		var h = Math.floor(w * ratio);

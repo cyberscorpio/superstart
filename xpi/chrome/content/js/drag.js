@@ -129,18 +129,21 @@ function clrTimeout() {
 }
 
 function getMoveOpt(x, y, parentArea, lines, inFolder) {
+	var ses = $(parentArea, '.site');
+
+/*
+	var col = cfg.getConfig('col');
+	if (inFolder) { // folder is opened
+		col = layout.getFolderCol(col);
+	}
+
 	var l = 0;
 	for (var i = 1; i < lines.length; ++ i, ++ l) {
 		if (lines[i] > y) {
 			break;
 		}
 	}
-	var col = cfg.getConfig('col');
-	if (inFolder) { // folder is opened
-		col = layout.getFolderCol(col);
-	}
 
-	var ses = $(parentArea, '.site');
 	var b = l * col;
 	var e = b + col;
 	if (e > ses.length) {
@@ -158,6 +161,23 @@ function getMoveOpt(x, y, parentArea, lines, inFolder) {
 
 		var pos = $.offset(se);
 		if (pos.left > x) {
+			break;
+		}
+	}
+	*/
+	var l = ses.length;
+	for (var i = 0; i < l; ++ i) {
+		var se = ses[i];
+		if ($.hasClass(se, 'dragging')) { // skip myself
+			continue;
+		}
+
+		if (!inFolder && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
+			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
+		}
+
+		var pos = $.offset(se);
+		if (pos.left > x && (pos.top + se.clientHeight) > y) {
 			break;
 		}
 	}

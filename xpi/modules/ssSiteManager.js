@@ -314,6 +314,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			return;
 		}
 
+		// log('simple move, from ' + from + ' to ' + to);
 		var s = sites.splice(from, 1)[0];
 		if (to == sites.length) {
 			sites.push(s);

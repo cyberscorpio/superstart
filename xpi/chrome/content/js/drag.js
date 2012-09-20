@@ -56,6 +56,9 @@ function DragOperator(type, p1, p2, p3) {
 	this.p1 = p1;
 	this.p2 = p2;
 	this.p3 = p3;
+	if (this.type != DO_NONE) {
+		// this.dump();
+	}
 }
 DragOperator.prototype.isEqual = function(rhs) {
 	if (this.type != rhs.type) {
@@ -128,44 +131,12 @@ function clrTimeout() {
 	}
 }
 
-function getMoveOpt(x, y, parentArea, lines, inFolder) {
+function getMoveOpt(x, y, parentArea, inFolder) {
 	var ses = $(parentArea, '.site');
 
-/*
-	var col = cfg.getConfig('col');
-	if (inFolder) { // folder is opened
-		col = layout.getFolderCol(col);
-	}
-
-	var l = 0;
-	for (var i = 1; i < lines.length; ++ i, ++ l) {
-		if (lines[i] > y) {
-			break;
-		}
-	}
-
-	var b = l * col;
-	var e = b + col;
-	if (e > ses.length) {
-		e = ses.length;
-	}
-	for (var i = b; i < e; ++ i) {
-		var se = ses[i];
-		if ($.hasClass(se, 'dragging')) { // skip myself
-			continue;
-		}
-
-		if (!inFolder && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
-			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
-		}
-
-		var pos = $.offset(se);
-		if (pos.left > x) {
-			break;
-		}
-	}
-	*/
 	var l = ses.length;
+	var prevX = -1;
+	var prevY = 0;
 	for (var i = 0; i < l; ++ i) {
 		var se = ses[i];
 		if ($.hasClass(se, 'dragging')) { // skip myself
@@ -177,9 +148,23 @@ function getMoveOpt(x, y, parentArea, lines, inFolder) {
 		}
 
 		var pos = $.offset(se);
-		if (pos.left > x && (pos.top + se.clientHeight) > y) {
+		if (pos.left < prevX) {
+			if (prevY > y && x > prevX + se.clientWidth / 2) {
+				// log('case1: ' + dragIdxes[1] + ' vs ' + i);
+				break;
+			}
+		}
+
+		if ((pos.left + se.clientWidth / 2) > x && (pos.top + se.clientHeight) > y) {
+			/*
+			log('case2: ' + dragIdxes[1] + ' vs ' + i);
+			log(pos.left + ', ' + se.clientWidth + ' vs ' + x);
+			*/
 			break;
 		}
+
+		prevX = pos.left;
+		prevY = pos.top + se.clientHeight;
 	}
 
 	var from = dragIdxes[1];
@@ -214,13 +199,7 @@ function getOpt(x, y) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;
-				var lines = fa.lines;
-				var container = $$('container');
-				if (container.style.top) {
-					var t = container.style.top.replace(/px/g, '') - 0;
-					y -= t;
-				}
-				return getMoveOpt(x, y, p, lines, true);
+				return getMoveOpt(x, y, p, true);
 			} else {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
@@ -228,8 +207,7 @@ function getOpt(x, y) {
 	}
 
 	var p = sites;
-	var lines = sites.lines;
-	return getMoveOpt(x, y, p, lines, false);
+	return getMoveOpt(x, y, p, false);
 }
 
 

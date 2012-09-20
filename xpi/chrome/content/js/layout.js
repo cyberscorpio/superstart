@@ -56,7 +56,6 @@ var layout = (function() {
 	}
 
 	var transitionElement = null;
-	var lines = [];
 	var lockTopSites = false; // lock the top sites, but it won't affect the #folder to be opened
 
 	function clrTransitionState() {
@@ -131,8 +130,6 @@ var layout = (function() {
 		var h = Math.floor(w * ratio);
 		var ses = $(folder, '.site');
 
-		folder.lines = [];
-		var lines = folder.lines;
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col) {
 			++ lineCount;
@@ -142,7 +139,6 @@ var layout = (function() {
 		var baseY = ft;//$.offsetTop(folder);
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			lines.push(y + baseY);
 			var x = subStartX;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
@@ -185,8 +181,6 @@ var layout = (function() {
 
 		var container = $$('container');
 		var sites = $$('sites');
-		sites.lines = [];
-		var lines = sites.lines;
 		var baseY = $.offsetTop(sites);
 
 		var ses = $('#sites > .site');
@@ -201,7 +195,6 @@ var layout = (function() {
 
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			lines.push(y + baseY);
 			var x = startX;
 			var folderAreaHeight = 0;
 

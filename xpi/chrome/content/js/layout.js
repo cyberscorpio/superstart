@@ -1,34 +1,35 @@
 var layout = (function() {
 	const Cc = Components.classes;
 	const Ci = Components.interfaces;
-	const ratio = 0.5625;//0.625; // h = w * 0.625 <=> w = h * 1.6
-	const folderAreaPadding = 20;
+	const MINWIDTH = 800;
+	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 	var cfg = ssObj.getService(Ci.ssIConfig);
 	var sm = ssObj.getService(Ci.ssISiteManager);
 	ssObj = undefined;
 
-	var winWidth = 0;
-	var siteWidth = 0;
-	var subWidth = 0;
-	var startX = 0;
-	var startY = 20;
-	var xPadding = 30;
-	var yPadding = 10;
+	function LayoutParameter(width, col) {
+		this.width = width;
+		this.xPadding = 30;
+		this.yPadding = 10;
+		this.startY = 20;
+		this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
+		this.startX = Math.floor(this.siteWidth / 2);
+	}
+	var lp0 = new LayoutParameter(MINWIDTH, 1);
+	var lp1 = new LayoutParameter(MINWIDTH, 1);
 
 	function calcLayout() {
-		winWidth = window.innerWidth;//document.body.clientWidth;
-		if (winWidth < 800) {
-			winWidth = 800;
+		var w = window.innerWidth;//document.body.clientWidth;
+		if (w < MINWIDTH) {
+			w = MINWIDTH;
 		}
 		var col = cfg.getConfig('col');
-		siteWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
-		startX = Math.floor(siteWidth / 2);
+		lp0 = new LayoutParameter(w, col);
 
 		col = getFolderColumn(col);
-		subWidth = Math.floor((winWidth - (col - 1) * xPadding) / (col + 1));
-		subStartX = Math.floor(subWidth / 2);
+		lp1 = new LayoutParameter(w, col);
 	}
 
 	// -- register events begin ---
@@ -126,7 +127,7 @@ var layout = (function() {
 	function layoutFolderArea(col, ft) { 
 		var folder = $$('folder');
 		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
-		var w = subWidth;
+		var w = lp1.siteWidth;
 		var h = Math.floor(w * ratio);
 		var ses = $(folder, '.site');
 
@@ -135,11 +136,11 @@ var layout = (function() {
 			++ lineCount;
 		}
 
-		var y = folderAreaPadding;
+		var y = lp1.startY;
 		var baseY = ft;//$.offsetTop(folder);
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			var x = subStartX;
+			var x = lp1.startX;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
 				var se = ses[i];
@@ -162,11 +163,10 @@ var layout = (function() {
 					se.style.left = left;
 				}
 
-				x += w + xPadding;
+				x += w + lp1.xPadding;
 			}
-			y += h + titleHeight + yPadding;
+			y += h + titleHeight + lp1.yPadding;
 		}
-		y += folderAreaPadding - yPadding;
 
 		folder.style.height = y + 'px';
 		folder.style.top = ft + 'px';
@@ -177,25 +177,24 @@ var layout = (function() {
 
 	function act() {
 		var col = cfg.getConfig('col');
-		var cw = winWidth;
 
 		var container = $$('container');
 		var sites = $$('sites');
 		var baseY = $.offsetTop(sites);
 
 		var ses = $('#sites > .site');
-		var y = startY;
+		var y = lp0.startY;
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col > 0) {
 			++ lineCount;
 		}
 
-		var w = siteWidth;
+		var w = lp0.siteWidth;
 		var h = Math.floor(w * ratio);
 
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			var x = startX;
+			var x = lp0.startX;
 			var folderAreaHeight = 0;
 
 			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
@@ -227,9 +226,9 @@ var layout = (function() {
 					}
 				}
 
-				x += w + xPadding;
+				x += w + lp0.xPadding;
 			}
-			y += folderAreaHeight + h + titleHeight + yPadding;
+			y += folderAreaHeight + h + titleHeight + lp0.yPadding;
 		}
 
 		var mask = $$('mask');

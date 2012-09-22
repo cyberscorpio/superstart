@@ -113,17 +113,6 @@ var layout = (function() {
 		}
 	}
 
-	function calcSize(containerWidth, col) {
-		/** layout **
-		  [ w/2] [  site  ] [ w/4 ] [site] ... [site] [ w/2 ]
-		         |<-  w ->|
-		 */
-		var unit = Math.floor(containerWidth / (3 + 5 * col ));
-		var w = 4 * unit
-		var h = Math.floor(w * ratio);
-		return [unit, w, h];
-	}
-
 	function layoutFolderArea(col, ft) { 
 		var folder = $$('folder');
 		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
@@ -137,7 +126,6 @@ var layout = (function() {
 		}
 
 		var y = lp1.startY;
-		var baseY = ft;//$.offsetTop(folder);
 		var titleHeight = 0;
 		for (var l = 0, i = 0; l < lineCount; ++ l) {
 			var x = lp1.startX;
@@ -180,7 +168,6 @@ var layout = (function() {
 
 		var container = $$('container');
 		var sites = $$('sites');
-		var baseY = $.offsetTop(sites);
 
 		var ses = $('#sites > .site');
 		var y = lp0.startY;
@@ -237,10 +224,15 @@ var layout = (function() {
 		// update .site::height
 		window.setTimeout(function() {
 			var ses = $('.site');
-			for (var i = 0, j = 0, l = ses.length; i < l; ++ i) {
-				var se = ses[i];
+			if (ses.length > 0) {
+				var se = ses[0];
 				var snapshot = $(se, '.snapshot')[0];
-				se.style.height = snapshot.offsetHeight + 'px';
+				var title = $(se, '.title')[0];
+				var cssHeight = snapshot.offsetHeight + title.offsetHeight + 'px';
+
+				for (var i = 0, l = ses.length; i < l; ++ i) {
+					ses[i].style.height = cssHeight;
+				}
 			}
 		}, 0);
 	}

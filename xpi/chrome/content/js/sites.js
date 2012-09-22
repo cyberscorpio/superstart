@@ -20,12 +20,15 @@ window.addEventListener('DOMContentLoaded', function() {
 function init() {
 	var sites = sm.getSites();
 
-	var container = $$('sites');
+	var df = document.createDocumentFragment();
 	for (var i = 0, l = sites.length; i < l; ++ i) {
 		var s = sites[i];
 
-		insert(container, s);
+		insert(df, s);
 	}
+	var container = $$('sites');
+	container.appendChild(df);
+
 	var add = $$('site-add');
 	add.onclick = function() { showAddSite(); };
 	$.removeClass(add, 'hidden');
@@ -341,10 +344,12 @@ function openFolder(idx, f) {
 		$.removeClass(this, 'resizing');
 	}, false);
 
+	var df = document.createDocumentFragment();
 	for (var i = 0, l = f.sites.length; i < l; ++ i) {
 		var s = f.sites[i];
-		insert(folderArea, s);
+		insert(df, s);
 	}
+	folderArea.appendChild(df);
 
 	var mask = $$('mask');
 	mask.style.display = 'block';

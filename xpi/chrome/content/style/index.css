@@ -167,6 +167,9 @@ a {
 	-moz-transition: text-shadow 200ms linear;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 200ms;
 }
 
 /*
@@ -193,7 +196,7 @@ a {
 	-moz-user-select: -moz-none !important;
 }
 .site.folder.opened .title {
-	display: none;
+	opacity: 0;
 }
 
 .site.folder > a > .snapshot

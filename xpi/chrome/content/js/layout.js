@@ -28,8 +28,11 @@ var layout = (function() {
 		var col = cfg.getConfig('col');
 		lp0 = new LayoutParameter(w, col);
 
-		col = getFolderColumn(col);
+		col = getFolderColumn();
 		lp1 = new LayoutParameter(w, col);
+
+		var mask = $$('mask');
+		mask.style.height = window.innerHeight + 'px';
 	}
 
 	// -- register events begin ---
@@ -76,6 +79,7 @@ var layout = (function() {
 	}
 
 	function getFolderColumn(col) {
+		var col = cfg.getConfig('col');
 		return col + 1;
 	}
 
@@ -113,33 +117,62 @@ var layout = (function() {
 		}
 	}
 
-	function layoutFolderArea(col, ft) { 
+	function layoutFolderArea() { 
 		var folder = $$('folder');
 		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
+		if (folder == null) {
+			return;
+		}
+
+		var ses = $(folder, '.site');
+		assert(ses.length > 1, 'Try to layout the folder with less sites than 2');
+
+		var x = lp1.startX;
+		var y = lp1.startY;
 		var w = lp1.siteWidth;
 		var h = Math.floor(w * ratio);
-		var ses = $(folder, '.site');
 
+		var col = getFolderColumn();
 		var lineCount = Math.floor(ses.length / col);
 		if (ses.length % col) {
 			++ lineCount;
 		}
 
-		var y = lp1.startY;
-		var titleHeight = 0;
-		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			var x = lp1.startX;
+		var height = placeSites(ses, col, x, y, w, h, lp1.xPadding, lp1.yPadding);
 
-			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
+		var se = $('.opened');
+		assert(se.length == 1, 'Only 1 folder can be opened, but we have ' + se.length);
+		se = se[0];
+		var top = $.offsetTop(se) + (se.style.height.replace(/px/g, '') - 0);
+
+		folder.style.height = height + 'px';
+		folder.style.top = top + 'px';
+
+		// move below sites
+		ses = $('#sites > .site');
+		for (var i = 0, l = ses.length; i < l; ++ i) {
+			var s = ses[i];
+			if (s.offsetTop > se.offsetTop) {
+				var top = s.style.top.replace(/px/g, '') - 0;
+				top += height;
+				s.style.top = top + 'px';
+			}
+		}
+	}
+
+	// return the height of the container
+	function placeSites(ses, col, sx, sy, w, h, px, py) {
+		var height = 0;
+		var l = ses.length;
+		if (l > 0) {
+			var x = sx, y = sy;
+			var th = $(ses[0], '.title')[0].offsetHeight;
+
+			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
 				se.style.width = w + 'px';
-				var snapshot = $(se, '.snapshot')[0];
-				snapshot.style.height = h + 'px';
-
-				if (titleHeight == 0) {
-					var t = $(se, '.title')[0];
-					titleHeight = t.clientHeight;
-				}
+				se.style.height = h + th + 'px';
+				$(se, '.snapshot')[0].style.height = h + 'px';
 
 				if (!$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
@@ -151,19 +184,19 @@ var layout = (function() {
 					se.style.left = left;
 				}
 
-				x += w + lp1.xPadding;
+				x += w + px;
+				++ i;
+				if (i % col == 0 && i < l) {
+					x = sx;
+					y += h + th + py;
+				}
 			}
-			y += h + titleHeight + lp1.yPadding;
+			height = y + h + th + py;
 		}
-
-		folder.style.height = y + 'px';
-		folder.style.top = ft + 'px';
-
-
-		return y;
+		return height;
 	}
 
-	function act() {
+	function layoutSites() {
 		var col = cfg.getConfig('col');
 
 		var container = $$('container');
@@ -171,70 +204,18 @@ var layout = (function() {
 
 		var ses = $('#sites > .site');
 		var y = lp0.startY;
-		var lineCount = Math.floor(ses.length / col);
-		if (ses.length % col > 0) {
-			++ lineCount;
-		}
-
 		var w = lp0.siteWidth;
 		var h = Math.floor(w * ratio);
 
-		var titleHeight = 0;
-		for (var l = 0, i = 0; l < lineCount; ++ l) {
-			var x = lp0.startX;
-			var folderAreaHeight = 0;
-
-			for (var k = 0; k < col && i < ses.length; ++ k, ++ i) {
-				var se = ses[i];
-				se.style.width = w + 'px';
-				var snapshot = $(se, '.snapshot')[0];
-				snapshot.style.height = h + 'px';
-				if (titleHeight == 0) {
-					var t = $(se, '.title')[0];
-					titleHeight = t.clientHeight;
-				}
-
-				if (!lockTopSites && !$.hasClass(se, 'dragging')) {
-					var top = y + 'px';
-					var left = x + 'px';
-					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
-						setTransitionState(se);
-					}
-					se.style.top = top;
-					se.style.left = left;
-				}
-
-				if ($.hasClass(se, 'folder')) {
-					layoutFolderElement(se, w, h);
-
-					if ($.hasClass(se, 'opened')) {
-						var folderAreaTop = $.offsetTop(sites) - $.offsetTop(container) + y + h + titleHeight; // top(sites) - top(container) because folerArea is related to '#sites'.
-						folderAreaHeight = layoutFolderArea(getFolderColumn(col), folderAreaTop);
-					}
-				}
-
-				x += w + lp0.xPadding;
-			}
-			y += folderAreaHeight + h + titleHeight + lp0.yPadding;
+		placeSites(ses, col, lp0.startX, lp0.startY, w, h, lp0.xPadding, lp0.yPadding);
+		var fs = $('#sites > .folder');
+		for (var i = 0; i < fs.length; ++ i) {
+			layoutFolderElement(fs[i], w, h);
 		}
 
-		var mask = $$('mask');
-		mask.style.height = window.innerHeight + 'px';
-
-		// update .site::height
-		window.setTimeout(function() {
-			var ses = $('.site');
-			if (ses.length > 0) {
-				var se = ses[0];
-				var snapshot = $(se, '.snapshot')[0];
-				var title = $(se, '.title')[0];
-				var cssHeight = snapshot.offsetHeight + title.offsetHeight + 'px';
-
-				for (var i = 0, l = ses.length; i < l; ++ i) {
-					ses[i].style.height = cssHeight;
-				}
-			}
-		}, 0);
+		if ($('.opened').length > 0) {
+			layoutFolderArea();
+		}
 	}
 
 	var actID = null;
@@ -243,8 +224,6 @@ var layout = {
 	inTransition: function() {
 		return transitionElement != null;
 	},
-
-	getFolderCol: getFolderColumn,
 
 	lock: function() { // TODO: for '#folder' there is a bug for the position
 		lockTopSites = true;
@@ -262,12 +241,12 @@ var layout = {
 				window.clearTimeout(actID);
 				actID = null;
 			}
-			act();
+			layoutSites();
 		} else {
 			if (actID == null) {
 				actID = window.setTimeout(function(){
 					actID = null;
-					act();
+					layoutSites();
 				}, 0);
 			}
 		}

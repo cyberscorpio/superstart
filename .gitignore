@@ -7,6 +7,7 @@ tags
 '
 *.bak
 *.patch
+*.vim
 .DS_Store
 xpidl_debug
 clear.mac

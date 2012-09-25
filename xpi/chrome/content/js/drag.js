@@ -83,7 +83,6 @@ DragOperator.prototype.act = function() {
 		break;
 	case DO_MOVE_IN:
 		var from = this.p1, to = this.p2;
-		layout.lock();
 		var target = sm.getSite(-1, to);
 		sm.moveIn(from, to);
 		dragIdxes[0] = from < to ? to - 1 : to;
@@ -96,7 +95,6 @@ DragOperator.prototype.act = function() {
 		dragIdxes[0] = -1;
 		dragIdxes[1] = sm.getTopSiteCount() - 1;
 		mover.refresh(elem);
-		layout.unlock();
 		break;
 	case DO_OPEN_FOLDER:
 		gDrag.openFolder(this.p1);
@@ -311,8 +309,11 @@ return {
 			}
 			elem = null;
 	
-			layout.unlock();
-			layout.begin();
+			if ($('.opened').length == 0) {
+				layout.begin();
+			} else {
+				layout.placeSitesInFolderArea();
+			}
 		}
 	}
 };

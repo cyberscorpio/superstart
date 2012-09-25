@@ -356,7 +356,8 @@ function openFolder(idx, f) {
 
 	$.addClass(se, 'opened');
 
-	layout.begin();
+	// layout.begin();
+	layout.layoutFolderArea();
 
 	// set 'container'.style.top so we can make the foler all been shown, if necessary and possible
 	var exH = folderArea.offsetHeight;
@@ -500,7 +501,7 @@ function onSiteSimpleMove(evt, groupFromTo) {
 
 	var from = at(g, f);
 	var to = at(g, t);
-	assert(from && to && from.parentNode == to.parentNode, 'onSimpleMove from and to should be in the same level');
+	assert((!from && !to) || (from && to && from.parentNode == to.parentNode), 'onSimpleMove from and to should be in the same level');
 
 	var p = from.parentNode;
 	p.removeChild(from);
@@ -510,7 +511,14 @@ function onSiteSimpleMove(evt, groupFromTo) {
 		p.insertBefore(from, to.nextSibling);
 	}
 
-	layout.begin();
+	if (g == -1) {
+		layout.begin();
+	} else {
+		// TODO: redraw the folder
+		if ($('.opened').length > 0) {
+			layout.placeSitesInFolderArea();
+		}
+	}
 }
 
 function onSiteMoveIn(evt, fromTo) {

@@ -117,6 +117,17 @@ var layout = (function() {
 		}
 	}
 
+	function placeSitesInFolderArea() {
+		var ses = $('#folder > .site');
+		var x = lp1.startX;
+		var y = lp1.startY;
+		var w = lp1.siteWidth;
+		var h = Math.floor(w * ratio);
+
+		var col = getFolderColumn();
+		return placeSites(ses, col, x, y, w, h, lp1.xPadding, lp1.yPadding);
+	}
+
 	function layoutFolderArea() { 
 		var folder = $$('folder');
 		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
@@ -127,18 +138,7 @@ var layout = (function() {
 		var ses = $(folder, '.site');
 		assert(ses.length > 1, 'Try to layout the folder with less sites than 2');
 
-		var x = lp1.startX;
-		var y = lp1.startY;
-		var w = lp1.siteWidth;
-		var h = Math.floor(w * ratio);
-
-		var col = getFolderColumn();
-		var lineCount = Math.floor(ses.length / col);
-		if (ses.length % col) {
-			++ lineCount;
-		}
-
-		var height = placeSites(ses, col, x, y, w, h, lp1.xPadding, lp1.yPadding);
+		var height = placeSitesInFolderArea();
 
 		var se = $('.opened');
 		assert(se.length == 1, 'Only 1 folder can be opened, but we have ' + se.length);
@@ -149,7 +149,7 @@ var layout = (function() {
 		folder.style.top = top + 'px';
 
 		// move below sites
-		ses = $('#sites > .site');
+		var ses = $('#sites > .site');
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var s = ses[i];
 			if (s.offsetTop > se.offsetTop) {
@@ -213,9 +213,11 @@ var layout = (function() {
 			layoutFolderElement(fs[i], w, h);
 		}
 
+		/*
 		if ($('.opened').length > 0) {
 			layoutFolderArea();
 		}
+		*/
 	}
 
 	var actID = null;
@@ -251,6 +253,9 @@ var layout = {
 			}
 		}
 	},
+
+	'layoutFolderArea': layoutFolderArea,
+	'placeSitesInFolderArea': placeSitesInFolderArea
 	
 }; // layout
 	return layout;

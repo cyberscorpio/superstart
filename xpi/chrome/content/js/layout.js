@@ -52,7 +52,7 @@ var layout = (function() {
 
 		var ss = $$('sites');
 		$.addClass(ss, 'notransition');
-		layout.begin();
+		layout.layoutTopSites();
 		window.setTimeout(function() {
 			$.removeClass(ss, 'notransition');
 			clrTransitionState();
@@ -60,7 +60,6 @@ var layout = (function() {
 	}
 
 	var transitionElement = null;
-	var lockTopSites = false; // lock the top sites, but it won't affect the #folder to be opened
 
 	function clrTransitionState() {
 		if (transitionElement) {
@@ -86,18 +85,22 @@ var layout = (function() {
 	// 3 items per line
 	// 3 items per column
 	// < w > <  2w  > < w > <  2w  > < w > <  2w  > < w >
-	function layoutFolderElement(se, cw, ch) {
-		var snapshot = $(se, '.snapshot')[0];
-		var w = cw;
+	function layoutFolderElement(se) {
+		setTopSiteSize(se);
+		var sn = $(se, '.snapshot')[0];
+
+		var cw = se.style.width.replace(/px/g, '') - 0;
+		var ch = sn.style.height.replace(/px/g, '') - 0;
+		w = cw;
 		w /= 10;
-		var h = w * ratio;
+		h = w * ratio;
 		var ww = Math.floor(w * 2);
 		var hh = Math.floor(h * 2);
 		var mh = Math.floor((ch - 3 * hh) / 4);
 		w = Math.floor(w);
 		h = Math.floor(h);
 		
-		var imgs = snapshot.getElementsByTagName('img');
+		var imgs = sn.getElementsByTagName('img');
 		var x = w;
 		var y = mh;
 		for (var i = 0; i < imgs.length;) {
@@ -160,6 +163,17 @@ var layout = (function() {
 		}
 	}
 
+	function setTopSiteSize(se) {
+		var w = lp0.siteWidth;
+		var h = Math.floor(w * ratio);
+		var th = $(se, '.title')[0].offsetHeight;
+
+		se.style.width = w + 'px';
+		se.style.height = h + th + 'px';
+		var sn = $(se, '.snapshot')[0];
+		sn.style.height = h + 'px';
+	}
+
 	// return the height of the container
 	function placeSites(ses, col, sx, sy, w, h, px, py) {
 		var height = 0;
@@ -196,7 +210,7 @@ var layout = (function() {
 		return height;
 	}
 
-	function layoutSites() {
+	function layoutTopSites() {
 		var col = cfg.getConfig('col');
 
 		var container = $$('container');
@@ -210,14 +224,8 @@ var layout = (function() {
 		placeSites(ses, col, lp0.startX, lp0.startY, w, h, lp0.xPadding, lp0.yPadding);
 		var fs = $('#sites > .folder');
 		for (var i = 0; i < fs.length; ++ i) {
-			layoutFolderElement(fs[i], w, h);
+			layoutFolderElement(fs[i]);
 		}
-
-		/*
-		if ($('.opened').length > 0) {
-			layoutFolderArea();
-		}
-		*/
 	}
 
 	var actID = null;
@@ -227,35 +235,27 @@ var layout = {
 		return transitionElement != null;
 	},
 
-	lock: function() { // TODO: for '#folder' there is a bug for the position
-		lockTopSites = true;
-	},
-	unlock: function() {
-		if (lockTopSites) {
-			this.begin();
-		}
-		lockTopSites = false;
-	},
-
-	begin: function(actingNow) {
+	layoutTopSites: function(actingNow) {
 		if (actingNow) {
 			if (actID) {
 				window.clearTimeout(actID);
 				actID = null;
 			}
-			layoutSites();
+			layoutTopSites();
 		} else {
 			if (actID == null) {
 				actID = window.setTimeout(function(){
 					actID = null;
-					layoutSites();
+					layoutTopSites();
 				}, 0);
 			}
 		}
 	},
 
 	'layoutFolderArea': layoutFolderArea,
-	'placeSitesInFolderArea': placeSitesInFolderArea
+	'placeSitesInFolderArea': placeSitesInFolderArea,
+	'layoutFolderElement': layoutFolderElement,
+	'setTopSiteSize': setTopSiteSize
 	
 }; // layout
 	return layout;

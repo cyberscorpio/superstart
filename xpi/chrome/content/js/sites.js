@@ -33,7 +33,7 @@ function init() {
 	add.onclick = function() { showAddSite(); };
 	$.removeClass(add, 'hidden');
 
-	layout.begin();
+	layout.layoutTopSites();
 	$.removeClass(container, 'hidden');
 
 	// register site events
@@ -193,7 +193,7 @@ function updateFolder(ss, se) {
 	var title = ss.displayName + ' (' + ss.sites.length + ')';
 	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(title));
 
-	layout.begin(); // the little images in the folder needs to be re-layouted
+	layout.layoutFolderElement(se);
 }
 
 /**
@@ -356,7 +356,7 @@ function openFolder(idx, f) {
 
 	$.addClass(se, 'opened');
 
-	// layout.begin();
+	// layout.layoutTopSites();
 	layout.layoutFolderArea();
 
 	// set 'container'.style.top so we can make the foler all been shown, if necessary and possible
@@ -399,7 +399,7 @@ function closeFolder() {
 		var mask = $$('mask');
 		mask.style.display = '';
 
-		layout.begin();
+		layout.layoutTopSites();
 	}, false);
 
 	var idx = folderArea.idx;
@@ -408,7 +408,7 @@ function closeFolder() {
 	$.removeClass(se, 'opened');
 	$.addClass(se, 'closing');
 
-	layout.begin();
+	layout.layoutTopSites();
 
 	var container = $$('container');
 	container.style.top = '0';
@@ -480,7 +480,7 @@ function nextSnapshot() {
 function onSiteAdded(evt, idx) {
 	var c = $$('sites');
 	insert(c, sm.getSite(-1, idx));
-	layout.begin();
+	layout.layoutTopSites();
 }
 
 function onSiteRemoved(evt, idxes) {
@@ -490,7 +490,7 @@ function onSiteRemoved(evt, idxes) {
 		assert(g == -1, 'Something need to do for ingourps removing');
 		if (se) {
 			se.parentNode.removeChild(se);
-			layout.begin();
+			layout.layoutTopSites();
 		}
 	}
 }
@@ -512,10 +512,12 @@ function onSiteSimpleMove(evt, groupFromTo) {
 	}
 
 	if (g == -1) {
-		layout.begin();
+		layout.layoutTopSites();
 	} else {
-		// TODO: redraw the folder
-		if ($('.opened').length > 0) {
+		var se = at(-1, g);
+		var ss = sm.getSite(-1, g);
+		updateFolder(ss, se);
+		if ($.hasClass(se, 'opened')) {
 			layout.placeSitesInFolderArea();
 		}
 	}
@@ -540,7 +542,9 @@ function onSiteMoveIn(evt, fromTo) {
 	t = sm.getSite(-1, t);
 	updateFolder(t, to);
 
-	layout.begin();
+	if (!gDrag.inDragging()) {
+		layout.layoutTopSites();
+	}
 }
 
 function onSiteMoveOut(evt, idxes) {
@@ -557,9 +561,9 @@ function onSiteMoveOut(evt, idxes) {
 		}
 	}
 
-	// log('se: ' + se.innerHTML);
 	if (f.sites == undefined) {
 		updateSite(f, fe);
+		layout.setTopSiteSize(fe);
 	} else {
 		updateFolder(f, fe);
 	}
@@ -579,7 +583,9 @@ function onSiteMoveOut(evt, idxes) {
 		closeFolder();
 	}
 
-	layout.begin();
+	if (!gDrag.inDragging()) {
+		layout.layoutTopSites();
+	}
 }
 
 function onSiteChanged(evt, idxes) {

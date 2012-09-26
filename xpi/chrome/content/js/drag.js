@@ -141,8 +141,11 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 			continue;
 		}
 
-		if (!inFolder && !$.hasClass(elem, 'folder') && $.inElem(x, y, se)) {
-			return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
+		if (!inFolder && !$.hasClass(elem, 'folder')) {
+			var sn = $(se, '.snapshot')[0];
+			if ($.inElem(x, y, sn)) {
+				return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
+			}
 		}
 
 		var pos = $.offset(se);
@@ -310,7 +313,7 @@ return {
 			elem = null;
 	
 			if ($('.opened').length == 0) {
-				layout.begin();
+				layout.layoutTopSites();
 			} else {
 				layout.placeSitesInFolderArea();
 			}

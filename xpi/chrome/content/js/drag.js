@@ -243,7 +243,10 @@ return {
 			mover.init(se, evt.clientX, evt.clientY);
 
 			dragIdxes = idxes;
+
+			layout.enterDraggingMode();
 		}
+
 	},
 	
 	onEnter: function(evt) {

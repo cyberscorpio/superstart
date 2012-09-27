@@ -206,6 +206,10 @@ function insert(c, s) {
 	}
 }
 
+function createEmptySiteElement() {
+	return $.obj2Element(templates['site']);
+}
+
 function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
@@ -356,7 +360,6 @@ function openFolder(idx, f) {
 
 	$.addClass(se, 'opened');
 
-	// layout.layoutTopSites();
 	layout.layoutFolderArea();
 
 	// set 'container'.style.top so we can make the foler all been shown, if necessary and possible
@@ -568,7 +571,7 @@ function onSiteMoveOut(evt, idxes) {
 		updateFolder(f, fe);
 	}
 
-	if (se) {// && !$.hasClass(se, 'dragging')) {
+	if (se) {
 		se.parentNode.removeChild(se);
 		$$('sites').appendChild(se);
 	} else {
@@ -625,6 +628,8 @@ gDrag.indexFromNode = indexFromNode;
 gDrag.at = at;
 gDrag.openFolder = openFolder;
 gDrag.closeFolder = closeFolder;
+
+layout.createEmptySiteElement = createEmptySiteElement;
 
 
 })();

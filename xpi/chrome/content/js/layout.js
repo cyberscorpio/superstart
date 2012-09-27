@@ -15,6 +15,9 @@ var layout = (function() {
 		this.yPadding = 10;
 		this.startY = 20;
 		this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
+		this.siteHeight = 0; // get it in runtime
+		this.snapshotWidth = this.siteWidth;
+		this.snapshotHeight = Math.floor(this.snapshotWidth * ratio);
 		this.startX = Math.floor(this.siteWidth / 2);
 	}
 	var lp0 = new LayoutParameter(MINWIDTH, 1);
@@ -128,7 +131,7 @@ var layout = (function() {
 		var h = Math.floor(w * ratio);
 
 		var col = getFolderColumn();
-		return placeSites(ses, col, x, y, w, h, lp1.xPadding, lp1.yPadding);
+		return placeSites(ses, col, lp1);
 	}
 
 	function layoutFolderArea() { 
@@ -174,19 +177,24 @@ var layout = (function() {
 		sn.style.height = h + 'px';
 	}
 
-	// return the height of the container
-	function placeSites(ses, col, sx, sy, w, h, px, py) {
+	// return the height of the container, used by the #folder
+	function placeSites(ses, col, lp) {
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
-			var x = sx, y = sy;
-			var th = $(ses[0], '.title')[0].offsetHeight;
+			var x = lp.startX, y = lp.startY;
+			if (lp.siteHeight == 0) {
+				var ch = $(ses[0], '.title')[0].offsetHeight;
+				lp.siteHeight = lp.snapshotHeight + ch;
+			}
 
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
-				se.style.width = w + 'px';
-				se.style.height = h + th + 'px';
-				$(se, '.snapshot')[0].style.height = h + 'px';
+				se.style.width = lp.siteWidth + 'px';
+				se.style.height = lp.siteHeight + 'px';
+				var sn = $(se, '.snapshot')[0];
+				sn.style.width = lp.snapshotWidth + 'px';
+				sn.style.height = lp.snapshotHeight + 'px';
 
 				if (!$.hasClass(se, 'dragging')) {
 					var top = y + 'px';
@@ -198,14 +206,14 @@ var layout = (function() {
 					se.style.left = left;
 				}
 
-				x += w + px;
+				x += lp.siteWidth + lp.xPadding;
 				++ i;
 				if (i % col == 0 && i < l) {
-					x = sx;
-					y += h + th + py;
+					x = lp.startX;
+					y += lp.siteHeight + lp.yPadding;
 				}
 			}
-			height = y + h + th + py;
+			height = y + lp.siteHeight + lp.yPadding;
 		}
 		return height;
 	}
@@ -221,15 +229,34 @@ var layout = (function() {
 		var w = lp0.siteWidth;
 		var h = Math.floor(w * ratio);
 
-		placeSites(ses, col, lp0.startX, lp0.startY, w, h, lp0.xPadding, lp0.yPadding);
+		placeSites(ses, col, lp0);
 		var fs = $('#sites > .folder');
 		for (var i = 0; i < fs.length; ++ i) {
 			layoutFolderElement(fs[i]);
 		}
 	}
 
-	var actID = null;
+	function enterDraggingMode() {
+		lp0.snapshotWidth = Math.floor(lp0.snapshotWidth * 3 / 4);
+		lp0.snapshotHeight = Math.floor(lp0.snapshotWidth * ratio);
 
+		var w = lp0.snapshotWidth;
+		var h = lp0.snapshotHeight;
+
+		var ses = $('#sites > .site');
+		log('get ses: ' + ses.length);
+		for (var i = 0, l = ses.length; i < l; ++ i) {
+			var se = ses[i];
+			var sn = $(se, '.snapshot')[0];
+			if (!$.hasClass(se, 'dragging')) {
+				sn.style.width = w + 'px';
+				sn.style.height = h + 'px';
+			}
+		}
+	}
+
+
+	var actID = null;
 var layout = {
 	inTransition: function() {
 		return transitionElement != null;
@@ -255,7 +282,9 @@ var layout = {
 	'layoutFolderArea': layoutFolderArea,
 	'placeSitesInFolderArea': placeSitesInFolderArea,
 	'layoutFolderElement': layoutFolderElement,
-	'setTopSiteSize': setTopSiteSize
+	'setTopSiteSize': setTopSiteSize,
+
+	'enterDraggingMode': enterDraggingMode
 	
 }; // layout
 	return layout;

@@ -10,15 +10,28 @@ var layout = (function() {
 	ssObj = undefined;
 
 	function LayoutParameter(width, col) {
+		var compact = cfg.getConfig('site-compact');
 		this.width = width;
-		this.xPadding = 30;
-		this.yPadding = 10;
 		this.startY = 20;
-		this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
+		if (compact) {
+			this.xPadding = 20;
+			this.yPadding = 15;
+
+			var w = Math.floor(width * 2 / 3);
+			this.siteWidth = Math.floor((w - (col - 1) * this.xPadding) / col);
+			if (this.siteWidth > 256) {
+				this.siteWidth = 256;
+			}
+			this.startX = Math.floor((width - this.siteWidth * col - (col - 1) * this.xPadding) / 2);
+		} else {
+			this.xPadding = 30;
+			this.yPadding = 20;
+			this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
+			this.startX = Math.floor(this.siteWidth / 2);
+		}
 		this.siteHeight = 0; // get it in runtime
 		this.snapshotWidth = this.siteWidth;
 		this.snapshotHeight = Math.floor(this.snapshotWidth * ratio);
-		this.startX = Math.floor(this.siteWidth / 2);
 	}
 	var lp0 = new LayoutParameter(MINWIDTH, 1);
 	var lp1 = new LayoutParameter(MINWIDTH, 1);
@@ -55,7 +68,12 @@ var layout = (function() {
 
 		var ss = $$('sites');
 		$.addClass(ss, 'notransition');
-		layout.layoutTopSites();
+		layout.layoutTopSites(true);
+
+		if($('.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+
 		window.setTimeout(function() {
 			$.removeClass(ss, 'notransition');
 			clrTransitionState();
@@ -82,7 +100,7 @@ var layout = (function() {
 
 	function getFolderColumn(col) {
 		var col = cfg.getConfig('col');
-		return col + 1;
+		return col;// + 1;
 	}
 
 	// 3 items per line
@@ -92,7 +110,7 @@ var layout = (function() {
 		setTopSiteSize(se);
 		var sn = $(se, '.snapshot')[0];
 
-		var cw = se.style.width.replace(/px/g, '') - 0;
+		var cw = sn.style.width.replace(/px/g, '') - 0;
 		var ch = sn.style.height.replace(/px/g, '') - 0;
 		w = cw;
 		w /= 10;
@@ -167,14 +185,12 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
-		var w = lp0.siteWidth;
-		var h = Math.floor(w * ratio);
-		var th = $(se, '.title')[0].offsetHeight;
+		se.style.width = lp0.siteWidth + 'px';
+		se.style.height = lp0.siteHeight + 'px';
 
-		se.style.width = w + 'px';
-		se.style.height = h + th + 'px';
 		var sn = $(se, '.snapshot')[0];
-		sn.style.height = h + 'px';
+		sn.style.width = lp0.snapshotWidth + 'px';
+		sn.style.height = lp0.snapshotHeight + 'px';
 	}
 
 	// return the height of the container, used by the #folder
@@ -190,13 +206,13 @@ var layout = (function() {
 
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
-				se.style.width = lp.siteWidth + 'px';
-				se.style.height = lp.siteHeight + 'px';
-				var sn = $(se, '.snapshot')[0];
-				sn.style.width = lp.snapshotWidth + 'px';
-				sn.style.height = lp.snapshotHeight + 'px';
-
 				if (!$.hasClass(se, 'dragging')) {
+					se.style.width = lp.siteWidth + 'px';
+					se.style.height = lp.siteHeight + 'px';
+					var sn = $(se, '.snapshot')[0];
+					sn.style.width = lp.snapshotWidth + 'px';
+					sn.style.height = lp.snapshotHeight + 'px';
+
 					var top = y + 'px';
 					var left = x + 'px';
 					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
@@ -219,38 +235,57 @@ var layout = (function() {
 	}
 
 	function layoutTopSites() {
-		var col = cfg.getConfig('col');
-
-		var container = $$('container');
-		var sites = $$('sites');
-
 		var ses = $('#sites > .site');
-		var y = lp0.startY;
-		var w = lp0.siteWidth;
-		var h = Math.floor(w * ratio);
+		var col = cfg.getConfig('col');
 
 		placeSites(ses, col, lp0);
 		var fs = $('#sites > .folder');
 		for (var i = 0; i < fs.length; ++ i) {
-			layoutFolderElement(fs[i]);
+			var f = fs[i];
+			if (!$.hasClass(f, 'dragging')) {
+				layoutFolderElement(f);
+			}
 		}
 	}
 
 	function enterDraggingMode() {
-		lp0.snapshotWidth = Math.floor(lp0.snapshotWidth * 3 / 4);
+		lp0.snapshotWidth = Math.floor(lp0.snapshotWidth * 4 / 5);
 		lp0.snapshotHeight = Math.floor(lp0.snapshotWidth * ratio);
 
 		var w = lp0.snapshotWidth;
 		var h = lp0.snapshotHeight;
 
 		var ses = $('#sites > .site');
-		log('get ses: ' + ses.length);
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var se = ses[i];
 			var sn = $(se, '.snapshot')[0];
+			var title = $(se, '.title')[0];
 			if (!$.hasClass(se, 'dragging')) {
 				sn.style.width = w + 'px';
 				sn.style.height = h + 'px';
+				title.style.width = w + 'px';
+
+				if ($.hasClass(se, 'folder')) {
+					layoutFolderElement(se);
+				}
+			}
+		}
+	}
+
+	function leaveDraggingMode() {
+		calcLayout();
+		var w = lp0.snapshotWidth;
+		var h = lp0.snapshotHeight;
+
+		var ses = $('#sites > .site');
+		for (var i = 0, l = ses.length; i < l; ++ i) {
+			var se = ses[i];
+			var sn = $(se, '.snapshot')[0];
+			var title = $(se, '.title')[0];
+			if (!$.hasClass(se, 'dragging')) {
+				sn.style.width = w + 'px';
+				sn.style.height = h + 'px';
+				title.style.width = '';
 			}
 		}
 	}
@@ -284,7 +319,8 @@ var layout = {
 	'layoutFolderElement': layoutFolderElement,
 	'setTopSiteSize': setTopSiteSize,
 
-	'enterDraggingMode': enterDraggingMode
+	'enterDraggingMode': enterDraggingMode,
+	'leaveDraggingMode': leaveDraggingMode
 	
 }; // layout
 	return layout;

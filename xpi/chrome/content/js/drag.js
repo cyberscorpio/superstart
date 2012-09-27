@@ -185,18 +185,15 @@ function getOpt(x, y) {
 	var fa = $$('folder');
 	if (dragIdxes[0] != -1) {
 		var p = gDrag.at(-1, dragIdxes[0]);
-		if ($.inElem(x, y, p) && fa == null) {
-			return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
-		}
-
+		var sn = $(p, '.snapshot')[0];
 		if (fa == null) {
-			if ($.inElem(x, y, p)) {
+			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
 			} else {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
 		} else {
-			if ($.inElem(x, y, p)) {
+			if ($.inElem(x, y, p) && x < $.offsetLeft(sn) + sn.offsetWidth) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;
@@ -315,6 +312,7 @@ return {
 			}
 			elem = null;
 	
+			layout.leaveDraggingMode();
 			if ($('.opened').length == 0) {
 				layout.layoutTopSites();
 			} else {

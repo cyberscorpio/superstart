@@ -163,7 +163,7 @@ function updateSite(s, se, flag) {
 		while(e.firstChild) {
 			e.removeChild(e.firstChild);
 		}
-		e.appendChild(document.createElement('span')).appendChild(document.createTextNode(s.displayName));
+		e.appendChild(document.createTextNode(s.displayName));
 	}
 }
 
@@ -191,7 +191,7 @@ function updateFolder(ss, se) {
 		e.removeChild(e.firstChild);
 	}
 	var title = ss.displayName + ' (' + ss.sites.length + ')';
-	e.appendChild(document.createElement('span')).appendChild(document.createTextNode(title));
+	e.appendChild(document.createTextNode(title));
 
 	layout.layoutFolderElement(se);
 }

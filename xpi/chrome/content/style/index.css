@@ -60,8 +60,8 @@ a {
 , .site
 , #folder {
 	-moz-transition-property: top, left, width, height;
-	-moz-transition-duration: 200ms;
-	-moz-transition-timing-function: ease-in;
+	-moz-transition-duration: 250ms;
+	-moz-transition-timing-function: linear;
 }
 
 
@@ -85,40 +85,27 @@ a {
 
 	border: 1px solid rgba(0,0,0,0.2);
 	/*border-radius: 10px;*/
-	-moz-transition-property: border, box-shadow;
-	-moz-transition-duration: 200ms;
+	-moz-transition-duration: 250ms;
+	-moz-transition-property: border, box-shadow, width, height;
 	-moz-transition-timing-function: ease;
 }
 
-.site a:hover .snapshot {
+.site a:hover .snapshot
+, .site.opened .snapshot {
 	border-color: rgba(0,0,0,0.5);
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
-.site.grouping .snapshot {
-	border-color: rgba(0,0,0,0.5);
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
 /*
-#folder .site .snapshot {
-	border-color: rgba(255,255,255,0.2);
-}
-
 #folder .site a:hover .snapshot {
-	border-color: rgba(255,255,255,.5);
-	box-shadow: 0 0 5px rgba(255,255,255,0.5);
-}
-
-#folder .site.grouping .snapshot {
 	border-color: rgba(255,255,255,0.5);
-	box-shadow: 0 0 10px rgba(255,255,255,0.5);
+	box-shadow: 0 0 5px rgba(255,255,255,0.1);
 }
 */
 
 .site .snapshot.snapshoting {
 	-moz-transition-property: background-position;
-	-moz-transition-duration: 200ms;
+	-moz-transition-duration: 250ms;
 	-moz-transition-timing-function: linear;
 }
 
@@ -127,7 +114,7 @@ a {
 	height: 24px;
 	position: absolute;
 	opacity: 0;
-	-moz-transition: opacity 200ms linear;
+	-moz-transition: opacity 250ms linear;
 	background-color: black;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -157,30 +144,34 @@ a {
 
 .site .title {
 	position: relative;
-	height: 1.8em;
-	padding: .3em .5em .5em .5em;
+	height: 1;
+	padding: .5em;
 	text-align: center;
 
 	font-size: 12px;
 	color: black;
 	text-shadow: -1px 0 1px white, 1px 0 1px white, 0 1px 1px white, 0 -1px 1px white;
-	-moz-transition: text-shadow 200ms linear;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 
-	-moz-transition-property: opacity;
-	-moz-transition-duration: 200ms;
+	-moz-transition-property: opacity, text-shadow;
+	-moz-transition-duration: 250ms;
+	-moz-transition-timing-function: linear;
 }
-
-/*
-#folder .site .title {
-	color: white;
-	text-shadow: none;
-}
-*/
 
 .site a:hover .title {
 }
+
+#folder .site .title {
+	color: rgba(255,255,255,0.75);
+	text-shadow: -1px 0 1px black, 1px 0 1px black, 0 1px 1px black, 0 -1px 1px black;
+}
+
+#folder .site a:hover .title {
+	color: white;
+}
+
 
 .site .title span {
 	line-height: 2em;
@@ -210,6 +201,12 @@ a {
 	border: 2px solid rgba(255,255,255,0.5);
 	background-color: rgba(0,0,0,0.05);
 }
+
+/*
+.site.folder.opened > a > .snapshot {
+	background-color: rgba(0,0,0,0.1);
+}
+*/
 
 .site.folder .snapshot img {
 	position: absolute;

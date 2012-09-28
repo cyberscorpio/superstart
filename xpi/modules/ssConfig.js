@@ -48,11 +48,9 @@ function ssConfig() {
 	}
 
 	var boolCfgs = {
-		'fit-height-if-possible': {'key': 'site.fit.height.if.possible'},
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
 		'use-customize': {'key': 'use.customize'},
 		'show-favicon': {'key': 'site.showfavicon'},
-		'show-blank': {'key': 'site.showblank'},
 		'site-compact': {'key': 'site.compact'},
 		'todo-hide': {'key': 'todo.hide'},
 		'toolbar-bookmark': {'key': 'toolbar.bookmark'},

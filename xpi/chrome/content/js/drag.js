@@ -141,8 +141,8 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 			continue;
 		}
 
+		var sn = $(se, '.snapshot')[0];
 		if (!inFolder && !$.hasClass(elem, 'folder')) {
-			var sn = $(se, '.snapshot')[0];
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
 			}
@@ -150,17 +150,12 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 
 		var pos = $.offset(se);
 		if (pos.left < prevX) {
-			if (prevY > y && x > prevX + se.clientWidth / 2) {
-				// log('case1: ' + dragIdxes[1] + ' vs ' + i);
+			if (prevY > y && x > prevX + sn.clientWidth / 2) {
 				break;
 			}
 		}
 
-		if ((pos.left + se.clientWidth / 2) > x && (pos.top + se.clientHeight) > y) {
-			/*
-			log('case2: ' + dragIdxes[1] + ' vs ' + i);
-			log(pos.left + ', ' + se.clientWidth + ' vs ' + x);
-			*/
+		if ((pos.left + sn.clientWidth / 2) > x && (pos.top + se.clientHeight) > y) {
 			break;
 		}
 

@@ -638,7 +638,3 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	load();
 }
 
-
-
-
-

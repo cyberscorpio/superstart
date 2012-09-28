@@ -488,12 +488,27 @@ function onSiteAdded(evt, idx) {
 
 function onSiteRemoved(evt, idxes) {
 	var g = idxes[0], i = idxes[1];
+	if (g != -1) {
+		var f = sm.getSite(-1, g);
+		var fe = at(-1, g);
+		if (f.sites == undefined) {
+			if ($$('folder')) {
+				closeFolder();
+			}
+			updateSite(f, fe);
+			layout.setTopSiteSize(fe);
+		} else {
+			updateFolder(f, fe); // TODO optimize, many other places also needs to do so
+		}
+	}
 	var se = at(g, i);
 	if (se) {
-		assert(g == -1, 'Something need to do for ingourps removing');
 		if (se) {
 			se.parentNode.removeChild(se);
-			layout.layoutTopSites();
+			layout.layoutTopSites(true);
+			if($('.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
 		}
 	}
 }

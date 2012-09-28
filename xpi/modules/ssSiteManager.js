@@ -238,6 +238,25 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
+	function removeSiteInGroup(g, i) {
+		if (g == -1) {
+			log('removeSiteInGroup cannot remove top site');
+			return null;
+		}
+		var sites = data.sites;
+		var f = getSite(-1, g);
+		var s = getSite(g, i);
+		if (f == null || s == null) {
+			log('removeSite(' + g + ', ' + i + ') is not available');
+			return;
+		}
+		f.sites.splice(i, 1);
+		if (f.sites.length == 1) {
+			sites[g] = f.sites[0];
+		}
+		return s;
+	}
+
 	////////////////////
 	// methods
 	this.getTopSiteCount = function() {
@@ -293,8 +312,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					removeSnapshots([s.snapshots[0], s.snapshots[1]]);
 				}
 			} else {
-				// TODO: in group
-				return;
+				s = removeSiteInGroup(group, idx);
+				if (s === null) {
+					log('Remove site(' + group + ', ' + idx + ') failed');
+					return;
+				}
 			}
 			save();
 			this.fireEvent('site-removed', [group, idx]);
@@ -348,21 +370,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	this.moveOut = function(g, i) {
-		var sites = data.sites;
-		var f = getSite(-1, g);
-		var s = getSite(g, i);
-		if (f == null || s == null) {
-			log('moveOut(' + g + ', ' + i + ') is not available');
-			return;
-		}
-		f.sites.splice(i, 1);
-		if (f.sites.length == 1) {
-			sites[g] = f.sites[0];
-		}
-		sites.push(s);
-		save();
+		var s = removeSiteInGroup(g, i);
+		if (s !== null) {
+			var sites = data.sites;
+			sites.push(s);
+			save();
 
-		this.fireEvent('site-move-out', [g, i]);
+			this.fireEvent('site-move-out', [g, i]);
+		}
 	}
 
 	this.nextSnapshot = function(group, idx) {

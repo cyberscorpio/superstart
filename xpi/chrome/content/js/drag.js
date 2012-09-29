@@ -20,8 +20,8 @@ var mover = (function() {
 	var _y = 0;
 	function _init(se, x, y) {
 		var of = $.offset(elem.parentNode);
-		oft.x = x - (of.left + (se.style.left.replace(/px/g, '') - 0) - window.scrollX);
-		oft.y = y - (of.top + (se.style.top.replace(/px/g, '') - 0) - window.scrollY);
+		oft.x = x - (of.left + parseInt(se.style.left) - window.scrollX);
+		oft.y = y - (of.top + parseInt(se.style.top) - window.scrollY);
 	}
 
 	function _onMove(el, x, y) {

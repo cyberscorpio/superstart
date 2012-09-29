@@ -367,7 +367,7 @@ function openFolder(idx, f) {
 	window.setTimeout(function() {
 		var fa = $$('folder');
 		var t = $.offsetTop(fa);
-		var h = fa.style.height.replace(/px/g, '') - 0;// layout.act() will save the height in fa's style, so we can get it safely
+		var h = parseInt(fa.style.height); // layout.act() will save the height in fa's style, so we can get it safely
 		h += exH;
 		if (h + t - window.pageYOffset > window.innerHeight) {
 			var y = h + t - window.pageYOffset - window.innerHeight;

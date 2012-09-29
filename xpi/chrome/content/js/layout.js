@@ -110,8 +110,8 @@ var layout = (function() {
 		setTopSiteSize(se);
 		var sn = $(se, '.snapshot')[0];
 
-		var cw = sn.style.width.replace(/px/g, '') - 0;
-		var ch = sn.style.height.replace(/px/g, '') - 0;
+		var cw = parseInt(sn.style.width);
+		var ch = parseInt(sn.style.height);
 		w = cw;
 		w /= 10;
 		h = w * ratio;
@@ -167,7 +167,7 @@ var layout = (function() {
 		var se = $('.opened');
 		assert(se.length == 1, 'Only 1 folder can be opened, but we have ' + se.length);
 		se = se[0];
-		var top = $.offsetTop(se) + (se.style.height.replace(/px/g, '') - 0);
+		var top = $.offsetTop(se) + parseInt(se.style.height);
 
 		folder.style.height = height + 'px';
 		folder.style.top = top + 'px';
@@ -177,7 +177,7 @@ var layout = (function() {
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var s = ses[i];
 			if (s.offsetTop > se.offsetTop) {
-				var top = s.style.top.replace(/px/g, '') - 0;
+				var top = parseInt(s.style.top);
 				top += height;
 				s.style.top = top + 'px';
 			}

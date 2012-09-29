@@ -136,8 +136,8 @@ var $$ = function(id) {
 		try {
 			cs = cs || window.getComputedStyle(el, null);
 			return [
-				cs.getPropertyValue('width').replace(/px/, '') - 0,
-				cs.getPropertyValue('height').replace(/px/, '') - 0
+				parseInt(cs.getPropertyValue('width')),
+				parseInt(cs.getPropertyValue('height'))
 				];
 		} catch (e) {
 			return [0, 0];
@@ -148,12 +148,12 @@ var $$ = function(id) {
 	$.getElementExtensionalY = function(el, cs) {
 		try {
 			cs = cs || window.getComputedStyle(el, null);
-			return (cs.getPropertyValue('margin-top').replace(/px/, '') - 0) +
-				(cs.getPropertyValue('margin-bottom').replace(/px/, '') - 0) +
-				(cs.getPropertyValue('border-top-width').replace(/px/, '') - 0) +
-				(cs.getPropertyValue('border-bottom-width').replace(/px/, '') - 0) +
-				(cs.getPropertyValue('padding-top').replace(/px/, '') - 0) +
-				(cs.getPropertyValue('padding-bottom').replace(/px/, '') - 0);
+			return parseInt(cs.getPropertyValue('margin-top')) +
+				parseInt(cs.getPropertyValue('margin-bottom')) +
+				parseInt(cs.getPropertyValue('border-top-width')) +
+				parseInt(cs.getPropertyValue('border-bottom-width')) +
+				parseInt(cs.getPropertyValue('padding-top')) +
+				parseInt(cs.getPropertyValue('padding-bottom'))
 		} catch (e) {
 			return 0;
 		}
@@ -162,7 +162,7 @@ var $$ = function(id) {
 	$.getElementFullHeight = function(el, cs) {
 		try {
 			cs = cs || window.getComputedStyle(el, null);
-			return this.getElementExtensionalY(el, cs) + (cs.getPropertyValue('height').replace(/px/, '') - 0);
+			return this.getElementExtensionalY(el, cs) + parseInt(cs.getPropertyValue('height'));
 		} catch (e) {
 			return 0;
 		}
@@ -172,10 +172,10 @@ var $$ = function(id) {
 		try {
 			cs = cs || window.getComputedStyle(el, null);
 			return [
-				cs.getPropertyValue('margin-top').replace(/px/, '') - 0,
-				cs.getPropertyValue('margin-right').replace(/px/, '') - 0,
-				cs.getPropertyValue('margin-bottom').replace(/px/, '') - 0,
-				cs.getPropertyValue('margin-left').replace(/px/, '') - 0
+				parseInt(cs.getPropertyValue('margin-top')),
+				parseInt(cs.getPropertyValue('margin-right')),
+				parseInt(cs.getPropertyValue('margin-bottom')),
+				parseInt(cs.getPropertyValue('margin-left'))
 				];
 		} catch (e) {
 			return [0, 0, 0, 0];
@@ -186,10 +186,10 @@ var $$ = function(id) {
 		cs = cs || window.getComputedStyle(el, null);
 		try {
 			return [
-				cs.getPropertyValue('border-top-width').replace(/px/, '') - 0,
-				cs.getPropertyValue('border-right-width').replace(/px/, '') - 0,
-				cs.getPropertyValue('border-bottom-width').replace(/px/, '') - 0,
-				cs.getPropertyValue('border-left-width').replace(/px/, '') - 0
+				parseInt(cs.getPropertyValue('border-top-width')),
+				parseInt(cs.getPropertyValue('border-right-width')),
+				parseInt(cs.getPropertyValue('border-bottom-width')),
+				parseInt(cs.getPropertyValue('border-left-width'))
 				];
 		} catch (e) {
 			return [0, 0, 0, 0];
@@ -200,10 +200,10 @@ var $$ = function(id) {
 		cs = cs || window.getComputedStyle(el, null);
 		try {
 			return [
-				cs.getPropertyValue('padding-top').replace(/px/, '') - 0,
-				cs.getPropertyValue('padding-right').replace(/px/, '') - 0,
-				cs.getPropertyValue('padding-bottom').replace(/px/, '') - 0,
-				cs.getPropertyValue('padding-left').replace(/px/, '') - 0
+				parseInt(cs.getPropertyValue('padding-top')),
+				parseInt(cs.getPropertyValue('padding-right')),
+				parseInt(cs.getPropertyValue('padding-bottom')),
+				parseInt(cs.getPropertyValue('padding-left'))
 				];
 		} catch (e) {
 			return [0, 0, 0, 0];

@@ -110,8 +110,14 @@ var layout = (function() {
 		setTopSiteSize(se);
 		var sn = $(se, '.snapshot')[0];
 
-		var cw = parseInt(sn.style.width);
-		var ch = parseInt(sn.style.height);
+		var cw = sn.clientWidth;
+		if (cw == 0) {
+			cw = parseInt(sn.style.width);
+		}
+		var ch = sn.clientHeight;
+		if (ch == 0) {
+			ch = parseInt(sn.style.height);
+		}
 		w = cw;
 		w /= 10;
 		h = w * ratio;
@@ -234,11 +240,7 @@ var layout = (function() {
 		return height;
 	}
 
-	function layoutTopSites() {
-		var ses = $('#sites > .site');
-		var col = cfg.getConfig('col');
-
-		placeSites(ses, col, lp0);
+	function layoutFolderElements() {
 		var fs = $('#sites > .folder');
 		for (var i = 0; i < fs.length; ++ i) {
 			var f = fs[i];
@@ -246,6 +248,14 @@ var layout = (function() {
 				layoutFolderElement(f);
 			}
 		}
+	}
+
+	function layoutTopSites() {
+		var ses = $('#sites > .site');
+		var col = cfg.getConfig('col');
+
+		placeSites(ses, col, lp0);
+		layoutFolderElements();
 	}
 
 	function enterDraggingMode() {
@@ -264,12 +274,9 @@ var layout = (function() {
 				sn.style.width = w + 'px';
 				sn.style.height = h + 'px';
 				title.style.width = w + 'px';
-
-				if ($.hasClass(se, 'folder')) {
-					layoutFolderElement(se);
-				}
 			}
 		}
+		layoutFolderElements();
 	}
 
 	function leaveDraggingMode() {
@@ -288,7 +295,17 @@ var layout = (function() {
 				title.style.width = '';
 			}
 		}
+		layoutFolderElements();
 	}
+
+	/*
+	function onSiteResize() {
+		var se = this;
+		if ($.hasClass(se, 'folder')) {
+			layoutFolderElement(se);
+		}
+	}
+	*/
 
 
 	var actID = null;
@@ -314,13 +331,17 @@ var layout = {
 		}
 	},
 
-	'layoutFolderArea': layoutFolderArea,
-	'placeSitesInFolderArea': placeSitesInFolderArea,
-	'layoutFolderElement': layoutFolderElement,
-	'setTopSiteSize': setTopSiteSize,
+	'layoutFolderArea': layoutFolderArea
+	, 'placeSitesInFolderArea': placeSitesInFolderArea
+	, 'layoutFolderElement': layoutFolderElement
+	, 'setTopSiteSize': setTopSiteSize
 
-	'enterDraggingMode': enterDraggingMode,
-	'leaveDraggingMode': leaveDraggingMode
+	, 'enterDraggingMode': enterDraggingMode
+	, 'leaveDraggingMode': leaveDraggingMode
+
+	// 'onSiteResize': onSiteResize
+	// Maybe I can use MutationObserver to mointor the resizing event!!
+	// https://developer.mozilla.org/en-US/docs/DOM/MutationObserver
 	
 }; // layout
 	return layout;

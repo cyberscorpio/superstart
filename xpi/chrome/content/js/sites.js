@@ -213,6 +213,7 @@ function createEmptySiteElement() {
 function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
+	// se.onresize = layout.onSiteResize;
 	var cmd = {};
 
 	if (s.sites != undefined) { // folder

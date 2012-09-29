@@ -6,7 +6,6 @@ var layout = (function() {
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 	var cfg = ssObj.getService(Ci.ssIConfig);
-	var sm = ssObj.getService(Ci.ssISiteManager);
 	ssObj = undefined;
 
 	function LayoutParameter(width, col) {
@@ -60,6 +59,7 @@ var layout = (function() {
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		window.removeEventListener('resize', onResize, false);
+		cfg = null;
 	}, false);
 	// -- register events ended ---
 
@@ -276,7 +276,6 @@ var layout = (function() {
 				title.style.width = w + 'px';
 			}
 		}
-		layoutFolderElements();
 	}
 
 	function leaveDraggingMode() {
@@ -295,7 +294,6 @@ var layout = (function() {
 				title.style.width = '';
 			}
 		}
-		layoutFolderElements();
 	}
 
 	/*
@@ -306,6 +304,18 @@ var layout = (function() {
 		}
 	}
 	*/
+	function onSnapshotTransitionEng(e) {
+		if (e.propertyName != 'width') {
+			return;
+		}
+		var se = this.parentNode;
+		while (se && !$.hasClass(se, 'site')) {
+			se = se.parentNode;
+		}
+		if (se && $.hasClass(se, 'folder')) {
+			layoutFolderElement(se);
+		}
+	}
 
 
 	var actID = null;
@@ -342,6 +352,7 @@ var layout = {
 	// 'onSiteResize': onSiteResize
 	// Maybe I can use MutationObserver to mointor the resizing event!!
 	// https://developer.mozilla.org/en-US/docs/DOM/MutationObserver
+	, 'onSnapshotTransitionEng': onSnapshotTransitionEng
 	
 }; // layout
 	return layout;

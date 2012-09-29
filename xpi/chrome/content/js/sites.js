@@ -213,7 +213,7 @@ function createEmptySiteElement() {
 function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
-	// se.onresize = layout.onSiteResize;
+	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEng, false);
 	var cmd = {};
 
 	if (s.sites != undefined) { // folder

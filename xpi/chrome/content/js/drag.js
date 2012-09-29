@@ -4,9 +4,15 @@ var gDrag = (function() {
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var cfg = ssObj.getService(Ci.ssIConfig);
 var sm = ssObj.getService(Ci.ssISiteManager);
 ssObj = undefined;
+
+// === cleanup begin ===
+window.addEventListener('unload', function() {
+	window.removeEventListener('unload', arguments.callee, false);
+	sm = null;
+}, false);
+// === cleanup end ===
 
 const HOVER = 500;
 

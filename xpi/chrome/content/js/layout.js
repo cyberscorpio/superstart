@@ -123,9 +123,11 @@ var layout = (function() {
 	}
 
 	function placeTodoList() {
+		/*
 		var n = $$('notes');
 		var w = window.innerWidth;
 		n.style.left = w - NOTEWIDTH + 'px';
+		*/
 	}
 
 	var transitionElement = null;

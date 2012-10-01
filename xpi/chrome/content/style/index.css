@@ -47,7 +47,8 @@ a {
 
 /* notes */
 #notes {
-	position: absolute;
+	xxposition: absolute;
+	float: right;
 	width: 200px;
 }
 

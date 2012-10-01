@@ -11,6 +11,7 @@ ssObj = undefined;
 var cfgevts = {
 	'todo-hide': onTodoHide
 };
+
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 	for (var k in cfgevts) {
@@ -36,6 +37,9 @@ function onTodoHide(evt, v) {
 	} else {
 		$.removeClass($$('notes'), 'hidden');
 	}
+}
+
+function init() {
 }
 
 })();

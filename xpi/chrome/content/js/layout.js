@@ -51,14 +51,24 @@ var layout = (function() {
 	}
 
 	// -- register events begin ---
+	var cfgevts = {
+		'col': onColChanged,
+		'site-compact': onSiteCompactChanged
+	};
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+		for (var k in cfgevts) {
+			cfg.subscribe(k, cfgevts[k]);
+		}
 		calcLayout();
 	}, false);
 	window.addEventListener('resize', onResize, false);
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		window.removeEventListener('resize', onResize, false);
+		for (var k in cfgevts) {
+			cfg.unsubscribe(k, cfgevts[k]);
+		}
 		cfg = null;
 	}, false);
 	// -- register events ended ---
@@ -80,8 +90,23 @@ var layout = (function() {
 		}, 0);
 	}
 
-	var transitionElement = null;
+	function onColChanged(evt, v) {
+		calcLayout();
+		layoutTopSites();
+		if($('.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+	}
 
+	function onSiteCompactChanged(evt, v) {
+		calcLayout();
+		layoutTopSites();
+		if($('.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+	}
+
+	var transitionElement = null;
 	function clrTransitionState() {
 		if (transitionElement) {
 			log('clear transition');

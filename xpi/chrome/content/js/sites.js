@@ -198,7 +198,7 @@ function updateFolder(ss, se) {
 
 function flashFolder(f) {
 	var count = 3;
-	var tm = 150;
+	var tm = 100;
 	$.addClass(f, 'flash');
 	window.setTimeout(function() {
 		$.toggleClass(f, 'flash');
@@ -644,7 +644,10 @@ function onSiteChanged(evt, idxes) {
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
-			updateFolder(f, fe);
+			// updateFolder(f, fe);
+			var imgs = $(fe, 'img');
+			var img = imgs[i];
+			img.src = s.snapshots[s.snapshotIndex];
 		}
 	}
 

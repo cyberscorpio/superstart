@@ -1,7 +1,8 @@
 var layout = (function() {
 	const Cc = Components.classes;
 	const Ci = Components.interfaces;
-	const MINWIDTH = 800;
+	const MINWIDTH = 1000;
+	const NOTEWIDTH = 200;
 	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
@@ -40,6 +41,9 @@ var layout = (function() {
 		if (w < MINWIDTH) {
 			w = MINWIDTH;
 		}
+		if (!cfg.getConfig('todo-hide')) {
+			w -= NOTEWIDTH;
+		}
 		var col = cfg.getConfig('col');
 		lp0 = new LayoutParameter(w, col);
 
@@ -53,7 +57,8 @@ var layout = (function() {
 	// -- register events begin ---
 	var cfgevts = {
 		'col': onColChanged,
-		'site-compact': onSiteCompactChanged
+		'site-compact': onSiteCompactChanged,
+		'todo-hide': onTodoHide
 	};
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
@@ -75,6 +80,8 @@ var layout = (function() {
 
 	function onResize() {
 		calcLayout();
+
+		placeTodoList();
 
 		var ss = $$('sites');
 		$.addClass(ss, 'notransition');
@@ -104,6 +111,21 @@ var layout = (function() {
 		if($('.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
+	}
+
+	function onTodoHide(evt, v) {
+		calcLayout();
+		placeTodoList();
+		layoutTopSites();
+		if($('.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+	}
+
+	function placeTodoList() {
+		var n = $$('notes');
+		var w = window.innerWidth;
+		n.style.left = w - NOTEWIDTH + 'px';
 	}
 
 	var transitionElement = null;
@@ -366,7 +388,8 @@ var layout = {
 		}
 	},
 
-	'layoutFolderArea': layoutFolderArea
+	'placeTodoList': placeTodoList
+	, 'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'layoutFolderElement': layoutFolderElement
 	, 'setTopSiteSize': setTopSiteSize

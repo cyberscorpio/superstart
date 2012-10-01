@@ -227,11 +227,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
-				/*
-				if (idxes[0] != -1) {
-					that.fireEvent('folder-changed', [-1, idxes[0]]);
-				}
-				*/
 			} else {
 				log('----- Update site information with: ' + idxes[0] + ' : ' + idxes[1] + ' failed -----');
 			}

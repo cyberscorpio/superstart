@@ -12,16 +12,23 @@
 	<script type="text/javascript" src="js/layout.js"></script>
 	<script type="text/javascript" src="js/drag.js"></script>
 	<script type="text/javascript" src="js/sites.js"></script>
+	<script type="text/javascript" src="js/notes.js"></script>
+	<script type="text/javascript" src="js/navbar.js"></script>
 	<link rel="shortcut icon" href="images/superstart.png" />
 </head>
 <body>
 	<div id="container">
 		<div id="site-add" class="hidden"></div>
-		<div id="topbar" class="hidden">
+		<div id="navbar" class="hidden">
+			<ul id="nb-commands">
+				<li id="nbc-notes">notes</li>
+			</ul>
 		</div>
 		<div id="sites" class="hidden">
 		</div>
 		<div id="notes" class="hidden">
+			<textarea id="note-edit"></textarea>
+			<ul id="notes-list"></ul>
 		</div>
 	</div>
 	<div id="mask" class="hidden">

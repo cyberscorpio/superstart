@@ -32,19 +32,27 @@ a {
 	top: 0;
 }
 
-#topbar {
+#navbar {
 	height: 32px;
-	background-color: rgba(0,0,0,0.1);
+	background-color: rgba(0,0,0,0.05);
 }
 
-#sites {
-	position: relative;
+#nb-commands {
+	text-align: right;
 }
 
-#sites.notransition .site, .site.notransition {
-	-moz-transition-property: none;
+#nb-commnads li {
+	float: right;
 }
 
+/* notes */
+#notes {
+	position: absolute;
+	width: 200px;
+}
+
+
+/* sites */
 #mask {
 	position: absolute;
 	width: 100%;
@@ -53,6 +61,14 @@ a {
 	z-index: 1;
 	background-color: white;
 	opacity: 0.85;
+}
+
+#sites {
+	position: relative;
+}
+
+#sites.notransition .site, .site.notransition {
+	-moz-transition-property: none;
 }
 
 /* site & folder transition */
@@ -267,4 +283,3 @@ a {
 #folder.resizing{
 	overflow: hidden;
 }
-

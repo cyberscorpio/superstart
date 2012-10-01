@@ -196,6 +196,21 @@ function updateFolder(ss, se) {
 	layout.layoutFolderElement(se);
 }
 
+function flashFolder(f) {
+	var count = 3;
+	var tm = 150;
+	$.addClass(f, 'flash');
+	window.setTimeout(function() {
+		$.toggleClass(f, 'flash');
+		count --;
+		if (count > 0) {
+			window.setTimeout(arguments.callee, tm);
+		} else {
+			$.removeClass(f, 'flash');
+		}
+	}, tm);
+}
+
 /**
  * always insert into the end
  */
@@ -514,14 +529,7 @@ function onSiteRemoved(evt, idxes) {
 	}
 }
 
-function onSiteSimpleMove(evt, groupFromTo) {
-	var [g, f, t] = groupFromTo;
-	// document.title = f + ' vs ' + t;
-
-	var from = at(g, f);
-	var to = at(g, t);
-	assert((!from && !to) || (from && to && from.parentNode == to.parentNode), 'onSimpleMove from and to should be in the same level');
-
+function simpleMoveHelper(from, to, f, t) {
 	var p = from.parentNode;
 	p.removeChild(from);
 	if (f > t) {
@@ -529,13 +537,26 @@ function onSiteSimpleMove(evt, groupFromTo) {
 	} else {
 		p.insertBefore(from, to.nextSibling);
 	}
+}
+
+function onSiteSimpleMove(evt, groupFromTo) {
+	var [g, f, t] = groupFromTo;
+
+	var from = at(g, f);
+	var to = at(g, t);
+	assert((!from && !to) || (from && to && from.parentNode == to.parentNode), 'onSimpleMove from and to should be in the same level');
+	simpleMoveHelper(from, to, f, t);
 
 	if (g == -1) {
 		layout.layoutTopSites();
 	} else {
 		var se = at(-1, g);
-		var ss = sm.getSite(-1, g);
-		updateFolder(ss, se);
+		var imgs = $(se, 'img');
+		from = imgs[f];
+		to = imgs[t];
+		simpleMoveHelper(from, to, f, t);
+		layout.layoutFolderElement(se);
+
 		if ($.hasClass(se, 'opened')) {
 			layout.placeSitesInFolderArea();
 		}
@@ -563,6 +584,12 @@ function onSiteMoveIn(evt, fromTo) {
 
 	if (!gDrag.inDragging()) {
 		layout.layoutTopSites();
+	} else {
+		flashFolder(to);
+	}
+
+	if (t.sites.length > 9) {
+		// log('count: ' + t.sites.length);
 	}
 }
 

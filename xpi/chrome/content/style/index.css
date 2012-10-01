@@ -202,6 +202,12 @@ a {
 	background-color: rgba(0,0,0,0.05);
 }
 
+.site.folder.flash > a > .snapshot {
+	border-color: rgba(255,255,255,1);
+	box-shadow: 0 0 6px rgba(0,0,0,0.75);
+}
+
+
 /*
 .site.folder.opened > a > .snapshot {
 	background-color: rgba(0,0,0,0.1);

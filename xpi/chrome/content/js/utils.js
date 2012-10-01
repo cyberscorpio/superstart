@@ -57,6 +57,14 @@ var $$ = function(id) {
 		} catch (e) {}
 	}
 
+	$.toggleClass = function(el, cls) {
+		if ($.hasClass(el, cls)) {
+			$.removeClass(el, cls);
+		} else {
+			$.addClass(el, cls);
+		}
+	}
+
 	$.isChild = function(c, p) {
 		try {
 			while (c != null) {

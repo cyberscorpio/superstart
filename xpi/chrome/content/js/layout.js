@@ -52,6 +52,9 @@ var layout = (function() {
 
 		var mask = $$('mask');
 		mask.style.height = window.innerHeight + 'px';
+
+		var notes = $$('notes');
+		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
 	}
 
 	// -- register events begin ---

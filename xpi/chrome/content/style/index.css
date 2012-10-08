@@ -284,3 +284,27 @@ a {
 #folder.resizing{
 	overflow: hidden;
 }
+
+
+/** notes **/
+#notes {
+    -moz-transition-duration: 250ms;
+    -moz-transition-property: margin;
+    -moz-transition-timing-function: linear;
+}
+
+
+#notes-list {
+	font-size: 12px;
+	line-height: 2em;
+	word-wrap: break-word;
+}
+
+#notes-list li {
+	border-top: 1px solid rgba(255,255,255,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	padding: .1em .5em;
+	/*
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
+	*/
+}

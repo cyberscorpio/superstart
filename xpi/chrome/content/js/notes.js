@@ -16,6 +16,7 @@ var cfgevts = {
 };
 var tdevts = {
 	'todo-added': onNoteAdded
+	, 'todo-removed': onNoteRemoved
 };
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -31,6 +32,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	if (!cfg.getConfig('todo-hide')) {
 		$.removeClass($$('notes'), 'hidden');
+		$$('nbc-notes').setAttribute('title', getString('ssNotesClose'));
 		layout.placeTodoList();
 	}
 }, false);
@@ -49,14 +51,25 @@ window.addEventListener('unload', function() {
 function onTodoHide(evt, v) {
 	if (v) {
 		$.addClass($$('notes'), 'hidden');
+		$$('nbc-notes').setAttribute('title', getString('ssNotesOpen'));
 	} else {
 		$.removeClass($$('notes'), 'hidden');
+		$$('nbc-notes').setAttribute('title', getString('ssNotesClose'));
 	}
 }
 
 function init() {
+	var onoff = $$('nbc-notes');
+	onoff.onclick = function() {
+		if (cfg.getConfig('todo-hide')) {
+			cfg.setConfig('todo-hide', false);
+		} else {
+			cfg.setConfig('todo-hide', true);
+		}
+	}
+
 	var input = $$('note-edit');
-	input.setAttribute('placeholder', getString('ssTodoPlaceHolder'));
+	input.setAttribute('placeholder', getString('ssNotePlaceHolder'));
 
 	input.addEventListener('keypress', function(evt) {
 		if (evt.keyCode == 13) { // return
@@ -85,38 +98,60 @@ function init() {
 	}
 }
 
+function getIndexFromElement(el) {
+	while(el != document) {
+		if (el.tagName.toLowerCase() == 'li') {
+			var children = el.parentNode.children;
+			for (var i = 0, l = children.length; i < l; ++ i) {
+				if (children[i] == el) {
+					return i;
+				}
+			}
+		}
+		el = el.parentNode;
+	}
+	return -1;
+}
+
+function onDone() {
+	var index = getIndexFromElement(this);
+	if (index != -1) {
+		todo.removeTodo(index);
+	}
+}
+
 function insertNote(n) {
 	var list = $$('notes-list');
 	var li = document.createElement('li');
+	var done = document.createElement('div');
+	$.addClass(done, 'button');
+	$.addClass(done, 'done');
+	done.setAttribute('title', getString('ssNoteDone'));
+	done.onclick = onDone;
+	li.appendChild(done);
+
 	updateNote(li, n);
 	list.appendChild(li);
 }
 
 function updateNote(li, n) {
-	// n.text = sU.escapeHTML(n.text);
-	// n.star = (n.priority || 0) ? 'star' : 'nostar';
-	// li.innerHTML = xl.utils.template(tmplTodo, todo);
 	li.appendChild(document.createTextNode(n.text));
-
-	/*
-	var map = {'star' : todoRemoveStar, 'nostar' : todoAddStar};
-	for (var k in map) {
-		var btn = li.getElementsByClassName(k);
-		if (btn.length > 0) {
-			for (var i = 0; i < btn.length; ++ i) {
-				btn[i].setAttribute('title', map[k]);
-			}
-		}
-	}
-	*/
 }
 
 /// event handlers
 function onNoteAdded(evt, i) {
-        var n = todo.getTodo(i);
-        if (n != null) {
-                insertNote(n);
-        }
+	var n = todo.getTodo(i);
+	if (n != null) {
+		insertNote(n);
+	}
+}
+
+function onNoteRemoved(evt, index) {
+	var lis = $('#notes-list li');
+	if (index >= 0 && index < lis.length) {
+		var li = lis[index];
+		li.parentNode.removeChild(li);
+	}
 }
 
 })();

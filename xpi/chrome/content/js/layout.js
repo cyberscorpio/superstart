@@ -69,6 +69,7 @@ var layout = (function() {
 			cfg.subscribe(k, cfgevts[k]);
 		}
 		calcLayout();
+		document.body.style.minWidth = MINWIDTH + 'px';
 	}, false);
 	window.addEventListener('resize', onResize, false);
 	window.addEventListener('unload', function() {

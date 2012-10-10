@@ -145,6 +145,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
 				changed = true;
 			}
+
+			if (s.snapshots.length == 3) { // temporarily
+				s.snapshots.push(s.snapshots[2]);
+				s.snapshots[2] = getLiveSnapshot(s.url);
+				changed = true;
+			}
 		});
 		return changed;
 	}
@@ -226,6 +232,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.icon = icon;
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
+				s.snapshots[2] = getLiveSnapshot(url);
 				s.snapshots[3] = custImg;
 				s.snapshotIndex = snapshotIndex;
 
@@ -481,6 +488,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			function onTimeout() {
 				let doc = browser.contentDocument;
 				let title = doc.title || url;
+				let href = doc.location.href;
 				let icon = getIcon(doc);
 				doc = null;
 
@@ -495,7 +503,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 							if (s.url == url) {
 								used = true;
 								removeSnapshots([s.snapshots[0], s.snapshots[1]]);
-								updateSiteInformation(idxes, url, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
+								updateSiteInformation(idxes, href, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
 							}
 						});
 						if (!used) {

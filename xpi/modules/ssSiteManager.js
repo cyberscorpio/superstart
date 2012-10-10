@@ -172,6 +172,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		that.filePutContents(file, that.stringify(data));
 	}
 
+	function getLiveSnapshot(url) {
+		return 'moz-page-thumb://thumbnail?url=' + encodeURIComponent(url);
+	}
+
 	function adjustSite(s) {
 		if (s.sites != undefined && Array.isArray(s.sites)) {
 			for (let i = 0; i < s.sites.length; ++ i) {
@@ -188,8 +192,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					}
 				}
 			}
-			if (s.snapshots[2] != '') {
-				s.snapshots[2] = that.regulateUrl(s.snapshots[2]).replace(/\\/g, '/');
+			if (s.snapshots[3] != '') {
+				s.snapshots[3] = that.regulateUrl(s.snapshots[3]).replace(/\\/g, '/');
 			}
 			s.displayName = s.name || (s.title || s.url);
 		}
@@ -222,7 +226,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.icon = icon;
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
-				s.snapshots[2] = custImg;
+				s.snapshots[3] = custImg;
 				s.snapshotIndex = snapshotIndex;
 
 				save();
@@ -277,11 +281,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	this.addSite = function(url, name, image) {
 		url = this.regulateUrl(url);
+		let living = getLiveSnapshot(url);
 		let s = {
 			'url': url,
 			'title': url,
 			'name': name,
-			'snapshots': [imgLoading, imgLoading, image],
+			'snapshots': [imgLoading, imgLoading, living, image],
 			'snapshotIndex': (image == '' ? 0 : 2)
 		};
 		data.sites.push(s);
@@ -295,17 +300,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (s != null) {
 			if (group == -1) {
 				data.sites.splice(idx, 1);
-				let found = false;
-				let snapshot = s.snapshots[0];
-				travel(function(s, idxes) {
-					if (s.snapshots[0] == snapshot) {
-						found = true;
-						return true;
-					}
-				});
-				if (!found) {
-					removeSnapshots([s.snapshots[0], s.snapshots[1]]);
-				}
 			} else {
 				s = removeSiteInGroup(group, idx);
 				if (s === null) {
@@ -313,6 +307,19 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					return;
 				}
 			}
+
+			let found = false;
+			let snapshot = s.snapshots[0];
+			travel(function(s, idxes) {
+				if (s.snapshots[0] == snapshot) {
+					found = true;
+					return true;
+				}
+			});
+			if (!found) {
+				removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+			}
+
 			save();
 			this.fireEvent('site-removed', [group, idx]);
 		}
@@ -380,7 +387,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (s != null) {
 			let i = s.snapshotIndex;
 			++ i;
-			if (i > 2 || (i == 2 && s.snapshots[i] == '')) {
+			if (i > 3 || (i == 3 && s.snapshots[i] == '')) {
 				i = 0;
 			}
 			if (i != s.snapshotIndex) {
@@ -488,7 +495,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 							if (s.url == url) {
 								used = true;
 								removeSnapshots([s.snapshots[0], s.snapshots[1]]);
-								updateSiteInformation(idxes, url, title, s.name, icon, names, s.snapshots[2], s.snapshotIndex);
+								updateSiteInformation(idxes, url, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
 							}
 						});
 						if (!used) {

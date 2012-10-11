@@ -629,7 +629,22 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				}
 			}
 			persist.progressListener = listener;
-			persist.saveURI(src, null, null, null, null, file);
+
+			// it seems from fx19, there is an additional parameter for saveURI, so...
+			let saved = false;
+			try {
+				persist.saveURI(src, null, null, null, null, file);
+				saved = true;
+			} catch (e) {
+			}
+
+			if (saved == false) {
+				try {
+					persist.saveURI(src, null, null, null, null, file, null);
+				} catch (e) {
+					log(e);
+				}
+			}
 		}
 
 		function takeSnapshot(url) {

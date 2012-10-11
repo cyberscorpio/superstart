@@ -222,17 +222,18 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	function updateSiteInformation(idxes, url, title, name, icon, shotNames, custImg, snapshotIndex) {
+	function updateSiteInformation(idxes, url, realurl, title, name, icon, shotNames, custImg, snapshotIndex) {
 		if (Array.isArray(idxes) && idxes.length == 2) {
 			let s = getSite(idxes[0], idxes[1]);
 			if (s != null && Array.isArray(shotNames) && shotNames.length == 2) {
 				s.url = url;
+				s.realurl = realurl;
 				s.title = title;
 				s.name = name;
 				s.icon = icon;
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
-				s.snapshots[2] = getLiveSnapshot(url);
+				s.snapshots[2] = getLiveSnapshot(realurl);
 				s.snapshots[3] = custImg;
 				s.snapshotIndex = snapshotIndex;
 
@@ -292,6 +293,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		let s = {
 			'url': url,
 			'title': url,
+			'realurl': url, // used for live snapshot
 			'name': name,
 			'snapshots': [imgLoading, imgLoading, living, image],
 			'snapshotIndex': (image == '' ? 0 : 2)
@@ -503,7 +505,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 							if (s.url == url) {
 								used = true;
 								removeSnapshots([s.snapshots[0], s.snapshots[1]]);
-								updateSiteInformation(idxes, href, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
+								updateSiteInformation(idxes, url, href, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
 							}
 						});
 						if (!used) {

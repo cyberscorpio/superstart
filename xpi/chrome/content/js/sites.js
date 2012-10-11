@@ -523,6 +523,8 @@ function onSiteRemoved(evt, idxes) {
 			se.parentNode.removeChild(se);
 			if($('.opened').length == 1) {
 				layout.placeSitesInFolderArea();
+			} else {
+				layout.layoutTopSites(true);
 			}
 		}
 	}

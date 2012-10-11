@@ -6,6 +6,7 @@ pref('extensions.superstart.site.compact', false);
 
 pref('extensions.superstart.site.col', 4);
 pref('extensions.superstart.site.minimum.col', 2);
+pref('extensions.superstart.site.open.in.newtab', false);
 pref('extensions.superstart.site.showfavicon', true);
 
 pref('extensions.superstart.todo.hide', true);

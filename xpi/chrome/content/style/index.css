@@ -223,7 +223,9 @@ a {
 , .site.folder.closing {
 	z-index: 2;
 }
-.site.folder.opened 
+
+.site
+, .site.folder.opened 
 , .site.folder.opened * {
 	-moz-user-select: -moz-none !important;
 }

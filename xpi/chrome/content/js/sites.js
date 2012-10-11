@@ -444,7 +444,13 @@ function clickLink(evt) {
 		assert(idxes[0] == -1, 'only top level sites can be folders');
 		onClickFolder(idxes[1], s);
 	} else {
-		alert('you click ' + s.displayName);
+		if (cfg.getConfig('open-in-newtab')) {
+			if (s.url != null) {
+				$.getMainWindow().getBrowser().addTab(s.url);
+			}
+		} else {
+			document.location.href = s.url;
+		}
 	}
 	return false;
 }

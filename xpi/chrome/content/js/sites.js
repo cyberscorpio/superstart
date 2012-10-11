@@ -241,10 +241,12 @@ function createSiteElement(s) {
 	} else {
 		updateSite(s, se);
 		var buttons = ['remove', 'next-snapshot'];
+		var titles = ['ssSiteRemove', 'ssSiteNextSnapshot'];
 		var a = $(se, 'a .snapshot')[0];
 		for (var i = 0; i < buttons.length; ++ i) {
 			var b = document.createElement('div');
 			b.className = buttons[i] + ' button';
+			b.title = getString(titles[i]);
 			a.appendChild(b);
 		}
 		

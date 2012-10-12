@@ -33,7 +33,10 @@ function init() {
 	add.onclick = function() { showAddSite(); };
 	$.removeClass(add, 'hidden');
 
+	onOpenTypeChanged();
+
 	layout.layoutTopSites();
+
 	$.removeClass(container, 'hidden');
 
 	// register site events
@@ -44,7 +47,8 @@ function init() {
 		'site-move-in': onSiteMoveIn,
 		'site-move-out': onSiteMoveOut,
 		'site-changed': onSiteChanged,
-		'site-snapshot-changed': onSiteSnapshotChanged
+		'site-snapshot-changed': onSiteSnapshotChanged,
+		'open-in-newtab': onOpenTypeChanged
 	};
 	// register document events
 	var devts = {
@@ -240,8 +244,8 @@ function createSiteElement(s) {
 		};
 	} else {
 		updateSite(s, se);
-		var buttons = ['remove', 'next-snapshot'];
-		var titles = ['ssSiteRemove', 'ssSiteNextSnapshot'];
+		var buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
+		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 		var a = $(se, 'a .snapshot')[0];
 		for (var i = 0; i < buttons.length; ++ i) {
 			var b = document.createElement('div');
@@ -361,9 +365,11 @@ function openFolder(idx, f) {
 	container.appendChild(folderArea);
 	folderArea.idx = idx;
 	$.addClass(folderArea, 'resizing');
-	folderArea.addEventListener('transitionend', function() {
-		this.removeEventListener('transitionend', arguments.callee, false);
-		$.removeClass(this, 'resizing');
+	folderArea.addEventListener('transitionend', function(evt) {
+		if (this == evt.target) {
+			this.removeEventListener('transitionend', arguments.callee, false);
+			$.removeClass(this, 'resizing');
+		}
 	}, false);
 
 	var df = document.createDocumentFragment();
@@ -409,7 +415,10 @@ function closeFolder() {
 
 	folderArea.style.height = '0px';
 	$.addClass(folderArea, 'resizing');
-	folderArea.addEventListener('transitionend', function() {
+	folderArea.addEventListener('transitionend', function(evt) {
+		if (this != evt.target) {
+			return;
+		}
 		this.removeEventListener('transitionend', arguments.callee, false);
 		this.parentNode.removeChild(this);
 		$.addClass(this, 'resizing');
@@ -481,7 +490,10 @@ function nextSnapshot() {
 			var snapshot = $(se, '.snapshot')[0];
 			$.addClass(snapshot, 'snapshoting');
 			snapshot.style.backgroundPosition = '-' + snapshot.clientWidth + 'px 0';
-			snapshot.addEventListener('transitionend', function() {
+			snapshot.addEventListener('transitionend', function(evt) {
+				if (this != evt.target) {
+					return;
+				}
 				snapshot.removeEventListener('transitionend', arguments.callee, true);
 	
 				$.removeClass(snapshot, 'snapshoting');
@@ -491,7 +503,10 @@ function nextSnapshot() {
 				window.setTimeout(function() {
 					$.addClass(snapshot, 'snapshoting');
 					snapshot.style.backgroundPosition = '0 0';
-					snapshot.addEventListener('transitionend', function() {
+					snapshot.addEventListener('transitionend', function(evt) {
+						if (this != evt.target) {
+							return;
+						}
 						snapshot.removeEventListener('transitionend', arguments.callee, true);
 						$.removeClass(snapshot, 'snapshoting');
 						snapshot.style.backgroundPosition = '';
@@ -673,6 +688,14 @@ function onSiteChanged(evt, idxes) {
 
 function onSiteSnapshotChanged(evt, idxes) {
 	onSiteChanged(null, idxes);
+}
+
+function onOpenTypeChanged(evt, value) {
+	if (cfg.getConfig('open-in-newtab')) {
+		$.addClass($$('sites'), 'newtab');
+	} else {
+		$.removeClass($$('sites'), 'newtab');
+	}
 }
 
 

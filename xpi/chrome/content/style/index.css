@@ -183,6 +183,40 @@ a {
 	background-image: url(../images/right.png);
 }
 
+.site .edit {
+	top: 1px;
+	right: 30px;
+	background-image: url(../images/edit.png);
+}
+
+.site .refresh {
+	top: 1px;
+	right: 59px;
+	background-image: url(../images/refresh.png);
+}
+
+.site .newtab ,
+.site .thistab {
+	top: 1px;
+	left: 1px;
+}
+
+.site .newtab {
+	background-image: url(../images/newtab.png);
+}
+
+.site .thistab {
+	background-image: url(../images/thistab.png);
+	display: none;
+}
+
+#sites.newtab .site .newtab {
+	display: none;
+}
+#sites.newtab .site .thistab {
+	display: block;
+}
+
 .site .title {
 	position: relative;
 	height: 1em;

@@ -171,12 +171,11 @@ var layout = (function() {
 		if (ch == 0) {
 			ch = parseInt(sn.style.height);
 		}
-		w = cw;
-		w /= 10;
-		h = w * ratio;
-		var ww = Math.floor(w * 2);
-		var hh = Math.floor(h * 2);
-		var mh = Math.floor((ch - 3 * hh) / 4);
+		var w = cw / 10;
+		var h = ch / 10;
+		var ww = Math.ceil(w * 2);
+		var hh = Math.ceil(h * 2);
+		var mh = Math.ceil((ch - 3 * hh) / 4);
 		w = Math.floor(w);
 		h = Math.floor(h);
 		

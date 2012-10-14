@@ -17,9 +17,9 @@ interface ssISiteManager: nsISupports
 	/*
 	void changeSite(in long index, in string url, in AString name, in AString customizeImage);
 	void exchangeSite(in long index1, in long index2);
-
-	void refreshSite(in long index);
 	*/
+
+	void refreshSite(in long group, in long index);
 	void nextSnapshot(in long group, in long index);
 };
 

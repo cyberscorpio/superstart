@@ -5,7 +5,7 @@
  *	site-removed
  *	site-simple-move
  *	site-changed
- *	site-snapshot-changed
+ *	site-snapshot-index-changed
  */
 var EXPORTED_SYMBOLS = [ "ssSiteManager" ];
 
@@ -222,7 +222,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	function updateSiteInformation(idxes, url, realurl, title, name, icon, shotNames, custImg, snapshotIndex) {
+	/*
+	function updateSiteSnapshots(g, i, sn1, sn2) {
+		let s = getSite(g, i);
+		if (s != null) {
+		}
+	}
+	*/
+
+	function updateSiteInformation(idxes, url, realurl, title, name, icon, shotNames) {
 		if (Array.isArray(idxes) && idxes.length == 2) {
 			let s = getSite(idxes[0], idxes[1]);
 			if (s != null && Array.isArray(shotNames) && shotNames.length == 2) {
@@ -234,8 +242,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
 				s.snapshots[2] = getLiveSnapshot(realurl);
-				s.snapshots[3] = custImg;
-				s.snapshotIndex = snapshotIndex;
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
@@ -296,7 +302,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			'realurl': url, // used for live snapshot
 			'name': name,
 			'snapshots': [imgLoading, imgLoading, living, image],
-			'snapshotIndex': (image == '' ? 0 : 2)
+			'snapshotIndex': (image == '' ? 0 : 3)
 		};
 		data.sites.push(s);
 		save();
@@ -391,6 +397,27 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
+	this.refreshSite = function(group, index) {
+		if (group == -1 && index == -1) {
+			travel(function(s, idxes) {
+				this.refreshSite(idxes[0], idxes[1]);
+			});
+		} else {
+			let s = getSite(group, index);
+			if (s != null) {
+				if (s.sites != null && group == -1 && Array.isArray(s.sites)) {
+					for (var i = 0; i < s.sites.length; ++ i) {
+						this.refreshSite(index, i);
+					}
+				} else {
+					removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+					updateSiteInformation([group, index], s.url, s.realurl, s.title, s.name, s.icon, [imgLoading, imgLoading]);
+					takeSnapshot(s.url);
+				}
+			}
+		}
+	}
+
 	this.nextSnapshot = function(group, idx) {
 		let s = getSite(group, idx);
 		if (s != null) {
@@ -402,7 +429,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			if (i != s.snapshotIndex) {
 				s.snapshotIndex = i;
 				save();
-				this.fireEvent('site-snapshot-changed', [group, idx]);
+				this.fireEvent('site-snapshot-index-changed', [group, idx]);
 			}
 		}
 	}
@@ -505,7 +532,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 							if (s.url == url) {
 								used = true;
 								removeSnapshots([s.snapshots[0], s.snapshots[1]]);
-								updateSiteInformation(idxes, url, href, title, s.name, icon, names, s.snapshots[3], s.snapshotIndex);
+								updateSiteInformation(idxes, url, href, title, s.name, icon, names);
 							}
 						});
 						if (!used) {

@@ -210,10 +210,12 @@ a {
 	display: none;
 }
 
-#sites.newtab .site .newtab {
+#sites.newtab .site .newtab,
+#folder.newtab .site .newtab {
 	display: none;
 }
-#sites.newtab .site .thistab {
+#sites.newtab .site .thistab,
+#folder.newtab .site .thistab {
 	display: block;
 }
 

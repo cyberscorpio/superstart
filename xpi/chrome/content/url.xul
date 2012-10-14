@@ -34,25 +34,29 @@
 		<label control="url-name" value="&superstart.dialog.url.name;" />
 		<textbox id="url-name" />
 		<groupbox>
-			<caption label="Customize image (optional)" />
-			<vbox>
-				<hbox pack="start">
-					<label value="Image size should be 212x132, or 5:3" style="opacity: 0.5;" />
-				</hbox>
-				<hbox style="margin-bottom: -1em;">
-					<hbox flex="1" pack="center" style="padding:5px 10px 2px 10px;">
-						<image id="customize-image" width="150" height="93" />
+			<caption label="Thumbnail settings" />
+			<hbox>
+				<radiogroup id="thumbnail-index">
+					<radio label="Left top corner" />
+					<radio label="Whole page" />
+					<radio label="Live snapshot" />
+					<radio label="Customize image" id="customize-image-option" />
+				</radiogroup>
+				<vbox flex="1" style="padding: 5px; background-color: white;">
+					<label value="Customize image (optional)" />
+					<hbox pack="start">
+							<hbox flex="1" pack="center" style="padding:5px;">
+								<image id="customize-image" width="192" height="108" />
+							</hbox>
+						<vbox>
+							<button id="select-image" label="&superstart.ui.select.image;" />
+							<button id="clear-image" label="&superstart.ui.clear.image;" />
+							<label class="text-link" href="http://www.enjoyfreeware.org/superstart/icons" value="Get icons online" />
+						</vbox>
 					</hbox>
-					<vbox>
-						<button id="select-image" label="&superstart.ui.select.image;" />
-						<button id="clear-image" label="&superstart.ui.clear.image;" />
-					</vbox>
-				</hbox>
-				<hbox pack="end">
-					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/icons"
-						value="Get icons online" />
-				</hbox>
-			</vbox>
+					<textbox id="customize-image-url" />
+				</vbox>
+			</hbox>
 		</groupbox>
 	</vbox>
 </dialog>

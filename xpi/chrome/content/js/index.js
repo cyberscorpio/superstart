@@ -1,4 +1,6 @@
 (function() {
+var SuperStart = $.getMainWindow().SuperStart;
+var getString = SuperStart.getString;
  
 var gEvts = {
 	'scroll': onScroll,
@@ -12,6 +14,15 @@ window.addEventListener('unload', function() {
 	for (var k in gEvts) {
 		window.removeEventListener(k, gEvts[k], false);
 	}
+}, false);
+
+window.addEventListener('DOMContentLoaded', function() {
+	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+
+	var add = $$('site-add');
+	add.onclick = function() { showAddSite(); };
+	add.setAttribute('title', getString('ssSiteAddNew'));
+	$.removeClass(add, 'hidden');
 }, false);
 
 

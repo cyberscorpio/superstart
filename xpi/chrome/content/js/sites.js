@@ -29,9 +29,6 @@ function init() {
 	var container = $$('sites');
 	container.appendChild(df);
 
-	var add = $$('site-add');
-	add.onclick = function() { showAddSite(); };
-	$.removeClass(add, 'hidden');
 
 	onOpenTypeChanged();
 
@@ -47,7 +44,7 @@ function init() {
 		'site-move-in': onSiteMoveIn,
 		'site-move-out': onSiteMoveOut,
 		'site-changed': onSiteChanged,
-		'site-snapshot-changed': onSiteSnapshotChanged,
+		'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
 		'open-in-newtab': onOpenTypeChanged
 	};
 	// register document events
@@ -257,14 +254,20 @@ function createSiteElement(s) {
 		cmds = {
 			'a': clickLink,
 			'.next-snapshot': nextSnapshot,
-			'.remove': removeSite
+			'.remove': removeSite,
+			'.refresh': refreshSite,
+			'.newtab': openInNewTab,
+			'.thistab': openInThisTab
 		};
 	}
 
 	// install the command handlers
 	for (var k in cmds) {
-		var r = $(se, k)[0];
-		r.onclick = cmds[k];
+		var r = $(se, k);
+		if (r.length == 1) {
+			r = r[0];
+			r.onclick = cmds[k];
+		}
 	}
 	return se;
 }
@@ -365,6 +368,9 @@ function openFolder(idx, f) {
 	container.appendChild(folderArea);
 	folderArea.idx = idx;
 	$.addClass(folderArea, 'resizing');
+	if (cfg.getConfig('open-in-newtab')) {
+		$.addClass(folderArea, 'newtab');
+	}
 	folderArea.addEventListener('transitionend', function(evt) {
 		if (this == evt.target) {
 			this.removeEventListener('transitionend', arguments.callee, false);
@@ -462,6 +468,38 @@ function clickLink(evt) {
 		} else {
 			document.location.href = s.url;
 		}
+	}
+	return false;
+}
+
+function openInThisTab() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var s = sm.getSite(g, i);
+		if (s.url != null) {
+			document.location.href = s.url;
+		}
+	}
+	return false;
+}
+
+function openInNewTab() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var s = sm.getSite(g, i);
+		if (s.url != null) {
+			$.getMainWindow().getBrowser().addTab(s.url);
+		}
+	}
+	return false;
+}
+
+function refreshSite() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		sm.refreshSite(idxes[0], idxes[1]);
 	}
 	return false;
 }
@@ -686,15 +724,17 @@ function onSiteChanged(evt, idxes) {
 	}
 }
 
-function onSiteSnapshotChanged(evt, idxes) {
+function onSiteSnapshotIndexChanged(evt, idxes) {
 	onSiteChanged(null, idxes);
 }
 
 function onOpenTypeChanged(evt, value) {
 	if (cfg.getConfig('open-in-newtab')) {
 		$.addClass($$('sites'), 'newtab');
+		$.addClass($$('folder'), 'newtab');
 	} else {
 		$.removeClass($$('sites'), 'newtab');
+		$.removeClass($$('folder'), 'newtab');
 	}
 }
 

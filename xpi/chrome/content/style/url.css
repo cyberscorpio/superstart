@@ -7,9 +7,15 @@ html|*.textbox-input {
 }
 
 #customize-image {
-	margin: 0 15px;
+	/*
+	margin: 5px;
+	*/
 }
 
 #customize-image[src] {
 	box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+}
+
+#customize-image-option label {
+	background-color: white;
 }

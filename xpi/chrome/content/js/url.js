@@ -17,10 +17,10 @@
 		if (index != -1) {
 			var site = sm.getSite(index);
 			if (site.url != null) {
-				g('url-input').textValue = site.url;
-				g('url-name').value = (site.name || '');
+				$$('url-input').textValue = site.url;
+				$$('url-name').value = (site.name || '');
 				if (site.image) {
-					g('customize-image').setAttribute('src', site.image);
+					$$('customize-image').setAttribute('src', site.image);
 				}
 				d.title = d.title + ' - ' + site.title;
 			} else {
@@ -28,11 +28,11 @@
 			}
 		}
 
-		g('select-image').onclick = function() {
+		$$('select-image').onclick = function() {
 			selectImage();
 		}
-		g('clear-image').onclick = function() {
-			g('customize-image').removeAttribute('src');
+		$$('clear-image').onclick = function() {
+			$$('customize-image').removeAttribute('src');
 		}
 
 		let links = d.getElementsByClassName('text-link');
@@ -41,7 +41,7 @@
 			l.setAttribute('tooltiptext', l.getAttribute('href'));
 		}
 
-		var dlg = g('superstart-url-dialog');
+		var dlg = $$('superstart-url-dialog');
 		dlg.onAccept = onAccept;
 		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-url-dialog").onAccept();');
 	}, false);
@@ -51,16 +51,16 @@
 			dialogs[index] = null;
 		// }
 
-		var dlg = g('superstart-url-dialog');
+		var dlg = $$('superstart-url-dialog');
 		dlg.onAccept = null;
 
 	}, false);
 
 	function onAccept() {
 		try {
-			var url = g('url-input').textValue;
-			var name = g('url-name').value;
-			var image = g('customize-image').getAttribute('src');
+			var url = $$('url-input').textValue;
+			var name = $$('url-name').value;
+			var image = $$('customize-image').getAttribute('src');
 			if (index != -1) {
 				var site = sm.getSite(index);
 				if (url == site.url && name == site.name && image == (site.image || '')) {
@@ -84,18 +84,13 @@
 		return true;
 	}
 
-	function g(id) {
-		return document.getElementById(id);
-	}
-
-
 	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
 		fp.init(window, "Select an image", Ci.nsIFilePicker.modeOpen);
 		fp.appendFilters(Ci.nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == Ci.nsIFilePicker.returnOK) {
-			g('customize-image').setAttribute('src', getUrlFromFile(fp.file));
+			$$('customize-image').setAttribute('src', getUrlFromFile(fp.file));
 		}
 	}
 

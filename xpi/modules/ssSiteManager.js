@@ -68,7 +68,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	function travel(fn) {
 		for (let i = 0, l = data.sites.length; i < l; ++ i) {
 			let s = data.sites[i];
-			if (s.sites && Array.isArray(s.sites)) {
+			if (isFolder(s)) {
 				let j = 0, k = s.sites.length;
 				if (k == 0) {
 					log('siteManager::travel get error data at index ' + i);
@@ -183,7 +183,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function adjustSite(s) {
-		if (s.sites != undefined && Array.isArray(s.sites)) {
+		if (isFolder(s)) {
 			for (let i = 0; i < s.sites.length; ++ i) {
 				adjustSite(s.sites[i]);
 			}
@@ -204,6 +204,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			s.displayName = s.name || (s.title || s.url);
 		}
 		return s;
+	}
+
+	function isFolder(s) {
+		return s.sites && Array.isArray(s.sites);
 	}
 
 	function getSite(group, idx) {
@@ -293,16 +297,19 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
-	this.addSite = function(url, name, image) {
+	this.addSite = function(url, name, snapshotIndex, image) {
 		url = this.regulateUrl(url);
 		let living = getLiveSnapshot(url);
+		if (snapshotIndex == 3 && image == null) {
+			snapshotIndex = 0;
+		}
 		let s = {
 			'url': url,
 			'title': url,
 			'realurl': url, // used for live snapshot
 			'name': name,
 			'snapshots': [imgLoading, imgLoading, living, image],
-			'snapshotIndex': (image == '' ? 0 : 3)
+			'snapshotIndex': snapshotIndex
 		};
 		data.sites.push(s);
 		save();
@@ -372,7 +379,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		var d = sites[to];
-		if (d.sites == null || !Array.isArray(d.sites)) {
+		if (!isFolder(d)) {
 			sites[to] = {
 				'title': 'Group',
 				'sites': [d]
@@ -397,6 +404,25 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
+	this.changeSite = function(group, index, url, name, snapshotIndex, custimg) {
+		let s = getSite(group, index);
+		if (s && !isFolder(s)) {
+			if (url == '') {
+				this.removeSite(group, index);
+			} else if (url != s.url || name != s.name || snapshotIndex != s.snapshotIndex || custimg != s.snapshots[3]) {
+				s.name = name;
+				s.snapshotIndex = snapshotIndex;
+				s.snapshots[3] = custimg;
+				if (s.url != url) {
+					s.url = url;
+					this.refreshSite(group, index);
+				}
+				save();
+				this.fireEvent('site-changed', [group, index]);
+			}
+		}
+	}
+
 	this.refreshSite = function(group, index) {
 		if (group == -1 && index == -1) {
 			travel(function(s, idxes) {
@@ -405,12 +431,21 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		} else {
 			let s = getSite(group, index);
 			if (s != null) {
-				if (s.sites != null && group == -1 && Array.isArray(s.sites)) {
+				if (group == -1 && isFolder(s)) {
 					for (var i = 0; i < s.sites.length; ++ i) {
 						this.refreshSite(index, i);
 					}
 				} else {
-					removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+					let used = false;
+					travel(function(_s, idxes) {
+						if (_s.snapshots[0] == s.snapshots[0] && s != _s) {
+							used = true;
+							return true;
+						}
+					});
+					if (!used) {
+						removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+					}
 					updateSiteInformation([group, index], s.url, s.realurl, s.title, s.name, s.icon, [imgLoading, imgLoading]);
 					takeSnapshot(s.url);
 				}
@@ -526,7 +561,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let canvases = window2canvas(gDoc, browser, width, height);
 				saveCanvas(canvases[0], pathes[0], function() {
 					saveCanvas(canvases[1], pathes[1], function() {
-						let sites = data.sites;
 						let used = false;
 						travel(function(s, idxes) {
 							if (s.url == url) {

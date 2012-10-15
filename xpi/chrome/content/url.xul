@@ -36,16 +36,15 @@
 		<groupbox>
 			<caption label="Thumbnail settings" />
 			<hbox>
-				<radiogroup id="thumbnail-index">
+				<radiogroup id="snapshot-index">
 					<radio label="Left top corner" />
 					<radio label="Whole page" />
 					<radio label="Live snapshot" />
-					<radio label="Customize image" id="customize-image-option" />
+					<radio label="Customize image" id="select-customize-image" disabled="true" />
 				</radiogroup>
-				<vbox flex="1" style="padding: 5px; background-color: white;">
-					<label value="Customize image (optional)" />
+				<vbox id="customize-image-group" flex="1">
 					<hbox pack="start">
-							<hbox flex="1" pack="center" style="padding:5px;">
+							<hbox flex="1" pack="center">
 								<image id="customize-image" width="192" height="108" />
 							</hbox>
 						<vbox>
@@ -54,7 +53,7 @@
 							<label class="text-link" href="http://www.enjoyfreeware.org/superstart/icons" value="Get icons online" />
 						</vbox>
 					</hbox>
-					<textbox id="customize-image-url" />
+					<textbox style="display: none;" id="customize-image-url" />
 				</vbox>
 			</hbox>
 		</groupbox>

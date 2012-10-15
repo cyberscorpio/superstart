@@ -47,6 +47,10 @@ function init() {
 		'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
 		'open-in-newtab': onOpenTypeChanged
 	};
+	// register window events
+	var wevts = {
+		'dblclick': onDblClick
+	};
 	// register document events
 	var devts = {
 		'dragenter': gDrag.onEnter,
@@ -59,8 +63,11 @@ function init() {
 	for (var k in smevts) {
 		sm.subscribe(k, smevts[k]);
 	}
+	for (var k in wevts) {
+		window.addEventListener(k, wevts[k], false);
+	}
 	for (var k in devts) {
-		document.addEventListener(k, devts[k]);
+		document.addEventListener(k, devts[k], false);
 	}
 
 	var mask = $$('mask');
@@ -69,13 +76,21 @@ function init() {
 	};
 	mask = null;
 
+	var add = $$('site-add');
+	add.onclick = function() { showAddSite(); };
+	add.setAttribute('title', getString('ssSiteAddNew'));
+	$.removeClass(add, 'hidden');
+
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		for (var k in smevts) {
 			sm.unsubscribe(k, smevts[k]);
 		}
+		for (var k in wevts) {
+			window.addEventListener(k, wevts[k], false);
+		}
 		for (var k in devts) {
-			document.removeEventListener(k, devts[k]);
+			document.removeEventListener(k, devts[k], false);
 		}
 		var mask = $$('mask');
 		mask.onclick = null;
@@ -257,7 +272,8 @@ function createSiteElement(s) {
 			'.remove': removeSite,
 			'.refresh': refreshSite,
 			'.newtab': openInNewTab,
-			'.thistab': openInThisTab
+			'.thistab': openInThisTab,
+			'.edit': editSite
 		};
 	}
 
@@ -492,6 +508,15 @@ function openInNewTab() {
 		if (s.url != null) {
 			$.getMainWindow().getBrowser().addTab(s.url);
 		}
+	}
+	return false;
+}
+
+function editSite() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		openUrlDialog(g, i);
 	}
 	return false;
 }
@@ -738,7 +763,30 @@ function onOpenTypeChanged(evt, value) {
 	}
 }
 
+var urlDialogs = {};
+function openUrlDialog(g, i) {
+	var idxes = [g, i];
+	var str = g + '-' + i;
+	if (urlDialogs[str] != null) {
+		urlDialogs[str].focus();
+	} else {
+		var dlg = window.openDialog('chrome://superstart/content/url.xul',
+			'',
+			'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', idxes, urlDialogs);
+		urlDialogs[str] = dlg;
+	}
+}
 
+function showAddSite() {
+	openUrlDialog(-1, -1);
+}
+
+function onDblClick(e) {
+	var t = e.target;
+	if (t.tagName == 'HTML') {
+		showAddSite();
+	}
+}
 
 // export methods to drag.js
 gDrag.elemFromNode = elemFromNode;

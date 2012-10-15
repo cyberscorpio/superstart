@@ -6,16 +6,21 @@ html|*.textbox-input {
 	height: 2em;
 }
 
-#customize-image {
-	/*
+#customize-image-group {
 	margin: 5px;
-	*/
 }
+
+#customize-image {
+	margin: 5px;
+}
+
 
 #customize-image[src] {
 	box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
 }
 
-#customize-image-option label {
+/*
+#select-customize-image label {
 	background-color: white;
 }
+*/

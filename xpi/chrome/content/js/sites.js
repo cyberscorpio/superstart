@@ -493,7 +493,7 @@ function clickLink(evt) {
 		assert(idxes[0] == -1, 'only top level sites can be folders');
 		onClickFolder(idxes[1], s);
 	} else {
-		if (cfg.getConfig('open-in-newtab')) {
+		if (cfg.getConfig('open-in-newtab') || evt.ctrlKey || evt.metaKey) {
 			if (s.url != null) {
 				$.getMainWindow().getBrowser().addTab(s.url);
 			}

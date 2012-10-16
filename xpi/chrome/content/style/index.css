@@ -210,6 +210,15 @@ a {
 	display: none;
 }
 
+.site.folder .edit {
+	bottom: 1px;
+	right: 1px;
+}
+.site.folder .refresh {
+	top: 1px;
+	right: 30px;
+}
+
 #sites.newtab .site .newtab,
 #folder.newtab .site .newtab {
 	display: none;

@@ -245,26 +245,26 @@ function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
 	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEng, false);
+	var buttons = [];
+	var titles = [];
 	var cmd = {};
 
 	if (s.sites != undefined) { // folder
 		$.addClass(se, 'folder');
 		updateFolder(s, se);
+		buttons = ['refresh', 'newtab', 'edit'];
+		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
 
 		cmds = {
-			'a': clickLink
+			'a': clickLink,
+			'.edit': editGroupTitle,
+			'.newtab': openGroupAll,
+			'.refresh': refreshGroup
 		};
 	} else {
 		updateSite(s, se);
-		var buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
-		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
-		var a = $(se, 'a .snapshot')[0];
-		for (var i = 0; i < buttons.length; ++ i) {
-			var b = document.createElement('div');
-			b.className = buttons[i] + ' button';
-			b.title = getString(titles[i]);
-			a.appendChild(b);
-		}
+		buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
+		titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 		
 		cmds = {
 			'a': clickLink,
@@ -275,6 +275,15 @@ function createSiteElement(s) {
 			'.thistab': openInThisTab,
 			'.edit': editSite
 		};
+	}
+
+	// create buttons
+	var a = $(se, 'a .snapshot')[0];
+	for (var i = 0; i < buttons.length; ++ i) {
+		var b = document.createElement('div');
+		b.className = buttons[i] + ' button';
+		b.title = getString(titles[i]);
+		a.appendChild(b);
 	}
 
 	// install the command handlers
@@ -781,10 +790,54 @@ function showAddSite() {
 	openUrlDialog(-1, -1);
 }
 
+function editGroupTitle() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var f = sm.getSite(g, i);
+		if (f && f.sites && Array.isArray(f.sites)) {
+			window.openDialog('chrome://superstart/content/groupname.xul',
+			'',
+			'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes', g, i);
+		}
+	}
+	return false;
+}
+
+function openGroupAll() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var f = sm.getSite(g, i);
+		if (f && f.sites && Array.isArray(f.sites)) {
+			for (var i = 0; i < f.sites.length; ++ i) {
+				var s = f.sites[i];
+				if (s.url != '') {
+					$.getMainWindow().getBrowser().addTab(s.url);
+				}
+			}
+		}
+	}
+	return false;
+}
+
+function refreshGroup() {
+	var idxes = indexFromNode(this);
+	if (idxes != null) {
+		var g = idxes[0], i = idxes[1];
+		var f = sm.getSite(g, i);
+		if (f && f.sites && Array.isArray(f.sites)) {
+			sm.refreshSite(g, i);
+		}
+	}
+	return false;
+}
+
 function onDblClick(e) {
 	var t = e.target;
 	if (t.tagName == 'HTML') {
 		showAddSite();
+		return false; // TODO or body.onselectstart = function() {return false;}?
 	}
 }
 

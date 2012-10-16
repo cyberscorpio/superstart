@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
+
+<dialog title="&superstart.dialog.groupname.title;"
+	id="superstart-name-dialog"
+	buttons="accept,cancel"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/name.js"></script>
+
+	<vbox>
+		<textbox id="group-name" />
+	</vbox>
+</dialog>

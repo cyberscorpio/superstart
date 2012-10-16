@@ -11,8 +11,6 @@ var superStartOptions = {};
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
 	var boolMaps = {
-		'superstart-sites-fit-height-if-possible' : 'fit-height-if-possible',
-		'superstart-sites-showfavicon' : 'show-favicon',
 		'superstart-sites-showblank' : 'show-blank',
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-show-bookmarks' : 'toolbar-bookmark',
@@ -70,20 +68,6 @@ var superStartOptions = {};
 			}
 		}
 
-	// lines
-		let sml = cfg.getConfig('site-minimum-lines');
-		let smlPop = g('superstart-sites-minimum-lines-popup');
-		let from = 1, to = 10;
-		for (let i = 0; i + from <= to; ++ i) {
-			let item = document.createElement('menuitem');
-			let idx = i + from;
-			item.setAttribute('label', idx);
-			smlPop.appendChild(item);
-			if (idx == sml) {
-				g('superstart-sites-minimum-lines').selectedIndex = i;
-			}
-		}
-
 	// customize
 		initCustomize();
 
@@ -109,11 +93,6 @@ var superStartOptions = {};
 	opt.onSitesPerLineSelected = function() {
 		let label = g('superstart-sites-per-line').getAttribute('label');
 		cfg.setConfig('site-perline', label);
-	}
-
-	opt.onSitesMinimumLinesSelected = function() {
-		let label = g('superstart-sites-minimum-lines').getAttribute('label');
-		cfg.setConfig('site-minimum-lines', label);
 	}
 
 	opt.onAccept = function() {
@@ -260,7 +239,7 @@ var superStartOptions = {};
 				p.className = 'bg-position customize-ctrl';
 				let cp = p['ss-value'] = positionMap[y * 3 + x];
 				if (cp == currPos) {
-					sU.addClass(p, 'selected');
+					$.addClass(p, 'selected');
 				}
 				hb.appendChild(p);
 			}
@@ -269,15 +248,15 @@ var superStartOptions = {};
 	}
 	function onPositionClick(evt) {
 		let d = evt.target.getAttribute('disabled');
-		if (sU.hasClass(evt.target, 'selected') || evt.target.getAttribute('disabled') == "true") {
+		if ($.hasClass(evt.target, 'selected') || evt.target.getAttribute('disabled') == "true") {
 			return;
 		}
 
 		let ss = g('bg-position').getElementsByClassName('selected');
 		for (let i = 0, l = ss.length; i < l; ++ i) {
-			sU.removeClass(ss[i], 'selected');
+			$.removeClass(ss[i], 'selected');
 		}
-		sU.addClass(evt.target, 'selected');
+		$.addClass(evt.target, 'selected');
 	}
 	function getBackgroundPosition() {
 		let ss = g('bg-position').getElementsByClassName('selected');

@@ -41,17 +41,6 @@
 								</menulist>
 							</hbox>
 						</hbox>
-						<hbox align="center">
-							<label control="superstart-sites-minimum-lines" value="&superstart.options.sites.minimum.lines;" />
-							<hbox pack="end" flex="1">
-								<menulist id="superstart-sites-minimum-lines" minwidth="160">
-									<menupopup id="superstart-sites-minimum-lines-popup" oncommand="superStartOptions.onSitesMinimumLinesSelected();">
-									</menupopup>
-								</menulist>
-							</hbox>
-						</hbox>
-						<checkbox id="superstart-sites-fit-height-if-possible" label="&superstart.options.sites.fit.height.if.possible;" />
-						<checkbox id="superstart-sites-showfavicon" label="&superstart.options.sites.showfavicon;" />
 						<checkbox id="superstart-sites-showblank" label="&superstart.options.sites.showblank;" />
 						<checkbox id="superstart-show-bookmarks" label="&superstart.options.toolbar.showbookmarks;" />
 						<checkbox id="superstart-show-recentlyclosed" label="&superstart.options.toolbar.showrecentlyclosed;" />

@@ -198,7 +198,7 @@ function updateFolder(f, se) {
 	assert(Array.isArray(f.sites) && f.sites.length > 1, "ERR: updateFolder get an invalid 's'");
 	if (!$.hasClass(se, 'folder')) {
 		$.addClass(se, 'folder');
-		var tmp = createSiteElement(s);
+		var tmp = createSiteElement(f);
 		swapSiteItem(se, tmp);
 	}
 	var e = $(se, 'a')[0];

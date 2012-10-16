@@ -15,13 +15,17 @@
 <!ENTITY superstart.options.toolbar.showrecentlyclosed "Show recently closed">
 <!ENTITY superstart.options.toolbar.showthemes "Show themes">
 
+<!-- to be deleted -->
+<!ENTITY superstart.options.sites.fit.height.if.possible "Fit window height if possible">
+<!ENTITY superstart.options.sites.minimum.lines "Minimum lines">
+<!ENTITY superstart.options.sites.showblank "Show blank site">
+<!ENTITY superstart.ui.text.background "Background color for text">
+<!-- to be deleted -->
+
 <!ENTITY superstart.options.sites.setup "Setup">
 <!ENTITY superstart.options.sites.displaysettings "Display Settings">
-<!ENTITY superstart.options.sites.minimum.lines "Minimum lines">
-<!ENTITY superstart.options.sites.fit.height.if.possible "Fit window height if possible">
 <!ENTITY superstart.options.sites.perline "Snapshots per line:">
 <!ENTITY superstart.options.sites.showfavicon "Show favicon">
-<!ENTITY superstart.options.sites.showblank "Show blank site">
 <!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
 <!ENTITY superstart.options.set.as.homepage "Set Super Start as homepage">
 
@@ -46,6 +50,5 @@
 <!ENTITY superstart.ui.background.color.clear "Clear Color">
 <!ENTITY superstart.ui.others "Others">
 <!ENTITY superstart.ui.transparent "Transparent">
-<!ENTITY superstart.ui.text.background "Background color for text">
 <!ENTITY superstart.advance "Advance">
 <!ENTITY superstart.ui.css.edit.hint "Input CSS here directly:">

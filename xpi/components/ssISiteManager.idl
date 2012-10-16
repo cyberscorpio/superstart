@@ -14,12 +14,11 @@ interface ssISiteManager: nsISupports
 	void simpleMove(in long group, in long from, in long to);
 	void moveIn(in long from, in long to);
 	void moveOut(in long group, in long index);
-	/*
-	void exchangeSite(in long index1, in long index2);
-	*/
 
-	void changeSite(in long group, in long index, in string url, in AString name, in long snapshotIndex, in AString customizeImage);
+	void changeSite(in long group, in long index, in AString url, in AString name, in long snapshotIndex, in AString customizeImage);
 	void refreshSite(in long group, in long index);
 	void nextSnapshot(in long group, in long index);
+
+	void setTitle(in long group, in long index, in AString title);
 };
 

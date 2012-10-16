@@ -10,8 +10,9 @@
 	var g = idxes[0], idx = idxes[1];
 	var dialogs = window.arguments[1];
 
-	// window.addEventListener('load', function() {
 	window.addEventListener('DOMContentLoaded', function() {
+		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+
 		let d = document;
 		if (idx != -1) {
 			var s = sm.getSite(g, idx);

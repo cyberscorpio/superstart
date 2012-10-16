@@ -9,17 +9,17 @@ if ("undefined" == typeof(SuperStart)) {
 	(function() {
 		const Cc = Components.classes;
 		const Ci = Components.interfaces;
-		var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
-		var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-		var strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
-		var ss = Cc['@mozilla.org/browser/sessionstore;1'].getService(Ci.nsISessionStore);
-		var hs = Cc["@mozilla.org/browser/nav-history-service;1"].getService(Ci.nsINavHistoryService);
-		var bs = Cc["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Ci.nsINavBookmarksService);
-		var cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
-		var sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
+		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+		let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
+		let ss = Cc['@mozilla.org/browser/sessionstore;1'].getService(Ci.nsISessionStore);
+		let hs = Cc["@mozilla.org/browser/nav-history-service;1"].getService(Ci.nsINavHistoryService);
+		let bs = Cc["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Ci.nsINavBookmarksService);
+		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
+		let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 
-		var savedOpenTab = function() {}
-		var indexUrl = cfg.getConfig('index-url');
+		let savedOpenTab = function() {}
+		let indexUrl = cfg.getConfig('index-url');
 		if (window.gInitialPages) {
 			try {
 				window.gInitialPages.push(indexUrl);
@@ -31,13 +31,13 @@ if ("undefined" == typeof(SuperStart)) {
 			window.removeEventListener('load', arguments.callee, false);
 
 			// context menu
-			var menu = $('contentAreaContextMenu');
+			let menu = $('contentAreaContextMenu');
 			menu.addEventListener('popupshowing', function() {
-				var item = $('context-superstart-add');
+				let item = $('context-superstart-add');
 				item.hidden = true;
 
-				var doc = gBrowser.selectedBrowser.contentDocument;
-				var url = doc.location.href.toLowerCase();
+				let doc = gBrowser.selectedBrowser.contentDocument;
+				let url = doc.location.href.toLowerCase();
 				// works for http(s), file:/// and about:
 				if (url.indexOf('http://') == 0 || url.indexOf('https://') == 0 || url.indexOf('file:///') == 0 || url.indexOf('about:') == 0) {
 					item.hidden = false;
@@ -66,14 +66,14 @@ if ("undefined" == typeof(SuperStart)) {
 		// methods
 	
 		SuperStart.onContextMenuAdd = function() {
-			var doc = gBrowser.selectedBrowser.contentDocument;
-			var url = doc.location.href;
+			let doc = gBrowser.selectedBrowser.contentDocument;
+			let url = doc.location.href;
 	
 			sm.addSite(url, '', 0, '');
 		}
 
 		SuperStart.onMenuAdd = function() {
-			var dlg = window.openDialog('chrome://superstart/content/url.xul',
+			let dlg = window.openDialog('chrome://superstart/content/url.xul',
 					'',
 					'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', -1);
 		}
@@ -83,7 +83,7 @@ if ("undefined" == typeof(SuperStart)) {
 		}
 
 		SuperStart.onMenuOptions = function() {
-			var dlg = window.openDialog('chrome://superstart/content/options.xul',
+			let dlg = window.openDialog('chrome://superstart/content/options.xul',
 					'',
 					'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes');
 		}
@@ -100,21 +100,21 @@ if ("undefined" == typeof(SuperStart)) {
 
 		// note: this method is mainly copied from: PHM_populateUndoSubmenu() in Browser-places.js
 		SuperStart.populateUndoMenu = function() {
-			var menu = $('superstart-recently-closed-list');
+			let menu = $('superstart-recently-closed-list');
 			while (menu.hasChildNodes()) {
 				menu.removeChild(menu.firstChild);
 			}
 
 			if (ss.getClosedTabCount(window) == 0) {
-				var m = document.createElement("menuitem");
+				let m = document.createElement("menuitem");
 				m.setAttribute("label", this.getString('ssEmpty'));
 				menu.appendChild(m);
 				return;
 			}
 
-			var undoItems = JSON.parse(ss.getClosedTabData(window));
-			for (var i = 0, l = undoItems.length; i < l; ++ i) {
-				var m = document.createElement("menuitem");
+			let undoItems = JSON.parse(ss.getClosedTabData(window));
+			for (let i = 0, l = undoItems.length; i < l; ++ i) {
+				let m = document.createElement("menuitem");
 				m.setAttribute("label", undoItems[i].title);
 				if (undoItems[i].image) {
 					let iconURL = undoItems[i].image;
@@ -143,13 +143,13 @@ if ("undefined" == typeof(SuperStart)) {
 			}
 
 			// "Restore All Tabs"
-			var strings = gNavigatorBundle;
+			let strings = gNavigatorBundle;
 			menu.appendChild(document.createElement("menuseparator"));
 			m = menu.appendChild(document.createElement("menuitem"));
 			m.id = "superstart_restoreAllTabs";
 			m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
 			m.addEventListener("command", function() {
-				for (var i = 0, l = undoItems.length; i < l; ++ i) {
+				for (let i = 0, l = undoItems.length; i < l; ++ i) {
 					undoCloseTab();
 				}
 			}, false);
@@ -159,28 +159,28 @@ if ("undefined" == typeof(SuperStart)) {
 			if (event.target != event.currentTarget) {
 				return;
 			}
-			var menu = $('superstart-bookmarks');
+			let menu = $('superstart-bookmarks');
 			while (menu.hasChildNodes()) {
 				menu.removeChild(menu.firstChild);
 			}
 
-			var options = hs.getNewQueryOptions();
-			var query = hs.getNewQuery();
-			var folder = bs.bookmarksMenuFolder;
+			let options = hs.getNewQueryOptions();
+			let query = hs.getNewQuery();
+			let folder = bs.bookmarksMenuFolder;
 			query.setFolders([folder], 1);
 
-			var result = hs.executeQuery(query, options);
-			var rootNode = result.root;
+			let result = hs.executeQuery(query, options);
+			let rootNode = result.root;
 			rootNode.containerOpen = true;
 			try {
-				var l = rootNode.childCount;
+				let l = rootNode.childCount;
 				if (l == 0) {
-					var m = document.createElement("menuitem");
+					let m = document.createElement("menuitem");
 					m.setAttribute("label", this.getString('ssEmpty'));
 					menu.appendChild(m);
 				} else {
-					for (var i = 0; i < l; ++ i) {
-						var node = rootNode.getChild(i);
+					for (let i = 0; i < l; ++ i) {
+						let node = rootNode.getChild(i);
 						insertBookmarkNode(menu, node);
 					}
 				}
@@ -194,7 +194,7 @@ if ("undefined" == typeof(SuperStart)) {
 				var str = strings.GetStringFromName(name);
 			} catch (e) {
 				str = name;
-				var txt = e.message + " (" + name + " is missing)";
+				let txt = e.message + " (" + name + " is missing)";
 				logger.logStringMessage(txt);
 			}
 			return str;
@@ -227,9 +227,9 @@ if ("undefined" == typeof(SuperStart)) {
 		 * This function is mainly copied from Browser.js::undoCloseTab();
 		 */
 		function myUndoCloseTab(idx) {
-			var blankTabToRemove = gBrowser.selectedTab;
-			var tab = null;
-			var ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
+			let blankTabToRemove = gBrowser.selectedTab;
+			let tab = null;
+			let ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
 			if (ss.getClosedTabCount(window) > (idx || 0)) {
 				TabView.prepareUndoCloseTab(blankTabToRemove);
 				tab = ss.undoCloseTab(window, idx || 0);
@@ -257,8 +257,8 @@ if ("undefined" == typeof(SuperStart)) {
 					}
 				});
 			} catch (e) {
-				var em = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
-				var addon = em.getItemForID(id);
+				let em = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
+				let addon = em.getItemForID(id);
 				if (addon.name == name) {
 					addver = addon.version;
 				}
@@ -284,7 +284,7 @@ if ("undefined" == typeof(SuperStart)) {
 
 			undoCloseTab(aEvent.originalTarget.value);
 			gBrowser.moveTabToEnd();
-			var menu = $('superstart-recently-closed-list');
+			let menu = $('superstart-recently-closed-list');
 			menu.hidePopup();
 		}
 
@@ -315,12 +315,12 @@ if ("undefined" == typeof(SuperStart)) {
 				m.setAttribute('class', 'menu-iconic bookmark-item');
 				m.setAttribute('container', true);
 				menu.appendChild(m);
-				var popup = document.createElement('menupopup');
+				let popup = document.createElement('menupopup');
 				m.appendChild(popup);
 				node.QueryInterface(Ci.nsINavHistoryQueryResultNode)
 				node.containerOpen = true;
 				try {
-					for (var i = 0, l = node.childCount; i < l; ++ i) {
+					for (let i = 0, l = node.childCount; i < l; ++ i) {
 						insertBookmarkNode(popup, node.getChild(i));
 					}
 				} finally {

@@ -187,7 +187,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			for (let i = 0; i < s.sites.length; ++ i) {
 				adjustSite(s.sites[i]);
 			}
-			s.displayName = s.title || 'Group';
+			s.displayName = s.title;
 		} else {
 			s.sites = undefined;
 			for (let i = 0; i < 2; ++ i) {
@@ -381,7 +381,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		var d = sites[to];
 		if (!isFolder(d)) {
 			sites[to] = {
-				'title': 'Group',
+				'title': '',
 				'sites': [d]
 			};
 			d = sites[to];
@@ -465,6 +465,17 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.snapshotIndex = i;
 				save();
 				this.fireEvent('site-snapshot-index-changed', [group, idx]);
+			}
+		}
+	}
+
+	this.setTitle = function(group, idx, title) {
+		let f = getSite(group, idx);
+		if (f != null && isFolder(f)) {
+			if (f.title != title) {
+				f.title = title;
+				save();
+				this.fireEvent('site-title-changed', [group, idx]);
 			}
 		}
 	}

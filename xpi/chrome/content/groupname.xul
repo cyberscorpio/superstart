@@ -8,9 +8,9 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 >
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
-	<script type="application/x-javascript" src="chrome://superstart/content/js/name.js"></script>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/groupname.js"></script>
 
 	<vbox>
-		<textbox id="group-name" />
+		<textbox id="group-name" maxlength="60" />
 	</vbox>
 </dialog>

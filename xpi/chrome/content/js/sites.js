@@ -45,6 +45,7 @@ function init() {
 		'site-move-out': onSiteMoveOut,
 		'site-changed': onSiteChanged,
 		'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
+		'site-title-changed': onSiteTitleChanged,
 		'open-in-newtab': onOpenTypeChanged
 	};
 	// register window events
@@ -183,11 +184,21 @@ function updateSite(s, se, flag) {
 	}
 }
 
-function updateFolder(ss, se) {
-	assert(Array.isArray(ss.sites) && ss.sites.length > 1, "ERR: updateFolder get an invalid 'ss'");
+function setFolderTitle(s, se) {
+	var e = $(se, '.title')[0];
+	while(e.firstChild) {
+		e.removeChild(e.firstChild);
+	}
+	var title = s.displayName || getString('ssFolderDefaultName');;
+	title += ' (' + s.sites.length + ')';
+	e.appendChild(document.createTextNode(title));
+}
+
+function updateFolder(f, se) {
+	assert(Array.isArray(f.sites) && f.sites.length > 1, "ERR: updateFolder get an invalid 's'");
 	if (!$.hasClass(se, 'folder')) {
 		$.addClass(se, 'folder');
-		var tmp = createSiteElement(ss);
+		var tmp = createSiteElement(s);
 		swapSiteItem(se, tmp);
 	}
 	var e = $(se, 'a')[0];
@@ -196,18 +207,14 @@ function updateFolder(ss, se) {
 	while(snapshot.lastChild) {
 		snapshot.removeChild(snapshot.lastChild);
 	}
-	for (var i = 0; i < ss.sites.length; ++ i) {
-		var s = ss.sites[i];
+	for (var i = 0; i < f.sites.length; ++ i) {
+		var s = f.sites[i];
 		var img = document.createElement('img');
 		img.src = s.snapshots[s.snapshotIndex];
 		snapshot.appendChild(img);
 	}
-	e = $(se, '.title')[0];
-	while(e.firstChild) {
-		e.removeChild(e.firstChild);
-	}
-	var title = ss.displayName + ' (' + ss.sites.length + ')';
-	e.appendChild(document.createTextNode(title));
+
+	setFolderTitle(f, se);
 
 	layout.layoutFolderElement(se);
 }
@@ -760,6 +767,15 @@ function onSiteChanged(evt, idxes) {
 
 function onSiteSnapshotIndexChanged(evt, idxes) {
 	onSiteChanged(null, idxes);
+}
+
+function onSiteTitleChanged(evt, idxes) {
+	var [g, i] = idxes;
+	var s = sm.getSite(g, i);
+	var se = at(g, i);
+	if (s && se && s.sites && Array.isArray(s.sites)) {
+		setFolderTitle(s, se);
+	}
 }
 
 function onOpenTypeChanged(evt, value) {

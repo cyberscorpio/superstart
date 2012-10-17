@@ -44,6 +44,7 @@ if ("undefined" == typeof(SuperStart)) {
 				}
 			}, false);
 
+			// TODO: use 'browser.newtab.url' instead this way --------------------
 			if (window.TMP_BrowserOpenTab) {
 				savedOpenTab = window.TMP_BrowserOpenTab;
 				window.TMP_BrowserOpenTab = openTab;
@@ -57,6 +58,7 @@ if ("undefined" == typeof(SuperStart)) {
 			if (gBrowser._beginRemoveTab) {
 				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getIndexUrl() : $1)$4);'));
 			}
+			// --------------------------------------------------------------------
 
 			// check version first
 			checkFirstRun();
@@ -75,11 +77,11 @@ if ("undefined" == typeof(SuperStart)) {
 		SuperStart.onMenuAdd = function() {
 			let dlg = window.openDialog('chrome://superstart/content/url.xul',
 					'',
-					'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', -1);
+					'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', [-1, -1]);
 		}
 
 		SuperStart.onMenuRefreshAll = function() {
-			sm.refreshSite(-1);
+			sm.refreshSite(-1, -1);
 		}
 
 		SuperStart.onMenuOptions = function() {
@@ -254,6 +256,10 @@ if ("undefined" == typeof(SuperStart)) {
 				AddonManager.getAddonByID(id, function(addon) {
 					if (addon.name == name) {
 						addver = addon.version;
+						if (addver != ver && window.navigator.onLine) {
+							sbprefs.setCharPref(vk, addver);
+							gBrowser.addEventListener('load', showHomepage, true);
+						}
 					}
 				});
 			} catch (e) {
@@ -261,11 +267,11 @@ if ("undefined" == typeof(SuperStart)) {
 				let addon = em.getItemForID(id);
 				if (addon.name == name) {
 					addver = addon.version;
+					if (addver != ver && window.navigator.onLine) {
+						sbprefs.setCharPref(vk, addver);
+						gBrowser.addEventListener('load', showHomepage, true);
+					}
 				}
-			}
-			if (addver != ver && window.navigator.onLine) {
-				sbprefs.setCharPref(vk, addver);
-				gBrowser.addEventListener('load', showHomepage, true);
 			}
 		}
 

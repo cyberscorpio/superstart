@@ -33,7 +33,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	if (!cfg.getConfig('todo-hide')) {
 		$.removeClass($$('notes'), 'hidden');
 		$$('nbc-notes').setAttribute('title', getString('ssNotesClose'));
-		layout.placeTodoList();
 	}
 }, false);
 window.addEventListener('unload', function() {

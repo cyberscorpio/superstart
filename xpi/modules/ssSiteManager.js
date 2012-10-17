@@ -434,7 +434,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	this.refreshSite = function(group, index) {
 		if (group == -1 && index == -1) {
 			travel(function(s, idxes) {
-				this.refreshSite(idxes[0], idxes[1]);
+				that.refreshSite(idxes[0], idxes[1]);
 			});
 		} else {
 			let s = getSite(group, index);

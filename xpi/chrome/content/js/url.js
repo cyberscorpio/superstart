@@ -53,7 +53,9 @@
 	}, false);
 
 	window.addEventListener('unload', function() {
-		dialogs[str] = null;
+		if (dialogs) {
+			dialogs[str] = null;
+		}
 
 		var dlg = $$('superstart-url-dialog');
 		dlg.onAccept = null;

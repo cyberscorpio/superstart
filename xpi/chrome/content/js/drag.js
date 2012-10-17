@@ -104,6 +104,8 @@ DragOperator.prototype.act = function() {
 		break;
 	case DO_OPEN_FOLDER:
 		gDrag.openFolder(this.p1);
+		// TODO: if the user drop here, whether there will be a problem???
+		// that is, onDrop will get called before the timer handler, and elem will be null...
 		window.setTimeout(function() {
 			var fa = $$('folder');
 			elem.parentNode.removeChild(elem);

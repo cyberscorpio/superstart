@@ -85,8 +85,6 @@ var layout = (function() {
 	function onResize() {
 		calcLayout();
 
-		placeTodoList();
-
 		var ss = $$('sites');
 		$.addClass(ss, 'notransition');
 		layout.layoutTopSites(true);
@@ -119,19 +117,10 @@ var layout = (function() {
 
 	function onTodoHide(evt, v) {
 		calcLayout();
-		placeTodoList();
 		layoutTopSites();
 		if($('.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
-	}
-
-	function placeTodoList() {
-		/*
-		var n = $$('notes');
-		var w = window.innerWidth;
-		n.style.left = w - NOTEWIDTH + 'px';
-		*/
 	}
 
 	var transitionElement = null;
@@ -158,7 +147,7 @@ var layout = (function() {
 
 	// 3 items per line
 	// 3 items per column
-	// < w > <  2w  > < w > <  2w  > < w > <  2w  > < w >
+	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
 		setTopSiteSize(se);
 		var sn = $(se, '.snapshot')[0];
@@ -171,10 +160,10 @@ var layout = (function() {
 		if (ch == 0) {
 			ch = parseInt(sn.style.height);
 		}
-		var w = cw / 10;
-		var h = ch / 10;
-		var ww = Math.ceil(w * 2);
-		var hh = Math.ceil(h * 2);
+		var w = cw / 13;
+		var h = ch / 13;
+		var ww = Math.ceil(w * 3);
+		var hh = Math.ceil(h * 3);
 		var mh = Math.ceil((ch - 3 * hh) / 4);
 		w = Math.floor(w);
 		h = Math.floor(h);
@@ -393,8 +382,7 @@ var layout = {
 		}
 	},
 
-	'placeTodoList': placeTodoList
-	, 'layoutFolderArea': layoutFolderArea
+	'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'layoutFolderElement': layoutFolderElement
 	, 'setTopSiteSize': setTopSiteSize

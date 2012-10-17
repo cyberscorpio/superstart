@@ -50,7 +50,8 @@ function init() {
 	};
 	// register window events
 	var wevts = {
-		'dblclick': onDblClick
+		'dblclick': onDblClick,
+		'keypress': onKeyPress
 	};
 	// register document events
 	var devts = {
@@ -204,14 +205,15 @@ function updateFolder(f, se) {
 		var e = $(se, 'a')[0];
 		e.href = '#';
 		var snapshot = $(se, '.snapshot')[0];
-		while(snapshot.lastChild) {
-			snapshot.removeChild(snapshot.lastChild);
+		var imgs = $(se, 'img');
+		for (var i = imgs.length - 1; i >= 0; -- i) {
+			imgs[i].parentNode.removeChild(imgs[i]);
 		}
-		for (var i = 0; i < f.sites.length; ++ i) {
+		for (var i = f.sites.length - 1; i >= 0; -- i) {
 			var s = f.sites[i];
 			var img = document.createElement('img');
 			img.src = s.snapshots[s.snapshotIndex];
-			snapshot.appendChild(img);
+			snapshot.insertBefore(img, snapshot.firstChild);
 		}
 	
 		setFolderTitle(f, se);
@@ -856,6 +858,17 @@ function onDblClick(e) {
 		window.getSelection().removeAllRanges()
 		showAddSite();
 		return false; // TODO or body.onselectstart = function() {return false;}?
+	}
+}
+
+function onKeyPress(e) {
+	var t = e.target;
+	if (t.tagName != 'TEXTAREA') {
+		if (e.keyCode == 27) { // ESC
+			if ($$('folder')) {
+				closeFolder();
+			}
+		}
 	}
 }
 

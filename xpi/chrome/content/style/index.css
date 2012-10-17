@@ -125,7 +125,6 @@ a {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	border: 1px solid rgba(0,0,0,0.2);
-	/*border-radius: 10px;*/
 	-moz-transition-duration: 250ms;
 	-moz-transition-property: border, box-shadow, width, height;
 	-moz-transition-timing-function: ease;
@@ -136,13 +135,6 @@ a {
 	border-color: rgba(0,0,0,0.5);
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
-
-/*
-#folder .site a:hover .snapshot {
-	border-color: rgba(255,255,255,0.5);
-	box-shadow: 0 0 5px rgba(255,255,255,0.1);
-}
-*/
 
 .site .snapshot.snapshoting {
 	-moz-transition-property: background-position;
@@ -169,6 +161,10 @@ a {
 
 .site a:hover .button:hover {
 	opacity: 1;
+}
+
+.site.folder.opened .button, .site.dragging .button {
+	display: none;
 }
 
 .site .remove {
@@ -280,10 +276,9 @@ a {
 }
 
 .site.folder > a > .snapshot
-/*, .site.folder a:hover .snapshot*/
 {
 	overflow: hidden;
-	border: 3px solid rgba(255,255,255,0.75);
+	border: 3px solid rgba(0,0,0,0.05);
 	background-color: rgba(0,0,0,0.05);
 }
 
@@ -301,10 +296,11 @@ a {
 
 .site.folder .snapshot img {
 	position: absolute;
+	-moz-box-sizing: border-box;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
 
-	-moz-transition-property: top, left, width, height;
+	-moz-transition-property: top, left;/*, width, height;*/
 	-moz-transition-duration: 250ms;
 	-moz-transition-timing-function: linear;
 }

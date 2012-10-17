@@ -69,7 +69,7 @@
 			if (idx != -1) {
 				var s = sm.getSite(g, idx);
 				if (s && s.sites === undefined && s.url != '') {
-					if (url == s.url && name == s.name && image == s.snapshots[3]) {
+					if (url == s.url && name == s.name && image == s.snapshots[3] && snapshotIndex == s.snapshotIndex) {
 						return;
 					}
 

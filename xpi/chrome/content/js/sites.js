@@ -846,7 +846,9 @@ function refreshGroup() {
 		var g = idxes[0], i = idxes[1];
 		var f = sm.getSite(g, i);
 		if (f && f.sites && Array.isArray(f.sites)) {
-			sm.refreshSite(g, i);
+			if (confirm(getString('ssFolderDoYouWantToRefreshAll'))) {
+				sm.refreshSite(g, i);
+			}
 		}
 	}
 	return false;

@@ -97,6 +97,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function check() {
 		let changed = false;
+		if (Array.isArray(data)) {
+			convert(data);
+			changed = true;
+		}
 		let sites = data.sites;
 		try {
 			// check for empty 
@@ -176,6 +180,17 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function save() {
 		that.filePutContents(file, that.stringify(data));
+	}
+
+	function createSite(url, title, name, lt, entire, living, cust, index) {
+		return {
+			'url': url,
+			'title': title,
+			'realurl': url, // used for live snapshot
+			'name': name,
+			'snapshots': [lt, entire, living, cust],
+			'snapshotIndex': index 
+		};
 	}
 
 	function getLiveSnapshot(url) {
@@ -303,14 +318,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (snapshotIndex == 3 && image == null) {
 			snapshotIndex = 0;
 		}
-		let s = {
-			'url': url,
-			'title': url,
-			'realurl': url, // used for live snapshot
-			'name': name,
-			'snapshots': [imgLoading, imgLoading, living, image],
-			'snapshotIndex': snapshotIndex
-		};
+		let s = createSite(url, url, name, imgLoading, imgLoading, living, image, snapshotIndex);
 		data.sites.push(s);
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
@@ -479,7 +487,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 		}
 	}
-
 
 	// snapshots
 	function fileFromName(name) {
@@ -731,6 +738,25 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 		return takeSnapshot;
 	})();
+
+	// converters
+	function convert(o) {
+		if (!Array.isArray(o)) {
+			return;
+		}
+
+		create();
+		let sites = data.sites;
+		for (let i = 0; i < o.length; ++ i) {
+			let os = o[i];
+			if (os.url != '') {
+				let living = getLiveSnapshot(os.url);
+				let s = createSite(os.url, os.title, os.name, os.snapshot, os.snapshot, living, os.image || '', 0);
+				sites.push(s);
+			}
+		}
+		save();
+	}
 
 	////////////////////
 	// begin

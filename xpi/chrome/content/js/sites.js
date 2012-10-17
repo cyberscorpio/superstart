@@ -200,23 +200,24 @@ function updateFolder(f, se) {
 		$.addClass(se, 'folder');
 		var tmp = createSiteElement(f);
 		swapSiteItem(se, tmp);
+	} else { // createSiteElement wil call updateFolder()
+		var e = $(se, 'a')[0];
+		e.href = '#';
+		var snapshot = $(se, '.snapshot')[0];
+		while(snapshot.lastChild) {
+			snapshot.removeChild(snapshot.lastChild);
+		}
+		for (var i = 0; i < f.sites.length; ++ i) {
+			var s = f.sites[i];
+			var img = document.createElement('img');
+			img.src = s.snapshots[s.snapshotIndex];
+			snapshot.appendChild(img);
+		}
+	
+		setFolderTitle(f, se);
+	
+		layout.layoutFolderElement(se);
 	}
-	var e = $(se, 'a')[0];
-	e.href = '#';
-	var snapshot = $(se, '.snapshot')[0];
-	while(snapshot.lastChild) {
-		snapshot.removeChild(snapshot.lastChild);
-	}
-	for (var i = 0; i < f.sites.length; ++ i) {
-		var s = f.sites[i];
-		var img = document.createElement('img');
-		img.src = s.snapshots[s.snapshotIndex];
-		snapshot.appendChild(img);
-	}
-
-	setFolderTitle(f, se);
-
-	layout.layoutFolderElement(se);
 }
 
 function flashFolder(f) {
@@ -852,6 +853,7 @@ function refreshGroup() {
 function onDblClick(e) {
 	var t = e.target;
 	if (t.tagName == 'HTML') {
+		window.getSelection().removeAllRanges()
 		showAddSite();
 		return false; // TODO or body.onselectstart = function() {return false;}?
 	}

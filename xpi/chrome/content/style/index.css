@@ -270,6 +270,7 @@ a {
 }
 
 .site
+, .site.folder
 , .site.folder.opened 
 , .site.folder.opened * {
 	-moz-user-select: -moz-none !important;

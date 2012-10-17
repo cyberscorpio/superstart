@@ -243,12 +243,14 @@ return {
 			dragIdxes = idxes;
 
 			layout.enterDraggingMode();
-		}
 
+			evt.stopPropagation();
+		}
 	},
 	
 	onEnter: function(evt) {
 		if (elem) {
+			evt.stopPropagation();
 			evt.preventDefault();
 			return false;
 		}
@@ -256,6 +258,7 @@ return {
 	
 	onLeave: function(evt) {
 		if (elem) {
+			evt.stopPropagation();
 			evt.preventDefault();
 			return false;
 		}
@@ -263,6 +266,7 @@ return {
 	
 	onOver: function(evt) {
 		if (elem) {
+			evt.stopPropagation();
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = "move";
 	
@@ -292,6 +296,7 @@ return {
 	
 	onDrop: function(evt) {
 		if (elem) {
+			evt.stopPropagation();
 			evt.preventDefault();
 			return false;
 		}
@@ -319,6 +324,10 @@ return {
 			} else {
 				layout.placeSitesInFolderArea();
 			}
+
+			evt.stopPropagation();
+			evt.preventDefault();
+			return false;
 		}
 	}
 };

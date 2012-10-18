@@ -81,7 +81,9 @@ if ("undefined" == typeof(SuperStart)) {
 		}
 
 		SuperStart.onMenuRefreshAll = function() {
-			sm.refreshSite(-1, -1);
+			if (gBrowser.selectedBrowser.contentWindow.confirm(SuperStart.getString('ssSiteRefreshAllConfirm'))) {
+				sm.refreshSite(-1, -1);
+			}
 		}
 
 		SuperStart.onMenuOptions = function() {

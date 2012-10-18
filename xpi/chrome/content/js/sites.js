@@ -288,12 +288,12 @@ function createSiteElement(s) {
 	}
 
 	// create buttons
-	var a = $(se, 'a .snapshot')[0];
+	// var a = $(se, 'a .snapshot')[0];
 	for (var i = 0; i < buttons.length; ++ i) {
 		var b = document.createElement('div');
 		b.className = buttons[i] + ' button';
 		b.title = getString(titles[i]);
-		a.appendChild(b);
+		se.appendChild(b);
 	}
 
 	// install the command handlers
@@ -846,7 +846,7 @@ function refreshGroup() {
 		var g = idxes[0], i = idxes[1];
 		var f = sm.getSite(g, i);
 		if (f && f.sites && Array.isArray(f.sites)) {
-			if (confirm(getString('ssFolderDoYouWantToRefreshAll'))) {
+			if (confirm(getString('ssFolderRefreshAllConfirm'))) {
 				sm.refreshSite(g, i);
 			}
 		}

@@ -10,9 +10,24 @@ var superStartOptions = {};
 	var tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
+	window.addEventListener('DOMContentLoaded', function() {
+		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+		initialize();
+
+		var dlg = $$('superstart-options');
+		dlg.onAccept = onAccept;
+		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-options").onAccept();');
+	}, false);
+
+	window.addEventListener('unload', function() {
+		window.removeEventListener('unload', arguments.callee, false);
+		cleanup();
+	}, false);
+
+
 	var boolMaps = {
-		'superstart-sites-showblank' : 'show-blank',
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
+		'superstart-sites-use-compactmode' : 'site-compact',
 		'superstart-show-bookmarks' : 'toolbar-bookmark',
 		'superstart-show-recentlyclosed' : 'toolbar-recentlyclosed',
 		'superstart-show-themes' : 'toolbar-themes',
@@ -26,7 +41,7 @@ var superStartOptions = {};
 	var mainWindow = null;
 
 
-	opt.initialize = function initialize() {
+	function initialize() {
 		let d = document;
 	// get main window
 		let wm = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);  
@@ -35,10 +50,10 @@ var superStartOptions = {};
 	// restore the selected tab
 		let idx = window.opener['superstart-option-tab-index'];
 		if (idx != undefined) {
-			g('superstart-option-tabbox').selectedIndex = idx;
+			$$('superstart-option-tabbox').selectedIndex = idx;
 		}
 	// homepage
-		var cb = g('superstart-set-as-homepage');
+		var cb = $$('superstart-set-as-homepage');
 		if (isHomepaged) {
 			cb.setAttribute('checked', true);
 		}
@@ -46,7 +61,7 @@ var superStartOptions = {};
 	// bool 
 		for (let id in boolMaps) {
 			let key = boolMaps[id];
-			let cb = g(id);
+			let cb = $$(id);
 			if (cb) {
 				if (cfg.getConfig(key)) {
 					cb.setAttribute('checked', true);
@@ -54,17 +69,17 @@ var superStartOptions = {};
 			}
 		}
 
-	// per line
-		let spl = cfg.getConfig('site-perline');
-		let splPop = g('superstart-sites-per-line-popup');
-		let from = 3, to = 17;
+	// Col
+		let spl = cfg.getConfig('col');
+		let splPop = $$('superstart-sites-col-popup');
+		let from = 4, to = 8;
 		for (let i = 0; i + from <= to; ++ i) {
 			let item = document.createElement('menuitem');
 			let idx = i + from;
 			item.setAttribute('label', idx);
 			splPop.appendChild(item);
 			if (idx == spl) {
-				g('superstart-sites-per-line').selectedIndex = i;
+				$$('superstart-sites-col').selectedIndex = i;
 			}
 		}
 
@@ -86,27 +101,27 @@ var superStartOptions = {};
 		v.setAttribute('label', v.getAttribute('label') + ' (v' + cfg.getConfig('version') + ')');
 	}
 
-	opt.cleanup = function() {
+	function cleanup() {
 		cleanupThemes();
 	}
 
-	opt.onSitesPerLineSelected = function() {
-		let label = g('superstart-sites-per-line').getAttribute('label');
-		cfg.setConfig('site-perline', label);
+	opt.onSitesColSelected = function() {
+		let label = $$('superstart-sites-col').getAttribute('label');
+		cfg.setConfig('col', label);
 	}
 
-	opt.onAccept = function() {
+	function onAccept() {
 		// 1. bool options
 		for (let id in boolMaps) {
 			let key = boolMaps[id];
-			let cb = g(id);
+			let cb = $$(id);
 			if (cb) {
 				cfg.setConfig(key, cb.hasAttribute('checked'));
 			}
 		}
 
 		// 2. special case
-		let cb = g('superstart-set-as-homepage');
+		let cb = $$('superstart-set-as-homepage');
 		if (cb.hasAttribute('checked') != isHomepaged) {
 			if (isHomepaged) {
 				sbprefs.setCharPref('browser.startup.homepage', 'about:home');
@@ -116,10 +131,16 @@ var superStartOptions = {};
 		}
 
 		// 3. customize
+		try {
 		saveCustomize();
+		} catch (e) {
+			logger.logStringMessage(e);
+		}
 
 		// 4. save tab index
-		window.opener['superstart-option-tab-index'] = g('superstart-option-tabbox').selectedIndex;
+		window.opener['superstart-option-tab-index'] = $$('superstart-option-tabbox').selectedIndex;
+
+		return true;
 	}
 
 	opt.selectTheme = function() {
@@ -139,11 +160,11 @@ var superStartOptions = {};
 	var usCss = '';
 
 	function getCstmElem(id) {
-		return g('superstart-customize-' + id);
+		return $$('superstart-customize-' + id);
 	}
 
 	function initCustomize() {
-		let cb = g('superstart-use-customize');
+		let cb = $$('superstart-use-customize');
 		cb.addEventListener('CheckboxStateChange', function() {
 			let ctrls = document.getElementsByClassName('customize-ctrl');
 			for (let i = 0, l = ctrls.length; i < l; ++ i) {
@@ -172,15 +193,10 @@ var superStartOptions = {};
 			getCstmElem('transparent').checked = true;
 		}
 
-		let textBg = cstm['+text-background'] || false;
-		if (textBg) {
-			getCstmElem('text-background').checked = true;
-		}
-
 		let adv = getCstmElem('advance');
 		adv.addEventListener('command', function() {
 			var params = { input: usCss, output: null };
-			window.openDialog('chrome://superstart/content/css.xul', 
+			window.openDialo$$('chrome://superstart/content/css.xul', 
 				'',
 				'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes',
 				params).focus();
@@ -218,10 +234,6 @@ var superStartOptions = {};
 			cstm['+transparent'] = true;
 		}
 
-		if (getCstmElem('text-background').checked == true) {
-			cstm['+text-background'] = true;
-		}
-
 		if (usCss != '') {
 			cstm['css'] = usCss;
 		}
@@ -230,7 +242,7 @@ var superStartOptions = {};
 	}
 
 	function initBackgroundPosition(currPos) {
-		let bgp = g('bg-position');
+		let bgp = $$('bg-position');
 		for (let y = 0; y < 3; ++ y) {
 			let hb = document.createElement('hbox');
 			for (x = 0; x < 3; ++ x) {
@@ -252,14 +264,14 @@ var superStartOptions = {};
 			return;
 		}
 
-		let ss = g('bg-position').getElementsByClassName('selected');
+		let ss = $$('bg-position').getElementsByClassName('selected');
 		for (let i = 0, l = ss.length; i < l; ++ i) {
 			$.removeClass(ss[i], 'selected');
 		}
 		$.addClass(evt.target, 'selected');
 	}
 	function getBackgroundPosition() {
-		let ss = g('bg-position').getElementsByClassName('selected');
+		let ss = $$('bg-position').getElementsByClassName('selected');
 		if (ss.length > 0) {
 			return ss[0]['ss-value'];
 		}
@@ -316,7 +328,7 @@ var superStartOptions = {};
 	}
 
 	function buildThemeList() {
-		let list = g('superstart-theme-list');
+		let list = $$('superstart-theme-list');
 		let currTheme = cfg.getConfig('theme');
 		let themes = JSON.parse(tm.getThemes());
 
@@ -356,10 +368,6 @@ var superStartOptions = {};
 	function getUrlFromFile(iF) {
 		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
 		return ios.newFileURI(iF).spec; 
-	}
-
-	function g(id) {
-		return document.getElementById(id);
 	}
 })(superStartOptions);
 

@@ -155,13 +155,15 @@ a {
 	background-position: center;
 	border: 2px solid white;
 	border-radius: 50%;
+
+	cursor: pointer;
 }
 
-.site a:hover .button {
+.site:hover .button {
 	opacity: .1;
 }
 
-.site a:hover .button:hover {
+.site:hover .button:hover {
 	opacity: 1;
 }
 
@@ -170,33 +172,33 @@ a {
 }
 
 .site .remove {
-	top: 1px;/*-8px;*/
-	right: 1px;/*-8px;*/
+	top: 2px;/*-8px;*/
+	right: 2px;/*-8px;*/
 	background-image: url(../images/remove.png);
 }
 
 .site .next-snapshot {
-	bottom: 1px;
-	right: 1px;
+	bottom: 25px;
+	right: 2px;
 	background-image: url(../images/right.png);
 }
 
 .site .edit {
-	top: 1px;
-	right: 30px;
+	top: 2px;
+	right: 33px;
 	background-image: url(../images/edit.png);
 }
 
 .site .refresh {
-	top: 1px;
-	right: 59px;
+	top: 2px;
+	right: 64px;
 	background-image: url(../images/refresh.png);
 }
 
 .site .newtab ,
 .site .thistab {
-	top: 1px;
-	left: 1px;
+	top: 2px;
+	left: 2px;
 }
 
 .site .newtab {
@@ -209,12 +211,12 @@ a {
 }
 
 .site.folder .edit {
-	bottom: 1px;
-	right: 1px;
+	bottom: 2px;
+	right: 2px;
 }
 .site.folder .refresh {
-	top: 1px;
-	right: 30px;
+	top: 2px;
+	right: 33px;
 }
 
 #sites.newtab .site .newtab,

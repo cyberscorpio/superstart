@@ -50,7 +50,6 @@ function ssConfig() {
 	var boolCfgs = {
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
 		'use-customize': {'key': 'use.customize'},
-		'show-favicon': {'key': 'site.showfavicon'},
 		'site-compact': {'key': 'site.compact'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},

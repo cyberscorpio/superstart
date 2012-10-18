@@ -19,6 +19,7 @@
 <!ENTITY superstart.options.sites.displaysettings "Display Settings">
 <!ENTITY superstart.options.sites.col "How many sites in one line:">
 <!ENTITY superstart.options.sites.use.compactmode "Use compact mode">
+<!ENTITY superstart.options.sites.open.in.newtab "Open in new tab by default">
 <!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
 <!ENTITY superstart.options.set.as.homepage "Set Super Start as homepage">
 

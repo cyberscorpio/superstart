@@ -27,6 +27,7 @@ var superStartOptions = {};
 
 	var boolMaps = {
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
+		'superstart-sites-open-in-newtab' : 'open-in-newtab',
 		'superstart-sites-use-compactmode' : 'site-compact',
 		'superstart-show-bookmarks' : 'toolbar-bookmark',
 		'superstart-show-recentlyclosed' : 'toolbar-recentlyclosed',

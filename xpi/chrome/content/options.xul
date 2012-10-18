@@ -27,6 +27,7 @@
 						<caption label="&superstart.options.sites.setup;" />
 						<checkbox id="superstart-load-in-blanktab" label="&superstart.options.load.in.blanktab;" />
 						<checkbox id="superstart-set-as-homepage" label="&superstart.options.set.as.homepage;" />
+						<checkbox id="superstart-sites-open-in-newtab" label="&superstart.options.sites.open.in.newtab;" />
 					</groupbox>
 					<groupbox>
 						<caption label="&superstart.options.sites.displaysettings;" />

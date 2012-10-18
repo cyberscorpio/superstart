@@ -223,6 +223,7 @@ a {
 #folder.newtab .site .newtab {
 	display: none;
 }
+#sites.newtab .site.folder .newtab,
 #sites.newtab .site .thistab,
 #folder.newtab .site .thistab {
 	display: block;

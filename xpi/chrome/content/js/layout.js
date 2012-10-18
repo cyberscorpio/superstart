@@ -124,11 +124,13 @@ var layout = (function() {
 	}
 
 	var transitionElement = null;
+	var transitionTick = 0;
 	function clrTransitionState() {
 		if (transitionElement) {
 			log('clear transition');
 			transitionElement.removeEventListener('transitionend', clrTransitionState, true);
 			transitionElement = null;
+			transitionTick = 0;
 		}
 	}
 
@@ -136,6 +138,7 @@ var layout = (function() {
 		if (transitionElement == null) {
 			log('now, in transition');
 			transitionElement = se;
+			transitionTick = Date.now();
 			se.addEventListener('transitionend', clrTransitionState, true);
 		}
 	}
@@ -262,7 +265,7 @@ var layout = (function() {
 
 					var top = y + 'px';
 					var left = x + 'px';
-					if (!layout.inTransition() && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
+					if (!layout.inTransition(true) && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
 						setTransitionState(se);
 					}
 					se.style.top = top;
@@ -361,8 +364,16 @@ var layout = (function() {
 
 	var actID = null;
 var layout = {
-	inTransition: function() {
-		return transitionElement != null;
+	inTransition: function(nocheck) {
+		if (transitionElement != null) {
+			if (!nocheck && Date.now() - transitionTick > 1000) { // so the program should be recover from an error
+				clrTransitionState();
+				return false;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	},
 
 	layoutTopSites: function(actingNow) {

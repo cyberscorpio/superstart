@@ -52,7 +52,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	////////////////////
 	// load / save
-	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
+	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.v1.json']);
+	let /* nsIFile */ oldfile = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
 	let imgWidth = 256;
 	let ratio = 0.625;
 	let imgHeight = Math.floor(imgWidth * ratio);
@@ -161,12 +162,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function load() {
 		inLoading = true;
-		if (!file.exists()) {
+		if (!file.exists() && !oldfile.exists()) {
 			create();
 		} else {
 			try {
-				let changed = false;
-				data = that.jparse(that.fileGetContents(file));
+				if (file.exists()) {
+					data = that.jparse(that.fileGetContents(file));
+				} else {
+					data = that.jparse(that.fileGetContents(oldfile));
+				}
 				if (check()) {
 					save();
 				}

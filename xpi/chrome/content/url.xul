@@ -34,13 +34,13 @@
 		<label control="url-name" value="&superstart.dialog.url.name;" />
 		<textbox id="url-name" />
 		<groupbox>
-			<caption label="Thumbnail settings" />
+			<caption label="&superstart.dialog.url.snapshot.setting;" />
 			<hbox>
 				<radiogroup id="snapshot-index">
-					<radio label="Left top corner" />
-					<radio label="Whole page" />
-					<radio label="Live snapshot" />
-					<radio label="Customize image" id="select-customize-image" disabled="true" />
+					<radio label="&superstart.dialog.url.snapshot.lefttop;" />
+					<radio label="&superstart.dialog.url.snapshot.entire;" />
+					<radio label="&superstart.dialog.url.snapshot.lastvisit;" />
+					<radio label="&superstart.dialog.url.snapshot.customize;" id="select-customize-image" disabled="true" />
 				</radiogroup>
 				<vbox id="customize-image-group" flex="1">
 					<hbox pack="start">

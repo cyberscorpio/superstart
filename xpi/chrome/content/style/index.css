@@ -167,10 +167,6 @@ a {
 	opacity: 1;
 }
 
-.site.folder.opened .button, .site.dragging .button {
-	display: none;
-}
-
 .site .remove {
 	top: 2px;/*-8px;*/
 	right: 2px;/*-8px;*/
@@ -220,7 +216,8 @@ a {
 }
 
 #sites.newtab .site .newtab,
-#folder.newtab .site .newtab {
+#folder.newtab .site .newtab,
+#sites.newtab .site.folder.opened .button {
 	display: none;
 }
 #sites.newtab .site.folder .newtab,
@@ -228,6 +225,13 @@ a {
 #folder.newtab .site .thistab {
 	display: block;
 }
+
+.site.folder.opened .button,
+.site.dragging .button,
+#sites.newtab .site.folder.dragging .newtab {
+	display: none;
+}
+
 
 .site .title {
 	position: relative;

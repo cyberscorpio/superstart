@@ -45,6 +45,9 @@
 						<checkbox id="superstart-show-recentlyclosed" label="&superstart.options.toolbar.showrecentlyclosed;" />
 						<checkbox id="superstart-show-themes" label="&superstart.options.toolbar.showthemes;" />
 					</groupbox>
+					<hbox flex="1" pack="end">
+						<label value="&superstart.options.general.hint;" />
+					</hbox>
 				</vbox>
 			</tabpanel>
 			<!-- general end -->

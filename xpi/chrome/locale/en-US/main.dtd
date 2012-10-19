@@ -16,6 +16,7 @@
 <!ENTITY superstart.options "Options">
 
 <!ENTITY superstart.options.general "General">
+<!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
 <!ENTITY superstart.options.toolbar.showbookmarks "Show bookmarks">
 <!ENTITY superstart.options.toolbar.showrecentlyclosed "Show recently closed">
 <!ENTITY superstart.options.toolbar.showthemes "Show themes">

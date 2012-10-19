@@ -58,6 +58,7 @@ var superStartOptions = {};
 		if (isHomepaged) {
 			cb.setAttribute('checked', true);
 		}
+		cb.addEventListener('command', onSetHomepageChanged, false);
 
 	// bool 
 		for (let id in boolMaps) {
@@ -67,6 +68,7 @@ var superStartOptions = {};
 				if (cfg.getConfig(key)) {
 					cb.setAttribute('checked', true);
 				}
+				cb.addEventListener('command', onCheckboxChanged, false);
 			}
 		}
 
@@ -106,9 +108,43 @@ var superStartOptions = {};
 	function cleanup() {
 		cleanupThemes();
 
+		let cb = $$('superstart-set-as-homepage');
+		if (cb) {
+			cb.removeEventListener('command', onSetHomepageChanged, false);
+		}
+
+		for (let id in boolMaps) {
+			let key = boolMaps[id];
+			let cb = $$(id);
+			if (cb) {
+				cb.removeEventListener('command', onCheckboxChanged, false);
+			}
+		}
 
 		let colPop = $$('superstart-sites-col-popup');
-		colPop.removeEventListener('command', onSitesColSelected, false);
+		if (colPop) {
+			colPop.removeEventListener('command', onSitesColSelected, false);
+		}
+	}
+
+	function onCheckboxChanged(evt) {
+		var cb = evt.target;
+		let id = cb.id;
+		if (id && boolMaps[id]) {
+			cfg.setConfig(boolMaps[id], cb.hasAttribute('checked'));
+		}
+	}
+
+	function onSetHomepageChanged(evt) {
+		var cb = evt.target;
+		if (cb.hasAttribute('checked') != isHomepaged) {
+			if (isHomepaged) {
+				sbprefs.setCharPref('browser.startup.homepage', 'about:home');
+			} else {
+				sbprefs.setCharPref('browser.startup.homepage', cfg.getConfig('index-url'));
+			}
+			isHomepaged = !isHomepaged;
+		}
 	}
 
 	function onSitesColSelected() {
@@ -117,33 +153,14 @@ var superStartOptions = {};
 	}
 
 	function onAccept() {
-		// 1. bool options
-		for (let id in boolMaps) {
-			let key = boolMaps[id];
-			let cb = $$(id);
-			if (cb) {
-				cfg.setConfig(key, cb.hasAttribute('checked'));
-			}
-		}
-
-		// 2. special case
-		let cb = $$('superstart-set-as-homepage');
-		if (cb.hasAttribute('checked') != isHomepaged) {
-			if (isHomepaged) {
-				sbprefs.setCharPref('browser.startup.homepage', 'about:home');
-			} else {
-				sbprefs.setCharPref('browser.startup.homepage', cfg.getConfig('index-url'));
-			}
-		}
-
-		// 3. customize
+		// 1. customize
 		try {
-		saveCustomize();
+			saveCustomize();
 		} catch (e) {
 			logger.logStringMessage(e);
 		}
 
-		// 4. save tab index
+		// 2. save tab index
 		window.opener['superstart-option-tab-index'] = $$('superstart-option-tabbox').selectedIndex;
 
 		return true;

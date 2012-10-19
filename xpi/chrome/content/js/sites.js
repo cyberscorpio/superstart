@@ -651,7 +651,9 @@ function onSiteSimpleMove(evt, groupFromTo) {
 	var from = at(g, f);
 	var to = at(g, t);
 	assert((!from && !to) || (from && to && from.parentNode == to.parentNode), 'onSimpleMove from and to should be in the same level');
-	simpleMoveHelper(from, to, f, t);
+	if (from && to) { // if the foler is not opened, from & to will be null
+		simpleMoveHelper(from, to, f, t);
+	}
 
 	if (g == -1) {
 		layout.layoutTopSites();
@@ -674,7 +676,6 @@ function onSiteMoveIn(evt, fromTo) {
 	var g = -1;
 	var from = at(g, f);
 	var to = at(g, t);
-	assert($$('folder') == null, 'In MoveIn, #folder should not exist');
 
 	if (t > f) {
 		-- t;
@@ -694,8 +695,8 @@ function onSiteMoveIn(evt, fromTo) {
 		flashFolder(to);
 	}
 
-	if (t.sites.length > 9) {
-		// log('count: ' + t.sites.length);
+	if ($$('folder') != null) {
+		closeFolder();
 	}
 }
 
@@ -730,8 +731,7 @@ function onSiteMoveOut(evt, idxes) {
 		}
 	}
 
-	var folder = $$('folder');
-	if (folder != null) {
+	if ($$('folder') != null) {
 		closeFolder();
 	}
 

@@ -71,15 +71,16 @@ var superStartOptions = {};
 		}
 
 	// Col
-		let spl = cfg.getConfig('col');
-		let splPop = $$('superstart-sites-col-popup');
+		let col = cfg.getConfig('col');
+		let colPop = $$('superstart-sites-col-popup');
+		colPop.addEventListener('command', onSitesColSelected, false);
 		let from = 4, to = 8;
 		for (let i = 0; i + from <= to; ++ i) {
 			let item = document.createElement('menuitem');
 			let idx = i + from;
 			item.setAttribute('label', idx);
-			splPop.appendChild(item);
-			if (idx == spl) {
+			colPop.appendChild(item);
+			if (idx == col) {
 				$$('superstart-sites-col').selectedIndex = i;
 			}
 		}
@@ -104,9 +105,13 @@ var superStartOptions = {};
 
 	function cleanup() {
 		cleanupThemes();
+
+
+		let colPop = $$('superstart-sites-col-popup');
+		colPop.removeEventListener('command', onSitesColSelected, false);
 	}
 
-	opt.onSitesColSelected = function() {
+	function onSitesColSelected() {
 		let label = $$('superstart-sites-col').getAttribute('label');
 		cfg.setConfig('col', label);
 	}

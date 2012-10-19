@@ -35,7 +35,7 @@
 							<label control="superstart-sites-col" value="&superstart.options.sites.col;" />
 							<hbox pack="end" flex="1">
 								<menulist id="superstart-sites-col" minwidth="160">
-									<menupopup id="superstart-sites-col-popup" oncommand="superStartOptions.onSitesColSelected();">
+									<menupopup id="superstart-sites-col-popup">
 									</menupopup>
 								</menulist>
 							</hbox>

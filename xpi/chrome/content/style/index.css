@@ -1,3 +1,10 @@
+/*
+	"Because you will know." -- Steve Jobs
+*/
+html {
+	font-size: 10px;
+}
+
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
 	background-attachment: fixed;
@@ -44,8 +51,6 @@ a {
 }
 
 #nb-commands li {
-	-moz-transition-property: opacity;
-	-moz-transition-duration: 250ms;
 	float: right;
 	opacity: .5;
 }
@@ -67,7 +72,6 @@ a {
 
 /* notes */
 #notes {
-	xxposition: absolute;
 	float: right;
 	width: 200px;
 }
@@ -77,9 +81,12 @@ a {
 #mask {
 	position: absolute;
 	width: 100%;
+	/* -- waiting for vw & vh support by fx
+	width: 100vw;
+	height: 100vh;
+	*/
 	top: 0;
 	left: 0;
-	z-index: 1;
 	background-color: white;
 	opacity: 0.85;
 }
@@ -87,20 +94,6 @@ a {
 #sites {
 	position: relative;
 }
-
-#sites.notransition .site, .site.notransition {
-	-moz-transition-property: none;
-}
-
-/* site & folder transition */
-#container
-, .site
-, #folder {
-	-moz-transition-property: top, left, width, height;
-	-moz-transition-duration: 250ms;
-	-moz-transition-timing-function: linear;
-}
-
 
 .site {
 	position: absolute;
@@ -110,53 +103,40 @@ a {
 
 .site a {
 	position: absolute;
-	top: 0;
+	text-align: center;
 	left: 0;
 	right: 0;
-	bottom: 0;
-	text-align: center;
 }
 
 .site .snapshot {
 	position: relative;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-
+	background-color: rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,.2);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	border: 1px solid rgba(0,0,0,0.2);
-	-moz-transition-duration: 250ms;
-	-moz-transition-property: border, box-shadow, width, height;
-	-moz-transition-timing-function: ease;
 }
 
-.site:hover .snapshot
-, .site.opened .snapshot {
-	border-color: rgba(0,0,0,0.5);
-	/*
-	box-shadow: 0 0 5px rgba(0,0,0,0.5);
-	*/
-}
-
-.site .snapshot.snapshoting {
-	-moz-transition-property: background-position;
-	-moz-transition-duration: 250ms;
-	-moz-transition-timing-function: linear;
+.site:hover .snapshot {
+	border-color: rgba(0,0,0,.5);
 }
 
 .site .button {
 	width: 24px;
 	height: 24px;
 	position: absolute;
-	opacity: 0;
-	-moz-transition: opacity 250ms linear;
 	background-color: black;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: 2px solid white;
 	border-radius: 50%;
-
 	cursor: pointer;
+	opacity: 0;
+}
+
+.site .button:not(.next-snapshot) {
+	top: 2px;
 }
 
 .site:hover .button {
@@ -168,8 +148,7 @@ a {
 }
 
 .site .remove {
-	top: 2px;/*-8px;*/
-	right: 2px;/*-8px;*/
+	right: 2px;
 	background-image: url(../images/remove.png);
 }
 
@@ -180,20 +159,17 @@ a {
 }
 
 .site .edit {
-	top: 2px;
 	right: 33px;
 	background-image: url(../images/edit.png);
 }
 
 .site .refresh {
-	top: 2px;
 	right: 64px;
 	background-image: url(../images/refresh.png);
 }
 
 .site .newtab ,
 .site .thistab {
-	top: 2px;
 	left: 2px;
 }
 
@@ -207,75 +183,48 @@ a {
 }
 
 .site.folder .edit {
-	bottom: 2px;
 	right: 2px;
 }
 .site.folder .refresh {
-	top: 2px;
 	right: 33px;
 }
 
-#sites.newtab .site .newtab,
-#folder.newtab .site .newtab,
-#sites.newtab .site.folder.opened .button {
+#sites.newtab .newtab,
+#folder.newtab .newtab,
+.site.folder.opened .button,
+.site.dragging .button {
 	display: none;
 }
-#sites.newtab .site.folder .newtab,
+
+#sites.newtab .site.folder:not(.opened):not(.dragging) .newtab,
 #sites.newtab .site .thistab,
 #folder.newtab .site .thistab {
 	display: block;
 }
-
-.site.folder.opened .button,
-.site.dragging .button,
-#sites.newtab .site.folder.dragging .newtab {
-	display: none;
-}
-
 
 .site .title {
 	position: relative;
 	height: 1em;
 	padding: .5em;
 	text-align: center;
-
-	font-size: 12px;
+	font-size: 1.2rem;
 	color: black;
-	/*
-	text-shadow: -1px 0 1px white, 1px 0 1px white, 0 1px 1px white, 0 -1px 1px white;
-	*/
 	overflow: hidden;
-	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	-moz-transition-property: opacity, text-shadow;
-	-moz-transition-duration: 250ms;
-	-moz-transition-timing-function: linear;
-}
-
-.site a:hover .title {
+	text-overflow: ellipsis;
 }
 
 #folder .site .title {
 	color: rgba(255,255,255,0.75);
-	/*
-	text-shadow: -1px 0 1px black, 1px 0 1px black, 0 1px 1px black, 0 -1px 1px black;
-	*/
 }
 
-#folder .site a:hover .title {
+#folder .site:hover .title {
 	color: white;
 }
 
 
 .site .title span {
 	line-height: 2em;
-}
-
-/* folder */
-.site.folder.opened
-, .site.folder.closing {
-	z-index: 2;
 }
 
 .site
@@ -307,13 +256,6 @@ a {
 	position: absolute;
 	-moz-box-sizing: border-box;
 	border: 1px solid rgba(0, 0, 0, 0.2);
-	/*
-	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-	*/
-
-	-moz-transition-property: top, left;/*, width, height;*/
-	-moz-transition-duration: 250ms;
-	-moz-transition-timing-function: linear;
 }
 
 
@@ -326,7 +268,6 @@ a {
 	background-repeat: no-repeat;
 	background-position: center;
 	cursor: pointer;
-	-moz-transition: opacity 250ms ease;
 	opacity: 0.25;
 }
 
@@ -345,8 +286,6 @@ a {
 
 .site.dragging {
 	opacity: 0.75;
-	-moz-transition: none;
-	z-index: 3;
 }
 
 /** folder opened **/
@@ -367,9 +306,6 @@ a {
 
 /** notes **/
 #notes {
-	-moz-transition-duration: 250ms;
-	-moz-transition-property: margin;
-	-moz-transition-timing-function: linear;
 }
 
 #note-edit:-moz-placeholder {
@@ -381,8 +317,6 @@ a {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 #note-edit {
-	-moz-transition-duration: 200ms;
-	-moz-transition-property: height, opacity;
 	border: 1px solid rgba(0,0,0,0.1);
 	border-radius: 4px 4px 4px 4px;
 	height: 3.5em;
@@ -393,7 +327,7 @@ a {
 
 #notes-list {
 	margin-top: 1.5em;
-	font-size: 12px;
+	font-size: 1.2rem;
 	line-height: 2em;
 	word-wrap: break-word;
 }
@@ -421,17 +355,17 @@ a {
 
 #notes-list .button {
 	position: absolute;
-	-moz-transition-property: opacity;
-	-moz-transition-duration: 250ms;
 	cursor: pointer;
 	height: 16px;
 	margin: 0 2px 0 8px;
 	width: 16px;
 }
+
 #notes-list .button.done {
 	background: url("../images/button-done.png") no-repeat scroll 0 0 transparent;
 	right: 0;
 }
+
 #notes-list li .button.done {
 	opacity: 0;
 }
@@ -440,4 +374,92 @@ a {
 }
 #notes-list li .button.done:hover {
 	opacity: 1;
+}
+
+/***************************************
+ * transition
+ **************************************/
+#nb-commands li
+, #container
+, .site
+, #folder
+, .site .snapshot
+, .site .snapshot.changing
+, .site .button
+, .site .title
+, .site.folder .snapshot img
+, #site-add
+, #notes
+, #note-edit
+, #notes-list .button {
+	-moz-transition-duration: 250ms;
+	-moz-transition-timing-function: linear;
+}
+
+#nb-commands li {
+	-moz-transition-property: opacity;
+}
+
+#sites.notransition .site, .site.notransition {
+	-moz-transition-property: none;
+}
+
+#container /* top */
+, .site
+, #folder {
+	-moz-transition-property: top, left, width, height;
+}
+
+.site .snapshot {
+	-moz-transition-property: border, width, height;
+}
+
+.site .snapshot.changing {
+	-moz-transition-property: background-position;
+}
+
+.site .button {
+	-moz-transition-property: opacity;
+}
+
+.site .title {
+	-moz-transition-property: color, opacity, text-shadow;
+}
+
+.site.folder .snapshot img {
+	-moz-transition-property: top, left;
+}
+
+#site-add {
+	-moz-transition-property: opacity;
+}
+
+.site.dragging {
+	-moz-transition: none;
+}
+
+#notes {
+	-moz-transition-property: margin;
+}
+
+#note-edit {
+	-moz-transition-property: height, opacity;
+}
+
+#notes-list .button {
+	-moz-transition-property: opacity;
+}
+
+/** z-index **/
+.site.folder.opened
+, .site.folder.closing {
+	z-index: 2;
+}
+
+.site.dragging {
+	z-index: 3;
+}
+
+#mask {
+	z-index: 1;
 }

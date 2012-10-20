@@ -570,7 +570,7 @@ function nextSnapshot() {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
 			var snapshot = $(se, '.snapshot')[0];
-			$.addClass(snapshot, 'snapshoting');
+			$.addClass(snapshot, 'changing');
 			snapshot.style.backgroundPosition = '-' + snapshot.clientWidth + 'px 0';
 			snapshot.addEventListener('transitionend', function(evt) {
 				if (this != evt.target) {
@@ -578,19 +578,19 @@ function nextSnapshot() {
 				}
 				snapshot.removeEventListener('transitionend', arguments.callee, true);
 	
-				$.removeClass(snapshot, 'snapshoting');
+				$.removeClass(snapshot, 'changing');
 				snapshot.style.backgroundPosition = snapshot.clientWidth + 'px 0';
 				sm.nextSnapshot(idxes[0], idxes[1]);
 	
 				window.setTimeout(function() {
-					$.addClass(snapshot, 'snapshoting');
+					$.addClass(snapshot, 'changing');
 					snapshot.style.backgroundPosition = '0 0';
 					snapshot.addEventListener('transitionend', function(evt) {
 						if (this != evt.target) {
 							return;
 						}
 						snapshot.removeEventListener('transitionend', arguments.callee, true);
-						$.removeClass(snapshot, 'snapshoting');
+						$.removeClass(snapshot, 'changing');
 						snapshot.style.backgroundPosition = '';
 					}, true);
 				}, 0);

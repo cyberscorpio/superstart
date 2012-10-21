@@ -202,6 +202,12 @@ a {
 	display: block;
 }
 
+/*
+.site .newtab:hover, .site .thistab:hover {
+	-moz-transform: scale(1.2, 1.2);
+}
+*/
+
 .site .title {
 	position: relative;
 	height: 1em;
@@ -221,7 +227,6 @@ a {
 #folder .site:hover .title {
 	color: white;
 }
-
 
 .site .title span {
 	line-height: 2em;

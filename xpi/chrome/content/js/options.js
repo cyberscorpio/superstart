@@ -25,14 +25,19 @@ var superStartOptions = {};
 	}, false);
 
 
-	var boolMaps = {
+	var boolMap = {
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-sites-open-in-newtab' : 'open-in-newtab',
 		'superstart-sites-use-compactmode' : 'site-compact',
 		'superstart-show-bookmarks' : 'toolbar-bookmark',
 		'superstart-show-recentlyclosed' : 'toolbar-recentlyclosed',
 		'superstart-show-themes' : 'toolbar-themes',
-		'superstart-use-customize' : 'use-customize',
+		'superstart-use-customize' : 'use-customize'
+	};
+
+	var buttonMap = {
+		'superstart-customize-select-image': selectImage,
+		'superstart-customize-clear-image': clearImage
 	};
 
 	var customizeMaps = {
@@ -61,15 +66,22 @@ var superStartOptions = {};
 		cb.addEventListener('command', onSetHomepageChanged, false);
 
 	// bool 
-		for (let id in boolMaps) {
-			let key = boolMaps[id];
-			let cb = $$(id);
-			if (cb) {
+		for (let id in boolMap) {
+			let key = boolMap[id];
+			let c = $$(id);
+			if (c) {
 				if (cfg.getConfig(key)) {
-					cb.setAttribute('checked', true);
+					c.setAttribute('checked', true);
 				}
-				cb.addEventListener('command', onCheckboxChanged, false);
+				c.addEventListener('command', onCheckboxChanged, false);
 			}
+		}
+
+	// buttons
+		for (let id in buttonMap) {
+			let key = buttonMap[id];
+			let c = $$(id);
+			c && c.addEventListener('command', key, false);
 		}
 
 	// Col
@@ -101,8 +113,8 @@ var superStartOptions = {};
 		}
 
 	// version
-		let v = document.getElementById('superstart-version');
-		v.setAttribute('label', v.getAttribute('label') + ' (v' + cfg.getConfig('version') + ')');
+		let v = $$('superstart-version');
+		v && v.setAttribute('label', v.getAttribute('label') + ' (v' + cfg.getConfig('version') + ')');
 	}
 
 	function cleanup() {
@@ -113,11 +125,19 @@ var superStartOptions = {};
 			cb.removeEventListener('command', onSetHomepageChanged, false);
 		}
 
-		for (let id in boolMaps) {
-			let key = boolMaps[id];
-			let cb = $$(id);
-			if (cb) {
-				cb.removeEventListener('command', onCheckboxChanged, false);
+		for (let id in boolMap) {
+			let key = boolMap[id];
+			let c = $$(id);
+			if (c) {
+				c.removeEventListener('command', onCheckboxChanged, false);
+			}
+		}
+
+		for (let id in buttonMap) {
+			let key = buttonMap[id];
+			let c = $$(id);
+			if (c) {
+				cb.addEventListener('command', key, false);
 			}
 		}
 
@@ -130,8 +150,8 @@ var superStartOptions = {};
 	function onCheckboxChanged(evt) {
 		var cb = evt.target;
 		let id = cb.id;
-		if (id && boolMaps[id]) {
-			cfg.setConfig(boolMaps[id], cb.hasAttribute('checked'));
+		if (id && boolMap[id]) {
+			cfg.setConfig(boolMap[id], cb.hasAttribute('checked'));
 		}
 	}
 
@@ -180,6 +200,7 @@ var superStartOptions = {};
 	// customize
 	var positionMap = [undefined, 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom'];
 	var repeatMap = [undefined, 'no-repeat', 'repeat-x', 'repeat-y'];
+	var sizeMap = [undefined, 'cover', 'contain'];
 	var usCss = '';
 
 	function getCstmElem(id) {
@@ -266,19 +287,21 @@ var superStartOptions = {};
 
 	function initBackgroundPosition(currPos) {
 		let bgp = $$('bg-position');
-		for (let y = 0; y < 3; ++ y) {
-			let hb = document.createElement('hbox');
-			for (x = 0; x < 3; ++ x) {
-				let p = document.createElement('vbox');
-				p.addEventListener('click', onPositionClick, false);
-				p.className = 'bg-position customize-ctrl';
-				let cp = p['ss-value'] = positionMap[y * 3 + x];
-				if (cp == currPos) {
-					$.addClass(p, 'selected');
+		if (bgp) {
+			for (let y = 0; y < 3; ++ y) {
+				let hb = document.createElement('hbox');
+				for (x = 0; x < 3; ++ x) {
+					let p = document.createElement('vbox');
+					p.addEventListener('click', onPositionClick, false);
+					p.className = 'bg-position customize-ctrl';
+					let cp = p['ss-value'] = positionMap[y * 3 + x];
+					if (cp == currPos) {
+						$.addClass(p, 'selected');
+					}
+					hb.appendChild(p);
 				}
-				hb.appendChild(p);
+				bgp.appendChild(hb);
 			}
-			bgp.appendChild(hb);
 		}
 	}
 	function onPositionClick(evt) {
@@ -328,7 +351,7 @@ var superStartOptions = {};
 		}, false);
 	}
 
-	opt.selectImage = function() {
+	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
 		fp.init(window, "Select an image", nsIFilePicker.modeOpen);
 		fp.appendFilters(nsIFilePicker.filterImages);
@@ -337,7 +360,7 @@ var superStartOptions = {};
 			getCstmElem('bg-image').setAttribute('src', getUrlFromFile(fp.file));
 		}
 	}
-	opt.clearImage = function() {
+	function clearImage() {
 		getCstmElem('bg-image').removeAttribute('src');
 	}
 

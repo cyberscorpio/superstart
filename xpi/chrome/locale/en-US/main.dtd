@@ -45,6 +45,10 @@
 <!ENTITY superstart.ui.background.repeat.no.repeat "Not repeat">
 <!ENTITY superstart.ui.background.repeat.repeat.horizontal "Repeat horizontal">
 <!ENTITY superstart.ui.background.repeat.repeat.vertical "Repeat vertical">
+<!ENTITY superstart.ui.background.size "Size">
+<!ENTITY superstart.ui.background.size.default "Default">
+<!ENTITY superstart.ui.background.size.cover "Scale to fit (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Scale to fit (CSS:contain)">
 <!ENTITY superstart.ui.background.color "Background color">
 <!ENTITY superstart.ui.background.color.select "Select Color">
 <!ENTITY superstart.ui.background.color.clear "Clear Color">

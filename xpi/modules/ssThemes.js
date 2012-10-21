@@ -139,8 +139,8 @@ function ssThemes() {
 	curr = null;
 
 	// 2. user style
-	let usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.json']);
-	let uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.css']);
+	let usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.json']);
+	let uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.css']);
 	let usData = {};
 	if (usdFile.exists()) {
 		loadUsData();
@@ -160,7 +160,7 @@ function ssThemes() {
 				loadTheme(themeDir, builtin);
 			}
 		} catch (e) {
-			logger.logStringMessage('*** Theme exception: ' + e + ' *** (' + dir.path + ')');
+			// logger.logStringMessage('*** Theme exception: ' + e + ' *** (' + dir.path + ')');
 		}
 	}
 

@@ -64,15 +64,16 @@
 					<groupbox>
 						<caption label="&superstart.ui.background.image;" />
 						<hbox>
-							<hbox pack="center" width="320" height="200">
+							<hbox pack="center" width="256" height="144">
 								<vbox>
-									<image id="superstart-customize-bg-image" maxwidth="320" maxheight="200" class="customize-ctrl" />
+									<image id="superstart-customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />
 								</vbox>
 							</hbox>
 							<hbox flex="1" pack="end">
 								<vbox>
-									<button label="&superstart.ui.select.image;" oncommand="superStartOptions.selectImage();" class="customize-ctrl" />
-									<button label="&superstart.ui.clear.image;" oncommand="superStartOptions.clearImage();" class="customize-ctrl" />
+									<button label="&superstart.ui.select.image;" id="superstart-customize-select-image" class="customize-ctrl" />
+									<button label="&superstart.ui.clear.image;" id="superstart-customize-clear-image" class="customize-ctrl" />
+									<!--
 									<groupbox>
 										<caption label="&superstart.ui.background.position;" class="customize-ctrl" />
 										<hbox flex="1" pack="center">
@@ -80,6 +81,7 @@
 											</vbox>
 										</hbox>
 									</groupbox>
+									-->
 
 									<label value="&superstart.ui.background.repeat;" class="customize-ctrl" />
 									<menulist class="customize-ctrl" id="superstart-customize-bg-repeat">
@@ -88,6 +90,15 @@
 											<menuitem label="&superstart.ui.background.repeat.no.repeat;" />
 											<menuitem label="&superstart.ui.background.repeat.repeat.horizontal;" />
 											<menuitem label="&superstart.ui.background.repeat.repeat.vertical;" />
+										</menupopup>
+									</menulist>
+
+									<label value="&superstart.ui.background.size;" class="customize-ctrl" />
+									<menulist class="customize-ctrl" id="superstart-customize-bg-size">
+										<menupopup>
+											<menuitem label="&superstart.ui.background.size.default;" />
+											<menuitem label="&superstart.ui.background.size.cover;" />
+											<menuitem label="&superstart.ui.background.size.contain;" />
 										</menupopup>
 									</menulist>
 								</vbox>

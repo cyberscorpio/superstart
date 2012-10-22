@@ -376,6 +376,7 @@ var layout = {
 	inTransition: function(nocheck) {
 		if (transitionElement != null) {
 			if (!nocheck && Date.now() - transitionTick > 1000) { // so the program should be recover from an error
+				log('------------------ get error? ----------------');
 				clrTransitionState();
 				return false;
 			}

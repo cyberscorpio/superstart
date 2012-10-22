@@ -197,8 +197,8 @@ a {
 }
 
 #sites.newtab .site.folder:not(.opened):not(.dragging) .newtab,
-#sites.newtab .site .thistab,
-#folder.newtab .site .thistab {
+#sites.newtab .site:not(.dragging) .thistab,
+#folder.newtab .site:not(.dragging) .thistab {
 	display: block;
 }
 
@@ -215,7 +215,7 @@ a {
 	position: absolute;
 	width: 0;
 	height: 0;
-	bottom: -2px;
+	bottom: 0;
 	left: calc(50% - 16px);
 	border-left: 16px solid transparent;
 	border-right: 16px solid transparent;
@@ -262,7 +262,8 @@ a {
 {
 	overflow: hidden;
 	border: 3px solid rgba(0,0,0,0.05);
-	background-color: rgba(0,0,0,0.05);
+	/*background-color: rgba(0,0,0,0.05);*/
+	background-color: #d4d4d4;
 }
 
 .site.folder.flash > a > .snapshot {
@@ -318,7 +319,6 @@ a {
 	height: 0;
 
 	background-color: rgba(0,0,0,0.75);
-	border-top: 2px solid rgba(255,255,255,0.75);
 	border-bottom: 2px solid rgba(255,255,255,0.75);
 }
 
@@ -476,7 +476,7 @@ a {
 
 .site.folder.opened
 , .site.folder.closing {
-	z-index: 3;
+	z-index: 2;
 }
 
 #folder {

@@ -73,16 +73,6 @@
 								<vbox>
 									<button label="&superstart.ui.select.image;" id="superstart-customize-select-image" class="customize-ctrl" />
 									<button label="&superstart.ui.clear.image;" id="superstart-customize-clear-image" class="customize-ctrl" />
-									<!--
-									<groupbox>
-										<caption label="&superstart.ui.background.position;" class="customize-ctrl" />
-										<hbox flex="1" pack="center">
-											<vbox id="bg-position">
-											</vbox>
-										</hbox>
-									</groupbox>
-									-->
-
 									<label value="&superstart.ui.background.repeat;" class="customize-ctrl" />
 									<menulist class="customize-ctrl" id="superstart-customize-bg-repeat">
 										<menupopup>

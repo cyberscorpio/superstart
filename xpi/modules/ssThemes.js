@@ -291,18 +291,10 @@ function ssThemes() {
 	function getTranslateCss() {
 		let obj = {};
 		let css = '';
-		obj['.site, #todo-list li'] = {'opacity' : '0.5'};
-
-		obj['.site.hover1'] = {'opacity': '0.55'};
-		obj['.site.hover2'] = {'opacity': '0.60'};
-		obj['.site.hover3'] = {'opacity': '0.65'};
-		obj['.site.hover4'] = {'opacity': '0.70'};
-		obj['.site.hover5'] = {'opacity': '0.75'};
-		obj['.site.hover6'] = {'opacity': '0.80'};
-		obj['.site.hover7'] = {'opacity': '0.90'};
-
-		obj['.site.hover, #todo-list li:hover'] = {'opacity' : '1'};
-		obj['.site a .snapshot:before, .site:hover a .snapshot:before'] =  {'display' : 'none'};
+		obj['#sites .site, #notes'] = {'opacity' : '0.5'};
+		obj['#sites .site:hover, #sites .site.folder.opened, #notes:hover'] = {'opacity' : '1'};
+		// obj['#sites .site:hover .button:not(:hover)'] = {'transition-property' : 'none'};
+		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.25)', 'border': 'none'};
 
 		for (let k in obj) {
 			let v = obj[k];

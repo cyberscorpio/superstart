@@ -198,7 +198,6 @@ var superStartOptions = {};
 	}
 
 	// customize
-	var positionMap = [undefined, 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom'];
 	var repeatMap = [undefined, 'no-repeat', 'repeat-x', 'repeat-y'];
 	var sizeMap = [undefined, 'cover', 'contain'];
 	var usCss = '';
@@ -228,8 +227,8 @@ var superStartOptions = {};
 			getCstmElem('bg-image').setAttribute('src', body['background-image']);
 		}
 
-		initBackgroundPosition(body['background-position']);
 		initBackgroundRepeat(body['background-repeat']);
+		initBackgroundSize(body['background-size']);
 		initBackgroundColor(body['background-color']);
 
 		let transparent = cstm['+transparent'] || false;
@@ -257,15 +256,15 @@ var superStartOptions = {};
 		let bgi = getCstmElem('bg-image').getAttribute('src');
 		if (bgi != '') {
 			cstm['body']['background-image'] = bgi;
-			cstm['body']['text-shadow'] = 'none';
-		}
-		let position = getBackgroundPosition();
-		if (position != undefined) {
-			cstm['body']['background-position'] = position;
-		}
-		let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
-		if (repeat != undefined) {
-			cstm['body']['background-repeat'] = repeat;
+
+			let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
+			if (repeat != undefined) {
+				cstm['body']['background-repeat'] = repeat;
+			}
+			let size = sizeMap[getCstmElem('bg-size').selectedIndex];
+			if (size != undefined) {
+				cstm['body']['background-size'] = size;
+			}
 		}
 		let color = getCstmElem('bg-color').value;
 		if (color != '') {
@@ -284,56 +283,23 @@ var superStartOptions = {};
 
 		tm.setUsData(JSON.stringify(cstm));
 	}
-
-	function initBackgroundPosition(currPos) {
-		let bgp = $$('bg-position');
-		if (bgp) {
-			for (let y = 0; y < 3; ++ y) {
-				let hb = document.createElement('hbox');
-				for (x = 0; x < 3; ++ x) {
-					let p = document.createElement('vbox');
-					p.addEventListener('click', onPositionClick, false);
-					p.className = 'bg-position customize-ctrl';
-					let cp = p['ss-value'] = positionMap[y * 3 + x];
-					if (cp == currPos) {
-						$.addClass(p, 'selected');
-					}
-					hb.appendChild(p);
-				}
-				bgp.appendChild(hb);
-			}
-		}
-	}
-	function onPositionClick(evt) {
-		let d = evt.target.getAttribute('disabled');
-		if ($.hasClass(evt.target, 'selected') || evt.target.getAttribute('disabled') == "true") {
-			return;
-		}
-
-		let ss = $$('bg-position').getElementsByClassName('selected');
-		for (let i = 0, l = ss.length; i < l; ++ i) {
-			$.removeClass(ss[i], 'selected');
-		}
-		$.addClass(evt.target, 'selected');
-	}
-	function getBackgroundPosition() {
-		let ss = $$('bg-position').getElementsByClassName('selected');
-		if (ss.length > 0) {
-			return ss[0]['ss-value'];
-		}
-		return undefined;
-	}
-	function initBackgroundRepeat(repeat) {
-		if (repeat) {
+	function initWithMap(value, map, id) {
+		if (value) {
 			let idx = 0;
-			for (let i = 0, l = repeatMap.length; i < l; ++ i) {
-				if (repeat == repeatMap[i]) {
+			for (let i = 0, l = map.length; i < l; ++ i) {
+				if (value == map[i]) {
 					idx = i;
 					break;
 				}
 			}
-			getCstmElem('bg-repeat').selectedIndex = idx;
+			getCstmElem(id).selectedIndex = idx;
 		}
+	}
+	function initBackgroundRepeat(repeat) {
+		initWithMap(repeat, repeatMap, 'bg-repeat');
+	}
+	function initBackgroundSize(size) {
+		initWithMap(size, sizeMap, 'bg-size');
 	}
 	function initBackgroundColor(color) {
 		if (color) {

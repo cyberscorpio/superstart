@@ -375,6 +375,10 @@ function indexFromNode(n) {
 }
 
 function onClickFolder(idx, f) {
+	if (layout.inTransition()) {
+		return;
+	}
+
 	var folderArea = $$('folder');
 	if (folderArea == null) {
 		openFolder(idx, f);

@@ -426,11 +426,11 @@ a {
 #container /* top */
 , .site
 , #folder {
-	-moz-transition-property: top, left, width, height;
+	-moz-transition-property: top, left, width, height, opacity;
 }
 
 .site .snapshot {
-	-moz-transition-property: border, width, height;
+	-moz-transition-property: border, width, height, opacity;
 }
 
 .site .snapshot.changing {
@@ -458,7 +458,7 @@ a {
 }
 
 #notes {
-	-moz-transition-property: margin;
+	-moz-transition-property: margin, opacity;
 }
 
 #note-edit {

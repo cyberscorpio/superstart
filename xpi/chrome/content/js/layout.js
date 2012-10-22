@@ -35,6 +35,7 @@ var layout = (function() {
 	}
 	var lp0 = new LayoutParameter(MINWIDTH, 1);
 	var lp1 = new LayoutParameter(MINWIDTH, 1);
+	var inDragging = false;
 
 	function calcLayout() {
 		var w = window.innerWidth;//document.body.clientWidth;
@@ -46,9 +47,15 @@ var layout = (function() {
 		}
 		var col = cfg.getConfig('col');
 		lp0 = new LayoutParameter(w, col);
+		lp0.siteWidthInDragging = Math.floor(lp0.siteWidth * 4 / 5);
+		lp0.snapshotWidthInDragging = Math.floor(lp0.snapshotWidth * 4 / 5);
+		lp0.snapshotHeightInDragging = Math.floor(lp0.snapshotWidthInDragging * ratio);
 
 		col = getFolderColumn();
 		lp1 = new LayoutParameter(w, col);
+		lp1.siteWidthInDragging = lp1.siteWidth;
+		lp1.snapshotWidthInDragging = lp1.snapshotWidth;
+		lp1.snapshotHeightInDragging = lp1.snapshotHeight;
 
 		var notes = $$('notes');
 		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
@@ -239,12 +246,12 @@ var layout = (function() {
 		if (lp0.siteHeight == 0) {
 			log('setTopSiteSize with height = 0: ' + $(se, '.title')[0].innerHTML);
 		}
-		se.style.width = lp0.siteWidth + 'px';
+		se.style.width = (inDragging ? lp0.siteWidthInDragging : lp0.siteWidth) + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 
 		var sn = $(se, '.snapshot')[0];
-		sn.style.width = lp0.snapshotWidth + 'px';
-		sn.style.height = lp0.snapshotHeight + 'px';
+		sn.style.width = (inDragging ? lp0.snapshotWidthInDragging : lp0.snapshotWidth) + 'px';
+		sn.style.height = (inDragging ? lp0.snapshotHeightInDragging : lp0.snapshotHeight) + 'px';
 	}
 
 	// return the height of the container, used by the #folder
@@ -252,23 +259,24 @@ var layout = (function() {
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
-			var x = lp.startX, y = lp.startY;
 			if (lp.siteHeight == 0) {
 				var ch = $(ses[0], '.title')[0].offsetHeight;
 				lp.siteHeight = lp.snapshotHeight + ch;
 			}
-			if (lp.siteHeight == 0) {
-				log('placeSites with 0 height: ' + ses.length + ' @' + col);
-			}
 
+			var nw = (inDragging ? lp.snapshotWidthInDragging : lp.snapshotWidth) + 'px';
+			var nh = (inDragging ? lp.snapshotHeightInDragging : lp.snapshotHeight) + 'px';
+			var sw = (inDragging ? lp.siteWidthInDragging : lp.siteWidth) + 'px';
+			var sh = lp.siteHeight + 'px';
+			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
 				if (!$.hasClass(se, 'dragging')) {
-					se.style.width = lp.siteWidth + 'px';
-					se.style.height = lp.siteHeight + 'px';
+					se.style.width = sw;
+					se.style.height = sh;
 					var sn = $(se, '.snapshot')[0];
-					sn.style.width = lp.snapshotWidth + 'px';
-					sn.style.height = lp.snapshotHeight + 'px';
+					sn.style.width = nw;
+					sn.style.height = nh;
 
 					var top = y + 'px';
 					var left = x + 'px';
@@ -310,13 +318,10 @@ var layout = (function() {
 	}
 
 	function enterDraggingMode() {
-		lp0.snapshotWidth = Math.floor(lp0.snapshotWidth * 4 / 5);
-		lp0.snapshotHeight = Math.floor(lp0.snapshotWidth * ratio);
-		lp0.siteWidth = Math.floor(lp0.siteWidth * 4 / 5);
-
-		var sw = lp0.siteWidth;
-		var w = lp0.snapshotWidth;
-		var h = lp0.snapshotHeight;
+		inDragging = true;
+		var sw = lp0.siteWidthInDragging;
+		var w = lp0.snapshotWidthInDragging;
+		var h = lp0.snapshotHeightInDragging;
 
 		var ses = $('#sites > .site');
 		for (var i = 0, l = ses.length; i < l; ++ i) {
@@ -333,7 +338,7 @@ var layout = (function() {
 	}
 
 	function leaveDraggingMode() {
-		calcLayout();
+		inDragging = false;
 		var w = lp0.snapshotWidth;
 		var h = lp0.snapshotHeight;
 		var sw = lp0.siteWidth;
@@ -352,15 +357,7 @@ var layout = (function() {
 		}
 	}
 
-	/*
-	function onSiteResize() {
-		var se = this;
-		if ($.hasClass(se, 'folder')) {
-			layoutFolderElement(se);
-		}
-	}
-	*/
-	function onSnapshotTransitionEng(e) {
+	function onSnapshotTransitionEnd(e) {
 		if (e.propertyName != 'width') {
 			return;
 		}
@@ -416,7 +413,7 @@ var layout = {
 	// 'onSiteResize': onSiteResize
 	// Maybe I can use MutationObserver to mointor the resizing event!!
 	// https://developer.mozilla.org/en-US/docs/DOM/MutationObserver
-	, 'onSnapshotTransitionEng': onSnapshotTransitionEng
+	, 'onSnapshotTransitionEnd': onSnapshotTransitionEnd
 	
 }; // layout
 	return layout;

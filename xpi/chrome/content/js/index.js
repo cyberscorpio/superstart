@@ -28,10 +28,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	}
 }, false);
 
-
-
-
-
 // event handler
 function onScroll() {
 	var mask = $$('mask');

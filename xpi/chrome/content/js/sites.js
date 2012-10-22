@@ -218,6 +218,7 @@ function updateFolder(f, se) {
 	
 		setFolderTitle(f, se);
 	
+		layout.setTopSiteSize(se);
 		layout.layoutFolderElement(se);
 	}
 }
@@ -254,7 +255,7 @@ function createEmptySiteElement() {
 function createSiteElement(s) {
 	var se = $.obj2Element(templates['site']);
 	se.ondragstart = gDrag.onStart;
-	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEng, false);
+	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
 	var buttons = [];
 	var titles = [];
 	var cmd = {};

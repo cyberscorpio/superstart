@@ -471,7 +471,7 @@ a {
 
 /** z-index **/
 .site.dragging {
-	z-index: 4;
+	z-index: 3;
 }
 
 .site.folder.opened

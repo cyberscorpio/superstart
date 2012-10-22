@@ -208,6 +208,21 @@ a {
 }
 */
 
+.site.folder.opened:after,
+.site.folder.closing:after {
+	content: ".";
+	font-size: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+	bottom: -2px;
+	left: calc(50% - 16px);
+	border-left: 16px solid transparent;
+	border-right: 16px solid transparent;
+	border-bottom: 16px solid rgb(64,64,64);
+	background-color: transparent;
+}
+
 .site .title {
 	position: relative;
 	height: 1em;
@@ -238,7 +253,8 @@ a {
 , .site.folder.opened * {
 	-moz-user-select: -moz-none !important;
 }
-.site.folder.opened .title {
+.site.folder.opened .title,
+.site.folder.closing .title {
 	opacity: 0;
 }
 
@@ -296,7 +312,6 @@ a {
 .site.folder.dragging .snapshot {
 }
 
-/** folder opened **/
 #folder {
 	position: absolute;
 	width: 100%;
@@ -310,7 +325,6 @@ a {
 #folder.resizing{
 	overflow: hidden;
 }
-
 
 /** notes **/
 #notes {
@@ -456,13 +470,17 @@ a {
 }
 
 /** z-index **/
-.site.folder.opened
-, .site.folder.closing {
-	z-index: 2;
+.site.dragging {
+	z-index: 4;
 }
 
-.site.dragging {
+.site.folder.opened
+, .site.folder.closing {
 	z-index: 3;
+}
+
+#folder {
+	z-index: 2;
 }
 
 #mask {

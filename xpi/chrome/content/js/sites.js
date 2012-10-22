@@ -399,7 +399,6 @@ function openFolder(idx, f) {
 	assert(folderArea == null, "When opening the folder, the folderArea should be null");
 	folderArea = document.createElement('div');
 	folderArea.id = 'folder';
-	folderArea.style.zIndex = 2;
 	container.appendChild(folderArea);
 	folderArea.idx = idx;
 	$.addClass(folderArea, 'resizing');

@@ -153,7 +153,7 @@ var layout = (function() {
 	// 3 items per column
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
-		setTopSiteSize(se);
+		// setTopSiteSize(se);
 		var sn = $(se, '.snapshot')[0];
 
 		var cw = sn.clientWidth;
@@ -236,6 +236,9 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
+		if (lp0.siteHeight == 0) {
+			log('setTopSiteSize with height = 0: ' + $(se, '.title')[0].innerHTML);
+		}
 		se.style.width = lp0.siteWidth + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 
@@ -253,6 +256,9 @@ var layout = (function() {
 			if (lp.siteHeight == 0) {
 				var ch = $(ses[0], '.title')[0].offsetHeight;
 				lp.siteHeight = lp.snapshotHeight + ch;
+			}
+			if (lp.siteHeight == 0) {
+				log('placeSites with 0 height: ' + ses.length + ' @' + col);
 			}
 
 			for (var i = 0, l = ses.length; i < l;) {
@@ -306,7 +312,9 @@ var layout = (function() {
 	function enterDraggingMode() {
 		lp0.snapshotWidth = Math.floor(lp0.snapshotWidth * 4 / 5);
 		lp0.snapshotHeight = Math.floor(lp0.snapshotWidth * ratio);
+		lp0.siteWidth = Math.floor(lp0.siteWidth * 4 / 5);
 
+		var sw = lp0.siteWidth;
 		var w = lp0.snapshotWidth;
 		var h = lp0.snapshotHeight;
 
@@ -316,6 +324,7 @@ var layout = (function() {
 			var sn = $(se, '.snapshot')[0];
 			var title = $(se, '.title')[0];
 			if (!$.hasClass(se, 'dragging')) {
+				se.style.width = sw + 'px';
 				sn.style.width = w + 'px';
 				sn.style.height = h + 'px';
 				title.style.width = w + 'px';
@@ -327,6 +336,7 @@ var layout = (function() {
 		calcLayout();
 		var w = lp0.snapshotWidth;
 		var h = lp0.snapshotHeight;
+		var sw = lp0.siteWidth;
 
 		var ses = $('#sites > .site');
 		for (var i = 0, l = ses.length; i < l; ++ i) {
@@ -334,6 +344,7 @@ var layout = (function() {
 			var sn = $(se, '.snapshot')[0];
 			var title = $(se, '.title')[0];
 			if (!$.hasClass(se, 'dragging')) {
+				se.style.width = sw + 'px';
 				sn.style.width = w + 'px';
 				sn.style.height = h + 'px';
 				title.style.width = '';

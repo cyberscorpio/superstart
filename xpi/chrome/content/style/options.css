@@ -25,11 +25,11 @@
 	height: 720px;
 
 	background-color: white;
-	cursor: move;
 }
 
-#superstart-customize-bg-image:hover {
+#superstart-customize-bg-image:not([disabled=true]):hover {
 	-moz-transform: none;
+	cursor: move;
 }
 
 

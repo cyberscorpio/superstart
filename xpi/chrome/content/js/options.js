@@ -366,6 +366,9 @@ var superStartOptions = {};
 	}
 	function onMouseMove(evt) {
 		let bgImg = getCstmElem('bg-image');
+		if (bgImg.getAttribute('disabled') == 'true') {
+			return;
+		}
 		let wrapper = getCstmElem('bg-image-wrapper');
 		let x = evt.clientX;
 		let y = evt.clientY;

@@ -219,7 +219,7 @@ a {
 	left: calc(50% - 16px);
 	border-left: 16px solid transparent;
 	border-right: 16px solid transparent;
-	border-bottom: 16px solid rgb(64,64,64);
+	border-bottom: 16px solid rgba(0, 0, 0, 0.75);
 	background-color: transparent;
 }
 
@@ -262,8 +262,8 @@ a {
 {
 	overflow: hidden;
 	border: 3px solid rgba(0,0,0,0.05);
-	/*background-color: rgba(0,0,0,0.05);*/
-	background-color: #d4d4d4;
+	background-color: rgba(0,0,0,0.25);
+	/*background-color: #d4d4d4;*/
 }
 
 .site.folder.flash > a > .snapshot {
@@ -395,6 +395,16 @@ a {
 	opacity: 1;
 }
 
+/**
+ * text-shadow
+ */
+#sites .site .title
+, #notes-list li {
+	color: black;
+	text-shadow: 1px 0 0 white, 0 1px 0 white, 1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white, -1px 0 0 white, 0 -1px 0 white, -1px -1px 0 white;
+}
+
+
 /***************************************
  * transition
  **************************************/
@@ -423,10 +433,14 @@ a {
 	-moz-transition-property: none;
 }
 
-#container /* top */
-, .site
-, #folder {
-	-moz-transition-property: top, left, width, height, opacity;
+#container {
+	-moz-transition-property: top;
+}
+.site {
+	-moz-transition-property: top, left;
+}
+#folder {
+	-moz-transition-property: top, left, width, height;
 }
 
 .site .snapshot {

@@ -291,10 +291,10 @@ function ssThemes() {
 	function getTranslateCss() {
 		let obj = {};
 		let css = '';
-		obj['#sites .site, #notes'] = {'opacity' : '0.5'};
-		obj['#sites .site:hover, #sites .site.folder.opened, #notes:hover'] = {'opacity' : '1'};
+		obj['#sites .site .snapshot, #sites .site:not(.opened) .title, #notes'] = {'opacity' : '0.5'};
+		obj['#sites .site:hover .snapshot, #sites .site:hover:not(.opened) .title, #sites .site.folder.opened .snapshot, #notes:hover'] = {'opacity' : '1'};
 		// obj['#sites .site:hover .button:not(:hover)'] = {'transition-property' : 'none'};
-		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.25)', 'border': 'none'};
+		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)', 'border': 'none'};
 
 		for (let k in obj) {
 			let v = obj[k];

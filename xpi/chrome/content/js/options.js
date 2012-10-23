@@ -301,10 +301,12 @@ var superStartOptions = {};
 	}
 	function initBackgroundRepeat(repeat) {
 		initWithMap(repeat, repeatMap, 'bg-repeat');
+		updateBgRpt();
 		getCstmElem('bg-repeat').addEventListener('command', updateBgRpt, false);
 	}
 	function initBackgroundSize(size) {
 		initWithMap(size, sizeMap, 'bg-size');
+		updateBgSize();
 		getCstmElem('bg-size').addEventListener('command', updateBgSize, false);
 	}
 	function initBackgroundColor(color) {

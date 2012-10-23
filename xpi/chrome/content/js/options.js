@@ -223,9 +223,13 @@ var superStartOptions = {};
 		usCss = cstm['css'] || '';
 		let body = cstm['body'] || {};
 
+		let bgImg = getCstmElem('bg-image');
 		if (body['background-image'] && body['background-image'] != 'none') {
-			getCstmElem('bg-image').setAttribute('src', body['background-image']);
+			bgImg.setAttribute('src', body['background-image']);
+			bgImg.style.backgroundImage = 'url(' + body['background-image'] + ')';
 		}
+		bgImg.addEventListener('mousemove', onMouseMove, false);
+		bgImg.addEventListener('mouseout', onMouseOut, false);
 
 		initBackgroundRepeat(body['background-repeat']);
 		initBackgroundSize(body['background-size']);
@@ -297,9 +301,11 @@ var superStartOptions = {};
 	}
 	function initBackgroundRepeat(repeat) {
 		initWithMap(repeat, repeatMap, 'bg-repeat');
+		getCstmElem('bg-repeat').addEventListener('command', updateBgRpt, false);
 	}
 	function initBackgroundSize(size) {
 		initWithMap(size, sizeMap, 'bg-size');
+		getCstmElem('bg-size').addEventListener('command', updateBgSize, false);
 	}
 	function initBackgroundColor(color) {
 		if (color) {
@@ -323,13 +329,56 @@ var superStartOptions = {};
 		fp.appendFilters(nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == nsIFilePicker.returnOK) {
-			getCstmElem('bg-image').setAttribute('src', getUrlFromFile(fp.file));
+			let bgImg = getCstmElem('bg-image');
+			bgImg.setAttribute('src', getUrlFromFile(fp.file));
+			bgImg.style.backgroundImage = 'url(' + getUrlFromFile(fp.file) + ')';
 		}
 	}
 	function clearImage() {
-		getCstmElem('bg-image').removeAttribute('src');
+		let bgImg = getCstmElem('bg-image');
+		bgImg.removeAttribute('src');
+		bgImg.style.backgroundImage = '';
 	}
 
+	function updateBgRpt() {
+		let bgImg = getCstmElem('bg-image');
+		let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
+		repeat = repeat || '';
+		bgImg.style.backgroundRepeat = repeat;
+	}
+	function updateBgSize() {
+		let bgImg = getCstmElem('bg-image');
+		let size = sizeMap[getCstmElem('bg-size').selectedIndex];
+		size = size || ''
+		bgImg.style.backgroundSize = size;
+	}
+	function updateBgColor() {
+		let bgImg = getCstmElem('bg-image');
+		let color = getCstmElem('bg-color').value;
+		color = color || '';
+		bgImg.style.backgroundColor = color;
+	}
+
+	function onMouseOver() {
+		let bgImg = getCstmElem('bg-image');
+	}
+	function onMouseMove(evt) {
+		let bgImg = getCstmElem('bg-image');
+		let wrapper = getCstmElem('bg-image-wrapper');
+		let x = evt.clientX;
+		let y = evt.clientY;
+		x = x - wrapper.boxObject.x;
+		y = y - wrapper.boxObject.y;
+		let top = y * (1280 - 256) / 256;
+		let left = x * (1280 - 256) / 256;
+		bgImg.style.top = '-' + top + 'px';
+		bgImg.style.left = '-' + left + 'px';
+	}
+	function onMouseOut() {
+		let bgImg = getCstmElem('bg-image');
+		bgImg.style.top = '';
+		bgImg.style.left = '';
+	}
 
 	// themes
 	function initThemes() {

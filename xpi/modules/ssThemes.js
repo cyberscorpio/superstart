@@ -291,8 +291,8 @@ function ssThemes() {
 	function getTranslateCss() {
 		let obj = {};
 		let css = '';
-		obj['#sites .site .snapshot, #sites .site:not(.opened) .title, #notes'] = {'opacity' : '0.5'};
-		obj['#sites .site:hover .snapshot, #sites .site:hover:not(.opened) .title, #sites .site.folder.opened .snapshot, #notes:hover'] = {'opacity' : '1'};
+		obj['#sites .site .snapshot, #sites .site:not(.opened):not(.closing) .title, #notes'] = {'opacity' : '0.5'};
+		obj['#sites .site:hover .snapshot, #sites .site:hover:not(.opened):not(.closing) .title, #sites .site.folder.opened .snapshot, #notes:hover'] = {'opacity' : '1'};
 		// obj['#sites .site:hover .button:not(:hover)'] = {'transition-property' : 'none'};
 		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)', 'border': 'none'};
 

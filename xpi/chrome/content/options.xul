@@ -66,7 +66,10 @@
 						<hbox>
 							<hbox pack="center" width="256" height="144">
 								<vbox>
-									<image id="superstart-customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />
+									<!--<image id="superstart-customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />-->
+									<box id="superstart-customize-bg-image-wrapper">
+										<box id="superstart-customize-bg-image" class="customize-ctrl"></box>
+									</box>
 								</vbox>
 							</hbox>
 							<hbox flex="1" pack="end">

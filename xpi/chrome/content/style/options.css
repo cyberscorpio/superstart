@@ -7,39 +7,29 @@
 	cursor: pointer;
 }
 
-#superstart-customize-bg-image {
+#superstart-customize-bg-image-wrapper {
 	position: relative;
+	margin: 10px;
+	width: 256px;
+	height: 144px;
+	overflow: hidden;
 }
 
-#superstart-customize-bg-image[src] {
-	background-color: #ccc;
-	border-radius: 4px;
-	border: 1px solid gray;
-	padding: 2px;
-	box-shadow: 3px 3px 4px rgba(0,0,0,0.2);
+#superstart-customize-bg-image {
+	position: absolute;
+	-moz-transform: scale(0.2, 0.2);
+	-moz-transform-origin: left top;
+	transform: scale(0.2, 0.2);
+	transform-origin: left top;
+	width: 1280px;
+	height: 720px;
+
+	background-color: white;
+	cursor: move;
 }
 
-#superstart-customize-bg-image[disabled="true"] {
-	box-shadow: none;
-	opacity: 0.2;
+#superstart-customize-bg-image:hover {
+	-moz-transform: none;
 }
-
-.bg-position {
-	width: 20px;
-	height: 20px;
-	margin: 2px;
-	border: 1px solid rgba(0,0,0,0.2);
-	cursor: pointer;
-}
-
-.bg-position[disabled="true"] {
-	cursor: inherit;
-	opacity: 0.3;
-}
-
-.bg-position.selected {
-	background-color: rgba(0,0,0,0.5);
-}
-
 
 

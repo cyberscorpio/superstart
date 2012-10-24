@@ -1,7 +1,16 @@
 (function() {
+const Cc = Components.classes;
+const Ci = Components.interfaces;
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
+var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
+var ob = ssObj.getService(Ci.ssIObserverable);
+var cfg = ssObj.getService(Ci.ssIConfig);
+ssObj = undefined;
  
+var sEvts = {
+	'site-use-background-effect': onUseBgEffectChanged
+};
 var wEvts = {
 	'scroll': onScroll
 };
@@ -13,6 +22,11 @@ for (var k in wEvts) {
 }
 window.addEventListener('unload', function() {
 	window.removeEventListener('unload', arguments.callee, false);
+	for (var k in sEvts) {
+		ob.unsubscribe(k, sEvts[k]);
+	}
+	ob = null;
+	cfg = null;
 	for (var k in wEvts) {
 		window.removeEventListener(k, wEvts[k], false);
 	}
@@ -23,12 +37,27 @@ window.addEventListener('unload', function() {
 
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+	for (var k in sEvts) {
+		ob.subscribe(k, sEvts[k]);
+	}
 	for (var k in dEvts) {
 		document.addEventListener(k, dEvts[k], false);
 	}
+
+	onUseBgEffectChanged();
 }, false);
 
 // event handler
+function onUseBgEffectChanged(evt, value) {
+	var useBgEffect = cfg.getConfig('site-use-background-effect');
+	if (useBgEffect) {
+		$.addClass(document.body, 'use-background-effect');
+	} else {
+		$.removeClass(document.body, 'use-background-effect');
+	}
+}
+
+
 function onScroll() {
 	var mask = $$('mask');
 	mask.style.top = window.scrollY + 'px';

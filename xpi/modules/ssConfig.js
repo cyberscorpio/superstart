@@ -49,13 +49,14 @@ function ssConfig() {
 
 	var boolCfgs = {
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
-		'use-customize': {'key': 'use.customize'},
 		'site-compact': {'key': 'site.compact'},
+		'site-use-background-effect': {'key': 'site.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
 		'toolbar-bookmark': {'key': 'toolbar.bookmark'},
 		'toolbar-recentlyclosed': {'key': 'toolbar.recentlyclosed'},
 		'toolbar-themes': {'key': 'toolbar.themes'},
+		'use-customize': {'key': 'use.customize'}
 	};
 	for (let k in boolCfgs) {
 		let cfg = boolCfgs[k];

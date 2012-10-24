@@ -59,10 +59,6 @@ var layout = (function() {
 
 		var notes = $$('notes');
 		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
-
-		// when firefox supports css vh & vw, below will be unnecessary
-		var mask = $$('mask');
-		mask.style.height = window.innerHeight + 'px';
 	}
 
 	// -- register events begin ---

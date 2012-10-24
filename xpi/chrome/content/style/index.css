@@ -81,14 +81,20 @@ a {
 #mask {
 	position: absolute;
 	width: 100%;
-	/* -- waiting for vw & vh support by fx
-	width: 100vw;
-	height: 100vh;
-	*/
+	height: 100%;
 	top: 0;
 	left: 0;
 	background-color: white;
 	opacity: 0.85;
+}
+
+body.use-background-effect.folder-opened #sites > .site:not(.opened):not(.dragging),
+body.use-background-effect.folder-closing #sites > .site:not(.closing):not(.dragging) {
+	opacity: .5;
+	filter: url("filters.svg#background-effect");
+}
+body.use-background-effect #mask {
+	opacity: 0;
 }
 
 #sites {
@@ -317,9 +323,12 @@ a {
 	position: absolute;
 	width: 100%;
 	height: 0;
+	background-color: rgba(0,0,0,0.85);
+}
 
-	background-color: rgba(0,0,0,0.75);
-	border-bottom: 2px solid rgba(255,255,255,0.75);
+.site.folder.opened:after,
+.site.folder.closing:after {
+	border-bottom-color: rgba(0,0,0,0.85);
 }
 
 #folder.resizing{

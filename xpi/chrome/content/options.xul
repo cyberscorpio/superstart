@@ -41,6 +41,8 @@
 							</hbox>
 						</hbox>
 						<checkbox id="superstart-sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
+						<checkbox id="superstart-sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
+						<separator orient="horizontal" class="groove-thin" />
 						<checkbox id="superstart-show-bookmarks" label="&superstart.options.toolbar.showbookmarks;" />
 						<checkbox id="superstart-show-recentlyclosed" label="&superstart.options.toolbar.showrecentlyclosed;" />
 						<checkbox id="superstart-show-themes" label="&superstart.options.toolbar.showthemes;" />

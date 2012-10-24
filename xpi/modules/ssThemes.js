@@ -338,7 +338,6 @@ function ssThemes() {
 			css = css.replace(new RegExp(k, 'g'), v);
 		}
 
-		return css.replace(/\\/g, '/');
 		/*
 		var ids = [
 			'ProfD',
@@ -369,6 +368,7 @@ function ssThemes() {
 		}
 		logger.logStringMessage('*******************************************');
 		*/
+		return css.replace(/\\/g, '/');
 	}
 }
 

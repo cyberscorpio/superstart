@@ -26,9 +26,10 @@ var superStartOptions = {};
 
 
 	var boolMap = {
+		'superstart-sites-use-compactmode' : 'site-compact',
+		'superstart-sites-use-background-effect' : 'site-use-background-effect',
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-sites-open-in-newtab' : 'open-in-newtab',
-		'superstart-sites-use-compactmode' : 'site-compact',
 		'superstart-show-bookmarks' : 'toolbar-bookmark',
 		'superstart-show-recentlyclosed' : 'toolbar-recentlyclosed',
 		'superstart-show-themes' : 'toolbar-themes',
@@ -243,7 +244,7 @@ var superStartOptions = {};
 		let adv = getCstmElem('advance');
 		adv.addEventListener('command', function() {
 			var params = { input: usCss, output: null };
-			window.openDialo$$('chrome://superstart/content/css.xul', 
+			window.openDialog('chrome://superstart/content/css.xul', 
 				'',
 				'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes',
 				params).focus();

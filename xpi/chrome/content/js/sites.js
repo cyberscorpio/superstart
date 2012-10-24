@@ -1,5 +1,4 @@
 (function() {
-
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 Components.utils.import('resource://superstart/xl.js');
@@ -427,6 +426,7 @@ function openFolder(idx, f) {
 	var mask = $$('mask');
 	mask.style.display = 'block';
 
+	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');
 
 	layout.layoutFolderArea();
@@ -468,6 +468,7 @@ function closeFolder() {
 		this.parentNode.removeChild(this);
 		$.addClass(this, 'resizing');
 
+		$.removeClass(document.body, 'folder-closing');
 		$.removeClass(se, 'closing');
 		se.draggable = true;
 
@@ -480,7 +481,9 @@ function closeFolder() {
 	var idx = folderArea.idx;
 	var se = at(-1, idx);
 	se.draggable = false;
+	$.removeClass(document.body, 'folder-opened');
 	$.removeClass(se, 'opened');
+	$.addClass(document.body, 'folder-closing');
 	$.addClass(se, 'closing');
 
 	layout.layoutTopSites();

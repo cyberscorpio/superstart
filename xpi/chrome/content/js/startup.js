@@ -1,6 +1,6 @@
 
 if ("undefined" == typeof(SuperStart)) {
-	function $(id) {
+	function $$(id) {
 		return document.getElementById(id);
 	}
 
@@ -31,9 +31,9 @@ if ("undefined" == typeof(SuperStart)) {
 			window.removeEventListener('load', arguments.callee, false);
 
 			// context menu
-			let menu = $('contentAreaContextMenu');
+			let menu = $$('contentAreaContextMenu');
 			menu.addEventListener('popupshowing', function() {
-				let item = $('context-superstart-add');
+				let item = $$('context-superstart-add');
 				item.hidden = true;
 
 				let doc = gBrowser.selectedBrowser.contentDocument;
@@ -104,7 +104,7 @@ if ("undefined" == typeof(SuperStart)) {
 
 		// note: this method is mainly copied from: PHM_populateUndoSubmenu() in Browser-places.js
 		SuperStart.populateUndoMenu = function() {
-			let menu = $('superstart-recently-closed-list');
+			let menu = $$('superstart-recently-closed-list');
 			while (menu.hasChildNodes()) {
 				menu.removeChild(menu.firstChild);
 			}
@@ -157,40 +157,6 @@ if ("undefined" == typeof(SuperStart)) {
 					undoCloseTab();
 				}
 			}, false);
-		}
-
-		SuperStart.populateBookmarks = function(event) {
-			if (event.target != event.currentTarget) {
-				return;
-			}
-			let menu = $('superstart-bookmarks');
-			while (menu.hasChildNodes()) {
-				menu.removeChild(menu.firstChild);
-			}
-
-			let options = hs.getNewQueryOptions();
-			let query = hs.getNewQuery();
-			let folder = bs.bookmarksMenuFolder;
-			query.setFolders([folder], 1);
-
-			let result = hs.executeQuery(query, options);
-			let rootNode = result.root;
-			rootNode.containerOpen = true;
-			try {
-				let l = rootNode.childCount;
-				if (l == 0) {
-					let m = document.createElement("menuitem");
-					m.setAttribute("label", this.getString('ssEmpty'));
-					menu.appendChild(m);
-				} else {
-					for (let i = 0; i < l; ++ i) {
-						let node = rootNode.getChild(i);
-						insertBookmarkNode(menu, node);
-					}
-				}
-			} finally {
-				rootNode.containerOpen = false;
-			}
 		}
 
 		SuperStart.getString = function(name) {
@@ -292,7 +258,7 @@ if ("undefined" == typeof(SuperStart)) {
 
 			undoCloseTab(aEvent.originalTarget.value);
 			gBrowser.moveTabToEnd();
-			let menu = $('superstart-recently-closed-list');
+			let menu = $$('superstart-recently-closed-list');
 			menu.hidePopup();
 		}
 

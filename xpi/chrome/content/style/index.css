@@ -44,31 +44,46 @@ a {
 	background-color: rgba(0,0,0,0.05);
 }
 
-#nb-commands {
-	/*
-	text-align: right;
-	*/
+#navbar ul li {
+	opacity: .5;
+	cursor: pointer;
+	margin: 4px;
+	width:24px;
+	height:24px;
+}
+
+#navbar ul li:hover {
+	opacity: 1;
 }
 
 #nb-commands li {
 	float: right;
-	opacity: .5;
 }
 
-#nb-commands li:hover {
+#nb-buttons li {
+	float: left;
+}
+
+#navbar #nbb-add-site {
+	background: rgba(0,0,0,0.25) url(../images/site-add.png) center center no-repeat;
+	width: 32px;
+	border-radius: 4px;
+}
+
+#navbar #nbb-undo-closed {
+	background: rgba(0,0,0,0.25) url(../images/undo.png) center center no-repeat;
+	width: 32px;
+	border-radius: 4px;
+}
+#navbar #nbb-undo-closed.opened {
+	background-color: orange;
 	opacity: 1;
 }
 
-.nbc {
-	cursor: pointer;
-}
-
-#nbc-notes {
-	margin: 4px;
-	width:24px;
-	height:24px;
+#nbc-notes-onoff {
 	background-image: url(../images/notes-onoff.png);
 }
+
 
 /* notes */
 #notes {
@@ -287,21 +302,6 @@ body.use-background-effect #mask {
 }
 
 
-#site-add {
-	width: 32px;
-	height: 32px;
-	position: absolute;
-	top: 16px;
-	background-image: url(../images/site-add.png);
-	background-repeat: no-repeat;
-	background-position: center;
-	cursor: pointer;
-	opacity: 0.25;
-}
-
-#site-add:hover {
-	opacity: 1;
-}
 
 /* drag */
 .drag-elem {
@@ -417,7 +417,7 @@ body.use-background-effect #mask {
 /***************************************
  * transition
  **************************************/
-#nb-commands li
+#navbar ul li
 , #container
 , .site
 , #folder
@@ -426,7 +426,6 @@ body.use-background-effect #mask {
 , .site .button
 , .site .title
 , .site.folder .snapshot img
-, #site-add
 , #notes
 , #note-edit
 , #notes-list .button {
@@ -434,7 +433,7 @@ body.use-background-effect #mask {
 	-moz-transition-timing-function: linear;
 }
 
-#nb-commands li {
+#navbar ul li {
 	-moz-transition-property: opacity;
 }
 
@@ -470,10 +469,6 @@ body.use-background-effect #mask {
 
 .site.folder .snapshot img {
 	-moz-transition-property: top, left;
-}
-
-#site-add {
-	-moz-transition-property: opacity;
 }
 
 .site.dragging {

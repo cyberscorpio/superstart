@@ -30,10 +30,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	init();
 
-	if (!cfg.getConfig('todo-hide')) {
-		$.removeClass($$('notes'), 'hidden');
-		$$('nbc-notes').setAttribute('title', getString('ssNotesClose'));
-	}
+	onTodoHide('todo-hide', cfg.getConfig('todo-hide'));
 }, false);
 window.addEventListener('unload', function() {
 	window.removeEventListener('unload', arguments.callee, false);
@@ -50,15 +47,15 @@ window.addEventListener('unload', function() {
 function onTodoHide(evt, v) {
 	if (v) {
 		$.addClass($$('notes'), 'hidden');
-		$$('nbc-notes').setAttribute('title', getString('ssNotesOpen'));
+		$$('nbc-notes-onoff').setAttribute('title', getString('ssNotesOpen'));
 	} else {
 		$.removeClass($$('notes'), 'hidden');
-		$$('nbc-notes').setAttribute('title', getString('ssNotesClose'));
+		$$('nbc-notes-onoff').setAttribute('title', getString('ssNotesClose'));
 	}
 }
 
 function init() {
-	var onoff = $$('nbc-notes');
+	var onoff = $$('nbc-notes-onoff');
 	onoff.onclick = function() {
 		if (cfg.getConfig('todo-hide')) {
 			cfg.setConfig('todo-hide', false);

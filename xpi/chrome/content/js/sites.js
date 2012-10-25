@@ -77,7 +77,7 @@ function init() {
 	};
 	mask = null;
 
-	var add = $$('site-add');
+	var add = $$('nbb-add-site');
 	add.onclick = function() { showAddSite(); };
 	add.setAttribute('title', getString('ssSiteAddNew'));
 	$.removeClass(add, 'hidden');

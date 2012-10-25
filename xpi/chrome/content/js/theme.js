@@ -69,15 +69,14 @@ function refresh() {
 			insertStyle('customize', tm.getUsUrl());
 		}
 
-		/*
 		// 2. buttons
-		var themeSelector = $$('theme-selector');
-		while (themeSelector.firstChild) {
-			themeSelector.removeChild(themeSelector.firstChild);
+		var nbt = $$('nb-themes');
+		while (nbt.firstChild) {
+			nbt.removeChild(nbt.firstChild);
 		}
 
-		if (cfg.getConfig('toolbar-themes')) {
-			for (var i = 0, l = themes.length; i < l; ++ i) {
+		if (cfg.getConfig('navbar-themes')) {
+			for (var i = themes.length - 1; i >= 0; -- i) {
 				var t = themes[i];
 				var thumbnail = t['thumbnail-background'];
 				if (thumbnail != undefined) {
@@ -89,11 +88,10 @@ function refresh() {
 					if (t.name == currTheme) {
 						$.addClass(li, 'current');
 					}
-					themeSelector.appendChild(li);
+					nbt.appendChild(li);
 				}
 			}
 		}
-		*/
 	} catch (e) {
 		logger.logStringMessage(e);
 	}

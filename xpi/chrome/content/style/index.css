@@ -56,7 +56,8 @@ a {
 	opacity: 1;
 }
 
-#nb-commands li {
+#nb-commands li,
+#nb-themes li {
 	float: right;
 }
 
@@ -82,6 +83,18 @@ a {
 
 #nbc-notes-onoff {
 	background-image: url(../images/notes-onoff.png);
+}
+
+#navbar #nb-themes li {
+	width: 12px;
+	height: 12px;
+	margin: 10px 3px;
+	border-radius: 50%;
+	box-shadow: 2px 2px 2px black;
+}
+
+#navbar #nb-themes li.current {
+	box-shadow: none;
 }
 
 

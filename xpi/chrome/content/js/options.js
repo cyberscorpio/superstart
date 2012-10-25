@@ -30,9 +30,8 @@ var superStartOptions = {};
 		'superstart-sites-use-background-effect' : 'site-use-background-effect',
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-sites-open-in-newtab' : 'open-in-newtab',
-		'superstart-show-bookmarks' : 'toolbar-bookmark',
-		'superstart-show-recentlyclosed' : 'toolbar-recentlyclosed',
-		'superstart-show-themes' : 'toolbar-themes',
+		'superstart-show-recently-closed' : 'navbar-recently-closed',
+		'superstart-show-themes' : 'navbar-themes',
 		'superstart-use-customize' : 'use-customize'
 	};
 

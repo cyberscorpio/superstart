@@ -17,9 +17,8 @@
 
 <!ENTITY superstart.options.general "General">
 <!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
-<!ENTITY superstart.options.toolbar.showbookmarks "Show bookmarks">
-<!ENTITY superstart.options.toolbar.showrecentlyclosed "Show recently closed">
-<!ENTITY superstart.options.toolbar.showthemes "Show themes">
+<!ENTITY superstart.options.navbar.show.recently.closed "Show recently closed">
+<!ENTITY superstart.options.navbar.show.themes "Show themes">
 
 <!ENTITY superstart.options.sites.setup "Setup">
 <!ENTITY superstart.options.sites.displaysettings "Display Settings">
@@ -40,7 +39,6 @@
 <!ENTITY superstart.ui.background.image "Background image">
 <!ENTITY superstart.ui.select.image "Select Image">
 <!ENTITY superstart.ui.clear.image "Clear Image">
-<!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.background.repeat "Repeat">
 <!ENTITY superstart.ui.background.repeat.repeat "Repeat (default)">
 <!ENTITY superstart.ui.background.repeat.no.repeat "Not repeat">

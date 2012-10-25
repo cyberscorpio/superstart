@@ -11,9 +11,8 @@ pref('extensions.superstart.site.open.in.newtab', false);
 pref('extensions.superstart.site.showfavicon', true);
 
 pref('extensions.superstart.todo.hide', true);
-pref('extensions.superstart.toolbar.bookmark', true);
-pref('extensions.superstart.toolbar.recentlyclosed', true);
-pref('extensions.superstart.toolbar.themes', true);
+pref('extensions.superstart.navbar.recently.closed', true);
+pref('extensions.superstart.navbar.themes', true);
 
 pref('extensions.superstart.use.customize', false);
 

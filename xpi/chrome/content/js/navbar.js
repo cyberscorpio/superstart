@@ -4,10 +4,16 @@
 (function() {
 const Cc = Components.classes;
 const Ci = Components.interfaces;
+var SuperStart = $.getMainWindow().SuperStart;
+var getString = SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 var ob = ssObj.getService(Ci.ssIObserverable);
 var cfg = ssObj.getService(Ci.ssIConfig);
 ssObj = undefined;
+
+var sEvts = {
+	'navbar-recently-closed': onNavbarItemOnoff
+};
 
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
@@ -15,11 +21,25 @@ window.addEventListener('DOMContentLoaded', function() {
 }, false);
 window.addEventListener('unload', function() {
 	window.removeEventListener('unload', arguments.callee, false);
+	cleanup();
+	ob = cfg = null;
 }, false);
 
 function init() {
-	initPopupButton('nbb-undo-closed', 'superstart-recently-closed-list', '123');
+	initPopupButton('nbb-recently-closed', 'superstart-recently-closed-list', getString('ssRecentlyClosed'));
+	for (var k in sEvts) {
+		var f = sEvts[k];
+		ob.subscribe(k, f);
+		f(k);
+	}
+
 	$.removeClass($$('navbar'), 'hidden');
+}
+
+function cleanup() {
+	for (var k in sEvts) {
+		ob.unsubscribe(k, sEvts[k]);
+	}
 }
 
 function initPopupButton(bid, mid, title) {
@@ -57,10 +77,19 @@ function initPopupButton(bid, mid, title) {
 			return;
 		}
 		m.removeEventListener('popuphiding', onPopupHiding, true);
+		$.removeClass(b, 'opened');
+	}
+}
 
-		// window.setTimeout(function() {
-			$.removeClass(b, 'opened');
-		// }, 0);
+function onNavbarItemOnoff(evt, onoff) {
+	onoff = cfg.getConfig(evt);
+	var map = {
+		'navbar-recently-closed': 'nbb-recently-closed'
+	};
+	var id = map[evt];
+	if (id !== undefined) {
+		var b = $$(id);
+		b.style.display = onoff ? 'block' : 'none';
 	}
 }
 

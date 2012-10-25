@@ -3,6 +3,7 @@ var layout = (function() {
 	const Ci = Components.interfaces;
 	const MINWIDTH = 1000;
 	const NOTEWIDTH = 200;
+	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;
 	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10
 
 	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
@@ -19,8 +20,8 @@ var layout = (function() {
 
 			var w = Math.floor(width * 2 / 3);
 			this.siteWidth = Math.floor((w - (col - 1) * this.xPadding) / col);
-			if (this.siteWidth > 256) {
-				this.siteWidth = 256;
+			if (this.siteWidth > SITE_MIN_WIDTH_IN_COMPACTMODE) {
+				this.siteWidth = SITE_MIN_WIDTH_IN_COMPACTMODE;
 			}
 			this.startX = Math.floor((width - this.siteWidth * col - (col - 1) * this.xPadding) / 2);
 		} else {

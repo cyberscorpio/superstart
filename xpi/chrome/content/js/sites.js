@@ -28,7 +28,6 @@ function init() {
 	var container = $$('sites');
 	container.appendChild(df);
 
-
 	onOpenTypeChanged();
 
 	layout.layoutTopSites();

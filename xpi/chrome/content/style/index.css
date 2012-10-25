@@ -70,12 +70,12 @@ a {
 	border-radius: 4px;
 }
 
-#navbar #nbb-undo-closed {
+#navbar #nbb-recently-closed {
 	background: rgba(0,0,0,0.25) url(../images/undo.png) center center no-repeat;
 	width: 32px;
 	border-radius: 4px;
 }
-#navbar #nbb-undo-closed.opened {
+#navbar #nbb-recently-closed.opened {
 	background-color: orange;
 	opacity: 1;
 }

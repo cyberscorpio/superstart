@@ -140,9 +140,11 @@ if ("undefined" == typeof(SuperStart)) {
 				}
 
 				m.addEventListener("click", undoCloseMiddleClick, false);
+				/*
 				if (i == 0) {
 					m.setAttribute("key", "key_undoCloseTab");
 				}
+				*/
 				menu.appendChild(m);
 			}
 

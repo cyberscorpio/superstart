@@ -9,7 +9,7 @@
         dlgbuttons="accept,cancel"
         onload="initialize();"
         ondialogaccept="onAccept();"
-        title="&superstart.advance;">  
+        title="&superstart.ui.customize.advanced;">  
 
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
 

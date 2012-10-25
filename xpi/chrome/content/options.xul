@@ -113,7 +113,7 @@
 						<hbox>
 							<checkbox id="superstart-customize-transparent" label="&superstart.ui.transparent;" class="customize-ctrl" />
 							<hbox pack="end" flex="1">
-								<button id="superstart-customize-advance" label="&superstart.advance;" class="customize-ctrl" />
+								<button id="superstart-customize-advanced" label="&superstart.ui.customize.advanced;" class="customize-ctrl" />
 							</hbox>
 						</hbox>
 					</groupbox>

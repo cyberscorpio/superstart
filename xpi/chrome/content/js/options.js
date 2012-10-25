@@ -241,7 +241,7 @@ var superStartOptions = {};
 			getCstmElem('transparent').checked = true;
 		}
 
-		let adv = getCstmElem('advance');
+		let adv = getCstmElem('advanced');
 		adv.addEventListener('command', function() {
 			var params = { input: usCss, output: null };
 			window.openDialog('chrome://superstart/content/css.xul', 

@@ -52,6 +52,6 @@
 <!ENTITY superstart.ui.background.color.select "Select Color">
 <!ENTITY superstart.ui.background.color.clear "Clear Color">
 <!ENTITY superstart.ui.others "Others">
-<!ENTITY superstart.ui.transparent "Transparent">
+<!ENTITY superstart.ui.transparent "Transparent (maybe slow)">
 <!ENTITY superstart.ui.customize.advanced "Advanced">
 <!ENTITY superstart.ui.css.edit.hint "Input CSS here directly:">

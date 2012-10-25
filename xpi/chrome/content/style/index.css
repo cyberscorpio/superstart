@@ -88,13 +88,14 @@ a {
 #navbar #nb-themes li {
 	width: 12px;
 	height: 12px;
-	margin: 10px 3px;
+	margin: 10px 3px 0px;
 	border-radius: 50%;
 	box-shadow: 2px 2px 2px black;
 }
 
 #navbar #nb-themes li.current {
 	box-shadow: none;
+	margin-top: 11px;
 }
 
 

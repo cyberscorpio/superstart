@@ -4,6 +4,7 @@
  * related events:
  * 	'theme-loaded' - (evt, theme-name)
  * 	'theme-removed' - (evt, theme-name)
+ * 	'user-style-changed' - (evt, user-style-css-url)
  */
 var EXPORTED_SYMBOLS = [ "ssThemes" ];
 
@@ -23,12 +24,12 @@ function ssThemes() {
 	let that = this;
 	let logger = this.logger;
 	let themeNames = {
-		'default' : 0 // index in themes
+		'Default' : 0 // index in themes
 	};
 	let themes = [
 		// default
 		{
-			'name': 'default',
+			'name': 'Default',
 			'css': '../skin/default/default.css',
 			'thumbnail-background': '#eee'
 		}
@@ -74,7 +75,7 @@ function ssThemes() {
 				return false;
 			}
 			if (this.getConfig('theme') == name) {
-				this.setConfig('theme', 'default');
+				this.setConfig('theme', 'Default');
 			}
 			this.fireEvent('theme-removed', name);
 			return true;
@@ -134,7 +135,7 @@ function ssThemes() {
 	// 1.2 finally, we check whether the "current" theme exists
 	let curr = this.getConfig('theme');
 	if (themeNames[curr] == undefined) {
-		this.setConfig('theme', 'default');
+		this.setConfig('theme', 'Default');
 	}
 	curr = null;
 

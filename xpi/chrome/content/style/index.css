@@ -164,6 +164,7 @@ body.use-background-effect #mask {
 	background-color: black;
 	background-repeat: no-repeat;
 	background-position: center;
+	background-image: url(../images/toolbar.png);
 	border: 2px solid white;
 	border-radius: 50%;
 	cursor: pointer;
@@ -184,23 +185,23 @@ body.use-background-effect #mask {
 
 .site .remove {
 	right: 2px;
-	background-image: url(../images/remove.png);
+	background-position: -96px 0;
 }
 
 .site .next-snapshot {
 	bottom: 25px;
 	right: 2px;
-	background-image: url(../images/right.png);
+	background-position: -120px 0;
 }
 
 .site .edit {
 	right: 33px;
-	background-image: url(../images/edit.png);
+	background-position: -72px 0;
 }
 
 .site .refresh {
 	right: 64px;
-	background-image: url(../images/refresh.png);
+	background-position: -48px 0;
 }
 
 .site .newtab ,
@@ -209,11 +210,11 @@ body.use-background-effect #mask {
 }
 
 .site .newtab {
-	background-image: url(../images/newtab.png);
+	background-position: 0 0;
 }
 
 .site .thistab {
-	background-image: url(../images/thistab.png);
+	background-position: -24px 0;
 	display: none;
 }
 
@@ -237,12 +238,6 @@ body.use-background-effect #mask {
 	display: block;
 }
 
-/*
-.site .newtab:hover, .site .thistab:hover {
-	-moz-transform: scale(1.2, 1.2);
-}
-*/
-
 .site.folder.opened:after,
 .site.folder.closing:after {
 	content: ".";
@@ -254,7 +249,7 @@ body.use-background-effect #mask {
 	left: calc(50% - 16px);
 	border-left: 16px solid transparent;
 	border-right: 16px solid transparent;
-	border-bottom: 16px solid rgba(0, 0, 0, 0.75);
+	border-bottom: 16px solid transparent;
 	background-color: transparent;
 }
 

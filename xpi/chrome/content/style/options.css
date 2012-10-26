@@ -24,7 +24,8 @@
 	width: 1280px;
 	height: 720px;
 
-	background-color: white;
+	background-color: transparent;
+	box-shadow: 2px 2px 2px black;
 }
 
 #superstart-customize-bg-image:not([disabled=true]):hover {

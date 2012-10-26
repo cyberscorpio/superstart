@@ -17,7 +17,7 @@ var sEvts = {
 };
 var e2id_map = {
 	'navbar-recently-closed': 'nbb-recently-closed',
-	'navbar-themes': 'nb-themes'
+	'navbar-themes': 'nb-themes-pointer'
 };
 
 window.addEventListener('DOMContentLoaded', function() {

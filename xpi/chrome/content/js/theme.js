@@ -75,15 +75,21 @@ function refresh() {
 			nbt.removeChild(nbt.firstChild);
 		}
 
-		for (var i = themes.length - 1; i >= 0; -- i) {
+		for (var i = 0; i < themes.length; ++ i) {
 			var t = themes[i];
 			var thumbnail = t['thumbnail-background'];
 			if (thumbnail != undefined) {
 				var li = document.createElement('li');
 				li.theme = t;
-				li.onclick = onClick;
+				li.addEventListener('click', onClick, false);
 				li.setAttribute('title', t.name);
-				li.style.background = thumbnail;
+
+				var preview = document.createElement('div');
+				preview.appendChild(document.createTextNode(t.name));
+				$.addClass(preview, 'preview');
+				preview.style.background = thumbnail;
+				li.appendChild(preview);
+
 				if (t.name == currTheme) {
 					$.addClass(li, 'current');
 				}
@@ -131,7 +137,10 @@ function onUserStyleChanged(evt, url) {
 
 function onClick(evt) {
 	var li = evt.target;
-	if (!$.hasClass(li, 'current')) {
+	while (li && li.tagName != 'LI') {
+		li = li.parentNode;
+	}
+	if (li && !$.hasClass(li, 'current')) {
 		var t = li.theme;
 		if (t != undefined) {
 			cfg.setConfig('theme', t.name);

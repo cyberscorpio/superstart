@@ -44,7 +44,8 @@ a {
 	background-color: rgba(0,0,0,0.05);
 }
 
-#navbar ul li {
+#nb-buttons li,
+#nb-commands li {
 	opacity: .5;
 	cursor: pointer;
 	margin: 4px 4px 0 4px;
@@ -52,12 +53,12 @@ a {
 	height:24px;
 }
 
-#navbar ul li:hover {
+#nb-buttons li:hover,
+#nb-commands li:hover {
 	opacity: 1;
 }
 
-#nb-commands li,
-#nb-themes li {
+#nb-commands li {
 	float: right;
 }
 
@@ -65,18 +66,18 @@ a {
 	float: left;
 }
 
-#navbar #nbb-add-site {
+#nbb-add-site {
 	background: rgba(0,0,0,0.25) url(../images/site-add.png) center center no-repeat;
 	width: 32px;
 	border-radius: 4px;
 }
 
-#navbar #nbb-recently-closed {
+#nbb-recently-closed {
 	background: rgba(0,0,0,0.25) url(../images/undo.png) center center no-repeat;
 	width: 32px;
 	border-radius: 4px;
 }
-#navbar #nbb-recently-closed.opened {
+#nbb-recently-closed.opened {
 	background-color: orange;
 	opacity: 1;
 }
@@ -85,17 +86,66 @@ a {
 	background-image: url(../images/notes-onoff.png);
 }
 
-#navbar #nb-themes li {
+#nb-themes-pointer {
+	position: absolute;
+	z-index: 1;
 	width: 12px;
 	height: 12px;
-	margin: 10px 3px 0px;
-	border-radius: 50%;
-	box-shadow: 2px 2px 2px black;
+	top: 9px;
+	right: 42px;
+	background-color: rgba(0,0,0,0.25);
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.25);
 }
 
-#navbar #nb-themes li.current {
-	box-shadow: none;
-	margin-top: 11px;
+#nb-themes-pointer #nb-themes {
+	display: none;
+	opacity: 0;
+	position: absolute;
+	top: 10px;
+	right: -2px;
+	border: 2px solid rgba(0,0,0,0.2);
+	padding: 5px 10px;
+	border-radius: 3px;
+	background-color: white;
+	box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+
+#nb-themes-pointer li {
+	position: relative;
+	cursor: pointer;
+	width: 160px;
+	opacity: 0.85;
+	margin: 5px 0;
+}
+
+#nb-themes-pointer li .preview {
+	height: 24px;
+	line-height: 24px;
+	font-size: 1.2rem;
+	padding-left: 5px;
+}
+
+#nb-themes-pointer:hover #nb-themes {
+	display: block;
+	opacity: 1;
+}
+
+#nb-themes-pointer:hover li:hover {
+	opacity: 1;
+}
+
+
+#nb-themes-pointer:hover li.current .preview:after {
+	content: ".";
+	font-size: 0;
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	background-color: orange;
+	border: 1px solid rgba(255,255,255,0.2);
+	border-radius: 50%;
+	top: 8px;
+	right: 4px;
 }
 
 
@@ -426,8 +476,9 @@ body.use-background-effect #mask {
 /***************************************
  * transition
  **************************************/
-#navbar ul li
 , #container
+, #navbar ul li
+, #nb-themes-pointer:hover #nb-themes
 , .site
 , #folder
 , .site .snapshot
@@ -443,6 +494,7 @@ body.use-background-effect #mask {
 }
 
 #navbar ul li {
+, #nb-themes-pointer:hover #nb-themes {
 	-moz-transition-property: opacity;
 }
 

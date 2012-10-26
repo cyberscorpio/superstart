@@ -17,23 +17,23 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function init() {
 	refresh();
+	var sEvts = {
+		'theme': onThemeChanged,
+		'toolbar-themes': onToolbarThemes,
+		'theme-loaded': onThemeLoaded,
+		'theme-removed': onThemeRemoved,
+		'use-customize': onUseCustomize,
+		'user-style-changed': onUserStyleChanged
+	};
 
-	ob.subscribe('theme', onThemeChanged);
-	ob.subscribe('toolbar-themes', onToolbarThemes);
-	ob.subscribe('theme-loaded', onThemeLoaded);
-	ob.subscribe('theme-removed', onThemeRemoved);
-	ob.subscribe('use-customize', onUseCustomize);
-	ob.subscribe('user-style-changed', onUserStyleChanged);
+	for (var k in sEvts) {
+		ob.subscribe(k, sEvts[k]);
+	}
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
-	
-		ob.unsubscribe('theme', onThemeChanged);
-		ob.unsubscribe('toolbar-themes', onToolbarThemes);
-		ob.unsubscribe('theme-loaded', onThemeLoaded);
-		ob.unsubscribe('theme-removed', onThemeRemoved);
-		ob.unsubscribe('use-customize', onUseCustomize);
-		ob.unsubscribe('user-style-changed', onUserStyleChanged);
-
+		for (var k in sEvts) {
+			ob.unsubscribe(k, sEvts[k]);
+		}
 		ob = cfg = tm = null;
 	}, false);
 }
@@ -75,21 +75,19 @@ function refresh() {
 			nbt.removeChild(nbt.firstChild);
 		}
 
-		if (cfg.getConfig('navbar-themes')) {
-			for (var i = themes.length - 1; i >= 0; -- i) {
-				var t = themes[i];
-				var thumbnail = t['thumbnail-background'];
-				if (thumbnail != undefined) {
-					var li = document.createElement('li');
-					li.theme = t;
-					li.onclick = onClick;
-					li.setAttribute('title', t.name);
-					li.style.background = thumbnail;
-					if (t.name == currTheme) {
-						$.addClass(li, 'current');
-					}
-					nbt.appendChild(li);
+		for (var i = themes.length - 1; i >= 0; -- i) {
+			var t = themes[i];
+			var thumbnail = t['thumbnail-background'];
+			if (thumbnail != undefined) {
+				var li = document.createElement('li');
+				li.theme = t;
+				li.onclick = onClick;
+				li.setAttribute('title', t.name);
+				li.style.background = thumbnail;
+				if (t.name == currTheme) {
+					$.addClass(li, 'current');
 				}
+				nbt.appendChild(li);
 			}
 		}
 	} catch (e) {

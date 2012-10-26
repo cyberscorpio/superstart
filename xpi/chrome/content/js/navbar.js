@@ -12,7 +12,12 @@ var cfg = ssObj.getService(Ci.ssIConfig);
 ssObj = undefined;
 
 var sEvts = {
-	'navbar-recently-closed': onNavbarItemOnoff
+	'navbar-recently-closed': onNavbarItemOnoff,
+	'navbar-themes': onNavbarItemOnoff
+};
+var e2id_map = {
+	'navbar-recently-closed': 'nbb-recently-closed',
+	'navbar-themes': 'nb-themes'
 };
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -83,10 +88,7 @@ function initPopupButton(bid, mid, title) {
 
 function onNavbarItemOnoff(evt, onoff) {
 	onoff = cfg.getConfig(evt);
-	var map = {
-		'navbar-recently-closed': 'nbb-recently-closed'
-	};
-	var id = map[evt];
+	var id = e2id_map[evt];
 	if (id !== undefined) {
 		var b = $$(id);
 		b.style.display = onoff ? 'block' : 'none';

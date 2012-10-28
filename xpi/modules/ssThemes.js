@@ -31,7 +31,10 @@ function ssThemes() {
 		{
 			'name': 'Default',
 			'css': '../skin/default/default.css',
-			'thumbnail-background': '#eee'
+			'thumbnail': {
+				'background': '#eee',
+				'color': 'black'
+			}
 		}
 	];
 

@@ -1,0 +1,8 @@
+{
+	"name": "Apple",
+	"css": "apple.css",
+	"thumbnail": {
+		"background": "black",
+		"color": "white"
+	}
+}

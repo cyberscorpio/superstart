@@ -80,7 +80,7 @@ function refresh() {
 
 		for (var i = 0; i < themes.length; ++ i) {
 			var t = themes[i];
-			var thumbnail = t['thumbnail-background'];
+			var thumbnail = t['thumbnail'];
 			if (thumbnail != undefined) {
 				var li = document.createElement('li');
 				li.theme = t;
@@ -90,9 +90,11 @@ function refresh() {
 				var preview = document.createElement('div');
 				preview.appendChild(document.createTextNode(t.name));
 				$.addClass(preview, 'preview');
-				preview.style.background = thumbnail;
-				li.appendChild(preview);
+				for (var k in thumbnail) {
+					preview.style[k] = thumbnail[k];
+				}
 
+				li.appendChild(preview);
 				if (t.name == currTheme) {
 					$.addClass(li, 'current');
 				}
@@ -100,7 +102,7 @@ function refresh() {
 			}
 		}
 	} catch (e) {
-		logger.logStringMessage(e);
+		log(e);
 	}
 }
 

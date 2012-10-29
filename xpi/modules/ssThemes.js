@@ -186,6 +186,14 @@ function ssThemes() {
 						theme.css = 'file:///' + dir.path;
 					}
 					theme.builtin = builtin;
+					if (theme.thumbnail) {
+						let tt = theme.thumbnail;
+						for (let k in tt) {
+							logger.logStringMessage('before: ' + tt[k]);
+							tt[k] = processUsCss(tt[k]);
+							logger.logStringMessage('after: ' + tt[k]);
+						}
+					}
 
 					// save it
 					themeNames[theme.name] = themes.length;

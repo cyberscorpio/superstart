@@ -1,0 +1,10 @@
+{
+	"name": "Simple Style",
+	"css": "simple.css",
+	"thumbnail": {
+		"backgroundImage": "url(\"%profile%/extensions/superstart@enjoyfreeware.org/themes/simple/bg.gif\")",
+		"backgroundColor": "white",
+		"color": "black",
+		"textShadow": "1px 1px 0 white, 1px 1px 2px white"
+	}
+}

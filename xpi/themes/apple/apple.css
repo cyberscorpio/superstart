@@ -1,7 +1,11 @@
 
 body {
-	background-image: linear-gradient(silver, #d0d0d0);
+	background-image: linear-gradient(gray, silver);
 	background-color: silver;
+}
+
+#navbar {
+	background-color: transparent;
 }
 
 .site .snapshot {

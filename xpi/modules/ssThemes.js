@@ -277,22 +277,17 @@ function ssThemes() {
 		if (selector.charAt(0) == '+') {
 			if (selector == '+transparent') {
 				return getTranslateCss();
-			} else if (selector == '+text-background') {
-				return getTextBackgroundCss();
 			}
 		} else {
 			let css = selector + ' {\n';
 			for (let k in data) {
 				let v = data[k];
-				css += '\t' + k + ': ';
 				if (k == 'background-image') {
-					if (v == 'none') {
-						css += 'none;\n';
-					} else {
-						css += 'url("' + v + '");\n';
+					if (v != 'none') {
+						css += '\t' + k + ': ' + 'url("' + v + '");\n';
 					}
 				} else {
-					css += v + ';\n';
+					css += '\t' + k + ': ' + v + ';\n';
 				}
 			}
 			css += '}\n';
@@ -308,28 +303,6 @@ function ssThemes() {
 		// obj['#sites .site:hover .button:not(:hover)'] = {'transition-property' : 'none'};
 		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)'};
 
-		for (let k in obj) {
-			let v = obj[k];
-			css += getCssRule(k, v);
-		}
-		return css;
-	}
-
-	function getTextBackgroundCss() {
-		let obj = {};
-		let css = '';
-
-		obj['.site, .site .toolbar, #todo-list'] = {
-			'background-image' : 'none',
-			'background-color' : 'rgba(0,0,0,0.2)',
-		};
-		obj['.site .snapshot, .site:hover a .snapshot'] = {
-			'border-color': 'transparent',
-			'border-radius' : '0',
-		};
-		obj['#site-panel.compact .site p.desc span'] = {
-			'margin': '0 .2em',
-		};
 		for (let k in obj) {
 			let v = obj[k];
 			css += getCssRule(k, v);

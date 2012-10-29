@@ -88,7 +88,7 @@ var superStartOptions = {};
 		let col = cfg.getConfig('col');
 		let colPop = $$('superstart-sites-col-popup');
 		colPop.addEventListener('command', onSitesColSelected, false);
-		let from = 4, to = 8;
+		let from = 3, to = 8;
 		for (let i = 0; i + from <= to; ++ i) {
 			let item = document.createElement('menuitem');
 			let idx = i + from;

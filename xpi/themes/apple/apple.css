@@ -1,6 +1,7 @@
 
 body {
-	background-color: black;
+	background-image: linear-gradient(silver, #d0d0d0);
+	background-color: silver;
 }
 
 .site .snapshot {
@@ -15,6 +16,6 @@ body {
 
 #sites .site .title, #notes-list li {
 	color: white;
-	text-shadow: 1px 1px 0 #404040, 1px 1px 2px black;
+	text-shadow: 1px 1px 0 black, 1px 1px 2px black;
 }
 

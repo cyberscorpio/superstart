@@ -348,16 +348,14 @@ body.use-background-effect #mask {
 .site.folder > a > .snapshot
 {
 	overflow: hidden;
-	border: 3px solid rgba(0,0,0,0.05);
 	background-color: rgba(0,0,0,0.25);
-	/*background-color: #d4d4d4;*/
+	/*
+	border: 3px solid rgba(0,0,0,0.05);
+	*/
+	border: none;
 }
 
 .site.folder.flash > a > .snapshot {
-	/*
-	border-color: rgba(255,255,255,1);
-	box-shadow: 0 0 6px rgba(0,0,0,0.75);
-	*/
 	-moz-transform: scale(1.1, 1.1);
 }
 
@@ -431,7 +429,6 @@ body.use-background-effect #mask {
 
 #notes-list li {
 	position: relative;
-	background-color: rgba(255,255,255,0.2);
 	border-top: 1px solid rgba(255,255,255,0.1);
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 	padding: .1em .5em;
@@ -439,12 +436,10 @@ body.use-background-effect #mask {
 
 #notes-list li:nth-child(1) {
 	border-top: none;
-	border-radius: 5px 5px 0 0;
 }
 
 #notes-list li:nth-last-child(1) {
 	border-bottom: none;
-	border-radius: 0 0 5px 5px;
 }
 
 #notes-list .button {
@@ -470,13 +465,9 @@ body.use-background-effect #mask {
 	opacity: 1;
 }
 
-/**
- * text-shadow
- */
 #sites .site .title
 , #notes-list li {
 	color: black;
-	text-shadow: 1px 0 0 white, 0 1px 0 white, 1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white, -1px 0 0 white, 0 -1px 0 white, -1px -1px 0 white;
 }
 
 

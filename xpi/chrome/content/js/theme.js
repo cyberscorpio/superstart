@@ -57,7 +57,7 @@ function refresh() {
 		var themes = JSON.parse(tm.getThemes());
 		var theme = JSON.parse(tm.getTheme(currTheme));
 
-		// 1. theme & customize
+		// theme & customize
 		['theme', 'customize'].forEach(function(id, i, a) {
 			var style = $$(id);
 			if (style) {
@@ -71,36 +71,6 @@ function refresh() {
 		if (cfg.getConfig('use-customize')) {
 			insertStyle('customize', tm.getUsUrl());
 		}
-
-		// 2. buttons
-		var nbt = $$('nb-themes');
-		while (nbt.firstChild) {
-			nbt.removeChild(nbt.firstChild);
-		}
-
-		for (var i = 0; i < themes.length; ++ i) {
-			var t = themes[i];
-			var thumbnail = t['thumbnail'];
-			if (thumbnail != undefined) {
-				var li = document.createElement('li');
-				li.theme = t;
-				li.addEventListener('click', onClick, false);
-				li.setAttribute('title', t.name);
-
-				var preview = document.createElement('div');
-				preview.appendChild(document.createTextNode(t.name));
-				$.addClass(preview, 'preview');
-				for (var k in thumbnail) {
-					preview.style[k] = thumbnail[k];
-				}
-
-				li.appendChild(preview);
-				if (t.name == currTheme) {
-					$.addClass(li, 'current');
-				}
-				nbt.appendChild(li);
-			}
-		}
 	} catch (e) {
 		log(e);
 	}
@@ -109,6 +79,19 @@ function refresh() {
 
 function onThemeChanged(evt, newTheme) {
 	refresh();
+
+	var t = $$('nb-themes');
+	if (t) {
+		var ts = $(t, 'li');
+		for (var i = 0; i < ts.length; ++ i) {
+			var li = ts[i];
+			if (li.theme.name == newTheme) {
+				$.addClass(li, 'current');
+			} else {
+				$.removeClass(li, 'current');
+			}
+		}
+	}
 }
 
 function onThemeLoaded(evt, themeName) {
@@ -151,14 +134,53 @@ function onClick(evt) {
 
 function showThemes() {
 	window.getSelection().removeAllRanges()
-	var themes = $$('nb-themes');
-	$.removeClass(themes, 'hidden');
-	window.addEventListener('mousedown', onMouseDown, true);
+	var t = $$('nb-themes');
+	if (t == null) {
+		tp = document.createElement('div');
+		tp.id = 'nb-themes';
+		var p = document.createElement('p');
+		p.appendChild(document.createTextNode('Themes'));
+		tp.appendChild(p);
+
+		var ul = document.createElement('ul');
+		tp.appendChild(ul);
+
+		var ts = JSON.parse(tm.getThemes());
+		var curr = cfg.getConfig('theme');
+		for (var i = 0; i < ts.length; ++ i) {
+			var t = ts[i];
+			var thumbnail = t['thumbnail'];
+			if (thumbnail !== undefined) {
+				var li = document.createElement('li');
+				li.theme = t;
+				li.addEventListener('click', onClick, false);
+				li.setAttribute('title', t.name);
+
+				var preview = document.createElement('div');
+				preview.appendChild(document.createTextNode(t.name));
+				$.addClass(preview, 'preview');
+				/*
+				for (var k in thumbnail) {
+					preview.style[k] = thumbnail[k];
+				}
+				*/
+
+				li.appendChild(preview);
+				if (t.name == curr) {
+					$.addClass(li, 'current');
+				}
+				ul.appendChild(li);
+			}
+		}
+		document.body.appendChild(tp);
+
+		window.addEventListener('mousedown', onMouseDown, true);
+	}
 }
 
 function hideThemes() {
-	var themes = $$('nb-themes');
-	$.addClass(themes, 'hidden');
+	var tp = $$('nb-themes');
+	tp.parentNode.removeChild(tp);
 }
 
 function onMouseDown(evt) {

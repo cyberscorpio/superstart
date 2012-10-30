@@ -45,10 +45,9 @@ a {
 #nb-commands li {
 	opacity: .5;
 	cursor: pointer;
-	margin: 4px 4px 0 4px;
-	width: 32px;
-	height:24px;
-	border-radius: 4px;
+	margin: 0 0;
+	width: 48px;
+	height:32px;
 	background: rgba(0,0,0,0.25) center center no-repeat;
 }
 
@@ -81,59 +80,69 @@ a {
 	background-image: url(../images/notes-onoff.gif);
 }
 
-#nb-themes-pointer {
-	position: absolute;
-	z-index: 1;
-	width: 12px;
-	height: 12px;
-	top: 9px;
-	right: 42px;
-
-	cursor: pointer;
-	background-color: rgba(0,0,0,0.25);
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.25);
+#nb-commands #nb-themes-pointer {
+	background-image: url(../images/themes.png);
 }
 
-#nb-themes-pointer #nb-themes {
-	/*
-	opacity: 0;
-	*/
+
+#nb-themes {
 	position: absolute;
-	top: 10px;
-	right: -2px;
-	border: 15px solid rgba(0,0,0,0.2);
-	padding: 5px 10px;
+	top: 40px;
+	right: 20px;
+/*
+	border: 5px solid rgba(0,0,0,0.2);
 	border-radius: 3px;
-	background-color: white;
-	box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+	*/
+	background-color: transparent;
+	box-shadow: 10px 10px 15px rgba(0,0,0,0.75);
 }
 
-#nb-themes-pointer li {
+#nb-themes p {
+	background-color: #246;
+	border: 2px solid white;
+	color: white;
+	font-size: 1.3rem;
+	height: 3rem;
+	line-height: 3rem;
+	padding-left: .5rem;
+	cursor: default;
+	-moz-user-select: -moz-none;
+	transform: scale(1.2, 1) rotate(-2.5deg);
+	box-shadow: 5px 5px 8px black;
+	margin-right: 8px;
+	z-index: 2;
+}
+
+#nb-themes ul {
+	background-color: transparent;
+	border: 5px solid rgba(0,0,0,0.25);
+}
+
+#nb-themes li {
 	position: relative;
 	cursor: pointer;
-	width: 128px;
-	opacity: 0.85;
-	margin: 5px 0;
+	width: 160px;
 	-moz-user-select: none;
+	background-color: white;
 }
 
-#nb-themes-pointer li .preview {
-	height: 32px;
-	line-height: 32px;
+#nb-themes li:not(:last-child) {
+	border-bottom: 1px solid #ddd;
+}
+
+#nb-themes li .preview {
+	height: 3.2rem;
+	line-height: 3.2rem;
 	font-size: 1.2rem;
-	padding-left: 5px;
+	padding-left: 0.5rem;
 }
 
-#nb-themes-pointer #nb-themes:hover {
-	opacity: 1;
+#nb-themes li:hover {
+	background-color: black;
+	color: white;
 }
 
-#nb-themes-pointer li:hover {
-	opacity: 1;
-}
-
-
-#nb-themes-pointer li.current .preview:after {
+#nb-themes li.current .preview:after {
 	content: "\2713";/* ✓ (check mark) */
 	position: absolute;
 	top: 6px;
@@ -471,7 +480,6 @@ body.use-background-effect #mask {
  **************************************/
 #container
 , #navbar ul li
-, #nb-themes-pointer:hover #nb-themes
 , .site
 , #folder
 , .site .snapshot
@@ -486,8 +494,7 @@ body.use-background-effect #mask {
 	-moz-transition-timing-function: linear;
 }
 
-#navbar ul li
-, #nb-themes-pointer:hover #nb-themes {
+#navbar ul li {
 	-moz-transition-property: opacity;
 }
 

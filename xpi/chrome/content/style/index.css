@@ -1,6 +1,3 @@
-/*
-	"Because you will know." -- Steve Jobs
-*/
 html {
 	font-size: 10px;
 }
@@ -49,8 +46,10 @@ a {
 	opacity: .5;
 	cursor: pointer;
 	margin: 4px 4px 0 4px;
-	width:24px;
+	width: 32px;
 	height:24px;
+	border-radius: 4px;
+	background: rgba(0,0,0,0.25) center center no-repeat;
 }
 
 #nb-buttons li:hover,
@@ -67,22 +66,18 @@ a {
 }
 
 #nb-buttons #nbb-add-site {
-	background: rgba(0,0,0,0.25) url(../images/site-add.png) center center no-repeat;
-	width: 32px;
-	border-radius: 4px;
+	background-image: url(../images/site-add.png);
 }
 
 #nb-buttons #nbb-recently-closed {
-	background: rgba(0,0,0,0.25) url(../images/undo.png) center center no-repeat;
-	width: 32px;
-	border-radius: 4px;
+	background-image: url(../images/undo.png);
 }
 #nb-buttons #nbb-recently-closed.opened {
 	background-color: orange;
 	opacity: 1;
 }
 
-#nbc-notes-onoff {
+#nb-commands #nbc-notes-onoff {
 	background-image: url(../images/notes-onoff.png);
 }
 

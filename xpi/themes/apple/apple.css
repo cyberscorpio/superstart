@@ -1,7 +1,7 @@
 
 body {
-	background-image: linear-gradient(gray, silver);
-	background-color: silver;
+	background-image: url("chrome://browser/skin/newtab/noise.png"), -moz-linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.5));
+	background-color: gray;
 }
 
 #navbar {

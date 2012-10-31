@@ -8,22 +8,18 @@
  *  'theme'                   - (evt, new theme name)
  *  others see keys of 'intCfgs' and 'boolCfgs'
  */
+"use strict";
 var EXPORTED_SYMBOLS = [ "ssConfig" ];
 
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cu = Components.utils;
-const nsISupports = Ci.nsISupports;
-
+function ssConfig() {
+let {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-function ssConfig() {
 	var that = this;
 
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
-
 	var themeKey = 'extensions.superstart.theme';
 	var theme = sbprefs.getCharPref(themeKey);
 

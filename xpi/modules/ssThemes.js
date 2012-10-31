@@ -6,21 +6,15 @@
  * 	'theme-removed' - (evt, theme-name)
  * 	'user-style-changed' - (evt, user-style-css-url)
  */
+"use strict";
 var EXPORTED_SYMBOLS = [ "ssThemes" ];
 
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cr = Components.results;
-const Ce = Components.Exception;
-const Cu = Components.utils;
-const nsISupports = Ci.nsISupports;
-const ssIThemes = Ci.ssIThemes;
-
+function ssThemes() {
+let {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-function ssThemes() {
 	let that = this;
 	let logger = this.logger;
 	let themeNames = {
@@ -189,9 +183,7 @@ function ssThemes() {
 					if (theme.thumbnail) {
 						let tt = theme.thumbnail;
 						for (let k in tt) {
-							logger.logStringMessage('before: ' + tt[k]);
 							tt[k] = processUsCss(tt[k]);
-							logger.logStringMessage('after: ' + tt[k]);
 						}
 					}
 

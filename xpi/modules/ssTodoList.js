@@ -12,20 +12,15 @@
 	]
  * related events:
  */
+"use strict";
 var EXPORTED_SYMBOLS = [ "ssTodoList" ];
 
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cr = Components.results;
-const Ce = Components.Exception;
-const Cu = Components.utils;
-const ssITodoList = Ci.ssITodoList;
-
+function ssTodoList() {
+let {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-function ssTodoList() {
 	var that = this;
 	var logger = this.logger;
 	var todoFile = FileUtils.getFile('ProfD', ['superstart', 'todo.json']);

@@ -7,15 +7,11 @@
  *	site-changed
  *	site-snapshot-index-changed
  */
+"use strict";
 var EXPORTED_SYMBOLS = [ "ssSiteManager" ];
 
 function ssSiteManager() {
-
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cr = Components.results;
-const Cu = Components.utils;
-
+let {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
@@ -55,7 +51,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.v1.json']);
 	let /* nsIFile */ oldfile = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
 	let imgWidth = 256;
-	let ratio = 0.625;
+	let ratio = 0.5625; // 0.625; 16:9 or 16:10
 	let imgHeight = Math.floor(imgWidth * ratio);
 
 	let imgLoading = 'images/loading.gif';

@@ -6,6 +6,7 @@
  * Homepage: http://code.google.com/p/xljs/
  */
 // note that all unused parts are removed to reduce the size
+"use strict";
 var EXPORTED_SYMBOLS = [ "xl" ];
 var xl = {};
 
@@ -142,60 +143,6 @@ var xl = {};
 			}
 	
 			return v;
-		},
-
-		'template' : function (tpl, obj, keepIfKeyNonexists) {
-			keepIfKeyNonexists = (keepIfKeyNonexists === undefined ? true : keepIfKeyNonexists);
-			var ret = '', start = 0, ps1, ps2, key, keys, found, tmp;
-			while (true) {
-				ps1 = tpl.indexOf('%', start);
-				if (ps1 == -1) {
-					ret += tpl.substring(start);
-					break;
-				}
-
-				ret += tpl.substring(start, ps1);
-				ps2 = tpl.indexOf('%', ps1 + 1);
-				if (ps2 == ps1 + 1) {
-					ret += '%';
-				} else if (ps2 != -1) {
-					key = tpl.substring(ps1 + 1, ps2);
-					if (key in obj) {
-						ret += obj[key];
-					} else {
-						found = false;
-						if (key.indexOf('.') != -1) {
-							found = true;
-							keys = key.split('.');
-							tmp = obj;
-							for (var i = 0, l = keys.length; i < l; ++ i) {
-								if (keys[i] in tmp) {
-									tmp = tmp[keys[i]];
-								} else {
-									found = false;
-									break;
-								}
-							}
-
-							if (found) {
-								ret += tmp;
-							}
-						}
-
-						if (!found) {
-							if (keepIfKeyNonexists) {
-								ret += tpl.substring(ps1, ps2 + 1);
-							}
-						}
-					}
-				} else {
-					ret += tpl.substring(ps1);
-					break;
-				}
-
-				start = ps2 + 1;
-			}
-			return ret;
 		}
 	};
 })(xl);

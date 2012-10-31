@@ -91,7 +91,8 @@ function onNavbarItemOnoff(evt, onoff) {
 	var id = e2id_map[evt];
 	if (id !== undefined) {
 		var b = $$(id);
-		b.style.display = onoff ? 'block' : 'none';
+		// b.style.display = onoff ? 'block' : 'none';
+		onoff ? $.removeClass(b, 'hidden') : $.addClass(b, 'hidden');
 	}
 }
 

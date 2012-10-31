@@ -1,9 +1,0 @@
-{
-	"name": "Apple Style",
-	"css": "apple.css",
-	"thumbnail": {
-		"background": "gray",
-		"color": "white",
-		"textShadow": "1px 1px 0 black, 1px 1px 2px black"
-	}
-}

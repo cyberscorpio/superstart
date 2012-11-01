@@ -10,7 +10,7 @@ var layout = (function() {
 	ssObj = undefined;
 
 	function LayoutParameter(width, col) {
-		var compact = cfg.getConfig('site-compact');
+		var compact = cfg.getConfig('sites-compact');
 		this.width = width;
 		this.startY = 20;
 		if (compact) {
@@ -64,7 +64,7 @@ var layout = (function() {
 	// -- register events begin ---
 	var cfgevts = {
 		'col': onColChanged,
-		'site-compact': onSiteCompactChanged,
+		'sites-compact': onSitesCompactChanged,
 		'todo-hide': onTodoHide
 	};
 	window.addEventListener('DOMContentLoaded', function() {
@@ -111,7 +111,7 @@ var layout = (function() {
 		}
 	}
 
-	function onSiteCompactChanged(evt, v) {
+	function onSitesCompactChanged(evt, v) {
 		calcLayout();
 		layoutTopSites();
 		if($('.opened').length == 1) {

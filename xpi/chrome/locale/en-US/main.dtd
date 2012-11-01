@@ -1,4 +1,4 @@
-<!ENTITY superstart.context.menu.add "Add to Super Start">
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "Input URL">
 <!ENTITY superstart.dialog.url.url "Input URL here">
 <!ENTITY superstart.dialog.url.name "Site name (optional)">
@@ -8,33 +8,41 @@
 <!ENTITY superstart.dialog.url.snapshot.lastvisit "Last visited">
 <!ENTITY superstart.dialog.url.snapshot.customize "Customize image">
 
+<!-- group name -->
 <!ENTITY superstart.dialog.groupname.title "Set group name">
 
+<!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Add new URL">
 <!ENTITY superstart.menu.site.refreshall "Refresh all">
 <!ENTITY superstart.menu.options "Options">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add "Add to Super Start">
+
+<!-- options -->
 <!ENTITY superstart.options "Options">
 
 <!ENTITY superstart.options.general "General">
-<!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
-<!ENTITY superstart.options.navbar.show.recently.closed "Show recently closed">
-<!ENTITY superstart.options.navbar.show.themes "Show themes">
-
 <!ENTITY superstart.options.sites.setup "Setup">
-<!ENTITY superstart.options.sites.displaysettings "Display Settings">
-<!ENTITY superstart.options.sites.use.compactmode "Use compact mode">
-<!ENTITY superstart.options.sites.use.background.effect "Use background effect">
-<!ENTITY superstart.options.sites.col "How many sites in one line:">
-<!ENTITY superstart.options.sites.open.in.newtab "Open in new tab by default">
 <!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
 <!ENTITY superstart.options.set.as.homepage "Set Super Start as homepage">
+<!ENTITY superstart.options.sites.open.in.newtab "Open in new tab by default">
+<!ENTITY superstart.options.sites.displaysettings "Display Settings">
+<!ENTITY superstart.options.sites.use.compactmode "Use compact mode">
+<!ENTITY superstart.options.sites.use.background.effect "Use background effect (maybe slow)">
+<!ENTITY superstart.options.sites.col "How many sites in one line:">
 
-<!ENTITY superstart.options.about "About">
-<!ENTITY superstart.options.author "Author">
-<!ENTITY superstart.options.help "Help">
+<!ENTITY superstart.options.navbar "Navbar">
+<!ENTITY superstart.options.show.navbar "Show Navbar">
+<!ENTITY superstart.options.navbar.show.recently.closed "[Recently closed]">
+<!ENTITY superstart.options.navbar.show.add.site "[Add new site]">
+<!ENTITY superstart.options.navbar.show.themes "[Themes]">
+<!ENTITY superstart.options.navbar.show.todo "[Notes]">
+<!ENTITY superstart.options.site.show.buttons "Show [buttons] on thumbnails">
+<!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
 
 <!ENTITY superstart.ui.customize "UI Customize">
-<!ENTITY superstart.ui.customize.use "Use customize">
+<!ENTITY superstart.ui.customize.use "Enable customization">
 <!ENTITY superstart.ui.customize.howto "(Help) How to customize?">
 <!ENTITY superstart.ui.background.image "Background image">
 <!ENTITY superstart.ui.select.image "Select Image">
@@ -55,3 +63,7 @@
 <!ENTITY superstart.ui.transparent "Transparent (maybe slow)">
 <!ENTITY superstart.ui.customize.advanced "Advanced">
 <!ENTITY superstart.ui.css.edit.hint "Input CSS here directly:">
+
+<!ENTITY superstart.options.about "About">
+<!ENTITY superstart.options.author "Author">
+<!ENTITY superstart.options.help "Help">

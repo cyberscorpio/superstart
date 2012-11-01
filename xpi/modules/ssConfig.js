@@ -25,7 +25,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var intCfgs = {
 		'col' : {
-			'key' : 'site.col',
+			'key' : 'sites.col',
 			'default' : 4,
 			'min' : 3
 		}
@@ -45,12 +45,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var boolCfgs = {
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
-		'site-compact': {'key': 'site.compact'},
-		'site-use-background-effect': {'key': 'site.use.background.effect'},
+		'sites-compact': {'key': 'sites.compact'},
+		'sites-use-background-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
+		'navbar': {'key': 'navbar'},
 		'navbar-recently-closed': {'key': 'navbar.recently.closed'},
+		'navbar-add-site': {'key': 'navbar.add.site'},
 		'navbar-themes': {'key': 'navbar.themes'},
+		'navbar-todo': {'key': 'navbar.todo'},
+		'site-buttons': {'key': 'site.show.buttons'},
 		'use-customize': {'key': 'use.customize'}
 	};
 	for (let k in boolCfgs) {

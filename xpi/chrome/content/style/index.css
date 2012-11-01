@@ -80,7 +80,7 @@ a {
 	background-image: url(../images/notes-onoff.gif);
 }
 
-#nb-commands #nb-themes-pointer {
+#nb-commands #nbc-themes-pointer {
 	background-image: url(../images/themes.png);
 }
 
@@ -216,6 +216,10 @@ body.use-background-effect #mask {
 
 .site:hover .snapshot {
 	border-color: rgba(0,0,0,.3);
+}
+
+body.site-no-buttons .site .button {
+	display: none;
 }
 
 .site .button {

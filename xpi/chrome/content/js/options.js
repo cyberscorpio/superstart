@@ -25,12 +25,18 @@ var superStartOptions = {};
 
 
 	var boolMap = {
-		'superstart-sites-use-compactmode' : 'site-compact',
-		'superstart-sites-use-background-effect' : 'site-use-background-effect',
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-sites-open-in-newtab' : 'open-in-newtab',
+
+		'superstart-sites-use-compactmode' : 'sites-compact',
+		'superstart-sites-use-background-effect' : 'sites-use-background-effect',
+
+		'superstart-show-navbar' : 'navbar',
 		'superstart-show-recently-closed' : 'navbar-recently-closed',
+		'superstart-show-add-site' : 'navbar-add-site',
 		'superstart-show-themes' : 'navbar-themes',
+		'superstart-show-todo' : 'navbar-todo',
+		'superstart-show-buttons' : 'site-buttons',
 		'superstart-use-customize' : 'use-customize'
 	};
 
@@ -69,10 +75,18 @@ var superStartOptions = {};
 			let key = boolMap[id];
 			let c = $$(id);
 			if (c) {
-				if (cfg.getConfig(key)) {
+				let enabled = cfg.getConfig(key);
+				if (enabled) {
 					c.setAttribute('checked', true);
 				}
 				c.addEventListener('command', onCheckboxChanged, false);
+
+				if (id == 'superstart-show-navbar' && !enabled) {
+					let items = $('.navbar-item');
+					for (let i = 0; i < items.length; ++ i) {
+						items[i].setAttribute('disabled', true);
+					}
+				}
 			}
 		}
 
@@ -151,6 +165,14 @@ var superStartOptions = {};
 		let id = cb.id;
 		if (id && boolMap[id]) {
 			cfg.setConfig(boolMap[id], cb.hasAttribute('checked'));
+		}
+
+		if (id == 'superstart-show-navbar') {
+			let enabled = cb.hasAttribute('checked');
+			let items = $('.navbar-item');
+			for (let i = 0; i < items.length; ++ i) {
+				items[i].setAttribute('disabled', !enabled);
+			}
 		}
 	}
 

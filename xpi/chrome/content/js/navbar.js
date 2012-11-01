@@ -10,13 +10,12 @@ var ob = ssObj.getService(Ci.ssIObserverable);
 var cfg = ssObj.getService(Ci.ssIConfig);
 ssObj = undefined;
 
-var sEvts = {
-	'navbar-recently-closed': onNavbarItemOnoff,
-	'navbar-themes': onNavbarItemOnoff
-};
-var e2id_map = {
+var e2id_map = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-recently-closed': 'nbb-recently-closed',
-	'navbar-themes': 'nb-themes-pointer'
+	'navbar-add-site': 'nbb-add-site',
+	'navbar-themes': 'nbc-themes-pointer',
+	'navbar-todo': 'nbc-notes-onoff',
+	'navbar': 'navbar'
 };
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -31,18 +30,17 @@ window.addEventListener('unload', function() {
 
 function init() {
 	initPopupButton('nbb-recently-closed', 'superstart-recently-closed-list', getString('ssRecentlyClosed'));
-	for (var k in sEvts) {
-		var f = sEvts[k];
-		ob.subscribe(k, f);
-		f(k);
+	for (var k in e2id_map) {
+		ob.subscribe(k, onNavbarItemOnoff);
+		onNavbarItemOnoff(k);
 	}
 
 	$.removeClass($$('navbar'), 'hidden');
 }
 
 function cleanup() {
-	for (var k in sEvts) {
-		ob.unsubscribe(k, sEvts[k]);
+	for (var k in e2id_map) {
+		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
 }
 
@@ -90,7 +88,6 @@ function onNavbarItemOnoff(evt, onoff) {
 	var id = e2id_map[evt];
 	if (id !== undefined) {
 		var b = $$(id);
-		// b.style.display = onoff ? 'block' : 'none';
 		onoff ? $.removeClass(b, 'hidden') : $.addClass(b, 'hidden');
 	}
 }

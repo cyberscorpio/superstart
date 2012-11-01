@@ -8,7 +8,8 @@ var cfg = ssObj.getService(Ci.ssIConfig);
 ssObj = undefined;
  
 var sEvts = {
-	'site-use-background-effect': onUseBgEffectChanged
+	'sites-use-background-effect': onUseBgEffectChanged,
+	'site-buttons': onShowSiteButtons
 };
 var wEvts = {
 	'scroll': onScroll
@@ -38,21 +39,29 @@ window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 	for (var k in sEvts) {
 		ob.subscribe(k, sEvts[k]);
+		sEvts[k]();
 	}
 	for (var k in dEvts) {
 		document.addEventListener(k, dEvts[k], false);
 	}
-
-	onUseBgEffectChanged();
 }, false);
 
 // event handler
 function onUseBgEffectChanged(evt, value) {
-	var useBgEffect = cfg.getConfig('site-use-background-effect');
+	var useBgEffect = cfg.getConfig('sites-use-background-effect');
 	if (useBgEffect) {
 		$.addClass(document.body, 'use-background-effect');
 	} else {
 		$.removeClass(document.body, 'use-background-effect');
+	}
+}
+
+function onShowSiteButtons(evt, value) {
+	var showSiteButtons = cfg.getConfig('site-buttons');
+	if (showSiteButtons) {
+		$.removeClass(document.body, 'site-no-buttons');
+	} else {
+		$.addClass(document.body, 'site-no-buttons');
 	}
 }
 

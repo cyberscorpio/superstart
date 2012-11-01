@@ -29,6 +29,7 @@
 						<checkbox id="superstart-set-as-homepage" label="&superstart.options.set.as.homepage;" />
 						<checkbox id="superstart-sites-open-in-newtab" label="&superstart.options.sites.open.in.newtab;" />
 					</groupbox>
+
 					<groupbox>
 						<caption label="&superstart.options.sites.displaysettings;" />
 						<hbox align="center">
@@ -42,10 +43,21 @@
 						</hbox>
 						<checkbox id="superstart-sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
 						<checkbox id="superstart-sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
-						<separator orient="horizontal" class="groove-thin" />
-						<checkbox id="superstart-show-recently-closed" label="&superstart.options.navbar.show.recently.closed;" />
-						<checkbox id="superstart-show-themes" label="&superstart.options.navbar.show.themes;" />
 					</groupbox>
+
+					<groupbox>
+						<caption label="&superstart.options.navbar;" />
+						<checkbox id="superstart-show-navbar" label="&superstart.options.show.navbar;" />
+						<hbox>
+							<checkbox flex="1" class="navbar-item" id="superstart-show-recently-closed" label="&superstart.options.navbar.show.recently.closed;" />
+							<checkbox flex="1" class="navbar-item" id="superstart-show-add-site" label="&superstart.options.navbar.show.add.site;" />
+							<checkbox flex="1" class="navbar-item" id="superstart-show-themes" label="&superstart.options.navbar.show.themes;" />
+							<checkbox flex="1" class="navbar-item" id="superstart-show-todo" label="&superstart.options.navbar.show.todo;" />
+						</hbox>
+					</groupbox>
+
+						<checkbox id="superstart-show-buttons" label="&superstart.options.site.show.buttons;" />
+
 					<hbox flex="1" pack="end">
 						<label value="&superstart.options.general.hint;" />
 					</hbox>

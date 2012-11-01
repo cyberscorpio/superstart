@@ -28,14 +28,14 @@ function init() {
 		ob.subscribe(k, sEvts[k]);
 	}
 
-	$$('nb-themes-pointer').addEventListener('mousedown', showThemes, false);
+	$$('nbc-themes-pointer').addEventListener('mousedown', showThemes, false);
 
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		for (var k in sEvts) {
 			ob.unsubscribe(k, sEvts[k]);
 		}
-		$$('nb-themes-pointer').removeEventListener('mousedown', showThemes, false);
+		$$('nbc-themes-pointer').removeEventListener('mousedown', showThemes, false);
 		ob = cfg = tm = null;
 	}, false);
 }

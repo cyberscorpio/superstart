@@ -219,7 +219,7 @@ body.use-background-effect #mask {
 }
 
 body.site-no-buttons .site .button {
-	display: none;
+	display: none !important;
 }
 
 .site .button {

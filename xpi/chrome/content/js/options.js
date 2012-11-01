@@ -4,16 +4,17 @@ var superStartOptions = {};
 (function(opt) {
 	const {classes: Cc, interfaces: Ci} = Components;
 	const nsIFilePicker = Ci.nsIFilePicker;
-	var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-	var cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
-	var tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
-	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+	let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
+	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+	let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
+	let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
+	let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 		initialize();
 
-		var dlg = $$('superstart-options');
+		let dlg = $$('superstart-options');
 		dlg.onAccept = onAccept;
 		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-options").onAccept();');
 	}, false);
@@ -24,7 +25,7 @@ var superStartOptions = {};
 	}, false);
 
 
-	var boolMap = {
+	let boolMap = {
 		'superstart-load-in-blanktab' : 'load-in-blanktab',
 		'superstart-sites-open-in-newtab' : 'open-in-newtab',
 
@@ -40,16 +41,13 @@ var superStartOptions = {};
 		'superstart-use-customize' : 'use-customize'
 	};
 
-	var buttonMap = {
+	let buttonMap = {
 		'superstart-customize-select-image': selectImage,
 		'superstart-customize-clear-image': clearImage
 	};
 
-	var customizeMaps = {
-	};
-
-	var isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
-	var mainWindow = null;
+	let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
+	let mainWindow = null;
 
 
 	function initialize() {
@@ -64,7 +62,7 @@ var superStartOptions = {};
 			$$('superstart-option-tabbox').selectedIndex = idx;
 		}
 	// homepage
-		var cb = $$('superstart-set-as-homepage');
+		let cb = $$('superstart-set-as-homepage');
 		if (isHomepaged) {
 			cb.setAttribute('checked', true);
 		}
@@ -125,6 +123,9 @@ var superStartOptions = {};
 			l.setAttribute('tooltiptext', l.getAttribute('href'));
 		}
 
+	// hints
+		$$('superstart-show-buttons').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteButtonsHint'));
+
 	// version
 		let v = $$('superstart-version');
 		v && v.setAttribute('label', v.getAttribute('label') + ' (v' + cfg.getConfig('version') + ')');
@@ -161,7 +162,7 @@ var superStartOptions = {};
 	}
 
 	function onCheckboxChanged(evt) {
-		var cb = evt.target;
+		let cb = evt.target;
 		let id = cb.id;
 		if (id && boolMap[id]) {
 			cfg.setConfig(boolMap[id], cb.hasAttribute('checked'));
@@ -177,7 +178,7 @@ var superStartOptions = {};
 	}
 
 	function onSetHomepageChanged(evt) {
-		var cb = evt.target;
+		let cb = evt.target;
 		if (cb.hasAttribute('checked') != isHomepaged) {
 			if (isHomepaged) {
 				sbprefs.setCharPref('browser.startup.homepage', 'about:home');
@@ -208,20 +209,20 @@ var superStartOptions = {};
 	}
 
 	opt.selectTheme = function() {
-		var fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
 		fp.init(window, "Select a File", nsIFilePicker.modeOpen);
 		fp.appendFilter("Theme files", "*.zip;");
-		var res = fp.show();
+		let res = fp.show();
 		if (res == nsIFilePicker.returnOK) {
-			var themeFile = fp.file;
+			let themeFile = fp.file;
 			tm.installTheme(themeFile);
 		}
 	}
 
 	// customize
-	var repeatMap = [undefined, 'no-repeat', 'repeat-x', 'repeat-y'];
-	var sizeMap = [undefined, 'cover', 'contain'];
-	var usCss = '';
+	let repeatMap = [undefined, 'no-repeat', 'repeat-x', 'repeat-y'];
+	let sizeMap = [undefined, 'cover', 'contain'];
+	let usCss = '';
 
 	function getCstmElem(id) {
 		return $$('superstart-customize-' + id);
@@ -424,10 +425,10 @@ var superStartOptions = {};
 			items[0].parentNode.removeChild(items[0]);
 		}
 
-		for (var i = 0, l = themes.length; i < l; ++ i) {
+		for (let i = 0, l = themes.length; i < l; ++ i) {
 			let theme = themes[i];
 
-			var row = document.createElement('listitem');
+			let row = document.createElement('listitem');
 			list.appendChild(row);
 
 			row.themeName = theme.name;
@@ -453,7 +454,7 @@ var superStartOptions = {};
 	}
 
 	function getUrlFromFile(iF) {
-		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
+		let ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
 		return ios.newFileURI(iF).spec; 
 	}
 })(superStartOptions);

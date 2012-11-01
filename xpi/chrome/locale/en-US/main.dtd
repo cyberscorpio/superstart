@@ -34,11 +34,11 @@
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Show Navbar">
-<!ENTITY superstart.options.navbar.show.recently.closed "[Recently closed]">
-<!ENTITY superstart.options.navbar.show.add.site "[Add new site]">
-<!ENTITY superstart.options.navbar.show.themes "[Themes]">
-<!ENTITY superstart.options.navbar.show.todo "[Notes]">
-<!ENTITY superstart.options.site.show.buttons "Show [buttons] on thumbnails">
+<!ENTITY superstart.options.navbar.show.recently.closed "Recently closed">
+<!ENTITY superstart.options.navbar.show.add.site "Add new site">
+<!ENTITY superstart.options.navbar.show.themes "Themes">
+<!ENTITY superstart.options.navbar.show.todo "Notes">
+<!ENTITY superstart.options.site.show.buttons "Show buttons on thumbnails">
 <!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
 
 <!ENTITY superstart.ui.customize "UI Customize">

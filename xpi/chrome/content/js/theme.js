@@ -28,7 +28,9 @@ function init() {
 		ob.subscribe(k, sEvts[k]);
 	}
 
-	$$('nbc-themes-pointer').addEventListener('mousedown', showThemes, false);
+	var pointer = $$('nbc-themes-pointer');
+	pointer.addEventListener('mousedown', showThemes, false);
+	pointer.setAttribute('title', getString('ssThemes'));
 
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);

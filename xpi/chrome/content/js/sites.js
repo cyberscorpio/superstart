@@ -264,9 +264,9 @@ function createSiteElement(s) {
 		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
 
 		cmds = {
-			'a': clickLink,
-			'.edit': editGroupTitle,
-			'.newtab': openGroupAll,
+			'a': onLinkClick,
+			'.edit': onFolderEditClick,
+			'.newtab': onFolderNewTabClick,
 			'.refresh': refreshGroup
 		};
 	} else {
@@ -275,7 +275,7 @@ function createSiteElement(s) {
 		titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 		
 		cmds = {
-			'a': clickLink,
+			'a': onLinkClick,
 			'.next-snapshot': nextSnapshot,
 			'.remove': removeSite,
 			'.refresh': refreshSite,
@@ -371,7 +371,7 @@ function indexFromNode(n) {
 	return null;
 }
 
-function onClickFolder(idx, f) {
+function onFolderClick(idx, f) {
 	if (layout.inTransition()) {
 		return;
 	}
@@ -490,7 +490,7 @@ function closeFolder() {
 	container.style.top = '0';
 }
 
-function clickLink(evt) {
+function onLinkClick(evt) {
 	if (layout.inTransition() || $.hasClass(evt.target, 'button')) {
 		return false;
 	}
@@ -499,14 +499,18 @@ function clickLink(evt) {
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
 		assert(idxes[0] == -1, 'only top level sites can be folders');
-		onClickFolder(idxes[1], s);
-	} else {
-		if (cfg.getConfig('open-in-newtab') || evt.ctrlKey || evt.metaKey) {
-			if (s.url != null) {
-				$.getMainWindow().getBrowser().addTab(s.url);
-			}
+		if (evt.ctrlKey || evt.metaKey) {
+			openGroupAll(-1, idxes[1]);
 		} else {
-			document.location.href = s.url;
+			onFolderClick(idxes[1], s);
+		}
+	} else {
+		var inNewTab = cfg.getConfig('open-in-newtab');
+		if (evt.ctrlKey || evt.metaKey) {
+			inNewTab = !inNewTab;
+		}
+		if (s.url != null) {
+			inNewTab ? $.getMainWindow().getBrowser().addTab(s.url) : document.location.href = s.url;
 		}
 	}
 	return false;
@@ -814,7 +818,7 @@ function showAddSite() {
 	openUrlDialog(-1, -1);
 }
 
-function editGroupTitle() {
+function onFolderEditClick() {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
@@ -828,19 +832,23 @@ function editGroupTitle() {
 	return false;
 }
 
-function openGroupAll() {
+function openGroupAll(g, i) {
+	var f = sm.getSite(g, i);
+	if (f && f.sites && Array.isArray(f.sites)) {
+		for (var i = 0; i < f.sites.length; ++ i) {
+			var s = f.sites[i];
+			if (s.url != '') {
+				$.getMainWindow().getBrowser().addTab(s.url);
+			}
+		}
+	}
+}
+
+function onFolderNewTabClick() {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
-		var f = sm.getSite(g, i);
-		if (f && f.sites && Array.isArray(f.sites)) {
-			for (var i = 0; i < f.sites.length; ++ i) {
-				var s = f.sites[i];
-				if (s.url != '') {
-					$.getMainWindow().getBrowser().addTab(s.url);
-				}
-			}
-		}
+		openGroupAll(g, i);
 	}
 	return false;
 }

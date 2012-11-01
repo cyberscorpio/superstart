@@ -1,8 +1,6 @@
 // dragging
 var gDrag = (function() {
-
-const Cc = Components.classes;
-const Ci = Components.interfaces;
+const {classes: Cc, interfaces: Ci} = Components;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 var sm = ssObj.getService(Ci.ssISiteManager);
 ssObj = undefined;

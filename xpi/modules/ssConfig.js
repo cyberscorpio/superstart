@@ -12,7 +12,7 @@
 var EXPORTED_SYMBOLS = [ "ssConfig" ];
 
 function ssConfig() {
-let {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
+const {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");

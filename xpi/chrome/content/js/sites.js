@@ -1,7 +1,6 @@
 (function() {
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-Components.utils.import('resource://superstart/xl.js');
+const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
+Cu.import('resource://superstart/xl.js');
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
@@ -561,7 +560,7 @@ function removeSite() {
 		var s = sm.getSite(g, i);
 		if (s) {
 			var str = getString('ssSiteRemovePrompt');
-			str = xl.utils.template(str, s);
+			str = str.replace(/%title%/g, s.title).replace(/%url%/g, s.url);
 			if (confirm(str)) {
 				sm.removeSite(g, i);
 			}

@@ -2,8 +2,7 @@
 var superStartOptions = {};
 
 (function(opt) {
-	const Cc = Components.classes;
-	const Ci = Components.interfaces;
+	const {classes: Cc, interfaces: Ci} = Components;
 	const nsIFilePicker = Ci.nsIFilePicker;
 	var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 	var cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);

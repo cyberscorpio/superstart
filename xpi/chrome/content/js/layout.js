@@ -1,6 +1,5 @@
 var layout = (function() {
-	const Cc = Components.classes;
-	const Ci = Components.interfaces;
+	const {classes: Cc, interfaces: Ci} = Components;
 	const MINWIDTH = 1000;
 	const NOTEWIDTH = 200;
 	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;

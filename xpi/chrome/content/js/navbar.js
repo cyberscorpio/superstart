@@ -2,8 +2,7 @@
  * created on 10/2/2012, on hospital, with my father
  */
 (function() {
-const Cc = Components.classes;
-const Ci = Components.interfaces;
+const {classes: Cc, interfaces: Ci} = Components;
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];

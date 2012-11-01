@@ -1,7 +1,6 @@
 
 (function() {
-	const Cc = Components.classes;
-	const Ci = Components.interfaces;
+	const {classes: Cc, interfaces: Ci} = Components;
 	var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 	var sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 

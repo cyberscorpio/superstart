@@ -2,8 +2,7 @@
  * created on 10/2/2012, on hospital, with my father
  */
 (function() {
-const Cc = Components.classes;
-const Ci = Components.interfaces;
+const {classes: Cc, interfaces: Ci} = Components;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 var cfg = ssObj.getService(Ci.ssIConfig);
 var todo = ssObj.getService(Ci.ssITodoList);

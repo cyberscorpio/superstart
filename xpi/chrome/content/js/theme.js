@@ -1,6 +1,5 @@
 (function() {
-const Cc = Components.classes;
-const Ci = Components.interfaces;
+const {classes: Cc, interfaces: Ci} = Components;
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];

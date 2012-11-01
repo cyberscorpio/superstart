@@ -7,8 +7,7 @@ if ("undefined" == typeof(SuperStart)) {
 	var SuperStart = {};
 
 	(function() {
-		const Cc = Components.classes;
-		const Ci = Components.interfaces;
+		const {classes: Cc, interfaces: Ci} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 		let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");

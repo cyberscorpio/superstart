@@ -2,9 +2,7 @@
  * superstart object
  */
 var SuperStartObj = (function () {
-	const Cc = Components.classes;
-	const Ci = Components.interfaces;
-	const Cu = Components.utils;
+const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 	
 	// import components
 	let m = [

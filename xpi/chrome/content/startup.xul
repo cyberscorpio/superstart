@@ -33,9 +33,6 @@
 		<menupopup id="superstart-recently-closed-list"
 			onpopupshowing="SuperStart.populateUndoMenu();">
 		</menupopup>
-		<menupopup id="superstart-bookmarks"
-			onpopupshowing="SuperStart.populateBookmarks(event);">
-		</menupopup>
 	</window>
 
 	<toolbarpalette id="BrowserToolbarPalette">

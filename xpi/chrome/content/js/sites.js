@@ -171,7 +171,7 @@ function updateSite(s, se, flag) {
 	}
 	if (updateAllFields || (flag & UPDATE_SNAPSHOT)) {
 		e = $(se, '.snapshot')[0];
-		e.style.backgroundImage = 'url("' + s.snapshots[s.snapshotIndex] + '")';
+		e.style.backgroundImage = 'url("' + s.thumbnail + '")';
 	}
 	if (updateAllFields || (flag & UPDATE_TITLE)) {
 		e = $(se, '.title')[0];
@@ -209,7 +209,7 @@ function updateFolder(f, se) {
 		for (var i = f.sites.length - 1; i >= 0; -- i) {
 			var s = f.sites[i];
 			var img = document.createElement('img');
-			img.src = s.snapshots[s.snapshotIndex];
+			img.src = s.thumbnail;
 			snapshot.insertBefore(img, snapshot.firstChild);
 		}
 	
@@ -762,7 +762,7 @@ function onSiteChanged(evt, idxes) {
 			// updateFolder(f, fe);
 			var imgs = $(fe, 'img');
 			var img = imgs[i];
-			img.src = s.snapshots[s.snapshotIndex];
+			img.src = s.thumbnail;
 		}
 	}
 

@@ -85,7 +85,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function create() {
 		data = {
-			'version' : "1.0",
+			'version' : "1.1",
 			'sites' : []
 		};
 		save();
@@ -97,6 +97,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (Array.isArray(data)) {
 			convert(data);
 			changed = true;
+		}
+		if (data.version == '1.0') {
+			// temp
+			convert1_0to1_1();
 		}
 		let sites = data.sites;
 		try {
@@ -146,12 +150,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
 				changed = true;
 			}
-
-			if (s.snapshots.length == 3) { // temporarily
-				s.snapshots.push(s.snapshots[2]);
-				s.snapshots[2] = getLiveSnapshot(s.url);
-				changed = true;
-			}
 		});
 		return changed;
 	}
@@ -188,7 +186,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			'title': title,
 			'realurl': url, // used for live snapshot
 			'name': name,
-			'snapshots': [lt, entire, living, cust],
+			'snapshots': [lt, entire],
+			'livingImage': living,
+			'customizeImage': cust,
 			'snapshotIndex': index 
 		};
 	}
@@ -205,17 +205,23 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			s.displayName = s.title;
 		} else {
 			s.sites = undefined;
-			for (let i = 0; i < 2; ++ i) {
-				if (s.snapshots[i] != '') {
-					let st = s.snapshots[i];
-					if (st.indexOf('images/')) {
-						s.snapshots[i] = that.regulateUrl(pathFromName(st)).replace(/\\/g, '/');
+			let t = s.snapshots[0];
+			switch (s.snapshotIndex) {
+				case 0:
+				case 1:
+					t = s.snapshots[s.snapshotIndex];
+					if (t.indexOf('images/') != 0) {
+						t = that.regulateUrl(pathFromName(t)).replace(/\\/g, '/');
 					}
-				}
+					break;
+				case 2:
+					t = s.livingImage;
+					break;
+				case 3:
+					t = that.regulateUrl(s.customizeImage).replace(/\\/g, '/');
+					break;
 			}
-			if (s.snapshots[3] != '') {
-				s.snapshots[3] = that.regulateUrl(s.snapshots[3]).replace(/\\/g, '/');
-			}
+			s.thumbnail = t;
 			s.displayName = s.name || (s.title || s.url);
 		}
 		return s;
@@ -241,14 +247,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	/*
-	function updateSiteSnapshots(g, i, sn1, sn2) {
-		let s = getSite(g, i);
-		if (s != null) {
-		}
-	}
-	*/
-
 	function updateSiteInformation(idxes, url, realurl, title, name, icon, shotNames) {
 		if (Array.isArray(idxes) && idxes.length == 2) {
 			let s = getSite(idxes[0], idxes[1]);
@@ -260,7 +258,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.icon = icon;
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
-				s.snapshots[2] = getLiveSnapshot(realurl);
+				s.livingImage = getLiveSnapshot(realurl);
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
@@ -417,10 +415,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (s && !isFolder(s)) {
 			if (url == '') {
 				this.removeSite(group, index);
-			} else if (url != s.url || name != s.name || snapshotIndex != s.snapshotIndex || custimg != s.snapshots[3]) {
+			} else if (url != s.url || name != s.name || snapshotIndex != s.snapshotIndex || custimg != s.customizeImage) {
 				s.name = name;
 				s.snapshotIndex = snapshotIndex;
-				s.snapshots[3] = custimg;
+				s.customizeImage = custimg;
 				if (s.url != url) {
 					s.url = url;
 					this.refreshSite(group, index);
@@ -466,7 +464,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (s != null) {
 			let i = s.snapshotIndex;
 			++ i;
-			if (i > 3 || (i == 3 && s.snapshots[i] == '')) {
+			if (i > 3 || (i == 3 && s.customizeImage == '')) {
 				i = 0;
 			}
 			if (i != s.snapshotIndex) {
@@ -755,6 +753,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				sites.push(s);
 			}
 		}
+		save();
+	}
+
+	function convert1_0to1_1(dt) {
+		data.version = '1.1';
+		travel(function(s) {
+			s.livingImage = s.snapshots[2];
+			s.customizeImage = s.snapshots[3] || '';
+			s.snapshots.splice(2);
+		});
 		save();
 	}
 

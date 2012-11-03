@@ -59,7 +59,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 			return JSON.stringify(obj);
 		},
 		regulateUrl : function(url) {
-			if (url != null && typeof(url) == 'string') {
+			if (url != null && typeof(url) == 'string' && url.charAt(4) != ':' && url.charAt(5) != ':') { // exclude 'file: & http: & https: & about:'
 				if (url.charAt(0) == '/') { // unix
 					url = 'file://' + url;
 				} else if (url.charAt(1) == ':' && (url.charAt(2) == '/' || url.charAt(2) == '\\')) { // windows

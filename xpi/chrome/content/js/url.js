@@ -20,7 +20,7 @@
 				$$('url-name').value = (s.name || '');
 				$$('snapshot-index').selectedIndex = s.snapshotIndex;
 
-				var custimg = s.snapshots[3];
+				var custimg = s.customizeImage;
 				if (custimg != '') {
 					$$('customize-image').setAttribute('src', custimg);
 					$$('select-customize-image').removeAttribute('disabled');
@@ -70,7 +70,7 @@
 			if (idx != -1) {
 				var s = sm.getSite(g, idx);
 				if (s && s.sites === undefined && s.url != '') {
-					if (url == s.url && name == s.name && image == s.snapshots[3] && snapshotIndex == s.snapshotIndex) {
+					if (url == s.url && name == s.name && image == s.customizeImage && snapshotIndex == s.snapshotIndex) {
 						return;
 					}
 

@@ -212,6 +212,7 @@ body.use-background-effect #mask {
 	border: 1px solid rgba(0,0,0,.2);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	opacity: 1;
 }
 
 .site:hover .snapshot {
@@ -487,7 +488,6 @@ body.site-no-buttons .site .button {
 , .site
 , #folder
 , .site .snapshot
-, .site .snapshot.changing
 , .site .button
 , .site .title
 , .site.folder .snapshot img
@@ -510,7 +510,7 @@ body.site-no-buttons .site .button {
 	-moz-transition-property: top;
 }
 .site {
-	-moz-transition-property: top, left;
+	-moz-transition-property: top, left, opacity;
 }
 #folder {
 	-moz-transition-property: top, left, width, height;
@@ -518,10 +518,6 @@ body.site-no-buttons .site .button {
 
 .site .snapshot {
 	-moz-transition-property: border, width, height, opacity;
-}
-
-.site .snapshot.changing {
-	-moz-transition-property: background-position;
 }
 
 .site .button {

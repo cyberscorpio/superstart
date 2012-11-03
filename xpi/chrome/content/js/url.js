@@ -19,6 +19,7 @@
 				$$('url-input').textValue = s.url;
 				$$('url-name').value = (s.name || '');
 				$$('snapshot-index').selectedIndex = s.snapshotIndex;
+				$$('use-lastvisited').setAttribute('checked', s.useLastVisited);
 
 				var custimg = s.customizeImage;
 				if (custimg != '') {
@@ -67,22 +68,24 @@
 			var name = $$('url-name').value;
 			var image = $$('customize-image').getAttribute('src');
 			var snapshotIndex = $$('snapshot-index').selectedIndex;
+			var useLastVisited = $$('use-lastvisited').hasAttribute('checked');
+			logger.logStringMessage('Use lastvisited: ' + useLastVisited);
 			if (idx != -1) {
 				var s = sm.getSite(g, idx);
 				if (s && s.sites === undefined && s.url != '') {
-					if (url == s.url && name == s.name && image == s.customizeImage && snapshotIndex == s.snapshotIndex) {
+					if (url == s.url && name == s.name && image == s.customizeImage && snapshotIndex == s.snapshotIndex && useLastVisited == s.useLastVisited) {
 						return;
 					}
 
 					if (url == '') {
 						sm.removeSite(g, idx);
 					} else {
-						sm.changeSite(g, idx, url, name, snapshotIndex, image);
+						sm.changeSite(g, idx, url, name, snapshotIndex, useLastVisited, image);
 					}
 				}
 			} else {
 				if (url != '') {
-					sm.addSite(url, name, snapshotIndex, image);
+					sm.addSite(url, name, snapshotIndex, useLastVisited, image);
 				}
 			}
 		} catch (e) {

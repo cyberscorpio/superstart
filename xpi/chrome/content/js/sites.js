@@ -150,6 +150,15 @@ function swapSiteItem(se, tmp) {
 	}
 }
 
+function setBackground(s, snapshot) {
+	if (s.useLastVisited && s.snapshotIndex == 0) {
+		snapshot.style.backgroundSize = 'auto';
+	} else {
+		snapshot.style.backgroundSize = '';
+	}
+	snapshot.style.backgroundImage = 'url("' + s.thumbnail + '")';
+}
+
 var UPDATE_HINT = 1;
 var UPDATE_URL = 2;
 var UPDATE_SNAPSHOT = 4;
@@ -171,7 +180,8 @@ function updateSite(s, se, flag) {
 	}
 	if (updateAllFields || (flag & UPDATE_SNAPSHOT)) {
 		e = $(se, '.snapshot')[0];
-		e.style.backgroundImage = 'url("' + s.thumbnail + '")';
+		// e.style.backgroundImage = 'url("' + s.thumbnail + '")';
+		setBackground(s, e);
 	}
 	if (updateAllFields || (flag & UPDATE_TITLE)) {
 		e = $(se, '.title')[0];
@@ -579,30 +589,22 @@ function nextSnapshot() {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
 			var snapshot = $(se, '.snapshot')[0];
-			$.addClass(snapshot, 'changing');
-			snapshot.style.backgroundPosition = '-' + snapshot.clientWidth + 'px 0';
+			snapshot.style.opacity = '0';
 			snapshot.addEventListener('transitionend', function(evt) {
 				if (this != evt.target) {
 					return;
 				}
 				snapshot.removeEventListener('transitionend', arguments.callee, true);
 	
-				$.removeClass(snapshot, 'changing');
-				snapshot.style.backgroundPosition = snapshot.clientWidth + 'px 0';
 				sm.nextSnapshot(idxes[0], idxes[1]);
 	
-				window.setTimeout(function() {
-					$.addClass(snapshot, 'changing');
-					snapshot.style.backgroundPosition = '0 0';
-					snapshot.addEventListener('transitionend', function(evt) {
-						if (this != evt.target) {
-							return;
-						}
-						snapshot.removeEventListener('transitionend', arguments.callee, true);
-						$.removeClass(snapshot, 'changing');
-						snapshot.style.backgroundPosition = '';
-					}, true);
-				}, 0);
+				snapshot.style.opacity = '1';
+				snapshot.addEventListener('transitionend', function(evt) {
+					if (this != evt.target) {
+						return;
+					}
+					snapshot.removeEventListener('transitionend', arguments.callee, true);
+				}, true);
 			}, true);
 		}
 	}
@@ -778,7 +780,28 @@ function onSiteChanged(evt, idxes) {
 }
 
 function onSiteSnapshotIndexChanged(evt, idxes) {
-	onSiteChanged(null, idxes);
+	var [g, i] = idxes;
+	var s = sm.getSite(g, i);
+	var se = at(g, i);
+
+	if (g != -1) {
+		// Update the parent folder (item)
+		var f = sm.getSite(-1, g);
+		var fe = at(-1, g);
+		if (fe) {
+			var imgs = $(fe, 'img');
+			var img = imgs[i];
+			img.src = s.thumbnail;
+		}
+	}
+
+	if (!se) {
+		return;
+	}
+
+	var snapshot = $(se, '.snapshot')[0];
+	// snapshot.style.backgroundImage = 'url("' + s.thumbnail + '")';
+	setBackground(s, snapshot);
 }
 
 function onSiteTitleChanged(evt, idxes) {

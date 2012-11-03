@@ -150,6 +150,17 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
 				changed = true;
 			}
+
+			// temp
+			if (s.snapshotIndex > 2 || (s.snapshotIndex == 2 && s.customizeImage == '')) {
+				s.snapshotIndex = 0;
+				changed = true;
+			}
+
+			if (s.livingImage !== undefined) {
+				s.livingImage = undefined;
+				changed = true;
+			}
 		});
 		return changed;
 	}
@@ -180,14 +191,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		that.filePutContents(file, that.stringify(data));
 	}
 
-	function createSite(url, title, name, lt, entire, living, cust, index) {
+	function createSite(url, title, name, lt, entire, living, useLastVisited, cust, index) {
 		return {
 			'url': url,
 			'title': title,
 			'realurl': url, // used for live snapshot
 			'name': name,
 			'snapshots': [lt, entire],
-			'livingImage': living,
+			'liveImage': living,
+			'useLastVisited': useLastVisited,
 			'customizeImage': cust,
 			'snapshotIndex': index 
 		};
@@ -209,15 +221,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			switch (s.snapshotIndex) {
 				case 0:
 				case 1:
-					t = s.snapshots[s.snapshotIndex];
-					if (t.indexOf('images/') != 0) {
-						t = that.regulateUrl(pathFromName(t)).replace(/\\/g, '/');
+					if (s.useLastVisited) {
+						t = s.liveImage;
+					} else {
+						t = s.snapshots[s.snapshotIndex];
+						if (t.indexOf('images/') != 0) {
+							t = that.regulateUrl(pathFromName(t)).replace(/\\/g, '/');
+						}
 					}
 					break;
 				case 2:
-					t = s.livingImage;
-					break;
-				case 3:
 					t = that.regulateUrl(s.customizeImage).replace(/\\/g, '/');
 					break;
 			}
@@ -258,7 +271,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.icon = icon;
 				s.snapshots[0] = shotNames[0];
 				s.snapshots[1] = shotNames[1];
-				s.livingImage = getLiveSnapshot(realurl);
+				s.liveImage = getLiveSnapshot(realurl);
 
 				save();
 				that.fireEvent('site-changed', [idxes[0], idxes[1]]);
@@ -310,13 +323,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
-	this.addSite = function(url, name, snapshotIndex, image) {
+	this.addSite = function(url, name, snapshotIndex, useLastVisited, image) {
 		url = this.regulateUrl(url);
 		let living = getLiveSnapshot(url);
 		if (snapshotIndex == 3 && image == null) {
 			snapshotIndex = 0;
 		}
-		let s = createSite(url, url, name, imgLoading, imgLoading, living, image, snapshotIndex);
+		let s = createSite(url, url, name, imgLoading, imgLoading, living, useLastVisited, image, snapshotIndex);
 		data.sites.push(s);
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
@@ -410,17 +423,19 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	this.changeSite = function(group, index, url, name, snapshotIndex, custimg) {
+	this.changeSite = function(group, index, url, name, snapshotIndex, useLastVisited, custimg) {
 		let s = getSite(group, index);
 		if (s && !isFolder(s)) {
 			if (url == '') {
 				this.removeSite(group, index);
-			} else if (url != s.url || name != s.name || snapshotIndex != s.snapshotIndex || custimg != s.customizeImage) {
+			} else if (url != s.url || name != s.name || snapshotIndex != s.snapshotIndex || useLastVisited != s.useLastVisited || custimg != s.customizeImage) {
 				s.name = name;
 				s.snapshotIndex = snapshotIndex;
+				s.useLastVisited = useLastVisited;
 				s.customizeImage = custimg;
 				if (s.url != url) {
 					s.url = url;
+					s.liveImage = getLiveSnapshot(url);
 					this.refreshSite(group, index);
 				}
 				save();
@@ -464,7 +479,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (s != null) {
 			let i = s.snapshotIndex;
 			++ i;
-			if (i > 3 || (i == 3 && s.customizeImage == '')) {
+			if (i > 2 || (i == 2 && s.customizeImage == '')) {
 				i = 0;
 			}
 			if (i != s.snapshotIndex) {
@@ -749,7 +764,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			let os = o[i];
 			if (os.url != '') {
 				let living = getLiveSnapshot(os.url);
-				let s = createSite(os.url, os.title, os.name, os.snapshot, os.snapshot, living, os.image || '', 0);
+				let s = createSite(os.url, os.title, os.name, os.snapshot, os.snapshot, living, false, os.image || '', 0);
 				sites.push(s);
 			}
 		}
@@ -759,7 +774,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	function convert1_0to1_1(dt) {
 		data.version = '1.1';
 		travel(function(s) {
-			s.livingImage = s.snapshots[2];
+			s.liveImage = s.snapshots[2];
 			s.customizeImage = s.snapshots[3] || '';
 			s.snapshots.splice(2);
 		});

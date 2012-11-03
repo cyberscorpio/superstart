@@ -70,7 +70,7 @@ if ("undefined" == typeof(SuperStart)) {
 			let doc = gBrowser.selectedBrowser.contentDocument;
 			let url = doc.location.href;
 	
-			sm.addSite(url, '', 0, '');
+			sm.addSite(url, '', 0, false, '');
 		}
 
 		SuperStart.onMenuAdd = function() {

@@ -5,7 +5,7 @@
 <!ENTITY superstart.dialog.url.snapshot.setting "Thumbnail setting">
 <!ENTITY superstart.dialog.url.snapshot.lefttop "LeftTop corner">
 <!ENTITY superstart.dialog.url.snapshot.entire "Entire window">
-<!ENTITY superstart.dialog.url.snapshot.lastvisit "Last visited">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Use Firefox's thumbnail service (maybe unavailable for some sites)">
 <!ENTITY superstart.dialog.url.snapshot.customize "Customize image">
 
 <!-- group name -->

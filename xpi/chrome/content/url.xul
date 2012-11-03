@@ -39,7 +39,6 @@
 				<radiogroup id="snapshot-index">
 					<radio label="&superstart.dialog.url.snapshot.lefttop;" />
 					<radio label="&superstart.dialog.url.snapshot.entire;" />
-					<radio label="&superstart.dialog.url.snapshot.lastvisit;" />
 					<radio label="&superstart.dialog.url.snapshot.customize;" id="select-customize-image" disabled="true" />
 				</radiogroup>
 				<vbox id="customize-image-group" flex="1">
@@ -56,6 +55,7 @@
 					<textbox style="display: none;" id="customize-image-url" />
 				</vbox>
 			</hbox>
+			<checkbox id="use-lastvisited" label="&superstart.dialog.url.snapshot.use.lastvisited;" />
 		</groupbox>
 	</vbox>
 </dialog>

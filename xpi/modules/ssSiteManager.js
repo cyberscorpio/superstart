@@ -777,6 +777,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			s.liveImage = s.snapshots[2];
 			s.customizeImage = s.snapshots[3] || '';
 			s.snapshots.splice(2);
+
+			if (s.snapshotIndex > 2 || (s.snapshotIndex == 2 && s.customizeImage == '')) {
+				s.snapshotIndex = 0;
+			}
 		});
 		save();
 	}

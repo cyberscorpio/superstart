@@ -89,33 +89,33 @@ a {
 	position: absolute;
 	top: 40px;
 	right: 20px;
-/*
-	border: 5px solid rgba(0,0,0,0.2);
-	border-radius: 3px;
-	*/
 	background-color: transparent;
+	border: 5px solid rgba(0,0,0,0.25);
 	box-shadow: 10px 10px 15px rgba(0,0,0,0.75);
 }
 
+/*
+#nb-themes:hover p {
+	background-image: linear-gradient(#b1b1b1, #e7e7e7);
+}
+*/
+
 #nb-themes p {
-	background-color: #246;
-	border: 2px solid white;
-	color: white;
+	background-image: linear-gradient(#e7e7e7, #b1b1b1);
+	color: #3d3d3d;
+	text-shadow: 1px 1px white;
 	font-size: 1.3rem;
+	font-weight: bold;
 	height: 3rem;
 	line-height: 3rem;
 	padding-left: .5rem;
 	cursor: default;
 	-moz-user-select: -moz-none;
-	transform: scale(1.2, 1) rotate(-2.5deg);
-	box-shadow: 5px 5px 8px black;
-	margin-right: 8px;
 	z-index: 2;
 }
 
 #nb-themes ul {
 	background-color: transparent;
-	border: 5px solid rgba(0,0,0,0.25);
 }
 
 #nb-themes li {

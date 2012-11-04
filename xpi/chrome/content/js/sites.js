@@ -77,7 +77,7 @@ function init() {
 
 	var add = $$('nbb-add-site');
 	add.onclick = function() { showAddSite(); };
-	add.setAttribute('title', getString('ssSiteAddNew'));
+	add.setAttribute('title', getString('ssSiteAddNew') + ' - ' + getString('ssSiteAddNewHint'));
 	$.removeClass(add, 'hidden');
 
 	window.addEventListener('unload', function() {
@@ -892,7 +892,7 @@ function refreshGroup() {
 
 function onDblClick(e) {
 	var t = e.target;
-	if (t.tagName == 'HTML') {
+	if (t.tagName == 'HTML' || t.id == 'navbar') {
 		window.getSelection().removeAllRanges()
 		showAddSite();
 		return false; // TODO or body.onselectstart = function() {return false;}?

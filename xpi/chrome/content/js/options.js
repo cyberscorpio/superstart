@@ -14,9 +14,9 @@ var superStartOptions = {};
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 		initialize();
 
-		let dlg = $$('superstart-options');
+		let dlg = $$('options');
 		dlg.onAccept = onAccept;
-		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-options").onAccept();');
+		dlg.setAttribute('ondialogaccept', 'return document.getElementById("options").onAccept();');
 	}, false);
 
 	window.addEventListener('unload', function() {
@@ -26,24 +26,24 @@ var superStartOptions = {};
 
 
 	let boolMap = {
-		'superstart-load-in-blanktab' : 'load-in-blanktab',
-		'superstart-sites-open-in-newtab' : 'open-in-newtab',
+		'load-in-blanktab' : 'load-in-blanktab',
+		'sites-open-in-newtab' : 'open-in-newtab',
 
-		'superstart-sites-use-compactmode' : 'sites-compact',
-		'superstart-sites-use-background-effect' : 'sites-use-background-effect',
+		'sites-use-compactmode' : 'sites-compact',
+		'sites-use-background-effect' : 'sites-use-background-effect',
 
-		'superstart-show-navbar' : 'navbar',
-		'superstart-show-recently-closed' : 'navbar-recently-closed',
-		'superstart-show-add-site' : 'navbar-add-site',
-		'superstart-show-themes' : 'navbar-themes',
-		'superstart-show-todo' : 'navbar-todo',
-		'superstart-show-buttons' : 'site-buttons',
-		'superstart-use-customize' : 'use-customize'
+		'show-navbar' : 'navbar',
+		'show-recently-closed' : 'navbar-recently-closed',
+		'show-add-site' : 'navbar-add-site',
+		'show-themes' : 'navbar-themes',
+		'show-todo' : 'navbar-todo',
+		'show-buttons' : 'site-buttons',
+		'use-customize' : 'use-customize'
 	};
 
 	let buttonMap = {
-		'superstart-customize-select-image': selectImage,
-		'superstart-customize-clear-image': clearImage
+		'customize-select-image': selectImage,
+		'customize-clear-image': clearImage
 	};
 
 	let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
@@ -57,12 +57,12 @@ var superStartOptions = {};
 		mainWindow = wm.getMostRecentWindow("navigator:browser");  
 
 	// restore the selected tab
-		let idx = window.opener['superstart-option-tab-index'];
+		let idx = window.opener['option-tab-index'];
 		if (idx != undefined) {
-			$$('superstart-option-tabbox').selectedIndex = idx;
+			$$('option-tabbox').selectedIndex = idx;
 		}
 	// homepage
-		let cb = $$('superstart-set-as-homepage');
+		let cb = $$('set-as-homepage');
 		if (isHomepaged) {
 			cb.setAttribute('checked', true);
 		}
@@ -79,7 +79,7 @@ var superStartOptions = {};
 				}
 				c.addEventListener('command', onCheckboxChanged, false);
 
-				if (id == 'superstart-show-navbar' && !enabled) {
+				if (id == 'show-navbar' && !enabled) {
 					let items = $('.navbar-item');
 					for (let i = 0; i < items.length; ++ i) {
 						items[i].setAttribute('disabled', true);
@@ -97,7 +97,7 @@ var superStartOptions = {};
 
 	// Col
 		let col = cfg.getConfig('col');
-		let colPop = $$('superstart-sites-col-popup');
+		let colPop = $$('sites-col-popup');
 		colPop.addEventListener('command', onSitesColSelected, false);
 		let from = 3, to = 8;
 		for (let i = 0; i + from <= to; ++ i) {
@@ -106,7 +106,7 @@ var superStartOptions = {};
 			item.setAttribute('label', idx);
 			colPop.appendChild(item);
 			if (idx == col) {
-				$$('superstart-sites-col').selectedIndex = i;
+				$$('sites-col').selectedIndex = i;
 			}
 		}
 
@@ -124,17 +124,18 @@ var superStartOptions = {};
 		}
 
 	// hints
-		$$('superstart-show-buttons').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteButtonsHint'));
+		$$('show-add-site').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteAddNewHint'));
+		$$('show-buttons').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteButtonsHint'));
 
 	// version
-		let v = $$('superstart-version');
+		let v = $$('version');
 		v && v.setAttribute('label', v.getAttribute('label') + ' (v' + cfg.getConfig('version') + ')');
 	}
 
 	function cleanup() {
 		cleanupThemes();
 
-		let cb = $$('superstart-set-as-homepage');
+		let cb = $$('set-as-homepage');
 		if (cb) {
 			cb.removeEventListener('command', onSetHomepageChanged, false);
 		}
@@ -155,7 +156,7 @@ var superStartOptions = {};
 			}
 		}
 
-		let colPop = $$('superstart-sites-col-popup');
+		let colPop = $$('sites-col-popup');
 		if (colPop) {
 			colPop.removeEventListener('command', onSitesColSelected, false);
 		}
@@ -168,7 +169,7 @@ var superStartOptions = {};
 			cfg.setConfig(boolMap[id], cb.hasAttribute('checked'));
 		}
 
-		if (id == 'superstart-show-navbar') {
+		if (id == 'show-navbar') {
 			let enabled = cb.hasAttribute('checked');
 			let items = $('.navbar-item');
 			for (let i = 0; i < items.length; ++ i) {
@@ -190,7 +191,7 @@ var superStartOptions = {};
 	}
 
 	function onSitesColSelected() {
-		let label = $$('superstart-sites-col').getAttribute('label');
+		let label = $$('sites-col').getAttribute('label');
 		cfg.setConfig('col', label);
 	}
 
@@ -203,7 +204,7 @@ var superStartOptions = {};
 		}
 
 		// 2. save tab index
-		window.opener['superstart-option-tab-index'] = $$('superstart-option-tabbox').selectedIndex;
+		window.opener['option-tab-index'] = $$('option-tabbox').selectedIndex;
 
 		return true;
 	}
@@ -225,11 +226,11 @@ var superStartOptions = {};
 	let usCss = '';
 
 	function getCstmElem(id) {
-		return $$('superstart-customize-' + id);
+		return $$('customize-' + id);
 	}
 
 	function initCustomize() {
-		let cb = $$('superstart-use-customize');
+		let cb = $$('use-customize');
 		cb.addEventListener('CheckboxStateChange', function() {
 			let ctrls = document.getElementsByClassName('customize-ctrl');
 			for (let i = 0, l = ctrls.length; i < l; ++ i) {
@@ -416,7 +417,7 @@ var superStartOptions = {};
 	}
 
 	function buildThemeList() {
-		let list = $$('superstart-theme-list');
+		let list = $$('theme-list');
 		let currTheme = cfg.getConfig('theme');
 		let themes = JSON.parse(tm.getThemes());
 

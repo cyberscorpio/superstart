@@ -4,7 +4,7 @@
 <?xml-stylesheet href="chrome://superstart/content/style/options.css" type="text/css"?>
 <!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
 
-<dialog id="superstart-options"
+<dialog id="options"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         minwidth="480"
         dlgbuttons="accept,cancel"
@@ -13,7 +13,7 @@
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
 	<script type="application/x-javascript" src="chrome://superstart/content/js/options.js"/>
 
-	<tabbox flex="1" id="superstart-option-tabbox">
+	<tabbox flex="1" id="option-tabbox">
 		<tabs>
 			<tab label="&superstart.options.general;" />
 			<tab label="&superstart.ui.customize;" />
@@ -25,38 +25,38 @@
 				<vbox flex="1">
 					<groupbox>
 						<caption label="&superstart.options.sites.setup;" />
-						<checkbox id="superstart-load-in-blanktab" label="&superstart.options.load.in.blanktab;" />
-						<checkbox id="superstart-set-as-homepage" label="&superstart.options.set.as.homepage;" />
-						<checkbox id="superstart-sites-open-in-newtab" label="&superstart.options.sites.open.in.newtab;" />
+						<checkbox id="load-in-blanktab" label="&superstart.options.load.in.blanktab;" />
+						<checkbox id="set-as-homepage" label="&superstart.options.set.as.homepage;" />
+						<checkbox id="sites-open-in-newtab" label="&superstart.options.sites.open.in.newtab;" />
 					</groupbox>
 
 					<groupbox>
 						<caption label="&superstart.options.sites.displaysettings;" />
 						<hbox align="center">
-							<label control="superstart-sites-col" value="&superstart.options.sites.col;" />
+							<label control="sites-col" value="&superstart.options.sites.col;" />
 							<hbox pack="end" flex="1">
-								<menulist id="superstart-sites-col" minwidth="160">
-									<menupopup id="superstart-sites-col-popup">
+								<menulist id="sites-col" minwidth="160">
+									<menupopup id="sites-col-popup">
 									</menupopup>
 								</menulist>
 							</hbox>
 						</hbox>
-						<checkbox id="superstart-sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
-						<checkbox id="superstart-sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
+						<checkbox id="sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
+						<checkbox id="sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
 					</groupbox>
 
 					<groupbox>
 						<caption label="&superstart.options.navbar;" />
-						<checkbox id="superstart-show-navbar" label="&superstart.options.show.navbar;" />
-						<hbox>
-							<checkbox flex="1" class="navbar-item" id="superstart-show-recently-closed" label="&superstart.options.navbar.show.recently.closed;" />
-							<checkbox flex="1" class="navbar-item" id="superstart-show-add-site" label="&superstart.options.navbar.show.add.site;" />
-							<checkbox flex="1" class="navbar-item" id="superstart-show-themes" label="&superstart.options.navbar.show.themes;" />
-							<checkbox flex="1" class="navbar-item" id="superstart-show-todo" label="&superstart.options.navbar.show.todo;" />
+						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
+						<hbox id="navbar-item-wrapper">
+							<checkbox flex="1" class="navbar-item" id="show-recently-closed" label="&superstart.options.navbar.show.recently.closed;" />
+							<checkbox flex="1" class="navbar-item" id="show-add-site" label="&superstart.options.navbar.show.add.site;" />
+							<checkbox flex="1" class="navbar-item" id="show-themes" label="&superstart.options.navbar.show.themes;" />
+							<checkbox flex="1" class="navbar-item" id="show-todo" label="&superstart.options.navbar.show.todo;" />
 						</hbox>
 					</groupbox>
 
-						<checkbox id="superstart-show-buttons" label="&superstart.options.site.show.buttons;" />
+						<checkbox id="show-buttons" label="&superstart.options.site.show.buttons;" />
 
 					<hbox flex="1" pack="end">
 						<label value="&superstart.options.general.hint;" />
@@ -69,7 +69,7 @@
 			<tabpanel>
 				<vbox flex="1">
 					<hbox>
-						<checkbox id="superstart-use-customize" label="&superstart.ui.customize.use;" checked="true" />
+						<checkbox id="use-customize" label="&superstart.ui.customize.use;" checked="true" />
 						<hbox flex="1" pack="end">
 							<label value="&superstart.ui.customize.howto;" class="text-link" href="http://www.enjoyfreeware.org/superstart/customize" />
 						</hbox>
@@ -79,18 +79,18 @@
 						<hbox>
 							<hbox pack="center" width="256" height="144">
 								<vbox>
-									<!--<image id="superstart-customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />-->
-									<box id="superstart-customize-bg-image-wrapper">
-										<box id="superstart-customize-bg-image" class="customize-ctrl"></box>
+									<!--<image id="customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />-->
+									<box id="customize-bg-image-wrapper">
+										<box id="customize-bg-image" class="customize-ctrl"></box>
 									</box>
 								</vbox>
 							</hbox>
 							<hbox flex="1" pack="end">
 								<vbox>
-									<button label="&superstart.ui.select.image;" id="superstart-customize-select-image" class="customize-ctrl" />
-									<button label="&superstart.ui.clear.image;" id="superstart-customize-clear-image" class="customize-ctrl" />
+									<button label="&superstart.ui.select.image;" id="customize-select-image" class="customize-ctrl" />
+									<button label="&superstart.ui.clear.image;" id="customize-clear-image" class="customize-ctrl" />
 									<label value="&superstart.ui.background.repeat;" class="customize-ctrl" />
-									<menulist class="customize-ctrl" id="superstart-customize-bg-repeat">
+									<menulist class="customize-ctrl" id="customize-bg-repeat">
 										<menupopup>
 											<menuitem label="&superstart.ui.background.repeat.repeat;" />
 											<menuitem label="&superstart.ui.background.repeat.no.repeat;" />
@@ -100,7 +100,7 @@
 									</menulist>
 
 									<label value="&superstart.ui.background.size;" class="customize-ctrl" />
-									<menulist class="customize-ctrl" id="superstart-customize-bg-size">
+									<menulist class="customize-ctrl" id="customize-bg-size">
 										<menupopup>
 											<menuitem label="&superstart.ui.background.size.default;" />
 											<menuitem label="&superstart.ui.background.size.cover;" />
@@ -114,17 +114,17 @@
 					<groupbox>
 						<caption label="&superstart.ui.background.color;" />
 						<hbox>
-							<textbox id="superstart-customize-bg-color" class="customize-ctrl" />
-							<colorpicker id="superstart-customize-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="customize-ctrl" />
-							<button id="superstart-customize-bg-color-clear" label="&superstart.ui.background.color.clear;" class="customize-ctrl" />
+							<textbox id="customize-bg-color" class="customize-ctrl" />
+							<colorpicker id="customize-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="customize-ctrl" />
+							<button id="customize-bg-color-clear" label="&superstart.ui.background.color.clear;" class="customize-ctrl" />
 						</hbox>
 					</groupbox>
 					<groupbox>
 						<caption label="&superstart.ui.others;" />
 						<hbox>
-							<checkbox id="superstart-customize-transparent" label="&superstart.ui.transparent;" class="customize-ctrl" />
+							<checkbox id="customize-transparent" label="&superstart.ui.transparent;" class="customize-ctrl" />
 							<hbox pack="end" flex="1">
-								<button id="superstart-customize-advanced" label="&superstart.ui.customize.advanced;" class="customize-ctrl" />
+								<button id="customize-advanced" label="&superstart.ui.customize.advanced;" class="customize-ctrl" />
 							</hbox>
 						</hbox>
 					</groupbox>
@@ -135,7 +135,7 @@
 			<tabpanel>
 				<vbox flex="1">
 					<groupbox>
-						<caption id="superstart-version" label="SuperStart" />
+						<caption id="version" label="SuperStart" />
 						<hbox>
 							<label value="&superstart.options.author;:" />
 							<hbox flex="1" pack="end">

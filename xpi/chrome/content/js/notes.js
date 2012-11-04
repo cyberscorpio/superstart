@@ -44,12 +44,15 @@ window.addEventListener('unload', function() {
 }, false);
 
 function onTodoHide(evt, v) {
+	var onoff = $$('nbc-notes-onoff');
 	if (v) {
 		$.addClass($$('notes'), 'hidden');
-		$$('nbc-notes-onoff').setAttribute('title', getString('ssNotesOpen'));
+		$.removeClass(onoff, 'opened');
+		onoff.setAttribute('title', getString('ssNotesOpen'));
 	} else {
 		$.removeClass($$('notes'), 'hidden');
-		$$('nbc-notes-onoff').setAttribute('title', getString('ssNotesClose'));
+		$.addClass(onoff, 'opened');
+		onoff.setAttribute('title', getString('ssNotesClose'));
 	}
 }
 

@@ -5,7 +5,13 @@ body {
 }
 
 #navbar {
-	background-color: rgba(0,0,0,0.75);
+	background-color: rgba(0,0,0,0.85);
+}
+
+#nbb-recently-closed.opened,
+#nbc-themes-pointer.opened,
+#nbc-notes-onoff.opened {
+	background-color: #dd4b39;
 }
 
 .site > a > .snapshot,

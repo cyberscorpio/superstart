@@ -180,7 +180,6 @@ function updateSite(s, se, flag) {
 	}
 	if (updateAllFields || (flag & UPDATE_SNAPSHOT)) {
 		e = $(se, '.snapshot')[0];
-		// e.style.backgroundImage = 'url("' + s.thumbnail + '")';
 		setBackground(s, e);
 	}
 	if (updateAllFields || (flag & UPDATE_TITLE)) {
@@ -296,7 +295,6 @@ function createSiteElement(s) {
 	}
 
 	// create buttons
-	// var a = $(se, 'a .snapshot')[0];
 	for (var i = 0; i < buttons.length; ++ i) {
 		var b = document.createElement('div');
 		b.className = buttons[i] + ' button';
@@ -800,7 +798,6 @@ function onSiteSnapshotIndexChanged(evt, idxes) {
 	}
 
 	var snapshot = $(se, '.snapshot')[0];
-	// snapshot.style.backgroundImage = 'url("' + s.thumbnail + '")';
 	setBackground(s, snapshot);
 }
 
@@ -895,7 +892,7 @@ function onDblClick(e) {
 	if (t.tagName == 'HTML' || t.id == 'navbar') {
 		window.getSelection().removeAllRanges()
 		showAddSite();
-		return false; // TODO or body.onselectstart = function() {return false;}?
+		return false;
 	}
 }
 

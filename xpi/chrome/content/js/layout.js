@@ -93,7 +93,7 @@ var layout = (function() {
 		$.addClass(ss, 'notransition');
 		layout.layoutTopSites(true);
 
-		if($('.opened').length == 1) {
+		if($('#sites .opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 
@@ -106,7 +106,7 @@ var layout = (function() {
 	function onColChanged(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('.opened').length == 1) {
+		if($('#sites .opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
@@ -114,7 +114,7 @@ var layout = (function() {
 	function onSitesCompactChanged(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('.opened').length == 1) {
+		if($('#sites .opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
@@ -122,7 +122,7 @@ var layout = (function() {
 	function onTodoHide(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('.opened').length == 1) {
+		if($('#sites .opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}

@@ -38,67 +38,47 @@ a {
 
 #navbar {
 	height: 32px;
-	background-color: rgba(0,0,0,0.05);
+	background-color: rgba(0,0,0,0.25);
 }
 
-#nb-buttons li,
-#nb-commands li {
+.navbar li {
 	opacity: .5;
 	cursor: pointer;
 	margin: 0 0;
 	width: 48px;
 	height:32px;
-	background: rgba(0,0,0,0.25) center center no-repeat;
+	background: transparent center center no-repeat;
 }
 
-#nb-buttons li:hover,
-#nb-commands li:hover {
+.navbar li:hover {
 	opacity: 1;
 }
 
-#nb-commands li {
-	float: right;
-}
+#nb-commands li { float: right; }
+#nb-buttons li { float: left; }
 
-#nb-buttons li {
-	float: left;
-}
-
-#nb-buttons #nbb-add-site {
-	background-image: url(../images/site-add.png);
-}
-
-#nb-buttons #nbb-recently-closed {
-	background-image: url(../images/undo.png);
-}
-#nb-buttons #nbb-recently-closed.opened {
+#nbb-add-site { background-image: url(../images/site-add.png); }
+#nbb-recently-closed { background-image: url(../images/undo.png); }
+#nbc-notes-onoff { background-image: url(../images/notes-onoff.gif); }
+#nbc-themes-pointer { background-image: url(../images/themes.png); }
+#nbb-recently-closed.opened {
 	background-color: orange;
 	opacity: 1;
 }
-
-#nb-commands #nbc-notes-onoff {
-	background-image: url(../images/notes-onoff.gif);
-}
-
-#nb-commands #nbc-themes-pointer {
-	background-image: url(../images/themes.png);
+#nbc-themes-pointer.opened,
+#nbc-notes-onoff.opened {
+	opacity: 1;
 }
 
 
 #nb-themes {
 	position: absolute;
-	top: 40px;
+	top: 36px;
 	right: 20px;
 	background-color: transparent;
 	border: 5px solid rgba(0,0,0,0.25);
 	box-shadow: 10px 10px 15px rgba(0,0,0,0.75);
 }
-
-/*
-#nb-themes:hover p {
-	background-image: linear-gradient(#b1b1b1, #e7e7e7);
-}
-*/
 
 #nb-themes p {
 	background-image: linear-gradient(#e7e7e7, #b1b1b1);
@@ -111,7 +91,6 @@ a {
 	padding-left: .5rem;
 	cursor: default;
 	-moz-user-select: -moz-none;
-	z-index: 2;
 }
 
 #nb-themes ul {
@@ -193,8 +172,8 @@ body.use-background-effect #mask {
 
 .site {
 	position: absolute;
-	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .site a {
@@ -210,8 +189,8 @@ body.use-background-effect #mask {
 	background-size: 100% 100%;
 	background-color: rgba(0,0,0,0.05);
 	border: 1px solid rgba(0,0,0,.2);
-	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	opacity: 1;
 }
 
@@ -371,9 +350,9 @@ body.site-no-buttons .site .button {
 .site.folder .snapshot img {
 	position: absolute;
 	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 }
-
 
 
 /* drag */

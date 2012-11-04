@@ -115,9 +115,7 @@ function onUseCustomize(evt, use) {
 }
 
 function onUserStyleChanged(evt, url) {
-	// window.setTimeout(function() {
-		document.location.reload();
-	// }, 0);
+	document.location.reload();
 }
 
 function onClick(evt) {
@@ -160,11 +158,6 @@ function showThemes() {
 				var preview = document.createElement('div');
 				preview.appendChild(document.createTextNode(t.name));
 				$.addClass(preview, 'preview');
-				/*
-				for (var k in thumbnail) {
-					preview.style[k] = thumbnail[k];
-				}
-				*/
 
 				li.appendChild(preview);
 				if (t.name == curr) {
@@ -174,6 +167,7 @@ function showThemes() {
 			}
 		}
 		document.body.appendChild(tp);
+		$.addClass($$('nbc-themes-pointer'), 'opened');
 
 		window.addEventListener('mousedown', onMouseDown, true);
 	}
@@ -182,6 +176,7 @@ function showThemes() {
 function hideThemes() {
 	var tp = $$('nb-themes');
 	tp.parentNode.removeChild(tp);
+	$.removeClass($$('nbc-themes-pointer'), 'opened');
 }
 
 function onMouseDown(evt) {

@@ -31,6 +31,9 @@
 	background-color: transparent;
 	box-shadow: 2px 2px 2px black;
 }
+#customize-bg-image[disabled=true] {
+	filter: url("filters.svg#gray-effect");
+}
 
 #customize-bg-image:not([disabled=true]):hover {
 	-moz-transform: none;

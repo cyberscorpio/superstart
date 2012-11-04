@@ -79,7 +79,6 @@
 						<hbox>
 							<hbox pack="center" width="256" height="144">
 								<vbox>
-									<!--<image id="customize-bg-image" maxwidth="256" maxheight="144" class="customize-ctrl" />-->
 									<box id="customize-bg-image-wrapper">
 										<box id="customize-bg-image" class="customize-ctrl"></box>
 									</box>

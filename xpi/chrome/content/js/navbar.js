@@ -34,8 +34,6 @@ function init() {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
-
-	$.removeClass($$('navbar'), 'hidden');
 }
 
 function cleanup() {

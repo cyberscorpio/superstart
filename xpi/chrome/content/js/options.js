@@ -37,7 +37,14 @@ var superStartOptions = {};
 		'show-add-site' : 'navbar-add-site',
 		'show-themes' : 'navbar-themes',
 		'show-todo' : 'navbar-todo',
+
 		'show-buttons' : 'site-buttons',
+		'show-newtab' : 'site-buttons-newtab',
+		'show-refresh' : 'site-buttons-refresh',
+		'show-config' : 'site-buttons-config',
+		'show-remove' : 'site-buttons-remove',
+		'show-next-snapshot' : 'site-buttons-next-snapshot',
+
 		'use-customize' : 'use-customize'
 	};
 
@@ -81,6 +88,13 @@ var superStartOptions = {};
 
 				if (id == 'show-navbar' && !enabled) {
 					let items = $('.navbar-item');
+					for (let i = 0; i < items.length; ++ i) {
+						items[i].setAttribute('disabled', true);
+					}
+				}
+
+				if (id == 'show-buttons' && !enabled) {
+					let items = $('.buttons-item');
 					for (let i = 0; i < items.length; ++ i) {
 						items[i].setAttribute('disabled', true);
 					}
@@ -172,6 +186,14 @@ var superStartOptions = {};
 		if (id == 'show-navbar') {
 			let enabled = cb.hasAttribute('checked');
 			let items = $('.navbar-item');
+			for (let i = 0; i < items.length; ++ i) {
+				items[i].setAttribute('disabled', !enabled);
+			}
+		}
+
+		if (id == 'show-buttons') {
+			let enabled = cb.hasAttribute('checked');
+			let items = $('.buttons-item');
 			for (let i = 0; i < items.length; ++ i) {
 				items[i].setAttribute('disabled', !enabled);
 			}

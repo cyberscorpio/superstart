@@ -49,12 +49,20 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'sites-use-background-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
+
 		'navbar': {'key': 'navbar'},
 		'navbar-recently-closed': {'key': 'navbar.recently.closed'},
 		'navbar-add-site': {'key': 'navbar.add.site'},
 		'navbar-themes': {'key': 'navbar.themes'},
 		'navbar-todo': {'key': 'navbar.todo'},
-		'site-buttons': {'key': 'site.show.buttons'},
+
+		'site-buttons': {'key': 'site.buttons'},
+		'site-buttons-newtab': {'key': 'site.buttons.newtab'},
+		'site-buttons-refresh': {'key': 'site.buttons.refresh'},
+		'site-buttons-config': {'key': 'site.buttons.config'},
+		'site-buttons-remove': {'key': 'site.buttons.remove'},
+		'site-buttons-next-snapshot': {'key': 'site.buttons.next.snapshot'},
+
 		'use-customize': {'key': 'use.customize'}
 	};
 	for (let k in boolCfgs) {

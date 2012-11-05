@@ -45,9 +45,8 @@
 						<checkbox id="sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
 					</groupbox>
 
-					<groupbox>
+					<groupbox style="display: none">
 						<caption label="&superstart.options.navbar;" />
-						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
 						<hbox id="navbar-item-wrapper">
 							<checkbox flex="1" class="navbar-item" id="show-recently-closed" label="&superstart.options.navbar.show.recently.closed;" />
 							<checkbox flex="1" class="navbar-item" id="show-add-site" label="&superstart.options.navbar.show.add.site;" />
@@ -56,7 +55,18 @@
 						</hbox>
 					</groupbox>
 
-						<checkbox id="show-buttons" label="&superstart.options.site.show.buttons;" />
+					<groupbox>
+						<caption label="&superstart.options.show.elements;" />
+						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
+						<checkbox id="show-buttons" label="&superstart.options.site.buttons.show.buttons;" />
+						<hbox id="buttons-wrapper">
+							<checkbox flex="1" class="buttons-item" id="show-newtab" label="&superstart.options.site.buttons.show.newtab;" />
+							<checkbox flex="1" class="buttons-item" id="show-refresh" label="&superstart.options.site.buttons.show.refresh;" />
+							<checkbox flex="1" class="buttons-item" id="show-config" label="&superstart.options.site.buttons.show.config;" />
+							<checkbox flex="1" class="buttons-item" id="show-remove" label="&superstart.options.site.buttons.show.remove;" />
+							<checkbox flex="1" class="buttons-item" id="show-next-snapshot" label="&superstart.options.site.buttons.show.next.snapshot;" />
+						</hbox>
+					</groupbox>
 
 					<hbox flex="1" pack="end">
 						<label value="&superstart.options.general.hint;" />

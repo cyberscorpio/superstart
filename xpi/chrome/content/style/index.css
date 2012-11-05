@@ -198,9 +198,16 @@ body.use-background-effect #mask {
 	border-color: rgba(0,0,0,.3);
 }
 
-body.site-no-buttons .site .button {
+body.site-no-buttons .site .button,
+body.site-no-newtab .site .newtab,
+body.site-no-newtab .site .thistab,
+body.site-no-refresh .site .refresh,
+body.site-no-config .site .edit,
+body.site-no-remove .site .remove,
+body.site-no-next-snapshot .site .next-snapshot {
 	display: none !important;
 }
+
 
 .site .button {
 	width: 24px;

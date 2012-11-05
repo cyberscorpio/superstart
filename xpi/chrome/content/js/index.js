@@ -8,8 +8,22 @@ var cfg = ssObj.getService(Ci.ssIConfig);
 ssObj = undefined;
  
 var sEvts = {
-	'sites-use-background-effect': onUseBgEffectChanged,
-	'site-buttons': onShowSiteButtons
+	'sites-use-background-effect': onShowHide,
+	'site-buttons': onShowHide,
+	'site-buttons-newtab': onShowHide,
+	'site-buttons-refresh': onShowHide,
+	'site-buttons-config': onShowHide,
+	'site-buttons-remove': onShowHide,
+	'site-buttons-next-snapshot': onShowHide
+};
+var evt2class = {
+	'sites-use-background-effect': 'use-background-effect',
+	'site-buttons': 'site-no-buttons',
+	'site-buttons-newtab': 'site-no-newtab',
+	'site-buttons-refresh':'site-no-refresh',
+	'site-buttons-config': 'site-no-config',
+	'site-buttons-remove': 'site-no-remove',
+	'site-buttons-next-snapshot': 'site-no-next-snapshot'
 };
 var wEvts = {
 	'scroll': onScroll
@@ -37,9 +51,10 @@ window.addEventListener('unload', function() {
 
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	for (var k in sEvts) {
-		ob.subscribe(k, sEvts[k]);
-		sEvts[k]();
+	for (var evt in sEvts) {
+		var fn = sEvts[evt];
+		ob.subscribe(evt, fn);
+		fn(evt);
 	}
 	for (var k in dEvts) {
 		document.addEventListener(k, dEvts[k], false);
@@ -47,21 +62,16 @@ window.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 // event handler
-function onUseBgEffectChanged(evt, value) {
-	var useBgEffect = cfg.getConfig('sites-use-background-effect');
-	if (useBgEffect) {
-		$.addClass(document.body, 'use-background-effect');
-	} else {
-		$.removeClass(document.body, 'use-background-effect');
+function onShowHide(evt, value) {
+	var show = cfg.getConfig(evt);
+	if (evt == 'sites-use-background-effect') {
+		show = !show;
 	}
-}
 
-function onShowSiteButtons(evt, value) {
-	var showSiteButtons = cfg.getConfig('site-buttons');
-	if (showSiteButtons) {
-		$.removeClass(document.body, 'site-no-buttons');
+	if (show) {
+		$.removeClass(document.body, evt2class[evt]);
 	} else {
-		$.addClass(document.body, 'site-no-buttons');
+		$.addClass(document.body, evt2class[evt]);
 	}
 }
 

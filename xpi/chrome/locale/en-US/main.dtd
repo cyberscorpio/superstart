@@ -38,7 +38,14 @@
 <!ENTITY superstart.options.navbar.show.add.site "Add new site">
 <!ENTITY superstart.options.navbar.show.themes "Themes">
 <!ENTITY superstart.options.navbar.show.todo "Notes">
-<!ENTITY superstart.options.site.show.buttons "Show buttons on thumbnails">
+<!ENTITY superstart.options.show.elements "Show elements...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Show buttons">
+<!ENTITY superstart.options.site.buttons.show.newtab "Newtab">
+<!ENTITY superstart.options.site.buttons.show.refresh "Refresh">
+<!ENTITY superstart.options.site.buttons.show.config "Config">
+<!ENTITY superstart.options.site.buttons.show.remove "Remote">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Next Snapshot">
+
 <!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">
 
 <!ENTITY superstart.ui.customize "UI Customize">

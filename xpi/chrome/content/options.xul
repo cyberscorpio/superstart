@@ -89,17 +89,17 @@
 						<hbox>
 							<hbox pack="center" width="256" height="144">
 								<vbox>
-									<box id="customize-bg-image-wrapper">
-										<box id="customize-bg-image" class="customize-ctrl"></box>
+									<box id="cstm-bg-image-wrapper">
+										<box id="cstm-bg-image" class="cstm-ctrl"></box>
 									</box>
 								</vbox>
 							</hbox>
 							<hbox flex="1" pack="end">
 								<vbox>
-									<button label="&superstart.ui.select.image;" id="customize-select-image" class="customize-ctrl" />
-									<button label="&superstart.ui.clear.image;" id="customize-clear-image" class="customize-ctrl" />
-									<label value="&superstart.ui.background.repeat;" class="customize-ctrl" />
-									<menulist class="customize-ctrl" id="customize-bg-repeat">
+									<button label="&superstart.ui.select.image;" id="cstm-select-image" class="cstm-ctrl" />
+									<button label="&superstart.ui.clear.image;" id="cstm-clear-image" class="cstm-ctrl" />
+									<label value="&superstart.ui.background.repeat;" class="cstm-ctrl" />
+									<menulist class="cstm-ctrl" id="cstm-bg-repeat">
 										<menupopup>
 											<menuitem label="&superstart.ui.background.repeat.repeat;" />
 											<menuitem label="&superstart.ui.background.repeat.no.repeat;" />
@@ -108,8 +108,8 @@
 										</menupopup>
 									</menulist>
 
-									<label value="&superstart.ui.background.size;" class="customize-ctrl" />
-									<menulist class="customize-ctrl" id="customize-bg-size">
+									<label value="&superstart.ui.background.size;" class="cstm-ctrl" />
+									<menulist class="cstm-ctrl" id="cstm-bg-size">
 										<menupopup>
 											<menuitem label="&superstart.ui.background.size.default;" />
 											<menuitem label="&superstart.ui.background.size.cover;" />
@@ -121,19 +121,36 @@
 						</hbox>
 					</groupbox>
 					<groupbox>
-						<caption label="&superstart.ui.background.color;" />
-						<hbox>
-							<textbox id="customize-bg-color" class="customize-ctrl" />
-							<colorpicker id="customize-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="customize-ctrl" />
-							<button id="customize-bg-color-clear" label="&superstart.ui.background.color.clear;" class="customize-ctrl" />
-						</hbox>
+						<caption label="&superstart.ui.colors;" />
+						<vbox>
+							<hbox>
+								<label value="&superstart.ui.background.color;" class="cstm-ctrl" />
+								<hbox flex="1" pack="end">
+									<textbox id="cstm-bg-color" class="cstm-ctrl" />
+									<colorpicker id="cstm-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="cstm-ctrl" />
+									<button id="cstm-bg-color-clear" label="&superstart.ui.background.color.clear;" class="cstm-ctrl" />
+								</hbox>
+							</hbox>
+							<hbox>
+								<checkbox id="cstm-text-color" class="cstm-ctrl" label="Enable text color" />
+								<hbox flex="1" pack="end">
+									<radiogroup class="cstm-ctrl">
+										<hbox>
+										<radio label="black" class="cstm-ctrl" />
+										<radio label="white" class="cstm-ctrl" />
+										</hbox>
+									</radiogroup>
+									<checkbox id="cstm-text-useshadow" class="cstm-ctrl" label="Use text shadow" />
+								</hbox>
+							</hbox>
+						</vbox>
 					</groupbox>
 					<groupbox>
 						<caption label="&superstart.ui.others;" />
 						<hbox>
-							<checkbox id="customize-transparent" label="&superstart.ui.transparent;" class="customize-ctrl" />
+							<checkbox id="cstm-transparent" label="&superstart.ui.transparent;" class="cstm-ctrl" />
 							<hbox pack="end" flex="1">
-								<button id="customize-advanced" label="&superstart.ui.customize.advanced;" class="customize-ctrl" />
+								<button id="cstm-advanced" label="&superstart.ui.customize.advanced;" class="cstm-ctrl" />
 							</hbox>
 						</hbox>
 					</groupbox>

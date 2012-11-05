@@ -49,8 +49,8 @@ var superStartOptions = {};
 	};
 
 	let buttonMap = {
-		'customize-select-image': selectImage,
-		'customize-clear-image': clearImage
+		'cstm-select-image': selectImage,
+		'cstm-clear-image': clearImage
 	};
 
 	let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
@@ -248,15 +248,23 @@ var superStartOptions = {};
 	let usCss = '';
 
 	function getCstmElem(id) {
-		return $$('customize-' + id);
+		return $$('cstm-' + id);
 	}
 
 	function initCustomize() {
 		let cb = $$('use-customize');
 		cb.addEventListener('CheckboxStateChange', function() {
-			let ctrls = document.getElementsByClassName('customize-ctrl');
+			let ctrls = document.getElementsByClassName('cstm-ctrl');
 			for (let i = 0, l = ctrls.length; i < l; ++ i) {
-				ctrls[i].setAttribute('disabled', !cb.checked);
+				let ctrl = ctrls[i];
+				if (ctrl.getAttribute('focused')) {
+					ctrl.blur();
+				}
+				if (cb.checked) {
+					ctrl.removeAttribute('disabled');
+				} else {
+					ctrl.setAttribute('disabled', true);
+				}
 			}
 		}, false);
 
@@ -355,16 +363,16 @@ var superStartOptions = {};
 		getCstmElem('bg-size').addEventListener('command', updateBgSize, false);
 	}
 	function initBackgroundColor(color) {
-		if (color) {
-			let input = getCstmElem('bg-color');
-			input.value = color;
-		}
+		let input = getCstmElem('bg-color');
 		let picker = getCstmElem('bg-color-picker');
-		picker.color = color;
+		let clear = getCstmElem('bg-color-clear');
+		if (color) {
+			input.value = color;
+			picker.color = color;
+		}
 		picker.onchange = function() {
 			getCstmElem('bg-color').value = this.color;
 		}
-		let clear = getCstmElem('bg-color-clear');
 		clear.addEventListener('command', function() {
 			getCstmElem('bg-color').value = getCstmElem('bg-color-picker').color = '';
 		}, false);

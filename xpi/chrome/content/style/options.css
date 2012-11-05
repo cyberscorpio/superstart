@@ -12,7 +12,7 @@
 	margin-left: 2em;
 }
 
-#customize-bg-image-wrapper {
+#cstm-bg-image-wrapper {
 	position: relative;
 	margin: 10px;
 	width: 256px;
@@ -20,7 +20,7 @@
 	overflow: hidden;
 }
 
-#customize-bg-image {
+#cstm-bg-image {
 	position: absolute;
 	-moz-transform: scale(0.2, 0.2);
 	-moz-transform-origin: left top;
@@ -32,11 +32,11 @@
 	background-color: transparent;
 	box-shadow: 2px 2px 2px black;
 }
-#customize-bg-image[disabled=true] {
+#cstm-bg-image[disabled=true] {
 	filter: url("filters.svg#gray-effect");
 }
 
-#customize-bg-image:not([disabled=true]):hover {
+#cstm-bg-image:not([disabled=true]):hover {
 	-moz-transform: none;
 	cursor: move;
 }

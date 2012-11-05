@@ -43,7 +43,7 @@
 <!ENTITY superstart.options.site.buttons.show.newtab "Newtab">
 <!ENTITY superstart.options.site.buttons.show.refresh "Refresh">
 <!ENTITY superstart.options.site.buttons.show.config "Config">
-<!ENTITY superstart.options.site.buttons.show.remove "Remote">
+<!ENTITY superstart.options.site.buttons.show.remove "Remove">
 <!ENTITY superstart.options.site.buttons.show.next.snapshot "Next Snapshot">
 
 <!ENTITY superstart.options.general.hint "* settings in this tab will take effect immediately">

@@ -1,0 +1,81 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "输入网址">
+<!ENTITY superstart.dialog.url.url "在这里输入网址">
+<!ENTITY superstart.dialog.url.name "网站名称 (可选)">
+<!ENTITY superstart.dialog.url.snapshot.setting "缩略图设置">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "使用左上角">
+<!ENTITY superstart.dialog.url.snapshot.entire "使用整个窗口">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "使用火狐自带的缩略图服务 (对某些网站也许不好使)">
+<!ENTITY superstart.dialog.url.snapshot.customize "使用自定义图片">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "设置群组名称">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "增加一个新网址">
+<!ENTITY superstart.menu.site.refreshall "刷新所有">
+<!ENTITY superstart.menu.options "选项">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add "添加到 Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "选项">
+
+<!ENTITY superstart.options.general "通用">
+<!ENTITY superstart.options.sites.setup "设置">
+<!ENTITY superstart.options.load.in.blanktab "在空白页中加载">
+<!ENTITY superstart.options.set.as.homepage "把 Super Start 设为主页">
+<!ENTITY superstart.options.sites.open.in.newtab "默认在新 tab 打开链接">
+<!ENTITY superstart.options.sites.displaysettings "显示设置">
+<!ENTITY superstart.options.sites.use.compactmode "使用紧凑模式">
+<!ENTITY superstart.options.sites.use.background.effect "打开群组时，使用背景特效 (也许会慢)">
+<!ENTITY superstart.options.sites.col "每行多少个网址:">
+
+<!ENTITY superstart.options.navbar "导航栏">
+<!ENTITY superstart.options.show.navbar "显示导航栏">
+<!ENTITY superstart.options.navbar.show.recently.closed "最近关闭的网页">
+<!ENTITY superstart.options.navbar.show.add.site "添加一个新网址">
+<!ENTITY superstart.options.navbar.show.themes "主题">
+<!ENTITY superstart.options.navbar.show.todo "待办事宜">
+<!ENTITY superstart.options.show.elements "显示哪些元素…">
+<!ENTITY superstart.options.site.buttons.show.buttons "显示按钮">
+<!ENTITY superstart.options.site.buttons.show.newtab "新 tab 打开">
+<!ENTITY superstart.options.site.buttons.show.refresh "刷新">
+<!ENTITY superstart.options.site.buttons.show.config "设置">
+<!ENTITY superstart.options.site.buttons.show.remove "移除">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "下一个缩略图">
+
+<!ENTITY superstart.options.general.hint "* 本页全部设置都不需确认，立即生效">
+
+<!ENTITY superstart.ui.customize "界面定制">
+<!ENTITY superstart.ui.customize.use "使用界面定制功能">
+<!ENTITY superstart.ui.customize.howto "(帮助) 怎样定制？">
+<!ENTITY superstart.ui.background.image "背景图片">
+<!ENTITY superstart.ui.select.image "选择图片">
+<!ENTITY superstart.ui.clear.image "清除图片">
+<!ENTITY superstart.ui.background.repeat "是否重复">
+<!ENTITY superstart.ui.background.repeat.repeat "重复 (默认)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "不重复">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "水平方向重复">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "垂直方向重复">
+<!ENTITY superstart.ui.background.size "背景大小">
+<!ENTITY superstart.ui.background.size.default "默认">
+<!ENTITY superstart.ui.background.size.cover "缩放到合适大小 (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "缩放到合适大小 (CSS:contain)">
+<!ENTITY superstart.ui.colors "颜色">
+<!ENTITY superstart.ui.background.color.enable "定制背景颜色">
+<!ENTITY superstart.ui.background.color.select "选择颜色">
+<!ENTITY superstart.ui.text.color "文本">
+<!ENTITY superstart.ui.text.color.enable "定制文本颜色">
+<!ENTITY superstart.ui.text.color.black "黑色字体">
+<!ENTITY superstart.ui.text.color.white "白色字体">
+<!ENTITY superstart.ui.text.color.use.shadow "使用阴影效果">
+<!ENTITY superstart.ui.others "其他">
+<!ENTITY superstart.ui.transparent "使用半透明效果 (也许会慢)">
+<!ENTITY superstart.ui.customize.advanced "高级">
+<!ENTITY superstart.ui.css.edit.hint "请在此直接输入 CSS:">
+
+<!ENTITY superstart.options.about "关于">
+<!ENTITY superstart.options.author "作者">
+<!ENTITY superstart.options.help "帮助">

@@ -319,7 +319,7 @@ return {
 			elem = null;
 	
 			layout.leaveDraggingMode();
-			if ($('.opened').length == 0) {
+			if ($('.folder.opened').length == 0) {
 				layout.layoutTopSites();
 			} else {
 				layout.placeSitesInFolderArea();

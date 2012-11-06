@@ -565,7 +565,7 @@ function refreshSite() {
 	return false;
 }
 
-function removeSite() {
+function removeSite(evt) {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
@@ -573,7 +573,7 @@ function removeSite() {
 		if (s) {
 			var str = getString('ssSiteRemovePrompt');
 			str = str.replace(/%title%/g, s.title).replace(/%url%/g, s.url);
-			if (confirm(str)) {
+			if (evt.ctrlKey || evt.metaKey || confirm(str)) {
 				sm.removeSite(g, i);
 			}
 		}
@@ -635,7 +635,7 @@ function onSiteRemoved(evt, idxes) {
 	if (se) {
 		if (se) {
 			se.parentNode.removeChild(se);
-			if($('.opened').length == 1) {
+			if($('.folder.opened').length == 1) {
 				layout.placeSitesInFolderArea();
 			} else {
 				layout.layoutTopSites(true);

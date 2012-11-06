@@ -124,23 +124,22 @@
 						<caption label="&superstart.ui.colors;" />
 						<vbox>
 							<hbox>
-								<label value="&superstart.ui.background.color;" class="cstm-ctrl" />
-								<hbox flex="1" pack="end">
+								<checkbox id="use-bg-color" label="&superstart.ui.background.color.enable;" class="cstm-ctrl" />
+								<hbox flex="1" pack="end" class="bg-color">
 									<textbox id="cstm-bg-color" class="cstm-ctrl" />
 									<colorpicker id="cstm-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="cstm-ctrl" />
-									<button id="cstm-bg-color-clear" label="&superstart.ui.background.color.clear;" class="cstm-ctrl" />
 								</hbox>
 							</hbox>
 							<hbox>
-								<checkbox id="cstm-text-color" class="cstm-ctrl" label="Enable text color" />
+								<checkbox id="use-text-color" class="cstm-ctrl" label="&superstart.ui.text.color.enable;" />
 								<hbox flex="1" pack="end">
 									<radiogroup class="cstm-ctrl">
 										<hbox>
-										<radio label="black" class="cstm-ctrl" />
-										<radio label="white" class="cstm-ctrl" />
+											<radio label="&superstart.ui.text.color.black;" class="cstm-ctrl text-color" />
+											<radio label="&superstart.ui.text.color.white;" class="cstm-ctrl text-color" />
 										</hbox>
 									</radiogroup>
-									<checkbox id="cstm-text-useshadow" class="cstm-ctrl" label="Use text shadow" />
+									<checkbox id="cstm-text-useshadow" class="cstm-ctrl text-color" label="&superstart.ui.text.color.use.shadow;" />
 								</hbox>
 							</hbox>
 						</vbox>

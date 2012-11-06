@@ -93,7 +93,7 @@ var layout = (function() {
 		$.addClass(ss, 'notransition');
 		layout.layoutTopSites(true);
 
-		if($('#sites .opened').length == 1) {
+		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 
@@ -106,7 +106,7 @@ var layout = (function() {
 	function onColChanged(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('#sites .opened').length == 1) {
+		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
@@ -114,7 +114,7 @@ var layout = (function() {
 	function onSitesCompactChanged(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('#sites .opened').length == 1) {
+		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
@@ -122,7 +122,7 @@ var layout = (function() {
 	function onTodoHide(evt, v) {
 		calcLayout();
 		layoutTopSites();
-		if($('#sites .opened').length == 1) {
+		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
@@ -218,7 +218,7 @@ var layout = (function() {
 
 		var height = placeSitesInFolderArea();
 
-		var se = $('.opened');
+		var se = $('.folder.opened');
 		assert(se.length == 1, 'Only 1 folder can be opened, but we have ' + se.length);
 		se = se[0];
 		var top = $.offsetTop(se) + parseInt(se.style.height);

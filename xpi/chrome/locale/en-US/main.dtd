@@ -64,9 +64,13 @@
 <!ENTITY superstart.ui.background.size.cover "Scale to fit (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Scale to fit (CSS:contain)">
 <!ENTITY superstart.ui.colors "Colors">
-<!ENTITY superstart.ui.background.color "Background">
+<!ENTITY superstart.ui.background.color.enable "Enable background color">
 <!ENTITY superstart.ui.background.color.select "Select Color">
-<!ENTITY superstart.ui.background.color.clear "Clear Color">
+<!ENTITY superstart.ui.text.color "Text">
+<!ENTITY superstart.ui.text.color.enable "Enable text color">
+<!ENTITY superstart.ui.text.color.black "Black">
+<!ENTITY superstart.ui.text.color.white "White">
+<!ENTITY superstart.ui.text.color.use.shadow "Use shadow">
 <!ENTITY superstart.ui.others "Others">
 <!ENTITY superstart.ui.transparent "Transparent (maybe slow)">
 <!ENTITY superstart.ui.customize.advanced "Advanced">

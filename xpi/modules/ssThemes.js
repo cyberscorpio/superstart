@@ -158,7 +158,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				loadTheme(themeDir, builtin);
 			}
 		} catch (e) {
-			// logger.logStringMessage('*** Theme exception: ' + e + ' *** (' + dir.path + ')');
 		}
 	}
 
@@ -267,8 +266,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	function getCssRule(selector, data) {
 		if (selector.charAt(0) == '+') {
-			if (selector == '+transparent') {
+			switch(selector) {
+			case '+transparent':
 				return getTranslateCss();
+			case '+bg-color':
+				return getBgColor(data);
+			case '+text-color':
+				return getTextColor(data);
 			}
 		} else {
 			let css = selector + ' {\n';
@@ -294,10 +298,42 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)'};
 
 		for (let k in obj) {
-			let v = obj[k];
-			css += getCssRule(k, v);
+			css += getCssRule(k, obj[k]);
 		}
 		return css;
+	}
+
+	function getBgColor(data) {
+		if (!data.enabled || data.color == null) {
+			return '';
+		} else {
+			return 'body { background-color: ' + data.color + ';}\n';
+		}
+	}
+
+	function getTextColor(data) {
+		if (!data.enabled) {
+			return '';
+		} else {
+			let css = '';
+			if (data.color == 0) { // black
+				css += '#sites .site .title, #notes-list li { color: black;';
+				if (data.useShadow) {
+					css += ' text-shadow: 1px 0 white, 0 1px white, 1px 1px white, -1px 0 white, 0 -1px white, 1px -1px white, -1px 1px white;';
+				} else {
+					css += ' text-shadow: none;';
+				}
+			} else {
+				css += '#sites .site .title, #notes-list li { color: white;';
+				if (data.useShadow) {
+					css += ' text-shadow: 1px 0 black, 0 1px black, 1px 1px black, -1px 0 black, 0 -1px black, 1px -1px black, -1px 1px black;';
+				} else {
+					css += ' text-shadow: none;';
+				}
+			}
+			css += '}\n';
+			return css;
+		}
 	}
 
 	function processUsCss(css) {

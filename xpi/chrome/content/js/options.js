@@ -265,8 +265,8 @@ var superStartOptions = {};
 
 	function initCustomize() {
 		let cb = $$('use-customize');
-		cb.addEventListener('CheckboxStateChange', function() {
-			let checked = cb.checked;
+		cb.addEventListener('CheckboxStateChange', function(evt) {
+			let checked = evt.target.checked;
 			let ctrls = document.getElementsByClassName('cstm-ctrl');
 			for (let i = 0, l = ctrls.length; i < l; ++ i) {
 				let ctrl = ctrls[i];
@@ -284,22 +284,29 @@ var superStartOptions = {};
 			cb.checked = false;
 		}
 
-		cb = $$('use-text-color');
-		cb.addEventListener('CheckboxStateChange', function() {
-			let checked = cb.checked;
-			hideElements(!checked, 'text-color');
-		}, false);
-		cb = $$('use-bg-color');
-		cb.addEventListener('CheckboxStateChange', function() {
-			let checked = cb.checked;
-			hideElements(!checked, 'bg-color');
-		}, false);
-
-
-
 		let cstm = JSON.parse(tm.getUsData());
 		usCss = cstm['css'] || '';
 		let body = cstm['body'] || {};
+
+		cb = $$('use-bg-color');
+		cb.addEventListener('CheckboxStateChange', function(evt) {
+			let checked = evt.target.checked;
+			hideElements(!checked, 'bg-color');
+		}, false);
+		if (cstm['+bg-color'] == null || !cstm['+bg-color']['enabled']) {
+			cb.checked = false;
+		}
+		initBackgroundColor(cstm);
+
+		cb = $$('use-text-color');
+		cb.addEventListener('CheckboxStateChange', function(evt) {
+			let checked = evt.target.checked;
+			hideElements(!checked, 'text-color');
+		}, false);
+		if (cstm['+text-color'] == null || !cstm['+text-color']['enabled']) {
+			cb.checked = false;
+		}
+		initTextColor(cstm);
 
 		let bgImg = getCstmElem('bg-image');
 		if (body['background-image'] && body['background-image'] != 'none') {
@@ -311,7 +318,6 @@ var superStartOptions = {};
 
 		initBackgroundRepeat(body['background-repeat']);
 		initBackgroundSize(body['background-size']);
-		initBackgroundColor(body['background-color']);
 
 		let transparent = cstm['+transparent'] || false;
 		if (transparent) {
@@ -348,13 +354,21 @@ var superStartOptions = {};
 				cstm['body']['background-size'] = size;
 			}
 		}
+		
+		let bgColor = {};
+		bgColor['enabled'] = $$('use-bg-color').checked == true;
 		let color = getCstmElem('bg-color').value;
 		if (color != '') {
-			cstm['body']['background-color'] = color;
-			if (bgi == '') {
-				cstm['body']['background-image'] = 'none';
-			}
+			bgColor['color'] = color;
 		}
+		cstm['+bg-color'] = bgColor;
+
+		let textColor = {};
+		textColor['enabled'] = $$('use-text-color').checked == true;
+		textColor['color'] = getCstmElem('text-color').selectedIndex;
+		textColor['useShadow'] = getCstmElem('text-shadow').checked == true;
+		cstm['+text-color'] = textColor;
+
 		if (getCstmElem('transparent').checked == true) {
 			cstm['+transparent'] = true;
 		}
@@ -387,15 +401,26 @@ var superStartOptions = {};
 		updateBgSize();
 		getCstmElem('bg-size').addEventListener('command', updateBgSize, false);
 	}
-	function initBackgroundColor(color) {
+	function initBackgroundColor(cstm) {
 		let input = getCstmElem('bg-color');
 		let picker = getCstmElem('bg-color-picker');
-		if (color) {
+		if (cstm['+bg-color'] && cstm['+bg-color']['color']) {
+			let color = cstm['+bg-color']['color'];
 			input.value = color;
 			picker.color = color;
 		}
 		picker.onchange = function() {
 			getCstmElem('bg-color').value = this.color;
+		}
+	}
+	function initTextColor(cstm) {
+		if (cstm['+text-color'] && cstm['+text-color']['color'] != 0) {
+			getCstmElem('text-color').selectedIndex = 1;
+		} else {
+			getCstmElem('text-color').selectedIndex = 0;
+		}
+		if (cstm['+text-color'] && cstm['+text-color']['useShadow']) {
+			getCstmElem('text-shadow').checked = true;
 		}
 	}
 

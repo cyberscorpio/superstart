@@ -1,0 +1,8 @@
+{
+	"name": "Basic",
+	"css": "basic.css",
+	"thumbnail": {
+		"backgroundColor": "white",
+		"color": "black"
+	}
+}

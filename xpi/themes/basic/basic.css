@@ -1,0 +1,13 @@
+
+body {
+	background: white;
+}
+
+.site.folder > a > .snapshot {
+	background-color: gray;
+}
+
+#sites .site .title, #notes-list li {
+	color: black;
+}
+

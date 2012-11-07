@@ -1,7 +1,7 @@
 ﻿--- translation ---
 Hungarian:    Vígh Miklós (vighmiki {at} gmail.com)
 Polish:       waldi (waldek153 {at} gmail.com) and Zdzislaw Wasilewski (wasylek11 {at} gmail.com)
-German:       incarus6 (incarus6 {at} googlemail.com) and marius.david.wieschollek {at} freenet.de
+German:       incarus6 (incarus6 {at} googlemail.com) and marius.david.wieschollek {at} freenet.de and cyj
 Russian:      niko2040belich (niko2040belich {at} gmail.com)
 French:       Michel Veigh (veigh.m {at} gmail.com)
 Ukrainian:    Богдан Дранчук (b.dranchuk {at} gmail.com) and Сергей Котик (sergcat83 {at} gmail.com)

@@ -1,0 +1,81 @@
+﻿<!-- input url -->
+<!ENTITY superstart.dialog.url.title "URL eingeben">
+<!ENTITY superstart.dialog.url.url "URL hier eingeben">
+<!ENTITY superstart.dialog.url.name "Seitenname (optional)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Vorschau-Einstellung">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Linke &amp; obere Ecke">
+<!ENTITY superstart.dialog.url.snapshot.entire "Gesamtes Fenster">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefoxs Thumbnail-Dienst benutzen (möglicherweiße auf manchen Seiten nicht verfügbar)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Bild anpassen">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Gruppenname einstellen">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Neue Seite hinzufügen">
+<!ENTITY superstart.menu.site.refreshall "Alle erneuern">
+<!ENTITY superstart.menu.options "Optionen">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add "Zu Super Start hinzufügen">
+
+<!-- options -->
+<!ENTITY superstart.options "Optionen">
+
+<!ENTITY superstart.options.general "Allgemein">
+<!ENTITY superstart.options.sites.setup "Einrichtung">
+<!ENTITY superstart.options.load.in.blanktab "In leerer Seite laden">
+<!ENTITY superstart.options.set.as.homepage "Super Start als Startseite einstellen">
+<!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuen Tab öffnen">
+<!ENTITY superstart.options.sites.displaysettings "Einstellungen anzeigen">
+<!ENTITY superstart.options.sites.use.compactmode "Kompakten Modus verwenden">
+<!ENTITY superstart.options.sites.use.background.effect "Hintergrundeffekt verwenden (könnte langsam sein)">
+<!ENTITY superstart.options.sites.col "Wie viele Seiten in einer Reihe?:">
+
+<!ENTITY superstart.options.navbar "Navbar">
+<!ENTITY superstart.options.show.navbar "Navbar anzeigen">
+<!ENTITY superstart.options.navbar.show.recently.closed "Kürzlich geschlossen">
+<!ENTITY superstart.options.navbar.show.add.site "Neue Seite hinzufügen">
+<!ENTITY superstart.options.navbar.show.themes "Themes">
+<!ENTITY superstart.options.navbar.show.todo "Notizen">
+<!ENTITY superstart.options.show.elements "Elemente anzeigen...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Buttons anzeigen">
+<!ENTITY superstart.options.site.buttons.show.newtab "Newtab">
+<!ENTITY superstart.options.site.buttons.show.refresh "Erneuern">
+<!ENTITY superstart.options.site.buttons.show.config "Konfigurieren">
+<!ENTITY superstart.options.site.buttons.show.remove "Entfernen">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Nächster Snapshot">
+
+<!ENTITY superstart.options.general.hint "* Einstellungen in diesem Tab werden sofort übernommen">
+
+<!ENTITY superstart.ui.customize "UI anpassen">
+<!ENTITY superstart.ui.customize.use "Anpassung aktivieren">
+<!ENTITY superstart.ui.customize.howto "(Hilfe) Wie anpassen?">
+<!ENTITY superstart.ui.background.image "Hintergrundbild">
+<!ENTITY superstart.ui.select.image "Bild auswählen">
+<!ENTITY superstart.ui.clear.image "Bild leeren">
+<!ENTITY superstart.ui.background.repeat "Wiederholen">
+<!ENTITY superstart.ui.background.repeat.repeat "Wiederholen (Standard)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Nicht wiederholen">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Horizontal wiederholen">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Vertikal wiederholen">
+<!ENTITY superstart.ui.background.size "Größe">
+<!ENTITY superstart.ui.background.size.default "Standard">
+<!ENTITY superstart.ui.background.size.cover "Größe skalieren für (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Größe skalieren für (CSS:contain)">
+<!ENTITY superstart.ui.colors "Farben">
+<!ENTITY superstart.ui.background.color.enable "Hintergrundfarbe aktivieren">
+<!ENTITY superstart.ui.background.color.select "Farbe auswählen">
+<!ENTITY superstart.ui.text.color "Text">
+<!ENTITY superstart.ui.text.color.enable "Textfarbe aktivieren">
+<!ENTITY superstart.ui.text.color.black "Schwarz">
+<!ENTITY superstart.ui.text.color.white "Weiß">
+<!ENTITY superstart.ui.text.color.use.shadow "Schatten verwenden">
+<!ENTITY superstart.ui.others "Andere">
+<!ENTITY superstart.ui.transparent "Transparent (könnte langsam sein)">
+<!ENTITY superstart.ui.customize.advanced "Erweitert">
+<!ENTITY superstart.ui.css.edit.hint "CSS hier eingeben:">
+
+<!ENTITY superstart.options.about "Über">
+<!ENTITY superstart.options.author "Autor">
+<!ENTITY superstart.options.help "Hilfe">

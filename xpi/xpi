@@ -16,7 +16,7 @@ if [ -f superstart.xpi ] ; then
 fi
 
 # add other files other the jar into superstart.xpi
-7z a superstart.xpi * -r -tzip -x!.DS_Store -x!*.vim -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.psd  -x!*.idl -x!*.patch -x!chrome/* -x!bak.*
+7z a superstart.xpi * -r -tzip -x!xpi -x!.DS_Store -x!*.vim -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.psd  -x!*.idl -x!*.patch -x!chrome/* -x!bak.*
 
 # jar
 cd chrome
@@ -24,7 +24,7 @@ if [ -f superstart.jar ] ; then
 	rm superstart.jar
 fi
 
-7z a superstart.jar * -r -tzip -mx0 -x!.DS_Store -x!*.vim -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.psd -x!*.idl -x!*.patch -x!test* -x!bak.*
+7z a superstart.jar * -r -tzip -mx0 -x!xpi -x!.DS_Store -x!*.vim -x!*.bat -x!*.tmp -x!*.swp -x!*.svn -x!*.zip -x!*.git -x!*.php -x!tags -x!*.xpi -x!*.pdn -x!*.psd -x!*.idl -x!*.patch -x!test* -x!bak.*
 
 cd ..
 

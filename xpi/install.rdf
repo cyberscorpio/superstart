@@ -4,13 +4,9 @@
 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>superstart@enjoyfreeware.org</em:id>
-		<em:version>4.0a1</em:version>
+		<em:version>4.0b1</em:version>
 		<em:type>2</em:type>
 		<em:unpack>true</em:unpack>
-		<!--
-		<em:bootstrap>true</em:bootstrap>
-		-->
-	 
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>

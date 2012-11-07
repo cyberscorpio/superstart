@@ -46,4 +46,9 @@ label.cstm-ctrl {
 	cursor: move;
 }
 
-
+#my-love {
+	margin: 10px;
+}
+#my-love:not(:hover) {
+	filter: url("filters.svg#gray-effect");
+}

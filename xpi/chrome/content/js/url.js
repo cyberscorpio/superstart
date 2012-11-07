@@ -69,7 +69,6 @@
 			var image = $$('customize-image').getAttribute('src');
 			var snapshotIndex = $$('snapshot-index').selectedIndex;
 			var useLastVisited = $$('use-lastvisited').hasAttribute('checked');
-			logger.logStringMessage('Use lastvisited: ' + useLastVisited);
 			if (idx != -1) {
 				var s = sm.getSite(g, idx);
 				if (s && s.sites === undefined && s.url != '') {

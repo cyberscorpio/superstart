@@ -131,7 +131,6 @@ var layout = (function() {
 	var transitionTick = 0;
 	function clrTransitionState() {
 		if (transitionElement) {
-			log('clear transition');
 			transitionElement.removeEventListener('transitionend', clrTransitionState, true);
 			transitionElement = null;
 			transitionTick = 0;
@@ -140,7 +139,6 @@ var layout = (function() {
 
 	function setTransitionState(se) {
 		if (transitionElement == null) {
-			log('now, in transition');
 			transitionElement = se;
 			transitionTick = Date.now();
 			se.addEventListener('transitionend', clrTransitionState, true);
@@ -208,18 +206,15 @@ var layout = (function() {
 
 	function layoutFolderArea() { 
 		var folder = $$('folder');
-		assert(folder != null, 'Try to layout the folder area, but it is nonexist');
 		if (folder == null) {
 			return;
 		}
 
 		var ses = $(folder, '.site');
-		assert(ses.length > 1, 'Try to layout the folder with less sites than 2');
 
 		var height = placeSitesInFolderArea();
 
 		var se = $('.folder.opened');
-		assert(se.length == 1, 'Only 1 folder can be opened, but we have ' + se.length);
 		se = se[0];
 		var top = $.offsetTop(se) + parseInt(se.style.height);
 
@@ -239,9 +234,6 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
-		if (lp0.siteHeight == 0) {
-			log('setTopSiteSize with height = 0: ' + $(se, '.title')[0].innerHTML);
-		}
 		se.style.width = (inDragging ? lp0.siteWidthInDragging : lp0.siteWidth) + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 

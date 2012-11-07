@@ -9,19 +9,6 @@ body {
 	background-color: #e5e5e5;
 }
 
-#debug {
-	width: 400px;
-	height: 0;
-	position: absolute;
-	z-index: -1;
-	background-color: transparent;
-	color: red;
-}
-
-#debug:hover {
-	z-index: 1;
-}
-
 a {
 	text-decoration: none;
 }

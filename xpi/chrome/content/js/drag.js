@@ -112,7 +112,6 @@ DragOperator.prototype.act = function() {
 		}, 0);
 		break;
 	default:
-		log('Begin to do the action: ' + this.type);
 		break;
 	}
 }

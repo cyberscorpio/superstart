@@ -9,25 +9,6 @@ log = function(s) {
 }
 
 assert = function(condition, description) {
-	if (!condition) {
-		var debug = $('#debug');
-		if (debug == null) {
-			debug = document.createElement('div');
-			debug.id = 'debug';
-			debug.style.display = 'block';
-			var container = $('#container');
-			container.appendChild(debug);
-
-			var ul = document.createElement('ul');
-			debug.appendChild(ul);
-		}
-		var ul = $('#debug ul')[0];
-
-		var li = document.createElement('li');
-		var text = document.createTextNode(description);
-		li.appendChild(text);
-		ul.insertBefore(li, ul.firstChild);
-		// log('assert failed: ' + description);
-	}
+	// in release branch, we do nothing :)
 }
 })();

@@ -167,7 +167,6 @@ function updateSite(s, se, flag) {
 	var updateAllFields = (flag === undefined);
 	if ($.hasClass(se, 'folder')) {
 		$.removeClass(se, 'folder');
-		log('folder class has been removed! > ' + s.url);
 		var tmp = createSiteElement(s);
 		swapSiteItem(se, tmp);
 	}
@@ -202,7 +201,6 @@ function setFolderTitle(s, se) {
 }
 
 function updateFolder(f, se) {
-	assert(Array.isArray(f.sites) && f.sites.length > 1, "ERR: updateFolder get an invalid 's'");
 	if (!$.hasClass(se, 'folder')) {
 		$.addClass(se, 'folder');
 		var tmp = createSiteElement(f);
@@ -329,7 +327,6 @@ function at(g, i) {
 	}
 
 	if (i < 0 || i >= ses.length) {
-		assert(false, 'at(' + g + ',' + i + ') out of range');
 		return null;
 	}
 	return ses[i];
@@ -339,8 +336,6 @@ function at(g, i) {
  * get index g/i from the DIV
  */
 function indexOf(se) {
-	assert($.hasClass(se, 'site'), 'indexOf(se), se should has class name .site');
-
 	var p = se.parentNode;
 	var g = -1;
 	var ses = [];
@@ -357,7 +352,6 @@ function indexOf(se) {
 		}
 	}
 
-	assert(false, "indexOf(se) can't find index!");
 	return [-1, -1]; // shouldn't happen
 }
 
@@ -406,7 +400,6 @@ function openFolder(idx, f) {
 
 	var container = $$('container');
 	var folderArea = $$('folder');
-	assert(folderArea == null, "When opening the folder, the folderArea should be null");
 	folderArea = document.createElement('div');
 	folderArea.id = 'folder';
 	container.appendChild(folderArea);
@@ -462,7 +455,6 @@ function openFolder(idx, f) {
 
 function closeFolder() {
 	var folderArea = $$('folder');
-	assert(folderArea != null, "When closing the folder, the folderArea shouldn't be null");
 
 	folderArea.style.height = '0px';
 	$.addClass(folderArea, 'resizing');
@@ -506,7 +498,6 @@ function onLinkClick(evt) {
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
-		assert(idxes[0] == -1, 'only top level sites can be folders');
 		if (evt.ctrlKey || evt.metaKey) {
 			openGroupAll(-1, idxes[1]);
 		} else {
@@ -659,7 +650,6 @@ function onSiteSimpleMove(evt, groupFromTo) {
 
 	var from = at(g, f);
 	var to = at(g, t);
-	assert((!from && !to) || (from && to && from.parentNode == to.parentNode), 'onSimpleMove from and to should be in the same level');
 	if (from && to) { // if the foler is not opened, from & to will be null
 		simpleMoveHelper(from, to, f, t);
 	}
@@ -718,7 +708,6 @@ function onSiteMoveOut(evt, idxes) {
 	if (se == null) {
 		var dragging = $('.dragging');
 		if (dragging.length > 0) {
-			assert(dragging.length == 1, 'Only one item should be dragging');
 			se = dragging[0];
 		}
 	}

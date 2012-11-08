@@ -15,8 +15,9 @@ var superStartOptions = {};
 		initialize();
 
 		let dlg = $$('options');
-		dlg.onAccept = onAccept;
-		dlg.setAttribute('ondialogaccept', 'return document.getElementById("options").onAccept();');
+		dlg.addEventListener('dialogaccept', function() {
+			return onAccept();
+		}, false);
 	}, false);
 
 	window.addEventListener('unload', function() {
@@ -426,7 +427,7 @@ var superStartOptions = {};
 
 	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, "Select an image", nsIFilePicker.modeOpen);
+		fp.init(window, strings.GetStringFromName('ssSelectImage'), nsIFilePicker.modeOpen);
 		fp.appendFilters(nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == nsIFilePicker.returnOK) {

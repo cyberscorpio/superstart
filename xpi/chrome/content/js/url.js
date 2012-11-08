@@ -1,20 +1,21 @@
 
 (function() {
 	const {classes: Cc, interfaces: Ci} = Components;
-	var logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-	var sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
+	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+	let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
+	let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 
-	var idxes = window.arguments[0];
-	var str = idxes[0] + '-' + idxes[1];
-	var g = idxes[0], idx = idxes[1];
-	var dialogs = window.arguments[1];
+	let idxes = window.arguments[0];
+	let str = idxes[0] + '-' + idxes[1];
+	let g = idxes[0], idx = idxes[1];
+	let dialogs = window.arguments[1];
 
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 
 		let d = document;
 		if (idx != -1) {
-			var s = sm.getSite(g, idx);
+			let s = sm.getSite(g, idx);
 			if (s && s.url != null) {
 				$$('url-input').textValue = s.url;
 				$$('url-name').value = (s.name || '');
@@ -23,7 +24,7 @@
 					$$('use-lastvisited').setAttribute('checked', true);
 				}
 
-				var custimg = s.customizeImage;
+				let custimg = s.customizeImage;
 				if (custimg != '') {
 					$$('customize-image').setAttribute('src', custimg);
 					$$('select-customize-image').removeAttribute('disabled');
@@ -38,7 +39,7 @@
 		$$('clear-image').onclick = function() {
 			$$('customize-image').removeAttribute('src');
 			$$('select-customize-image').setAttribute('disabled', true);
-			if ($$('snapshot-index').selectedIndex == 3) {
+			if ($$('snapshot-index').selectedIndex == 2) {
 				$$('snapshot-index').selectedIndex = 0;
 			}
 		}
@@ -50,8 +51,9 @@
 		}
 
 		var dlg = $$('superstart-url-dialog');
-		dlg.onAccept = onAccept;
-		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-url-dialog").onAccept();');
+		dlg.addEventListener('dialogaccept', function() {
+			return onAccept();
+		}, false);
 	}, false);
 
 	window.addEventListener('unload', function() {
@@ -98,13 +100,13 @@
 
 	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
-		fp.init(window, "Select an image", Ci.nsIFilePicker.modeOpen);
+		fp.init(window, strings.GetStringFromName('ssSelectImage'), Ci.nsIFilePicker.modeOpen);
 		fp.appendFilters(Ci.nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == Ci.nsIFilePicker.returnOK) {
 			$$('customize-image').setAttribute('src', getUrlFromFile(fp.file));
 			$$('select-customize-image').removeAttribute('disabled');
-			$$('snapshot-index').selectedIndex = 3;
+			$$('snapshot-index').selectedIndex = 2;
 		}
 	}
 

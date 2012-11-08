@@ -5,7 +5,7 @@ html {
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
 	background-attachment: fixed;
-	background-image: url("chrome://browser/skin/newtab/noise.png"), -moz-linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+	background-image: url("chrome://browser/skin/newtab/noise.png"), linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
 	background-color: #e5e5e5;
 }
 
@@ -338,7 +338,7 @@ body.site-no-next-snapshot .site .next-snapshot {
 }
 
 .site.folder.flash > a > .snapshot {
-	-moz-transform: scale(1.1, 1.1);
+	transform: scale(1.1, 1.1);
 }
 
 .site.folder .snapshot img {
@@ -467,58 +467,58 @@ body.site-no-next-snapshot .site .next-snapshot {
 , #notes
 , #note-edit
 , #notes-list .button {
-	-moz-transition-duration: 250ms;
-	-moz-transition-timing-function: linear;
+	transition-duration: 250ms;
+	transition-timing-function: linear;
 }
 
 #navbar ul li {
-	-moz-transition-property: opacity;
+	transition-property: opacity;
 }
 
 #sites.notransition .site, .site.notransition {
-	-moz-transition-property: none;
+	transition-property: none;
 }
 
 #container {
-	-moz-transition-property: top;
+	transition-property: top;
 }
 .site {
-	-moz-transition-property: top, left, opacity;
+	transition-property: top, left, opacity;
 }
 #folder {
-	-moz-transition-property: top, left, width, height;
+	transition-property: top, left, width, height;
 }
 
 .site .snapshot {
-	-moz-transition-property: border, width, height, opacity;
+	transition-property: border, width, height, opacity;
 }
 
 .site .button {
-	-moz-transition-property: opacity;
+	transition-property: opacity;
 }
 
 .site .title {
-	-moz-transition-property: color, opacity, text-shadow;
+	transition-property: color, opacity, text-shadow;
 }
 
 .site.folder .snapshot img {
-	-moz-transition-property: top, left;
+	transition-property: top, left;
 }
 
 .site.dragging {
-	-moz-transition: none;
+	transition: none;
 }
 
 #notes {
-	-moz-transition-property: margin, opacity;
+	transition-property: margin, opacity;
 }
 
 #note-edit {
-	-moz-transition-property: height, opacity;
+	transition-property: height, opacity;
 }
 
 #notes-list .button {
-	-moz-transition-property: opacity;
+	transition-property: opacity;
 }
 
 /** z-index **/

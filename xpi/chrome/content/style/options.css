@@ -28,8 +28,8 @@ label.cstm-ctrl {
 
 #cstm-bg-image {
 	position: absolute;
-	-moz-transform: scale(0.2, 0.2);
-	-moz-transform-origin: left top;
+	transform: scale(0.2, 0.2);
+	transform-origin: left top;
 	transform: scale(0.2, 0.2);
 	transform-origin: left top;
 	width: 1280px;
@@ -42,7 +42,7 @@ label.cstm-ctrl {
 }
 
 #cstm-bg-image[src]:not([disabled=true]):hover {
-	-moz-transform: none;
+	transform: none;
 	cursor: move;
 }
 

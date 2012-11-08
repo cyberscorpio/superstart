@@ -17,8 +17,9 @@
 		}
 
 		var dlg = $$('superstart-name-dialog');
-		dlg.onAccept = onAccept;
-		dlg.setAttribute('ondialogaccept', 'return document.getElementById("superstart-name-dialog").onAccept();');
+		dlg.addEventListener('dialogaccept', function() {
+			return onAccept();
+		}, false);
 	}, false);
 
 

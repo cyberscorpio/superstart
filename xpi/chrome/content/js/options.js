@@ -180,11 +180,11 @@ var superStartOptions = {};
 		let cb = evt.target;
 		let id = cb.id;
 		if (id && boolMap[id]) {
-			cfg.setConfig(boolMap[id], cb.hasAttribute('checked'));
+			cfg.setConfig(boolMap[id], cb.checked);
 		}
 
 		if (id == 'show-navbar') {
-			let enabled = cb.hasAttribute('checked');
+			let enabled = cb.checked;
 			let items = $('.navbar-item');
 			for (let i = 0; i < items.length; ++ i) {
 				items[i].setAttribute('disabled', !enabled);
@@ -192,7 +192,7 @@ var superStartOptions = {};
 		}
 
 		if (id == 'show-buttons') {
-			let enabled = cb.hasAttribute('checked');
+			let enabled = cb.checked;
 			let items = $('.buttons-item');
 			for (let i = 0; i < items.length; ++ i) {
 				items[i].setAttribute('disabled', !enabled);
@@ -202,7 +202,7 @@ var superStartOptions = {};
 
 	function onSetHomepageChanged(evt) {
 		let cb = evt.target;
-		if (cb.hasAttribute('checked') != isHomepaged) {
+		if (cb.checked != isHomepaged) {
 			if (isHomepaged) {
 				sbprefs.setCharPref('browser.startup.homepage', 'about:home');
 			} else {

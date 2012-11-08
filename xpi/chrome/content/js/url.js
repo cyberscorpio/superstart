@@ -19,7 +19,9 @@
 				$$('url-input').textValue = s.url;
 				$$('url-name').value = (s.name || '');
 				$$('snapshot-index').selectedIndex = s.snapshotIndex;
-				$$('use-lastvisited').setAttribute('checked', s.useLastVisited);
+				if (s.useLastVisited) {
+					$$('use-lastvisited').setAttribute('checked', true);
+				}
 
 				var custimg = s.customizeImage;
 				if (custimg != '') {
@@ -68,7 +70,7 @@
 			var name = $$('url-name').value;
 			var image = $$('customize-image').getAttribute('src');
 			var snapshotIndex = $$('snapshot-index').selectedIndex;
-			var useLastVisited = $$('use-lastvisited').hasAttribute('checked');
+			var useLastVisited = $$('use-lastvisited').checked;
 			if (idx != -1) {
 				var s = sm.getSite(g, idx);
 				if (s && s.sites === undefined && s.url != '') {

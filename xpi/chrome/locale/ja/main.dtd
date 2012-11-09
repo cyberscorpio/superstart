@@ -1,0 +1,81 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "URLの入力">
+<!ENTITY superstart.dialog.url.url "ここにURLを入力">
+<!ENTITY superstart.dialog.url.name "サイト名（オプション）">
+<!ENTITY superstart.dialog.url.snapshot.setting "サムネイルの設定">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "左上">
+<!ENTITY superstart.dialog.url.snapshot.entire "ウィンドウ全体">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefox のサムネイルサービスを使用 (一部サイトで利用できない場合があります)">
+<!ENTITY superstart.dialog.url.snapshot.customize "イメージのカスタマイズ">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "グループ名を設定">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "新しいURLを追加">
+<!ENTITY superstart.menu.site.refreshall "全て更新">
+<!ENTITY superstart.menu.options "オプション">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add "Super Start に追加">
+
+<!-- options -->
+<!ENTITY superstart.options "オプション:">
+
+<!ENTITY superstart.options.general "一般">
+<!ENTITY superstart.options.sites.setup "設定">
+<!ENTITY superstart.options.load.in.blanktab "空白のタブを読み込む">
+<!ENTITY superstart.options.set.as.homepage "ホームページにSuper Startを設定">
+<!ENTITY superstart.options.sites.open.in.newtab "既定では新しいタブで開く">
+<!ENTITY superstart.options.sites.displaysettings "表示設定">
+<!ENTITY superstart.options.sites.use.compactmode "コンパクトモードを使用">
+<!ENTITY superstart.options.sites.use.background.effect "背景エフェクトを使用 (遅くなる場合があります)">
+<!ENTITY superstart.options.sites.col "一列に表示するサイトの数:">
+
+<!ENTITY superstart.options.navbar "ナビゲーションバー">
+<!ENTITY superstart.options.show.navbar "ナビゲーションバーを表示">
+<!ENTITY superstart.options.navbar.show.recently.closed "最近閉じた">
+<!ENTITY superstart.options.navbar.show.add.site "新しいサイトを追加">
+<!ENTITY superstart.options.navbar.show.themes "テーマ">
+<!ENTITY superstart.options.navbar.show.todo "メモ">
+<!ENTITY superstart.options.show.elements "要素を表示...">
+<!ENTITY superstart.options.site.buttons.show.buttons "ボタンを表示">
+<!ENTITY superstart.options.site.buttons.show.newtab "新しいタブ">
+<!ENTITY superstart.options.site.buttons.show.refresh "更新">
+<!ENTITY superstart.options.site.buttons.show.config "設定">
+<!ENTITY superstart.options.site.buttons.show.remove "削除">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "次のスナップショット">
+
+<!ENTITY superstart.options.general.hint "* このタブの設定は直ちに有効になります">
+
+<!ENTITY superstart.ui.customize "UIのカスタマイズ">
+<!ENTITY superstart.ui.customize.use "カスタマイズを使用">
+<!ENTITY superstart.ui.customize.howto "(ヘルプ) どうやってカスタマイズしますか？">
+<!ENTITY superstart.ui.background.image "背景画像">
+<!ENTITY superstart.ui.select.image "画像を選択">
+<!ENTITY superstart.ui.clear.image "画像を除去">
+<!ENTITY superstart.ui.background.repeat "繰り返し">
+<!ENTITY superstart.ui.background.repeat.repeat "繰り返し (既定)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "繰り返さない">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "水平に繰り返し">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "垂直に繰り返し">
+<!ENTITY superstart.ui.background.size "サイズ">
+<!ENTITY superstart.ui.background.size.default "既定">
+<!ENTITY superstart.ui.background.size.cover "全体表示 (CSS:カバー)">
+<!ENTITY superstart.ui.background.size.contain "全体表示 (CSS:格納)">
+<!ENTITY superstart.ui.colors "色">
+<!ENTITY superstart.ui.background.color.enable "背景色を有効にする">
+<!ENTITY superstart.ui.background.color.select "色を選択">
+<!ENTITY superstart.ui.text.color "文字">
+<!ENTITY superstart.ui.text.color.enable "文字の色を有効にする">
+<!ENTITY superstart.ui.text.color.black "黒">
+<!ENTITY superstart.ui.text.color.white "白">
+<!ENTITY superstart.ui.text.color.use.shadow "影付にする">
+<!ENTITY superstart.ui.others "その他">
+<!ENTITY superstart.ui.transparent "透過">
+<!ENTITY superstart.ui.customize.advanced "詳細">
+<!ENTITY superstart.ui.css.edit.hint "直接ここにCSSを入力：">
+
+<!ENTITY superstart.options.about "Super Startについて">
+<!ENTITY superstart.options.author "作成者">
+<!ENTITY superstart.options.help "ヘルプ">

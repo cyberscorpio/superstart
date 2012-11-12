@@ -1,3 +1,4 @@
+pref('extensions.superstart@enjoyfreeware.org.description', 'chrome://superstart/locale/main.properties');
 pref('extensions.superstart.version', '0.0.0');
 pref('extensions.superstart.theme', 'default');
 pref('extensions.superstart.load.in.blanktab', true);

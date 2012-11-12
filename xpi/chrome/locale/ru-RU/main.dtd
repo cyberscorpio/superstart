@@ -1,0 +1,81 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Введите URL">
+<!ENTITY superstart.dialog.url.url "Введите URL здесь">
+<!ENTITY superstart.dialog.url.name "Название сайта (Не обязательно)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Настройки миниатюры">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Левый верхний угол">
+<!ENTITY superstart.dialog.url.snapshot.entire "Весь сайт">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Использовать движок Firefox для миниатюр (может не работать для некоторых сайтов)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Своё изображение">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Название группы">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Добавить новый URL">
+<!ENTITY superstart.menu.site.refreshall "Обновить всё">
+<!ENTITY superstart.menu.options "Настройки">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add "Добавить в Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Настройки">
+
+<!ENTITY superstart.options.general "Общие">
+<!ENTITY superstart.options.sites.setup "Установки">
+<!ENTITY superstart.options.load.in.blanktab "Показывать в пустых вкладках">
+<!ENTITY superstart.options.set.as.homepage "Сделать Super Start домашней страницей">
+<!ENTITY superstart.options.sites.open.in.newtab "Открывать в новых вкладках по умолчанию">
+<!ENTITY superstart.options.sites.displaysettings "Настройки отображения">
+<!ENTITY superstart.options.sites.use.compactmode "Использовать компактный режим">
+<!ENTITY superstart.options.sites.use.background.effect "Использовать фоновый эффект (может замедлить браузер)">
+<!ENTITY superstart.options.sites.col "Количество сайтов в ряду:">
+
+<!ENTITY superstart.options.navbar "Панель навигации">
+<!ENTITY superstart.options.show.navbar "Отображать панель навигации">
+<!ENTITY superstart.options.navbar.show.recently.closed "Недавно закрытые вкладки">
+<!ENTITY superstart.options.navbar.show.add.site "Добавить новый сайт">
+<!ENTITY superstart.options.navbar.show.themes "Темы">
+<!ENTITY superstart.options.navbar.show.todo "Заметки">
+<!ENTITY superstart.options.show.elements "Отображение элементов...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Отображать кнопки">
+<!ENTITY superstart.options.site.buttons.show.newtab "Нов. вкладка">
+<!ENTITY superstart.options.site.buttons.show.refresh "Обновить">
+<!ENTITY superstart.options.site.buttons.show.config "Изменить">
+<!ENTITY superstart.options.site.buttons.show.remove "Удалить">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Следующая миниатюра">
+
+<!ENTITY superstart.options.general.hint "* настройки в данной вкладке применяются незамедлительно">
+
+<!ENTITY superstart.ui.customize "Настройки вида">
+<!ENTITY superstart.ui.customize.use "Использовать свои настройки отображения">
+<!ENTITY superstart.ui.customize.howto "(Помощь) Как настроить вид?">
+<!ENTITY superstart.ui.background.image "Фоновое изображение">
+<!ENTITY superstart.ui.select.image "Выбрать изображение">
+<!ENTITY superstart.ui.clear.image "Удалить изображение">
+<!ENTITY superstart.ui.background.repeat "Замостить">
+<!ENTITY superstart.ui.background.repeat.repeat "Замостить (по умолчанию)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Не повторять">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Замостить по горизонтали">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Замостить по вертикали">
+<!ENTITY superstart.ui.background.size "Размер">
+<!ENTITY superstart.ui.background.size.default "Стандартный">
+<!ENTITY superstart.ui.background.size.cover "Растянуть на всю длину (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Растянуть на всю длину (CSS:contain)">
+<!ENTITY superstart.ui.colors "Цвета">
+<!ENTITY superstart.ui.background.color.enable "Указать цвет фона">
+<!ENTITY superstart.ui.background.color.select "Выберите цвет">
+<!ENTITY superstart.ui.text.color "Текст">
+<!ENTITY superstart.ui.text.color.enable "Указать цвет текста">
+<!ENTITY superstart.ui.text.color.black "Чёрный">
+<!ENTITY superstart.ui.text.color.white "Белый">
+<!ENTITY superstart.ui.text.color.use.shadow "Использовать тень">
+<!ENTITY superstart.ui.others "Другие">
+<!ENTITY superstart.ui.transparent "Прозрачность (может замедлить браузер)">
+<!ENTITY superstart.ui.customize.advanced "Дополнительно">
+<!ENTITY superstart.ui.css.edit.hint "Введите сюда CSS-код темы:">
+
+<!ENTITY superstart.options.about "О дополнении">
+<!ENTITY superstart.options.author "Автор">
+<!ENTITY superstart.options.help "Помощь">

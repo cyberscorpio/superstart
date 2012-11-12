@@ -27,4 +27,4 @@ locale	superstart	zh-CN   jar:chrome/superstart.jar!/locale/zh-CN/
 locale	superstart	pl      jar:chrome/superstart.jar!/locale/pl/
 locale	superstart	de-DE   jar:chrome/superstart.jar!/locale/de-DE/
 locale	superstart	ja-JP   jar:chrome/superstart.jar!/locale/ja/
-
+locale	superstart	ru-RU   jar:chrome/superstart.jar!/locale/ru-RU/

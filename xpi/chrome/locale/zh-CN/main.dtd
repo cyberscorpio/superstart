@@ -17,7 +17,7 @@
 <!ENTITY superstart.menu.options "选项">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add "添加到 Super Start">
+<!ENTITY superstart.context.menu.add "将本页加入 Super Start">
 
 <!-- options -->
 <!ENTITY superstart.options "选项">

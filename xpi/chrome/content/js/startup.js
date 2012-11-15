@@ -1,12 +1,12 @@
 
 if ("undefined" == typeof(SuperStart)) {
-	function $$(id) {
-		return document.getElementById(id);
-	}
-
 	var SuperStart = {};
 
 	(function() {
+		function $$(id) {
+			return document.getElementById(id);
+		}
+
 		const {classes: Cc, interfaces: Ci} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
@@ -227,27 +227,22 @@ if ("undefined" == typeof(SuperStart)) {
 						addver = addon.version;
 						if (addver != ver && window.navigator.onLine) {
 							sbprefs.setCharPref(vk, addver);
-							gBrowser.addEventListener('load', showHomepage, true);
+							showHomepage();
 						}
 					}
 				});
 			} catch (e) {
-				let em = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
-				let addon = em.getItemForID(id);
-				if (addon.name == name) {
-					addver = addon.version;
-					if (addver != ver && window.navigator.onLine) {
-						sbprefs.setCharPref(vk, addver);
-						gBrowser.addEventListener('load', showHomepage, true);
-					}
-				}
 			}
 		}
 
 		function showHomepage() {
-			let homepg = 'http://www.enjoyfreeware.org/superstart/?v=' + cfg.getConfig('version');
-			gBrowser.removeEventListener('load', showHomepage, true);
-			gBrowser.selectedTab = gBrowser.addTab(homepg);
+			var tm = Cc["@mozilla.org/thread-manager;1"].getService(Ci.nsIThreadManager);
+			tm.mainThread.dispatch({
+				run: function(){
+					let homepg = 'http://www.enjoyfreeware.org/superstart/?v=' + cfg.getConfig('version');
+					gBrowser.selectedTab = gBrowser.addTab(homepg);
+				}
+			}, Ci.nsIThread.DISPATCH_NORMAL);
 		}
 
 		// helper function(s)
@@ -311,5 +306,4 @@ if ("undefined" == typeof(SuperStart)) {
 			}
 		}
 	})();
-
 }

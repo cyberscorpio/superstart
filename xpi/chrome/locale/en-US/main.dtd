@@ -17,7 +17,7 @@
 <!ENTITY superstart.menu.options "Options">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add "Add to Super Start">
+<!ENTITY superstart.context.menu.add "Add this tab to Super Start">
 
 <!-- options -->
 <!ENTITY superstart.options "Options">

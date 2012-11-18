@@ -24,7 +24,13 @@ category profile-after-change @enjoyfreeware.org/superstart;1 @enjoyfreeware.org
 # default locale
 locale	superstart	en-US   jar:chrome/superstart.jar!/locale/en-US/
 locale	superstart	zh-CN   jar:chrome/superstart.jar!/locale/zh-CN/
+# Polish
 locale	superstart	pl      jar:chrome/superstart.jar!/locale/pl/
+# German
 locale	superstart	de-DE   jar:chrome/superstart.jar!/locale/de-DE/
+# Japanese
 locale	superstart	ja-JP   jar:chrome/superstart.jar!/locale/ja/
+# Russian
 locale	superstart	ru-RU   jar:chrome/superstart.jar!/locale/ru-RU/
+# Ukrainian
+locale	superstart	uk-UA   jar:chrome/superstart.jar!/locale/uk-UA/

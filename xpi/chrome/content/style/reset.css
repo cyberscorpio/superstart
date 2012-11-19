@@ -15,14 +15,6 @@ table,caption,tbody,tfoot,thead,tr,th,td{
 }
 body{line-height:1;}
 ol,ul{list-style:none;}
-blockquote,q{quotes:none;}
-blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
 :focus{outline:0;}
 ins{text-decoration:none;}
 del{text-decoration:line-through;}
-table{border-collapse:collapse;border-spacing:0;}
-
-/* clear fix
- * copy from: http://goo.gl/O1E1
- */
-.clearfix:after{visibility:hidden;display:block;content:"";clear:both;height:0;}

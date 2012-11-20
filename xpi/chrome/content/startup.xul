@@ -7,6 +7,11 @@
 	<script type="application/x-javascript" src="chrome://superstart/content/js/startup.js"></script>
 
 	<menupopup id="contentAreaContextMenu">
+		<menuitem id="context-superstart-add-link" class="menuitem-iconic"
+			label="&superstart.context.menu.add.link;"
+			image="chrome://superstart/content/images/superstart.png"
+			oncommand="SuperStart.onContextMenuAddLink();"
+			/>
 		<menuitem id="context-superstart-add" class="menuitem-iconic"
 			label="&superstart.context.menu.add;"
 			image="chrome://superstart/content/images/superstart.png"

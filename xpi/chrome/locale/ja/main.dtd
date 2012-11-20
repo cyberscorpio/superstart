@@ -17,6 +17,7 @@
 <!ENTITY superstart.menu.options "オプション">
 
 <!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Add this link to Super Start">
 <!ENTITY superstart.context.menu.add "Super Start に追加">
 
 <!-- options -->

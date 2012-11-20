@@ -31,14 +31,38 @@ if ("undefined" == typeof(SuperStart)) {
 
 			// context menu
 			let menu = $$('contentAreaContextMenu');
-			menu.addEventListener('popupshowing', function() {
-				let item = $$('context-superstart-add');
-				item.hidden = true;
+			menu.addEventListener('popupshowing', function(evt) {
+				let isLink = false;
+				let isImage = false;
+				let isText = false;
+				let n = this.triggerNode;
+				while (n != null) {
+					let t = n.tagName;
+					if (!isLink && t == 'A') {
+						isLink = true;
+					}
+					if (!isImage && t == 'IMG') {
+						isImage = true;
+					}
+					if (!isText && (t == 'INPUT' || t == 'TEXTAREA')) {
+						isText = true;
+					}
+					n = n.parentNode;
+				}
+				n = this.triggerNode;
 
+				let item = $$('context-superstart-add-link');
+				item.hidden = true;
+				if (isLink) {
+					item.hidden = false;
+				}
+
+				item = $$('context-superstart-add');
+				item.hidden = true;
 				let doc = gBrowser.selectedBrowser.contentDocument;
 				let url = doc.location.href.toLowerCase();
 				// works for http(s), file:/// and about:
-				if (url.indexOf('http://') == 0 || url.indexOf('https://') == 0 || url.indexOf('file:///') == 0 || url.indexOf('about:') == 0) {
+				if (!isText && (url.indexOf('http://') == 0 || url.indexOf('https://') == 0 || url.indexOf('file:///') == 0 || url.indexOf('about:') == 0)) {
 					item.hidden = false;
 				}
 			}, false);
@@ -65,6 +89,17 @@ if ("undefined" == typeof(SuperStart)) {
 
 		////////////////////////////////////////////////
 		// methods
+		SuperStart.onContextMenuAddLink = function() {
+			let menu = $$('contentAreaContextMenu');
+			let n = menu.triggerNode;
+			while (n) {
+				if (n.tagName == 'A') {
+					sm.addSite(n.href, '', 0, false, '');
+					break;
+				}
+				n = n.parentNode;
+			}
+		}
 	
 		SuperStart.onContextMenuAdd = function() {
 			let doc = gBrowser.selectedBrowser.contentDocument;

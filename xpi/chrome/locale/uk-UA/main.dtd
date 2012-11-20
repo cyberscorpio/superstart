@@ -17,6 +17,7 @@
 <!ENTITY superstart.menu.options "Налаштування">
 
 <!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Add this link to Super Start">
 <!ENTITY superstart.context.menu.add "Додати цю вкладку до Super Start">
 
 <!-- options -->

@@ -1,6 +1,6 @@
 var layout = (function() {
 	const {classes: Cc, interfaces: Ci} = Components;
-	const MINWIDTH = 1000;
+	const MINWIDTH = 960;
 	const NOTEWIDTH = 200;
 	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;
 	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10

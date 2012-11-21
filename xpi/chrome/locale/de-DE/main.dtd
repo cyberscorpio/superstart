@@ -41,7 +41,7 @@
 <!ENTITY superstart.options.navbar.show.todo "Notizen">
 <!ENTITY superstart.options.show.elements "Elemente anzeigen...">
 <!ENTITY superstart.options.site.buttons.show.buttons "Buttons anzeigen">
-<!ENTITY superstart.options.site.buttons.show.newtab "Newtab">
+<!ENTITY superstart.options.site.buttons.show.newtab "Neuer Tab">
 <!ENTITY superstart.options.site.buttons.show.refresh "Erneuern">
 <!ENTITY superstart.options.site.buttons.show.config "Konfigurieren">
 <!ENTITY superstart.options.site.buttons.show.remove "Entfernen">

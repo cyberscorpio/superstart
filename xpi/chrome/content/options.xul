@@ -126,6 +126,7 @@
 							<hbox>
 								<checkbox id="use-bg-color" checked="true" label="&superstart.ui.background.color.enable;" class="cstm-ctrl" />
 								<hbox flex="1" pack="end" class="bg-color">
+									<checkbox id="use-bg-color-pure" checked="false" class="cstm-ctrl" label="Use pure color" />
 									<textbox id="cstm-bg-color" class="cstm-ctrl" placeholder="#rrggbb/rgb()/rgba()/HTML color name" />
 									<colorpicker id="cstm-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="cstm-ctrl" />
 								</hbox>

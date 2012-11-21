@@ -10,6 +10,8 @@ var superStartOptions = {};
 	let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
 	let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
+	// logger.logStringMessage('screen: ' + screen.width + ' : ' + screen.height);
+
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 		initialize();

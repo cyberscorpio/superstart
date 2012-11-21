@@ -307,7 +307,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (!data.enabled || data.color == null) {
 			return '';
 		} else {
-			return 'body { background-color: ' + data.color + ';}\n';
+			return 'body {\nbackground-color: ' + data.color + ';\n}\n';
 		}
 	}
 

@@ -7,6 +7,15 @@ if ("undefined" == typeof(SuperStart)) {
 			return document.getElementById(id);
 		}
 
+		function isProtocolSupported(url) {
+			let u = url.toLowerCase();
+			return ['http://', 'https://', 'file:///', 'about:'].some(function(protocol) {
+				if (u.indexOf(protocol) == 0) {
+					return true;
+				}
+			});
+		}
+
 		const {classes: Cc, interfaces: Ci} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
@@ -38,7 +47,7 @@ if ("undefined" == typeof(SuperStart)) {
 				let n = this.triggerNode;
 				while (n != null) {
 					let t = n.tagName;
-					if (!isLink && t == 'A') {
+					if (!isLink && t == 'A' && isProtocolSupported(n.href)) {
 						isLink = true;
 					}
 					if (!isImage && t == 'IMG') {
@@ -60,9 +69,7 @@ if ("undefined" == typeof(SuperStart)) {
 				item = $$('context-superstart-add');
 				item.hidden = true;
 				let doc = gBrowser.selectedBrowser.contentDocument;
-				let url = doc.location.href.toLowerCase();
-				// works for http(s), file:/// and about:
-				if (!isText && (url.indexOf('http://') == 0 || url.indexOf('https://') == 0 || url.indexOf('file:///') == 0 || url.indexOf('about:') == 0)) {
+				if (!isText && isProtocolSupported(doc.location.href)) {
 					item.hidden = false;
 				}
 			}, false);

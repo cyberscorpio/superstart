@@ -764,7 +764,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			let os = o[i];
 			if (os.url != '') {
 				let living = getLiveSnapshot(os.url);
-				let s = createSite(os.url, os.title, os.name, os.snapshot, os.snapshot, living, false, os.image || '', 0);
+				let img = os.image || '';
+				let idx = img == '' ? 0 : 2;
+				let s = createSite(os.url, os.title, os.name, os.snapshot, os.snapshot, living, false, img, idx);
 				sites.push(s);
 			}
 		}

@@ -1,0 +1,82 @@
+﻿<!-- input url -->
+<!ENTITY superstart.dialog.url.title "URL megadása">
+<!ENTITY superstart.dialog.url.url "Add meg a weboldal címét!">
+<!ENTITY superstart.dialog.url.name "Oldal neve (opcionális)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Előnézeti kép beállítása">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Jobb felső sarok">
+<!ENTITY superstart.dialog.url.snapshot.entire "Teljes ablak">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefox előnézeti módjának használata (néhány oldal esetén nem elérhető)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Kép megadása">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Csoportnév szerkesztése">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Új URL hozzáadása">
+<!ENTITY superstart.menu.site.refreshall "Összes frissítése">
+<!ENTITY superstart.menu.options "Beállítások">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Link hozzáadása a Super Start-hoz">
+<!ENTITY superstart.context.menu.add "Fül hozzáadása a Super Start-hoz">
+
+<!-- options -->
+<!ENTITY superstart.options "Beállítások">
+
+<!ENTITY superstart.options.general "Általános">
+<!ENTITY superstart.options.sites.setup "Beállítások">
+<!ENTITY superstart.options.load.in.blanktab "Megnyitás új fülön">
+<!ENTITY superstart.options.set.as.homepage "A Super Start beállítása kezdőlapnak">
+<!ENTITY superstart.options.sites.open.in.newtab "Megnyitás új lapon alapértelmezetten">
+<!ENTITY superstart.options.sites.displaysettings "Mejelenítési beállítások">
+<!ENTITY superstart.options.sites.use.compactmode "Kompakt mód használata">
+<!ENTITY superstart.options.sites.use.background.effect "Háttéreffekt alkalmazása (lassulást okozhat)">
+<!ENTITY superstart.options.sites.col "Oldalak száma soronként:">
+
+<!ENTITY superstart.options.navbar "Eszköztár">
+<!ENTITY superstart.options.show.navbar "Eszköztár megjelenítése">
+<!ENTITY superstart.options.navbar.show.recently.closed "Nemrég bezárt">
+<!ENTITY superstart.options.navbar.show.add.site "Új oldal hozzáadása">
+<!ENTITY superstart.options.navbar.show.themes "Téma">
+<!ENTITY superstart.options.navbar.show.todo "Jegyzetek">
+<!ENTITY superstart.options.show.elements "Elemek megjelenítése...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Gombok megjelenítése">
+<!ENTITY superstart.options.site.buttons.show.newtab "Új fül">
+<!ENTITY superstart.options.site.buttons.show.refresh "Frissítés">
+<!ENTITY superstart.options.site.buttons.show.config "Beállítás">
+<!ENTITY superstart.options.site.buttons.show.remove "Eltávolítás">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Következő pillanatkép">
+
+<!ENTITY superstart.options.general.hint "* beállítás az aktuális fülön azonnal érvényre jut.">
+
+<!ENTITY superstart.ui.customize "Felület beállítása">
+<!ENTITY superstart.ui.customize.use "Testreszabás engedélyezése">
+<!ENTITY superstart.ui.customize.howto "Segítség a személyre szabásban.">
+<!ENTITY superstart.ui.background.image "Háttérkép">
+<!ENTITY superstart.ui.select.image "Kép kiválasztása">
+<!ENTITY superstart.ui.clear.image "Kép törlése">
+<!ENTITY superstart.ui.background.repeat "Ismétlés">
+<!ENTITY superstart.ui.background.repeat.repeat "Ismétlés (alapértelmezett)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Nincs ismétlés">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Ismétlés vízszintesen">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Ismétlés függőlegesen">
+<!ENTITY superstart.ui.background.size "Méret">
+<!ENTITY superstart.ui.background.size.default "Alapértelmezett">
+<!ENTITY superstart.ui.background.size.cover "Igazítás (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Igazítás (CSS:contain)">
+<!ENTITY superstart.ui.colors "Színek">
+<!ENTITY superstart.ui.background.color.enable "Egyszínű háttér engedélyezése">
+<!ENTITY superstart.ui.background.color.select "Szín kiválasztása">
+<!ENTITY superstart.ui.text.color "Szöveg">
+<!ENTITY superstart.ui.text.color.enable "Szöveg színezésének engedélyezése">
+<!ENTITY superstart.ui.text.color.black "Fekete">
+<!ENTITY superstart.ui.text.color.white "Fehér">
+<!ENTITY superstart.ui.text.color.use.shadow "Árnyék használata">
+<!ENTITY superstart.ui.others "Továbbiak">
+<!ENTITY superstart.ui.transparent "Átlátszó (lassulást okozhat)">
+<!ENTITY superstart.ui.customize.advanced "Haladó">
+<!ENTITY superstart.ui.css.edit.hint "CSS kód megadása közvetlenül:">
+
+<!ENTITY superstart.options.about "Névjegy">
+<!ENTITY superstart.options.author "Szerző">
+<!ENTITY superstart.options.help "Súgó">

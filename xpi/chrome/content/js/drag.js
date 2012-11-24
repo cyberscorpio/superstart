@@ -298,6 +298,15 @@ return {
 			evt.stopPropagation();
 			evt.preventDefault();
 			return false;
+		} else {
+			var dt = evt.dataTransfer;
+			var link = dt.getData("text/uri-list");
+			if (link != '') {
+				sm.addSite(link, '', 0, false, '');
+				evt.stopPropagation();
+				evt.preventDefault();
+				return false;
+			}
 		}
 	},
 	

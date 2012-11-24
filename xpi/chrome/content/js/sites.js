@@ -112,7 +112,7 @@ function createAnEmptySite() {
 		title.className = 'title';
 		a.appendChild(title);
 	}
-	return tmpl.cloneNode();
+	return tmpl.cloneNode(true);
 }
 
 function swapSiteItem(se, tmp) {

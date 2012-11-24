@@ -256,52 +256,6 @@ var $$ = function(id) {
 				});
 	}
 
-	/**
-	 format:
-	 ELEMENT :=
-	 {
-	 	'tag' : tag,
-		'attr' : {
-			'name' : value,
-			'name' : value,
-			...
-		},
-		'children" : [
-			ELEMENT, ...
-		]
-	 }
-	 */
-	$.obj2Element = function(obj) {
-		if (obj.tag == null) {
-			return null;
-		}
-		var e = document.createElement(obj.tag);
-		if (e) {
-			if (obj.attr) {
-				var a = obj.attr;
-				for (var k in a) {
-					if (k == 'text') {
-						var t = document.createTextNode(a[k]);
-						e.appendChild(t);
-					} else {
-						e.setAttribute(k, a[k]);
-					}
-				}
-			}
-
-			if (obj.children) {
-				var cs = obj.children;
-				for (var i = 0, l = cs.length; i < l; ++ i) {
-					var c = $.obj2Element(cs[i]);
-					if (c) {
-						e.appendChild(c);
-					}
-				}
-			}
-		}
-		return e;
-	}
-
 	const Ci = Components.interfaces;
 	$.getMainWindow = function() {
 		return window.QueryInterface(Ci.nsIInterfaceRequestor)

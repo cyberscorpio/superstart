@@ -96,43 +96,24 @@ function init() {
 	}, false);
 }
 
-var templates = {
-	'site': {
-		'tag': 'div',
-		'attr': {
-			'class': 'site',
-			'draggable': 'true'
-		},
-		'children': [
-			{
-				'tag': 'a',
-				'attr': {
-					'draggable': 'false'
-				},
-				'children': [
-					{
-						'tag': 'div',
-						'attr': {
-							'class': 'snapshot'
-						}
-					}, // background
-					{
-						'tag': 'p',
-						'attr': {
-							'class': 'title'
-						}
-					} // title
-				]
-			} // a
-		] // site children
-	}, // site
-	'folder': {
-		'tag': 'div',
-		'attr': {
-			'class': 'site folder'
-		},
-	} // folder
-};
+var tmpl = null;
+function createAnEmptySite() {
+	if (tmpl == null) {
+		tmpl = document.createElement('div');
+		tmpl.className = 'site';
+		tmpl.setAttribute('draggable', true);
+		var a = document.createElement('a');
+		a.setAttribute('draggable', false);
+		tmpl.appendChild(a);
+		var snapshot = document.createElement('div');
+		snapshot.className = 'snapshot';
+		a.appendChild(snapshot);
+		var title = document.createElement('p');
+		title.className = 'title';
+		a.appendChild(title);
+	}
+	return tmpl.cloneNode();
+}
 
 function swapSiteItem(se, tmp) {
 	var dragging = null;
@@ -253,11 +234,11 @@ function insert(c, s) {
 }
 
 function createEmptySiteElement() {
-	return $.obj2Element(templates['site']);
+	return createAnEmptySite();
 }
 
 function createSiteElement(s) {
-	var se = $.obj2Element(templates['site']);
+	var se = createAnEmptySite();
 	se.ondragstart = gDrag.onStart;
 	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
 	var buttons = [];

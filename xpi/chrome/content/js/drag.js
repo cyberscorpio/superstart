@@ -272,9 +272,6 @@ return {
 			var x = evt.clientX;
 			var y = evt.clientY;
 			mover.onMove(elem, x, y);
-			if (layout.inTransition()) {
-				return false;
-			}
 
 			var newOpt = getOpt(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
 			if (!newOpt.isEqual(currOpt)) {

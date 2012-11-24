@@ -99,7 +99,6 @@ var layout = (function() {
 
 		window.setTimeout(function() {
 			$.removeClass(ss, 'notransition');
-			clrTransitionState();
 		}, 0);
 	}
 
@@ -124,24 +123,6 @@ var layout = (function() {
 		layoutTopSites();
 		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
-		}
-	}
-
-	var transitionElement = null;
-	var transitionTick = 0;
-	function clrTransitionState() {
-		if (transitionElement) {
-			transitionElement.removeEventListener('transitionend', clrTransitionState, true);
-			transitionElement = null;
-			transitionTick = 0;
-		}
-	}
-
-	function setTransitionState(se) {
-		if (transitionElement == null) {
-			transitionElement = se;
-			transitionTick = Date.now();
-			se.addEventListener('transitionend', clrTransitionState, true);
 		}
 	}
 
@@ -268,9 +249,6 @@ var layout = (function() {
 
 					var top = y + 'px';
 					var left = x + 'px';
-					if (!layout.inTransition(true) && ((se.style.top && top != se.style.top) || (se.style.left && left != se.style.left))) {
-						setTransitionState(se);
-					}
 					se.style.top = top;
 					se.style.left = left;
 				}
@@ -361,19 +339,6 @@ var layout = (function() {
 
 	var actID = null;
 var layout = {
-	inTransition: function(nocheck) {
-		if (transitionElement != null) {
-			if (!nocheck && Date.now() - transitionTick > 1000) { // so the program should be recover from an error
-				log('------------------ get error? ----------------');
-				clrTransitionState();
-				return false;
-			}
-			return true;
-		} else {
-			return false;
-		}
-	},
-
 	layoutTopSites: function(actingNow) {
 		if (actingNow) {
 			if (actID) {

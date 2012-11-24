@@ -355,10 +355,6 @@ function indexFromNode(n) {
 }
 
 function onFolderClick(idx, f) {
-	if (layout.inTransition()) {
-		return;
-	}
-
 	var folderArea = $$('folder');
 	if (folderArea == null) {
 		openFolder(idx, f);
@@ -472,7 +468,7 @@ function closeFolder() {
 }
 
 function onLinkClick(evt) {
-	if (layout.inTransition() || $.hasClass(evt.target, 'button')) {
+	if ($.hasClass(evt.target, 'button')) {
 		return false;
 	}
 

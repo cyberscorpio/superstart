@@ -65,10 +65,14 @@ var layout = (function() {
 	var cfgevts = {
 		'col': onColChanged,
 		'sites-compact': onSitesCompactChanged,
+		'sites-text-only': onSitesTextOnly,
 		'todo-hide': onTodoHide
 	};
 	window.addEventListener('DOMContentLoaded', function() {
 		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+
+		checkTextOnly();
+
 		for (var k in cfgevts) {
 			cfg.subscribe(k, cfgevts[k]);
 		}
@@ -115,6 +119,24 @@ var layout = (function() {
 		layoutTopSites();
 		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
+		}
+	}
+
+	function onSitesTextOnly(evt, v) {
+		checkTextOnly();
+		calcLayout();
+		layoutTopSites();
+		if($('.folder.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+	}
+
+	function checkTextOnly() {
+		var to = cfg.getConfig('sites-text-only');
+		if (to) {
+			$.addClass(document.body, 'text-only');
+		} else {
+			$.removeClass(document.body, 'text-only');
 		}
 	}
 
@@ -225,16 +247,24 @@ var layout = (function() {
 
 	// return the height of the container, used by the #folder
 	function placeSites(ses, col, lp) {
+		var textOnly = cfg.getConfig('sites-text-only');
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
 			if (lp.siteHeight == 0) {
 				var ch = $(ses[0], '.title')[0].offsetHeight;
-				lp.siteHeight = lp.snapshotHeight + ch;
+				if (textOnly) {
+					lp.siteHeight = ch;
+				} else {
+					lp.siteHeight = lp.snapshotHeight + ch;
+				}
 			}
 
 			var nw = (inDragging ? lp.snapshotWidthInDragging : lp.snapshotWidth) + 'px';
 			var nh = (inDragging ? lp.snapshotHeightInDragging : lp.snapshotHeight) + 'px';
+			if (textOnly) {
+				nh = '0px';
+			}
 			var sw = (inDragging ? lp.siteWidthInDragging : lp.siteWidth) + 'px';
 			var sh = lp.siteHeight + 'px';
 			var x = lp.startX, y = lp.startY;

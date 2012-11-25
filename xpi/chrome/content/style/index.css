@@ -195,6 +195,19 @@ body.site-no-next-snapshot .site .next-snapshot {
 	display: none !important;
 }
 
+body.text-only .snapshot {
+	display: none;
+}
+body.text-only .title {
+	text-align: left;
+}
+body:not(.text-only) .title {
+	background-image: none !important;
+}
+body.text-only .site .button {
+	display: none !important;
+}
+
 
 .site .button {
 	width: 24px;
@@ -292,6 +305,11 @@ body.site-no-next-snapshot .site .next-snapshot {
 	background-color: transparent;
 }
 
+body.text-only .site.folder.opened:after,
+body.text-only .site.folder.closing:after {
+	left: 16px;
+}
+
 .site .title {
 	position: relative;
 	height: 1em;
@@ -385,7 +403,7 @@ body.site-no-next-snapshot .site .next-snapshot {
 #notes {
 }
 
-#note-edit:-moz-placeholder {
+#note-edit::-moz-placeholder {
 	color: #CCCCCC;
 }
 #note-edit.init {

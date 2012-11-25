@@ -4,6 +4,7 @@ pref('extensions.superstart.theme', 'default');
 pref('extensions.superstart.load.in.blanktab', true);
 
 pref('extensions.superstart.sites.compact', true);
+pref('extensions.superstart.sites.text.only', false);
 pref('extensions.superstart.sites.use.background.effect', false);
 pref('extensions.superstart.sites.col', 4);
 

@@ -33,6 +33,7 @@ var superStartOptions = {};
 		'sites-open-in-newtab' : 'open-in-newtab',
 
 		'sites-use-compactmode' : 'sites-compact',
+		'sites-use-textonly': 'sites-text-only',
 		'sites-use-background-effect' : 'sites-use-background-effect',
 
 		'show-navbar' : 'navbar',

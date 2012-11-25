@@ -140,35 +140,24 @@ function setBackground(s, snapshot) {
 	snapshot.style.backgroundImage = 'url("' + s.thumbnail + '")';
 }
 
-var UPDATE_HINT = 1;
-var UPDATE_URL = 2;
-var UPDATE_SNAPSHOT = 4;
-var UPDATE_TITLE = 8;
-function updateSite(s, se, flag) {
-	var updateAllFields = (flag === undefined);
+function updateSite(s, se) {
 	if ($.hasClass(se, 'folder')) {
 		$.removeClass(se, 'folder');
 		var tmp = createSiteElement(s);
 		swapSiteItem(se, tmp);
 	}
 	var e = $(se, 'a')[0];
-	if (updateAllFields || (flag & UPDATE_HINT)) {
-		e.title = s.title || s.url;
+	e.title = s.title || s.url;
+	e.href = s.url;
+
+	e = $(se, '.snapshot')[0];
+	setBackground(s, e);
+
+	e = $(se, '.title')[0];
+	while(e.firstChild) {
+		e.removeChild(e.firstChild);
 	}
-	if (updateAllFields || (flag & UPDATE_URL)) {
-		e.href = s.url;
-	}
-	if (updateAllFields || (flag & UPDATE_SNAPSHOT)) {
-		e = $(se, '.snapshot')[0];
-		setBackground(s, e);
-	}
-	if (updateAllFields || (flag & UPDATE_TITLE)) {
-		e = $(se, '.title')[0];
-		while(e.firstChild) {
-			e.removeChild(e.firstChild);
-		}
-		e.appendChild(document.createTextNode(s.displayName));
-	}
+	e.appendChild(document.createTextNode(s.displayName));
 }
 
 function setFolderTitle(s, se) {

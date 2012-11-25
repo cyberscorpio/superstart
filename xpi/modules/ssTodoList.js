@@ -21,20 +21,20 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-	var that = this;
-	var logger = this.logger;
-	var todoFile = FileUtils.getFile('ProfD', ['superstart', 'todo.json']);
-	this.todoList = [];
+	let that = this;
+	let logger = this.logger;
+	let todoFile = FileUtils.getFile('ProfD', ['superstart', 'todo.json']);
+	let todoList = [];
 	load();
 
 	function load() {
-		that.todoList = [];
+		todoList = [];
 		try {
 			if (!todoFile.exists()) {
 				todoFile.create(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
 				save();
 			} else {
-				that.todoList = that.jparse(that.fileGetContents(todoFile));
+				todoList = that.jparse(that.fileGetContents(todoFile));
 			}
 		} catch (e) {
 			logger.logStringMessage(e);
@@ -42,44 +42,44 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	function save() {
-		that.filePutContents(todoFile, that.stringify(that.todoList));
+		that.filePutContents(todoFile, that.stringify(todoList));
 	}
 
 
 
 	this.getTodoList = function() {
-		var s = this.stringify(this.todoList);
+		let s = this.stringify(todoList);
 		return this.jparse(s);
 	}
 
 	this.getTodo = function(index) {
-		if (index < 0 || index >= this.todoList.length) {
+		if (index < 0 || index >= todoList.length) {
 			return null;
 		} else {
-			var s = this.stringify(this.todoList[index]);
+			let s = this.stringify(todoList[index]);
 			return this.jparse(s);
 		}
 	}
 
 	this.addTodo = function(type, text, priority) {
-		var todo = {
+		let todo = {
 			'type': type,
 			'text': text,
 			'priority': priority
 		};
 
-		var index = this.todoList.length;
-		this.todoList.push(todo);
+		let index = todoList.length;
+		todoList.push(todo);
 		save();
 
 		this.fireEvent('todo-added', index);
 	}
 
 	this.changeTodo = function(index, type, text, priority) {
-		if (index < 0 || index >= this.todoList.length) {
+		if (index < 0 || index >= todoList.length) {
 			return;
 		} else {
-			var todo = this.todoList[index];
+			let todo = todoList[index];
 			if (todo.type != type || todo.text != text || todo.priority != priority) {
 				todo.type = type;
 				todo.text = text;
@@ -92,10 +92,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	this.removeTodo = function(index) {
-		if (index < 0 || index >= this.todoList.length) {
+		if (index < 0 || index >= todoList.length) {
 			return;
 		}
-		this.todoList.splice(index, 1);
+		todoList.splice(index, 1);
 		save();
 
 		this.fireEvent('todo-removed', index);

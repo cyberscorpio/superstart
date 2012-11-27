@@ -108,8 +108,13 @@ function createAnEmptySite() {
 		var snapshot = document.createElement('div');
 		snapshot.className = 'snapshot';
 		a.appendChild(snapshot);
-		var title = document.createElement('p');
+		var title = document.createElement('div');
 		title.className = 'title';
+		var img = document.createElement('img');
+		title.appendChild(img);
+		var text = document.createElement('p');
+		text.className = 'text';
+		title.appendChild(text);
 		a.appendChild(title);
 	}
 	return tmpl.cloneNode(true);
@@ -153,7 +158,10 @@ function updateSite(s, se) {
 	e = $(se, '.snapshot')[0];
 	setBackground(s, e);
 
-	e = $(se, '.title')[0];
+	e = $(se, '.title img')[0];
+	e.src = 'moz-anno:favicon:' + s.icon;
+
+	e = $(se, '.text')[0];
 	while(e.firstChild) {
 		e.removeChild(e.firstChild);
 	}
@@ -161,7 +169,7 @@ function updateSite(s, se) {
 }
 
 function setFolderTitle(s, se) {
-	var e = $(se, '.title')[0];
+	var e = $(se, '.text')[0];
 	while(e.firstChild) {
 		e.removeChild(e.firstChild);
 	}

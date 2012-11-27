@@ -195,14 +195,18 @@ body.site-no-next-snapshot .site .next-snapshot {
 	display: none !important;
 }
 
-body.text-only .snapshot {
+body.text-only .site .snapshot {
 	display: none;
 }
-body.text-only .title {
+body.text-only .site .title {
 	text-align: left;
 }
-body:not(.text-only) .title {
-	background-image: none !important;
+body.text-only .site .title > img {
+	display: block;
+	float: left;
+	width: 16px;
+	height: 16px;
+	margin-top: 4px;
 }
 body.text-only .site .button {
 	display: none !important;
@@ -312,14 +316,20 @@ body.text-only .site.folder.closing:after {
 
 .site .title {
 	position: relative;
-	height: 1em;
-	padding: .5em;
 	text-align: center;
-	font-size: 1.2rem;
-	color: black;
+}
+
+.site .title > img {
+	display: none;
+}
+
+.site .title > .text {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	height: 1em;
+	padding: .5em;
+	font-size: 1.2rem;
 }
 
 #folder .site .title {
@@ -328,10 +338,6 @@ body.text-only .site.folder.closing:after {
 
 #folder .site:hover .title {
 	color: white;
-}
-
-.site .title span {
-	line-height: 2em;
 }
 
 .site

@@ -627,26 +627,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			try {
 				let loc = doc.location;
 				if (loc.href.indexOf('http') == 0) {
-					let links = doc.getElementsByTagName('link');
-					// 1. look for rel="shortcut icon"
-					for (let i = 0, l = links.length; i < l; ++ i) {
-						let link = links[i];
-						let rel = link.rel || '';
-						if (rel.search(/icon/i) != -1 && rel.search(/shortcut/i) != -1) {
-							return link.href;
-						}
+					let links = doc.querySelectorAll('link[rel~=shortcut][rel~=icon]');
+					if (links.length > 0) {
+						return links[0].href;
 					}
-
-					// 2. icon only
-					for (let i = 0, l = links.length; i < l; ++ i) {
-						let link = links[i];
-						let rel = link.rel || '';
-						if (rel.search(/icon/i) != -1) {
-							return link.href;
-						}
+					links = doc.querySelectorAll('link[rel=icon]');
+					if (links.length > 0) {
+						return links[0].href;
 					}
-
-					// 3. fallback
 					if (loc.protocol == 'http:' || loc.protocol == 'https:') {
 						return loc.protocol + '//' + loc.host + '/favicon.ico';
 					}

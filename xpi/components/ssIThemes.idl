@@ -5,13 +5,13 @@
 [scriptable, uuid(26D34DF2-BB0A-47EB-8164-EC231647F1BD)]
 interface ssIThemes : nsISupports
 {
-	string getTheme(in AString name);
-	string getThemes();
+	AString getTheme(in AString name);
+	AString getThemes();
 	boolean removeTheme(in AString name);
 	/**
 	 * @return the name of the new theme, '' if failed
 	 */
-	string installTheme(in nsIFile theme);
+	AString installTheme(in nsIFile theme);
 
 	/**
 	 * @data JSON string

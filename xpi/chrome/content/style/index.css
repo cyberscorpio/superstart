@@ -311,6 +311,7 @@ body.text-only .site .button {
 
 body.text-only .site.folder.opened:after,
 body.text-only .site.folder.closing:after {
+	display: none;
 	left: 16px;
 }
 

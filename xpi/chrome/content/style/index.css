@@ -485,17 +485,17 @@ body.text-only .site.folder.closing:after {
 /***************************************
  * transition
  **************************************/
-#container
-, #navbar ul li
-, .site
-, #folder
-, .site .snapshot
-, .site .button
-, .site .title
-, .site.folder .snapshot img
-, #notes
-, #note-edit
-, #notes-list .button {
+body.ready #container
+, body.ready #navbar ul li
+, body.ready .site
+, body.ready #folder
+, body.ready .site .snapshot
+, body.ready .site .button
+, body.ready .site .title
+, body.ready .site.folder .snapshot img
+, body.ready #notes
+, body.ready #note-edit
+, body.ready #notes-list .button {
 	transition-duration: 250ms;
 	transition-timing-function: linear;
 }

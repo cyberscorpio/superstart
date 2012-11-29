@@ -61,6 +61,13 @@ window.addEventListener('DOMContentLoaded', function() {
 	}
 }, false);
 
+window.addEventListener('load', function() {
+	window.removeEventListener('load', arguments.callee, false);
+	window.setTimeout(function() {
+		$.addClass(document.body, 'ready');
+	}, 0);
+}, false);
+
 // event handler
 function onShowHide(evt, value) {
 	var show = cfg.getConfig(evt);

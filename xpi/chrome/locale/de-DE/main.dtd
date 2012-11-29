@@ -30,6 +30,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuen Tab öffnen">
 <!ENTITY superstart.options.sites.displaysettings "Einstellungen anzeigen">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakten Modus verwenden">
+<!ENTITY superstart.options.sites.text.only "Text only">
 <!ENTITY superstart.options.sites.use.background.effect "Hintergrundeffekt verwenden (könnte langsam sein)">
 <!ENTITY superstart.options.sites.col "Wie viele Seiten in einer Reihe?:">
 

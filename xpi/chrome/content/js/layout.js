@@ -16,6 +16,9 @@ var layout = (function() {
 		if (compact) {
 			this.xPadding = 20;
 			this.yPadding = 5;
+			if (cfg.getConfig('sites-text-only')) {
+				this.yPadding = 15;
+			}
 
 			var w = Math.floor(width * 2 / 3);
 			this.siteWidth = Math.floor((w - (col - 1) * this.xPadding) / col);

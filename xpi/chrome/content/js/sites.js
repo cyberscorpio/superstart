@@ -43,7 +43,8 @@ function init() {
 		'site-changed': onSiteChanged,
 		'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
 		'site-title-changed': onSiteTitleChanged,
-		'open-in-newtab': onOpenTypeChanged
+		'open-in-newtab': onOpenTypeChanged,
+		'site-folder-show-size': onFolderShowSize
 	};
 	// register window events
 	var wevts = {
@@ -68,6 +69,7 @@ function init() {
 	for (var k in devts) {
 		document.addEventListener(k, devts[k], false);
 	}
+	onFolderShowSize();
 
 	var mask = $$('mask');
 	mask.onclick = function() {
@@ -169,13 +171,19 @@ function updateSite(s, se) {
 }
 
 function setFolderTitle(s, se) {
+	var img = $(se, '.title > img')[0];
+	img.src = 'chrome://global/skin/dirListing/folder.png';
+
 	var e = $(se, '.text')[0];
 	while(e.firstChild) {
 		e.removeChild(e.firstChild);
 	}
 	var title = s.displayName || getString('ssFolderDefaultName');;
-	title += ' (' + s.sites.length + ')';
 	e.appendChild(document.createTextNode(title));
+	var size = document.createElement('span');
+	size.className = 'folder-size';
+	size.appendChild(document.createTextNode(' (' + s.sites.length + ')'));
+	e.appendChild(size);
 }
 
 function updateFolder(f, se) {
@@ -187,7 +195,7 @@ function updateFolder(f, se) {
 		var e = $(se, 'a')[0];
 		e.href = '#';
 		var snapshot = $(se, '.snapshot')[0];
-		var imgs = $(se, 'img');
+		var imgs = $(snapshot, 'img');
 		for (var i = imgs.length - 1; i >= 0; -- i) {
 			imgs[i].parentNode.removeChild(imgs[i]);
 		}
@@ -780,6 +788,14 @@ function onOpenTypeChanged(evt, value) {
 	} else {
 		$.removeClass($$('sites'), 'newtab');
 		$.removeClass($$('folder'), 'newtab');
+	}
+}
+
+function onFolderShowSize(evt, value) {
+	if (cfg.getConfig('site-folder-show-size')) {
+		$.removeClass($$('sites'), 'hide-folder-size');
+	} else {
+		$.addClass($$('sites'), 'hide-folder-size');
 	}
 }
 

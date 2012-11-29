@@ -30,6 +30,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "默认在新 tab 打开链接">
 <!ENTITY superstart.options.sites.displaysettings "显示设置">
 <!ENTITY superstart.options.sites.use.compactmode "使用紧凑模式">
+<!ENTITY superstart.options.sites.text.only "文本模式，禁用缩略图">
 <!ENTITY superstart.options.sites.use.background.effect "打开群组时，使用背景特效 (也许会慢)">
 <!ENTITY superstart.options.sites.col "每行多少个网址:">
 

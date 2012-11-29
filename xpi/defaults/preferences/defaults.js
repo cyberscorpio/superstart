@@ -25,6 +25,7 @@ pref('extensions.superstart.site.buttons.refresh', true);
 pref('extensions.superstart.site.buttons.config', true);
 pref('extensions.superstart.site.buttons.remove', true);
 pref('extensions.superstart.site.buttons.next.snapshot', true);
+pref('extensions.superstart.site.folder.show.size', true);
 
 pref('extensions.superstart.use.customize', false);
 

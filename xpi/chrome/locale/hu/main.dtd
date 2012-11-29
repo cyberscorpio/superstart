@@ -30,6 +30,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "Megnyitás új lapon alapértelmezetten">
 <!ENTITY superstart.options.sites.displaysettings "Mejelenítési beállítások">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakt mód használata">
+<!ENTITY superstart.options.sites.text.only "Text only">
 <!ENTITY superstart.options.sites.use.background.effect "Háttéreffekt alkalmazása (lassulást okozhat)">
 <!ENTITY superstart.options.sites.col "Oldalak száma soronként:">
 

@@ -315,6 +315,10 @@ body.text-only .site.folder.closing:after {
 	left: 16px;
 }
 
+#sites.hide-folder-size span.folder-size {
+	display: none;
+}
+
 .site .title {
 	position: relative;
 	text-align: center;

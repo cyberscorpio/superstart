@@ -63,6 +63,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'site-buttons-config': {'key': 'site.buttons.config'},
 		'site-buttons-remove': {'key': 'site.buttons.remove'},
 		'site-buttons-next-snapshot': {'key': 'site.buttons.next.snapshot'},
+		'site-folder-show-size': {'key': 'site.folder.show.size'},
 
 		'use-customize': {'key': 'use.customize'}
 	};

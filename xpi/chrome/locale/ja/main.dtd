@@ -30,6 +30,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "既定では新しいタブで開く">
 <!ENTITY superstart.options.sites.displaysettings "表示設定">
 <!ENTITY superstart.options.sites.use.compactmode "コンパクトモードを使用">
+<!ENTITY superstart.options.sites.text.only "Text only">
 <!ENTITY superstart.options.sites.use.background.effect "背景エフェクトを使用 (遅くなる場合があります)">
 <!ENTITY superstart.options.sites.col "一列に表示するサイトの数:">
 

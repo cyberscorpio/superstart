@@ -30,7 +30,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "Открывать в новых вкладках по умолчанию">
 <!ENTITY superstart.options.sites.displaysettings "Настройки отображения">
 <!ENTITY superstart.options.sites.use.compactmode "Использовать компактный режим">
-<!ENTITY superstart.options.sites.text.only "Text only">
+<!ENTITY superstart.options.sites.text.only "Скрыть миниатюры сайтов">
 <!ENTITY superstart.options.sites.use.background.effect "Использовать фоновый эффект (может замедлить браузер)">
 <!ENTITY superstart.options.sites.col "Количество сайтов в ряду:">
 

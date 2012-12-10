@@ -42,16 +42,6 @@ function init() {
 	}, false);
 }
 
-
-function insertStyle(id, href) {
-	var style = document.createElement('link');
-	style.id = id;
-	style.setAttribute('rel', 'stylesheet');
-	style.setAttribute('type', 'text/css');
-	style.setAttribute('href', href);
-	document.getElementsByTagName('head')[0].appendChild(style);
-}
-
 function refresh() {
 	try {
 		var currTheme = cfg.getConfig('theme');
@@ -67,10 +57,10 @@ function refresh() {
 			}
 		});
 		if (theme.css != '') {
-			insertStyle('theme', theme.css);
+			$.insertStyle(theme.css, 'theme');
 		}
 		if (cfg.getConfig('use-customize')) {
-			insertStyle('customize', tm.getUsUrl());
+			$.insertStyle(tm.getUsUrl(), 'customize');
 		}
 	} catch (e) {
 		log(e);
@@ -110,7 +100,7 @@ function onUseCustomize(evt, use) {
 		style = null;
 	}
 	if (cfg.getConfig('use-customize')) {
-		insertStyle('customize', tm.getUsUrl());
+		$.insertStyle(tm.getUsUrl(), 'customize');
 	}
 }
 

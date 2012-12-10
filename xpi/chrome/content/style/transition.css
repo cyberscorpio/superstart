@@ -1,0 +1,64 @@
+#container
+, #navbar ul li
+, .site
+, #folder
+, .site .snapshot
+, .site .button
+, .site .title
+, .site.folder .snapshot img
+, #notes
+, #note-edit
+, #notes-list .button {
+	transition-duration: 250ms;
+	transition-timing-function: linear;
+}
+
+#navbar ul li {
+	transition-property: opacity;
+}
+
+#sites.notransition .site, .site.notransition {
+	transition-property: none;
+}
+
+#container {
+	transition-property: top;
+}
+.site {
+	transition-property: top, left, opacity;
+}
+#folder {
+	transition-property: top, left, width, height;
+}
+
+.site .snapshot {
+	transition-property: border, width, height, opacity;
+}
+
+.site .button {
+	transition-property: opacity;
+}
+
+.site .title {
+	transition-property: color, opacity, text-shadow;
+}
+
+.site.folder .snapshot img {
+	transition-property: top, left;
+}
+
+.site.dragging {
+	transition: none;
+}
+
+#notes {
+	transition-property: margin, opacity;
+}
+
+#note-edit {
+	transition-property: height, opacity;
+}
+
+#notes-list .button {
+	transition-property: opacity;
+}

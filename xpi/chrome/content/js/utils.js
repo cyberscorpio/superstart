@@ -243,6 +243,18 @@ var $$ = function(id) {
 
 		return result;
 	}
+
+
+	$.insertStyle = function(href, id) {
+		var style = document.createElement('link');
+		if (id !== undefined) {
+			style.id = id;
+		}
+		style.setAttribute('rel', 'stylesheet');
+		style.setAttribute('type', 'text/css');
+		style.setAttribute('href', href);
+		document.getElementsByTagName('head')[0].appendChild(style);
+	}
 	
 	$.escapeHTML = function(str) {
 		return str.replace(/[&"<>]/g, function (m) {

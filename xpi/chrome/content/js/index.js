@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('load', function() {
 	window.removeEventListener('load', arguments.callee, false);
 	window.setTimeout(function() {
-		$.addClass(document.body, 'ready');
+		$.insertStyle('style/transition.css');
 	}, 0);
 }, false);
 

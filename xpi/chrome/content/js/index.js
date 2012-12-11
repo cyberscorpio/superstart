@@ -1,11 +1,15 @@
-(function() {
 const {classes: Cc, interfaces: Ci} = Components;
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 var ob = ssObj.getService(Ci.ssIObserverable);
 var cfg = ssObj.getService(Ci.ssIConfig);
+var sm = ssObj.getService(Ci.ssISiteManager);
+var todo = ssObj.getService(Ci.ssITodoList);
+var tm = ssObj.getService(Ci.ssIThemes);
 ssObj = undefined;
+
+(function() {
  
 var sEvts = {
 	'sites-use-background-effect': onShowHide,
@@ -34,19 +38,22 @@ var dEvts = {
 for (var k in wEvts) {
 	window.addEventListener(k, wEvts[k], false);
 }
-window.addEventListener('unload', function() {
-	window.removeEventListener('unload', arguments.callee, false);
-	for (var k in sEvts) {
-		ob.unsubscribe(k, sEvts[k]);
-	}
-	ob = null;
-	cfg = null;
-	for (var k in wEvts) {
-		window.removeEventListener(k, wEvts[k], false);
-	}
-	for (var k in dEvts) {
-		document.removeEventListener(k, dEvts[k], false);
-	}
+window.addEventListener('load', function() {
+	window.removeEventListener('load', arguments.callee, false);
+
+	window.addEventListener('unload', function() {
+		window.removeEventListener('unload', arguments.callee, false);
+		for (var k in sEvts) {
+			ob.unsubscribe(k, sEvts[k]);
+		}
+		for (var k in wEvts) {
+			window.removeEventListener(k, wEvts[k], false);
+		}
+		for (var k in dEvts) {
+			document.removeEventListener(k, dEvts[k], false);
+		}
+		ob = cfg = sm = todo = tm = null;
+	}, false);
 }, false);
 
 window.addEventListener('DOMContentLoaded', function() {

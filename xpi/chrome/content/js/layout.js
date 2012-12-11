@@ -1,13 +1,8 @@
 var layout = (function() {
-	const {classes: Cc, interfaces: Ci} = Components;
 	const MINWIDTH = 960;
 	const NOTEWIDTH = 200;
 	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;
 	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10
-
-	var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-	var cfg = ssObj.getService(Ci.ssIConfig);
-	ssObj = undefined;
 
 	function LayoutParameter(width, col) {
 		var compact = cfg.getConfig('sites-compact');
@@ -89,7 +84,6 @@ var layout = (function() {
 		for (var k in cfgevts) {
 			cfg.unsubscribe(k, cfgevts[k]);
 		}
-		cfg = null;
 	}, false);
 	// -- register events ended ---
 

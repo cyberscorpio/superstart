@@ -1,14 +1,5 @@
 (function() {
-const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
-Cu.import('resource://superstart/xl.js');
-var SuperStart = $.getMainWindow().SuperStart;
-var getString = SuperStart.getString;
-var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var ob = ssObj.getService(Ci.ssIObserverable);
-var cfg = ssObj.getService(Ci.ssIConfig);
-var sm = ssObj.getService(Ci.ssISiteManager);
-ssObj = undefined;
-
+Components.utils.import('resource://superstart/xl.js');
 
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);

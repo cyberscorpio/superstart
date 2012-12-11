@@ -2,14 +2,6 @@
  * created on 10/2/2012, on hospital, with my father
  */
 (function() {
-const {classes: Cc, interfaces: Ci} = Components;
-var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var cfg = ssObj.getService(Ci.ssIConfig);
-var todo = ssObj.getService(Ci.ssITodoList);
-ssObj = undefined;
-
-var getString = $.getMainWindow().SuperStart.getString;
-
 var cfgevts = {
 	'todo-hide': onTodoHide
 };
@@ -39,8 +31,6 @@ window.addEventListener('unload', function() {
 	for (var k in tdevts) {
 		todo.unsubscribe(k, tdevts[k]);
 	}
-	cfg = null;
-	todo = null;
 }, false);
 
 function onTodoHide(evt, v) {

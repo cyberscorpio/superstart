@@ -2,14 +2,6 @@
  * created on 10/2/2012, on hospital, with my father
  */
 (function() {
-const {classes: Cc, interfaces: Ci} = Components;
-var SuperStart = $.getMainWindow().SuperStart;
-var getString = SuperStart.getString;
-var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var ob = ssObj.getService(Ci.ssIObserverable);
-var cfg = ssObj.getService(Ci.ssIConfig);
-ssObj = undefined;
-
 var e2id_map = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-recently-closed': 'nbb-recently-closed',
 	'navbar-add-site': 'nbb-add-site',
@@ -25,7 +17,6 @@ window.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('unload', function() {
 	window.removeEventListener('unload', arguments.callee, false);
 	cleanup();
-	ob = cfg = null;
 }, false);
 
 function init() {

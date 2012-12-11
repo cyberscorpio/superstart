@@ -1,14 +1,4 @@
 (function() {
-const {classes: Cc, interfaces: Ci} = Components;
-var SuperStart = $.getMainWindow().SuperStart;
-var getString = SuperStart.getString;
-var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var ob = ssObj.getService(Ci.ssIObserverable);
-var cfg = ssObj.getService(Ci.ssIConfig);
-var tm = ssObj.getService(Ci.ssIThemes);
-ssObj = undefined;
-
-
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 	init();
@@ -38,7 +28,6 @@ function init() {
 			ob.unsubscribe(k, sEvts[k]);
 		}
 		$$('nbc-themes-pointer').removeEventListener('mousedown', showThemes, false);
-		ob = cfg = tm = null;
 	}, false);
 }
 

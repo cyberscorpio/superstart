@@ -1,6 +1,4 @@
 (function() {
-Components.utils.import('resource://superstart/xl.js');
-
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
 	init();

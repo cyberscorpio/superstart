@@ -130,16 +130,15 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	var ssPrefObserver = {
 		register: function() {
 			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
-			this._branch = prefService.getBranch("extensions.superstart.");
-			this._branch.QueryInterface(Ci.nsIPrefBranch2);
-			this._branch.addObserver("", this, false);
+			this.branch = prefService.getBranch("extensions.superstart.");
+			this.branch.addObserver("", this, false);
 		},
 
 		unregister: function() {
-			if(!this._branch) {
+			if(!this.branch) {
 				return;
 			}
-			this._branch.removeObserver("", this);
+			this.branch.removeObserver("", this);
 		},
 
 		observe: function(aSubject, aTopic, aData) {

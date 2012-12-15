@@ -35,3 +35,5 @@ locale	superstart	ru-RU   jar:chrome/superstart.jar!/locale/ru-RU/
 locale	superstart	uk-UA   jar:chrome/superstart.jar!/locale/uk-UA/
 # Hungarian
 locale	superstart	hu      jar:chrome/superstart.jar!/locale/hu/
+# Czech
+locale	superstart	cs      jar:chrome/superstart.jar!/locale/cs/

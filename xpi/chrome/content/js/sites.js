@@ -820,8 +820,8 @@ function onFolderEditClick() {
 	return false;
 }
 
-function openGroupAll(g, i) {
-	var f = sm.getSite(g, i);
+function openGroupAll(g, idx) {
+	var f = sm.getSite(g, idx);
 	if (f && f.sites && Array.isArray(f.sites)) {
 		for (var i = 0; i < f.sites.length; ++ i) {
 			var s = f.sites[i];

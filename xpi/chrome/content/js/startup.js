@@ -20,7 +20,7 @@ if ("undefined" == typeof(SuperStart)) {
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 		let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
-		let ss = Cc['@mozilla.org/browser/sessionstore;1'].getService(Ci.nsISessionStore);
+		let sessions = Cc['@mozilla.org/browser/sessionstore;1'].getService(Ci.nsISessionStore);
 		let hs = Cc["@mozilla.org/browser/nav-history-service;1"].getService(Ci.nsINavHistoryService);
 		let bs = Cc["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Ci.nsINavBookmarksService);
 		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
@@ -150,14 +150,14 @@ if ("undefined" == typeof(SuperStart)) {
 				menu.removeChild(menu.firstChild);
 			}
 
-			if (ss.getClosedTabCount(window) == 0) {
+			if (sessions.getClosedTabCount(window) == 0) {
 				let m = document.createElement("menuitem");
 				m.setAttribute("label", this.getString('ssEmpty'));
 				menu.appendChild(m);
 				return;
 			}
 
-			let undoItems = JSON.parse(ss.getClosedTabData(window));
+			let undoItems = JSON.parse(sessions.getClosedTabData(window));
 			for (let i = 0, l = undoItems.length; i < l; ++ i) {
 				let m = document.createElement("menuitem");
 				m.setAttribute("label", undoItems[i].title);
@@ -243,9 +243,9 @@ if ("undefined" == typeof(SuperStart)) {
 			let blankTabToRemove = gBrowser.selectedTab;
 			let tab = null;
 			let ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
-			if (ss.getClosedTabCount(window) > (idx || 0)) {
+			if (sessions.getClosedTabCount(window) > (idx || 0)) {
 				TabView.prepareUndoCloseTab(blankTabToRemove);
-				tab = ss.undoCloseTab(window, idx || 0);
+				tab = sessions.undoCloseTab(window, idx || 0);
 				TabView.afterUndoCloseTab();
 			
 				if (blankTabToRemove)

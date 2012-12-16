@@ -88,7 +88,8 @@ var $$ = function(id) {
 			do {
 				x += el.offsetLeft;
 				y += el.offsetTop;
-			} while (el = el.offsetParent);
+				el = el.offsetParent;
+			} while (el);
 		}
 
 		return [x, y];

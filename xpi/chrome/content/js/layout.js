@@ -145,7 +145,7 @@ var layout = (function() {
 		}
 	}
 
-	function getFolderColumn(col) {
+	function getFolderColumn() {
 		var col = cfg.getConfig('col');
 		return col;// + 1;
 	}

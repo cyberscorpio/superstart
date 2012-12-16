@@ -61,11 +61,26 @@
 						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
 						<checkbox id="show-buttons" label="&superstart.options.site.buttons.show.buttons;" />
 						<hbox id="buttons-wrapper">
-							<checkbox flex="1" class="buttons-item" id="show-newtab" label="&superstart.options.site.buttons.show.newtab;" />
-							<checkbox flex="1" class="buttons-item" id="show-refresh" label="&superstart.options.site.buttons.show.refresh;" />
-							<checkbox flex="1" class="buttons-item" id="show-config" label="&superstart.options.site.buttons.show.config;" />
-							<checkbox flex="1" class="buttons-item" id="show-remove" label="&superstart.options.site.buttons.show.remove;" />
-							<checkbox flex="1" class="buttons-item" id="show-next-snapshot" label="&superstart.options.site.buttons.show.next.snapshot;" />
+							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.newtab;">
+								<vbox pack="center"><box class="site-button-icon buttons-item" id="icon-newtab" /></vbox>
+								<checkbox class="buttons-item" id="show-newtab" />
+							</hbox>
+							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.refresh;">
+								<vbox pack="center"><box class="site-button-icon buttons-item" id="icon-refresh" /></vbox>
+								<checkbox class="buttons-item" id="show-refresh" />
+							</hbox>
+							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.config;">
+								<vbox pack="center"><box class="site-button-icon buttons-item" id="icon-config" /></vbox>
+								<checkbox class="buttons-item" id="show-config" />
+							</hbox>
+							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.remove;">
+								<vbox pack="center"><box class="site-button-icon buttons-item" id="icon-remove" /></vbox>
+								<checkbox class="buttons-item" id="show-remove" />
+							</hbox>
+							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.next.snapshot;">
+								<vbox pack="center"><box class="site-button-icon buttons-item" id="icon-next-snapshot" /></vbox>
+								<checkbox class="buttons-item" id="show-next-snapshot" />
+							</hbox>
 						</hbox>
 					</groupbox>
 

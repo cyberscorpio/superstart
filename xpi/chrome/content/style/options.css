@@ -1,6 +1,46 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
+.buttons-item-wrapper {
+	margin-right: 2em;
+}
+
+.site-button-icon {
+	width: 24px;
+	height: 24px;
+	background-color: black;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(../images/toolbar.png);
+	border-radius: 50%;
+	margin: 2px;
+	-moz-transform: scale(0.75);
+}
+
+.site-button-icon[disabled=true] {
+	background-color: gray;
+}
+
+#icon-newtab {
+	background-position: 0 0;
+}
+
+#icon-remove {
+	background-position: -96px 0;
+}
+
+#icon-next-snapshot {
+	background-position: -120px 0;
+}
+
+#icon-config {
+	background-position: -72px 0;
+}
+
+#icon-refresh {
+	background-position: -48px 0;
+}
+
 label.cstm-ctrl {
 	padding-top: 3px;
 	padding-bottom: 3px;

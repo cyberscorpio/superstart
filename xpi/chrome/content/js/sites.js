@@ -87,28 +87,90 @@ function init() {
 	}, false);
 }
 
-var tmpl = null;
-function createAnEmptySite() {
-	if (tmpl == null) {
-		tmpl = document.createElement('div');
-		tmpl.className = 'site';
-		tmpl.setAttribute('draggable', true);
-		var a = document.createElement('a');
-		a.setAttribute('draggable', false);
-		tmpl.appendChild(a);
-		var snapshot = document.createElement('div');
-		snapshot.className = 'snapshot';
-		a.appendChild(snapshot);
-		var title = document.createElement('div');
-		title.className = 'title';
-		var img = document.createElement('img');
-		title.appendChild(img);
-		var text = document.createElement('p');
-		text.className = 'text';
-		title.appendChild(text);
-		a.appendChild(title);
+var tmplSite = null;
+var tmplFolder = null;
+function createBasicTmpl() {
+	var tmpl = document.createElement('div');
+	tmpl.className = 'site';
+	tmpl.setAttribute('draggable', true);
+	var a = document.createElement('a');
+	a.setAttribute('draggable', false);
+	tmpl.appendChild(a);
+	var snapshot = document.createElement('div');
+	snapshot.className = 'snapshot';
+	a.appendChild(snapshot);
+	var title = document.createElement('div');
+	title.className = 'title';
+	var img = document.createElement('img');
+	title.appendChild(img);
+	var text = document.createElement('p');
+	text.className = 'text';
+	title.appendChild(text);
+	a.appendChild(title);
+	return tmpl;
+}
+
+function initTmpl(tmpl, buttons, titles) {
+	// create buttons
+	for (var i = 0; i < buttons.length; ++ i) {
+		var b = document.createElement('div');
+		b.className = buttons[i] + ' button';
+		b.title = getString(titles[i]);
+		tmpl.appendChild(b);
 	}
-	return tmpl.cloneNode(true);
+}
+
+function installCmdHandlers(se, cmds) {
+	for (var k in cmds) {
+		var r = $(se, k);
+		if (r.length == 1) {
+			r = r[0];
+			r.onclick = cmds[k];
+		}
+	}
+
+	se.ondragstart = gDrag.onStart;
+	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
+}
+
+function createAnEmptySite() {
+	if (tmplSite === null) {
+		tmplSite = createBasicTmpl();
+		var buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
+		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
+		initTmpl(tmplSite, buttons, titles);
+	}
+	var se = tmplSite.cloneNode(true);
+	var cmds = {
+		'a': onLinkClick,
+		'.next-snapshot': nextSnapshot,
+		'.remove': removeSite,
+		'.refresh': refreshSite,
+		'.newtab': openInNewTab,
+		'.thistab': openInThisTab,
+		'.edit': editSite
+	};
+	installCmdHandlers(se, cmds);
+	return se;
+}
+
+function createAnEmptyFolder() {
+	if (tmplFolder === null) {
+		tmplFolder = createBasicTmpl();
+		$.addClass(tmplFolder, 'folder');
+		var buttons = ['refresh', 'newtab', 'edit'];
+		var titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
+		initTmpl(tmplFolder, buttons, titles);
+	}
+	var se = tmplFolder.cloneNode(true);
+	var cmds = {
+		'a': onLinkClick,
+		'.edit': onFolderEditClick,
+		'.newtab': onFolderNewTabClick,
+		'.refresh': refreshGroup
+	};
+	installCmdHandlers(se, cmds);
+	return se;
 }
 
 function swapSiteItem(se, tmp) {
@@ -228,56 +290,13 @@ function insert(c, s) {
 }
 
 function createSiteElement(s) {
-	var se = createAnEmptySite();
-	se.ondragstart = gDrag.onStart;
-	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
-	var buttons = [];
-	var titles = [];
-	var cmd = {};
-
+	var se = null;
 	if (s.sites != undefined) { // folder
-		$.addClass(se, 'folder');
+		se = createAnEmptyFolder();
 		updateFolder(s, se);
-		buttons = ['refresh', 'newtab', 'edit'];
-		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
-
-		cmds = {
-			'a': onLinkClick,
-			'.edit': onFolderEditClick,
-			'.newtab': onFolderNewTabClick,
-			'.refresh': refreshGroup
-		};
 	} else {
+		se = createAnEmptySite();
 		updateSite(s, se);
-		buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
-		titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
-		
-		cmds = {
-			'a': onLinkClick,
-			'.next-snapshot': nextSnapshot,
-			'.remove': removeSite,
-			'.refresh': refreshSite,
-			'.newtab': openInNewTab,
-			'.thistab': openInThisTab,
-			'.edit': editSite
-		};
-	}
-
-	// create buttons
-	for (var i = 0; i < buttons.length; ++ i) {
-		var b = document.createElement('div');
-		b.className = buttons[i] + ' button';
-		b.title = getString(titles[i]);
-		se.appendChild(b);
-	}
-
-	// install the command handlers
-	for (var k in cmds) {
-		var r = $(se, k);
-		if (r.length == 1) {
-			r = r[0];
-			r.onclick = cmds[k];
-		}
 	}
 	return se;
 }

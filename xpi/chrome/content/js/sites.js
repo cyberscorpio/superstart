@@ -227,10 +227,6 @@ function insert(c, s) {
 	}
 }
 
-function createEmptySiteElement() {
-	return createAnEmptySite();
-}
-
 function createSiteElement(s) {
 	var se = createAnEmptySite();
 	se.ondragstart = gDrag.onStart;
@@ -881,8 +877,5 @@ gDrag.indexFromNode = indexFromNode;
 gDrag.at = at;
 gDrag.openFolder = openFolder;
 gDrag.closeFolder = closeFolder;
-
-layout.createEmptySiteElement = createEmptySiteElement;
-
 
 })();

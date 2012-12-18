@@ -96,7 +96,7 @@ function init() {
 			ob.unsubscribe(k, smevts[k]);
 		}
 		for (var k in sevts) {
-			ob.unsubscribe(k, smevts[k]);
+			ob.unsubscribe(k, sevts[k]);
 		}
 		for (var k in wevts) {
 			window.addEventListener(k, wevts[k], false);

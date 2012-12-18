@@ -87,91 +87,105 @@ function init() {
 	}, false);
 }
 
-var tmplSite = null;
-var tmplFolder = null;
-function createBasicTmpl() {
-	var tmpl = document.createElement('div');
-	tmpl.className = 'site';
-	tmpl.setAttribute('draggable', true);
-	var a = document.createElement('a');
-	a.setAttribute('draggable', false);
-	tmpl.appendChild(a);
-	var snapshot = document.createElement('div');
-	snapshot.className = 'snapshot';
-	a.appendChild(snapshot);
-	var title = document.createElement('div');
-	title.className = 'title';
-	var img = document.createElement('img');
-	title.appendChild(img);
-	var text = document.createElement('p');
-	text.className = 'text';
-	title.appendChild(text);
-	a.appendChild(title);
-	return tmpl;
-}
-
-function initTmpl(tmpl, buttons, titles) {
-	// create buttons
-	for (var i = 0; i < buttons.length; ++ i) {
-		var b = document.createElement('div');
-		b.className = buttons[i] + ' button';
-		b.title = getString(titles[i]);
-		tmpl.appendChild(b);
-	}
-}
-
-function installCmdHandlers(se, cmds) {
-	for (var k in cmds) {
-		var r = $(se, k);
-		if (r.length == 1) {
-			r = r[0];
-			r.onclick = cmds[k];
+var tmplMgr = (function() {
+	var [tmplSite, tmplFolder] = (function() {
+		function createBasicTmpl() {
+			var tmpl = document.createElement('div');
+			tmpl.className = 'site';
+			tmpl.setAttribute('draggable', true);
+				var a = document.createElement('a');
+				a.setAttribute('draggable', false);
+					var snapshot = document.createElement('div');
+					snapshot.className = 'snapshot';
+				a.appendChild(snapshot);
+					var title = document.createElement('div');
+					title.className = 'title';
+						var img = document.createElement('img');
+						title.appendChild(img);
+						var text = document.createElement('p');
+						text.className = 'text';
+					title.appendChild(text);
+				a.appendChild(title);
+			tmpl.appendChild(a);
+			return tmpl;
 		}
-	}
+		
+		function initTmpl(buttons, titles) {
+			var tmpl = createBasicTmpl();
+			for (var i = 0; i < buttons.length; ++ i) {
+				var b = document.createElement('div');
+				b.className = buttons[i] + ' button';
+				b.title = getString(titles[i]);
+				tmpl.appendChild(b);
+			}
+			return tmpl;
+		}
 
-	se.ondragstart = gDrag.onStart;
-	$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
-}
-
-function createAnEmptySite() {
-	if (tmplSite === null) {
-		tmplSite = createBasicTmpl();
 		var buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
 		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
-		initTmpl(tmplSite, buttons, titles);
+		var s = initTmpl(buttons, titles);
+		buttons = ['refresh', 'newtab', 'edit'];
+		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
+		var f = initTmpl(buttons, titles);
+		$.addClass(f, 'folder');
+		return [s, f];
+	}());
+	
+	function installCmdHandlers(se, cmds) {
+		for (var k in cmds) {
+			var r = $(se, k);
+			if (r.length == 1) {
+				r = r[0];
+				r.onclick = cmds[k];
+			}
+		}
+	
+		se.ondragstart = gDrag.onStart;
+		$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
 	}
-	var se = tmplSite.cloneNode(true);
-	var cmds = {
-		'a': onLinkClick,
-		'.next-snapshot': nextSnapshot,
-		'.remove': removeSite,
-		'.refresh': refreshSite,
-		'.newtab': openInNewTab,
-		'.thistab': openInThisTab,
-		'.edit': editSite
-	};
-	installCmdHandlers(se, cmds);
-	return se;
-}
+	
+	function createAnEmptySite() {
+		var se = tmplSite.cloneNode(true);
+		var cmds = {
+			'a': onLinkClick,
+			'.next-snapshot': nextSnapshot,
+			'.remove': removeSite,
+			'.refresh': refreshSite,
+			'.newtab': openInNewTab,
+			'.thistab': openInThisTab,
+			'.edit': editSite
+		};
+		installCmdHandlers(se, cmds);
+		return se;
+	}
+	
+	function createAnEmptyFolder() {
+		var se = tmplFolder.cloneNode(true);
+		var cmds = {
+			'a': onLinkClick,
+			'.edit': onFolderEditClick,
+			'.newtab': onFolderNewTabClick,
+			'.refresh': refreshGroup
+		};
+		installCmdHandlers(se, cmds);
+		return se;
+	}
 
-function createAnEmptyFolder() {
-	if (tmplFolder === null) {
-		tmplFolder = createBasicTmpl();
-		$.addClass(tmplFolder, 'folder');
-		var buttons = ['refresh', 'newtab', 'edit'];
-		var titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
-		initTmpl(tmplFolder, buttons, titles);
+	function getTmpl(which) {
+		if (which === 'site') {
+			return tmplSite;
+		} else if (which === 'folder') {
+			return tmplFolder;
+		}
+		return null;
 	}
-	var se = tmplFolder.cloneNode(true);
-	var cmds = {
-		'a': onLinkClick,
-		'.edit': onFolderEditClick,
-		'.newtab': onFolderNewTabClick,
-		'.refresh': refreshGroup
+
+	return {
+		'createAnEmptySite': createAnEmptySite,
+		'createAnEmptyFolder': createAnEmptyFolder,
+		'getTmpl': getTmpl
 	};
-	installCmdHandlers(se, cmds);
-	return se;
-}
+}());
 
 function swapSiteItem(se, tmp) {
 	var dragging = null;
@@ -292,10 +306,10 @@ function insert(c, s) {
 function createSiteElement(s) {
 	var se = null;
 	if (s.sites != undefined) { // folder
-		se = createAnEmptyFolder();
+		se = tmplMgr.createAnEmptyFolder();
 		updateFolder(s, se);
 	} else {
-		se = createAnEmptySite();
+		se = tmplMgr.createAnEmptySite();
 		updateSite(s, se);
 	}
 	return se;

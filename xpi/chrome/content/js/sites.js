@@ -854,42 +854,39 @@ function onButtonShowHide(evt, show) {
 				onButtonShowHide(k, cfg.getConfig(k));
 			}
 		} else {
-			['site', 'folder'].forEach(function(t) {
-				var tmpl = tmplMgr.getTmpl(t);
-				var buttons = $(tmpl, '.button');
-				for (var i = 0; i < buttons.length; ++ i) {
-					$.addClass(buttons[i], 'hidden');
-				}
-			});
-			var buttons = $('.site .button');
-			for (var i = 0; i < buttons.length; ++ i) {
-				$.addClass(buttons[i], 'hidden');
-			}
+			changeElementsClass('.button', '.site .button', 'add', 'hidden');
 		}
 	} else {
 		var showAll = cfg.getConfig('site-buttons');
 		show = showAll && show;
 		evt2classes[evt].forEach(function(cls) {
-			['site', 'folder'].forEach(function(t) {
-				var tmpl = tmplMgr.getTmpl(t);
-				var buttons = $(tmpl, '.' + cls);
-				for (var i = 0; i < buttons.length; ++ i) {
-					if (show) {
-						$.removeClass(buttons[i], 'hidden');
-					} else {
-						$.addClass(buttons[i], 'hidden');
-					}
-				}
-			});
-			var buttons = $('.site .' + cls);
-			for (var i = 0; i < buttons.length; ++ i) {
-				if (show) {
-					$.removeClass(buttons[i], 'hidden');
-				} else {
-					$.addClass(buttons[i], 'hidden');
-				}
-			}
+			changeElementsClass('.' + cls, '.site .' + cls, show ? 'remove' : 'add', 'hidden');
 		});
+	}
+}
+
+/**
+ * change class for elements in templates and the document
+ */
+function changeElementsClass(tmplSelector, selector, addOrRemove, cls) {
+	['site', 'folder'].forEach(function(t) {
+		var tmpl = tmplMgr.getTmpl(t);
+		var elems = $(tmpl, tmplSelector);
+		for (var i = 0; i < elems.length; ++ i) {
+			if (addOrRemove === 'add') {
+				$.addClass(elems[i], cls);
+			} else if (addOrRemove === 'remove') {
+				$.removeClass(elems[i], cls);
+			}
+		}
+	});
+	var elems = $(selector);
+	for (var i = 0; i < elems.length; ++ i) {
+		if (addOrRemove === 'add') {
+			$.addClass(elems[i], cls);
+		} else if (addOrRemove === 'remove') {
+			$.removeClass(elems[i], cls);
+		}
 	}
 }
 

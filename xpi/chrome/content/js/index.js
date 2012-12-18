@@ -13,21 +13,9 @@ ssObj = undefined;
  
 var sEvts = {
 	'sites-use-background-effect': onShowHide,
-	'site-buttons': onShowHide,
-	'site-buttons-newtab': onShowHide,
-	'site-buttons-refresh': onShowHide,
-	'site-buttons-config': onShowHide,
-	'site-buttons-remove': onShowHide,
-	'site-buttons-next-snapshot': onShowHide
 };
 var evt2class = {
 	'sites-use-background-effect': 'use-background-effect',
-	'site-buttons': 'site-no-buttons',
-	'site-buttons-newtab': 'site-no-newtab',
-	'site-buttons-refresh':'site-no-refresh',
-	'site-buttons-config': 'site-no-config',
-	'site-buttons-remove': 'site-no-remove',
-	'site-buttons-next-snapshot': 'site-no-next-snapshot'
 };
 var wEvts = {
 	'scroll': onScroll

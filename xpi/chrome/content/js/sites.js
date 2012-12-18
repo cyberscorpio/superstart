@@ -5,23 +5,6 @@ window.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 function init() {
-	var sites = sm.getSites();
-
-	var df = document.createDocumentFragment();
-	for (var i = 0, l = sites.length; i < l; ++ i) {
-		var s = sites[i];
-
-		insert(df, s);
-	}
-	var container = $$('sites');
-	container.appendChild(df);
-
-	onOpenTypeChanged();
-
-	layout.layoutTopSites();
-
-	$.removeClass(container, 'hidden');
-
 	// register site events
 	var smevts = {
 		'site-added': onSiteAdded,
@@ -35,6 +18,15 @@ function init() {
 		'open-in-newtab': onOpenTypeChanged,
 		'site-folder-show-size': onFolderShowSize
 	};
+	var sevts = { // events needed to be called after loading
+		'site-buttons': onButtonShowHide,
+		'site-buttons-newtab': onButtonShowHide,
+		'site-buttons-refresh': onButtonShowHide,
+		'site-buttons-config': onButtonShowHide,
+		'site-buttons-remove': onButtonShowHide,
+		'site-buttons-next-snapshot': onButtonShowHide
+	};
+
 	// register window events
 	var wevts = {
 		'dblclick': onDblClick,
@@ -50,7 +42,10 @@ function init() {
 	}
 
 	for (var k in smevts) {
-		sm.subscribe(k, smevts[k]);
+		ob.subscribe(k, smevts[k]);
+	}
+	for (var k in sevts) {
+		ob.subscribe(k, sevts[k]);
 	}
 	for (var k in wevts) {
 		window.addEventListener(k, wevts[k], false);
@@ -58,6 +53,7 @@ function init() {
 	for (var k in devts) {
 		document.addEventListener(k, devts[k], false);
 	}
+
 	onFolderShowSize();
 
 	var mask = $$('mask');
@@ -71,10 +67,36 @@ function init() {
 	add.setAttribute('title', getString('ssSiteAddNew') + ' - ' + getString('ssSiteAddNewHint'));
 	$.removeClass(add, 'hidden');
 
+
+	// call sevts
+	for (var k in sevts) {
+		sevts[k](k, cfg.getConfig(k));
+	}
+
+	// all are OK, now we create the sites
+	var sites = sm.getSites();
+	var df = document.createDocumentFragment();
+	for (var i = 0, l = sites.length; i < l; ++ i) {
+		var s = sites[i];
+
+		insert(df, s);
+	}
+	var container = $$('sites');
+	container.appendChild(df);
+
+	onOpenTypeChanged();
+
+	layout.layoutTopSites();
+
+	$.removeClass(container, 'hidden');
+
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
 		for (var k in smevts) {
-			sm.unsubscribe(k, smevts[k]);
+			ob.unsubscribe(k, smevts[k]);
+		}
+		for (var k in sevts) {
+			ob.unsubscribe(k, smevts[k]);
 		}
 		for (var k in wevts) {
 			window.addEventListener(k, wevts[k], false);
@@ -121,10 +143,10 @@ var tmplMgr = (function() {
 			return tmpl;
 		}
 
-		var buttons = ['newtab', 'thistab', 'refresh', 'edit', 'remove', 'next-snapshot'];
+		var buttons = ['newtab', 'thistab', 'refresh', 'config', 'remove', 'next-snapshot'];
 		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 		var s = initTmpl(buttons, titles);
-		buttons = ['refresh', 'newtab', 'edit'];
+		buttons = ['refresh', 'newtab', 'config'];
 		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
 		var f = initTmpl(buttons, titles);
 		$.addClass(f, 'folder');
@@ -153,7 +175,7 @@ var tmplMgr = (function() {
 			'.refresh': refreshSite,
 			'.newtab': openInNewTab,
 			'.thistab': openInThisTab,
-			'.edit': editSite
+			'.config': configSite
 		};
 		installCmdHandlers(se, cmds);
 		return se;
@@ -163,7 +185,7 @@ var tmplMgr = (function() {
 		var se = tmplFolder.cloneNode(true);
 		var cmds = {
 			'a': onLinkClick,
-			'.edit': onFolderEditClick,
+			'.config': onFolderConfigClick,
 			'.newtab': onFolderNewTabClick,
 			'.refresh': refreshGroup
 		};
@@ -539,7 +561,7 @@ function openInNewTab() {
 	return false;
 }
 
-function editSite() {
+function configSite() {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
@@ -817,6 +839,60 @@ function onFolderShowSize(evt, value) {
 	}
 }
 
+function onButtonShowHide(evt, show) {
+	var evt2classes = {
+		'site-buttons-newtab': ['newtab', 'thistab'],
+		'site-buttons-refresh': ['refresh'],
+		'site-buttons-config': ['config'],
+		'site-buttons-remove': ['remove'],
+		'site-buttons-next-snapshot': ['next-snapshot']
+	};
+
+	if (evt === 'site-buttons') {
+		if (show) {
+			for (var k in evt2classes) {
+				onButtonShowHide(k, cfg.getConfig(k));
+			}
+		} else {
+			['site', 'folder'].forEach(function(t) {
+				var tmpl = tmplMgr.getTmpl(t);
+				var buttons = $(tmpl, '.button');
+				for (var i = 0; i < buttons.length; ++ i) {
+					$.addClass(buttons[i], 'hidden');
+				}
+			});
+			var buttons = $('.site .button');
+			for (var i = 0; i < buttons.length; ++ i) {
+				$.addClass(buttons[i], 'hidden');
+			}
+		}
+	} else {
+		var showAll = cfg.getConfig('site-buttons');
+		show = showAll && show;
+		evt2classes[evt].forEach(function(cls) {
+			['site', 'folder'].forEach(function(t) {
+				var tmpl = tmplMgr.getTmpl(t);
+				var buttons = $(tmpl, '.' + cls);
+				for (var i = 0; i < buttons.length; ++ i) {
+					if (show) {
+						$.removeClass(buttons[i], 'hidden');
+					} else {
+						$.addClass(buttons[i], 'hidden');
+					}
+				}
+			});
+			var buttons = $('.site .' + cls);
+			for (var i = 0; i < buttons.length; ++ i) {
+				if (show) {
+					$.removeClass(buttons[i], 'hidden');
+				} else {
+					$.addClass(buttons[i], 'hidden');
+				}
+			}
+		});
+	}
+}
+
 var urlDialogs = {};
 function openUrlDialog(g, i) {
 	var idxes = [g, i];
@@ -835,7 +911,7 @@ function showAddSite() {
 	openUrlDialog(-1, -1);
 }
 
-function onFolderEditClick() {
+function onFolderConfigClick() {
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];

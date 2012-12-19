@@ -26,8 +26,17 @@ var dEvts = {
 for (var k in wEvts) {
 	window.addEventListener(k, wEvts[k], false);
 }
-window.addEventListener('load', function() {
-	window.removeEventListener('load', arguments.callee, false);
+
+window.addEventListener('DOMContentLoaded', function() {
+	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+	for (var evt in sEvts) {
+		var fn = sEvts[evt];
+		ob.subscribe(evt, fn);
+		fn(evt);
+	}
+	for (var k in dEvts) {
+		document.addEventListener(k, dEvts[k], false);
+	}
 
 	window.addEventListener('unload', function() {
 		window.removeEventListener('unload', arguments.callee, false);
@@ -40,20 +49,7 @@ window.addEventListener('load', function() {
 		for (var k in dEvts) {
 			document.removeEventListener(k, dEvts[k], false);
 		}
-		ob = cfg = sm = todo = tm = null;
 	}, false);
-}, false);
-
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	for (var evt in sEvts) {
-		var fn = sEvts[evt];
-		ob.subscribe(evt, fn);
-		fn(evt);
-	}
-	for (var k in dEvts) {
-		document.addEventListener(k, dEvts[k], false);
-	}
 }, false);
 
 window.addEventListener('load', function() {
@@ -103,4 +99,4 @@ function onContextMenu(evt) {
 }
 
 
-})();
+}());

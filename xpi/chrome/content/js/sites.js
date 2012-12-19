@@ -984,4 +984,4 @@ gDrag.at = at;
 gDrag.openFolder = openFolder;
 gDrag.closeFolder = closeFolder;
 
-})();
+}());

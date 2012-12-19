@@ -1,61 +1,50 @@
+"use strict";
 (function() {
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	init();
-}, false);
 
-function init() {
-	// register site events
-	var smevts = {
-		'site-added': onSiteAdded,
-		'site-removed': onSiteRemoved,
-		'site-simple-move': onSiteSimpleMove,
-		'site-move-in': onSiteMoveIn,
-		'site-move-out': onSiteMoveOut,
-		'site-changed': onSiteChanged,
-		'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
-		'site-title-changed': onSiteTitleChanged,
-		'open-in-newtab': onOpenTypeChanged,
-		'site-folder-show-size': onFolderShowSize
-	};
-	var sevts = { // events needed to be called after loading
-		'site-buttons': onButtonShowHide,
-		'site-buttons-newtab': onButtonShowHide,
-		'site-buttons-refresh': onButtonShowHide,
-		'site-buttons-config': onButtonShowHide,
-		'site-buttons-remove': onButtonShowHide,
-		'site-buttons-next-snapshot': onButtonShowHide
-	};
+var obevts = {
+	'site-added': onSiteAdded,
+	'site-removed': onSiteRemoved,
+	'site-simple-move': onSiteSimpleMove,
+	'site-move-in': onSiteMoveIn,
+	'site-move-out': onSiteMoveOut,
+	'site-changed': onSiteChanged,
+	'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
+	'site-title-changed': onSiteTitleChanged
+};
+var cfgevts = { // to be called in onDOMLoaded
+	'open-in-newtab': onOpenTypeChanged,
+	'site-folder-show-size': onFolderShowSize,
+	'site-buttons': onButtonShowHide,
+	'site-buttons-newtab': onButtonShowHide,
+	'site-buttons-refresh': onButtonShowHide,
+	'site-buttons-config': onButtonShowHide,
+	'site-buttons-remove': onButtonShowHide,
+	'site-buttons-next-snapshot': onButtonShowHide
+};
+var wevts = {
+	'dblclick': onDblClick,
+	'keypress': onKeyPress
+};
+var devts = {
+	'dragenter': gDrag.onEnter,
+	'dragleave': gDrag.onLeave,
+	'dragover': gDrag.onOver,
+	'drop': gDrag.onDrop,
+	'dragend': gDrag.onEnd
+}
+evtMgr.register([obevts, cfgevts], [wevts], [devts]);
 
-	// register window events
-	var wevts = {
-		'dblclick': onDblClick,
-		'keypress': onKeyPress
-	};
-	// register document events
-	var devts = {
-		'dragenter': gDrag.onEnter,
-		'dragleave': gDrag.onLeave,
-		'dragover': gDrag.onOver,
-		'drop': gDrag.onDrop,
-		'dragend': gDrag.onEnd
-	}
 
-	for (var k in smevts) {
-		ob.subscribe(k, smevts[k]);
-	}
-	for (var k in sevts) {
-		ob.subscribe(k, sevts[k]);
-	}
-	for (var k in wevts) {
-		window.addEventListener(k, wevts[k], false);
-	}
-	for (var k in devts) {
-		document.addEventListener(k, devts[k], false);
-	}
+window.addEventListener('unload', onUnload, false);
+function onUnload() {
+	window.removeEventListener('unload', onUnload, false);
+	var mask = $$('mask');
+	mask.onclick = null;
+}
 
-	onFolderShowSize();
-
+window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+function onDOMLoaded() {
+	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
 	var mask = $$('mask');
 	mask.onclick = function() {
 		closeFolder();
@@ -67,10 +56,9 @@ function init() {
 	add.setAttribute('title', getString('ssSiteAddNew') + ' - ' + getString('ssSiteAddNewHint'));
 	$.removeClass(add, 'hidden');
 
-
-	// call sevts
-	for (var k in sevts) {
-		sevts[k](k, cfg.getConfig(k));
+	// check the necessary statuses
+	for (var k in cfgevts) {
+		cfgevts[k](k, cfg.getConfig(k));
 	}
 
 	// all are OK, now we create the sites
@@ -84,29 +72,9 @@ function init() {
 	var container = $$('sites');
 	container.appendChild(df);
 
-	onOpenTypeChanged();
-
 	layout.layoutTopSites();
 
 	$.removeClass(container, 'hidden');
-
-	window.addEventListener('unload', function() {
-		window.removeEventListener('unload', arguments.callee, false);
-		for (var k in smevts) {
-			ob.unsubscribe(k, smevts[k]);
-		}
-		for (var k in sevts) {
-			ob.unsubscribe(k, sevts[k]);
-		}
-		for (var k in wevts) {
-			window.addEventListener(k, wevts[k], false);
-		}
-		for (var k in devts) {
-			document.removeEventListener(k, devts[k], false);
-		}
-		var mask = $$('mask');
-		mask.onclick = null;
-	}, false);
 }
 
 var tmplMgr = (function() {
@@ -305,14 +273,20 @@ function flashFolder(f) {
 	var tm = 100;
 	$.addClass(f, 'flash');
 	window.setTimeout(function() {
+		onTimer();
+	}, tm);
+
+	function onTimer() {
 		$.toggleClass(f, 'flash');
 		count --;
 		if (count > 0) {
-			window.setTimeout(arguments.callee, tm);
+			window.setTimeout(function() {
+				onTimer();
+			}, tm);
 		} else {
 			$.removeClass(f, 'flash');
 		}
-	}, tm);
+	}
 }
 
 /**
@@ -408,6 +382,14 @@ function onFolderClick(idx, f) {
 	}
 }
 
+
+function onFolderOpened(evt) {
+	if (this == evt.target) {
+		this.removeEventListener('transitionend', onFolderOpened, false);
+		$.removeClass(this, 'resizing');
+	}
+}
+
 function openFolder(idx, f) {
 	var se = at(-1, idx);
 	se.draggable = false;
@@ -430,12 +412,8 @@ function openFolder(idx, f) {
 	if (cfg.getConfig('open-in-newtab')) {
 		$.addClass(folderArea, 'newtab');
 	}
-	folderArea.addEventListener('transitionend', function(evt) {
-		if (this == evt.target) {
-			this.removeEventListener('transitionend', arguments.callee, false);
-			$.removeClass(this, 'resizing');
-		}
-	}, false);
+
+	folderArea.addEventListener('transitionend', onFolderOpened, false);
 
 	var df = document.createDocumentFragment();
 	for (var i = 0, l = f.sites.length; i < l; ++ i) {
@@ -475,28 +453,33 @@ function openFolder(idx, f) {
 	}, 0);
 }
 
+function onFolderClosed(evt) {
+	if (this != evt.target) {
+		return;
+	}
+	this.removeEventListener('transitionend', onFolderClosed, false);
+	this.parentNode.removeChild(this); // FIXME: if you click a folder very quickly, 'this.parentNode' could be null ???
+	$.addClass(this, 'resizing');
+
+	$.removeClass(document.body, 'folder-closing');
+
+	var idx = this.idx;
+	var se = at(-1, idx);
+	$.removeClass(se, 'closing');
+	se.draggable = true;
+
+	var mask = $$('mask');
+	mask.style.display = '';
+
+	layout.layoutTopSites();
+}
+
 function closeFolder() {
 	var folderArea = $$('folder');
 
 	folderArea.style.height = '0px';
 	$.addClass(folderArea, 'resizing');
-	folderArea.addEventListener('transitionend', function(evt) {
-		if (this != evt.target) {
-			return;
-		}
-		this.removeEventListener('transitionend', arguments.callee, false);
-		this.parentNode.removeChild(this);
-		$.addClass(this, 'resizing');
-
-		$.removeClass(document.body, 'folder-closing');
-		$.removeClass(se, 'closing');
-		se.draggable = true;
-
-		var mask = $$('mask');
-		mask.style.display = '';
-
-		layout.layoutTopSites();
-	}, false);
+	folderArea.addEventListener('transitionend', onFolderClosed, false);
 
 	var idx = folderArea.idx;
 	var se = at(-1, idx);
@@ -595,28 +578,32 @@ function removeSite(evt) {
 }
 
 function nextSnapshot() {
+	function onTransitionEnd(evt) {
+		function onNewImageReady (evt) {
+			if (this != evt.target) {
+				return;
+			}
+			snapshot.removeEventListener('transitionend', onNewImageReady, true);
+		}
+
+		if (this != evt.target) {
+			return;
+		}
+		snapshot.removeEventListener('transitionend', onTransitionEnd, true);
+	
+		sm.nextSnapshot(idxes[0], idxes[1]);
+	
+		snapshot.style.opacity = '1';
+		snapshot.addEventListener('transitionend', onNewImageReady, true);
+	}
+
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
 			var snapshot = $(se, '.snapshot')[0];
 			snapshot.style.opacity = '0';
-			snapshot.addEventListener('transitionend', function(evt) {
-				if (this != evt.target) {
-					return;
-				}
-				snapshot.removeEventListener('transitionend', arguments.callee, true);
-	
-				sm.nextSnapshot(idxes[0], idxes[1]);
-	
-				snapshot.style.opacity = '1';
-				snapshot.addEventListener('transitionend', function(evt) {
-					if (this != evt.target) {
-						return;
-					}
-					snapshot.removeEventListener('transitionend', arguments.callee, true);
-				}, true);
-			}, true);
+			snapshot.addEventListener('transitionend', onTransitionEnd, true);
 		}
 	}
 	return false;
@@ -821,8 +808,8 @@ function onSiteTitleChanged(evt, idxes) {
 	}
 }
 
-function onOpenTypeChanged(evt, value) {
-	if (cfg.getConfig('open-in-newtab')) {
+function onOpenTypeChanged(evt, openInNewtab) {
+	if (openInNewtab) {
 		$.addClass($$('sites'), 'newtab');
 		$.addClass($$('folder'), 'newtab');
 	} else {
@@ -831,8 +818,8 @@ function onOpenTypeChanged(evt, value) {
 	}
 }
 
-function onFolderShowSize(evt, value) {
-	if (cfg.getConfig('site-folder-show-size')) {
+function onFolderShowSize(evt, show) {
+	if (show) {
 		$.removeClass($$('sites'), 'hide-folder-size');
 	} else {
 		$.addClass($$('sites'), 'hide-folder-size');

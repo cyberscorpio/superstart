@@ -1,37 +1,23 @@
 /**
  * created on 10/2/2012, on hospital, with my father
  */
+"use strict";
 (function() {
-var cfgevts = {
-	'todo-hide': onTodoHide
-};
 var tdevts = {
 	'todo-added': onNoteAdded
 	, 'todo-removed': onNoteRemoved
 };
+var cfgevts = {
+	'todo-hide': onTodoHide
+};
+evtMgr.register([tdevts, cfgevts], [], []);
 
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	for (var k in cfgevts) {
-		cfg.subscribe(k, cfgevts[k]);
-	}
-	for (var k in tdevts) {
-		todo.subscribe(k, tdevts[k]);
-	}
-
+function onDOMLoaded() {
+	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
 	init();
-
 	onTodoHide('todo-hide', cfg.getConfig('todo-hide'));
-}, false);
-window.addEventListener('unload', function() {
-	window.removeEventListener('unload', arguments.callee, false);
-	for (var k in cfgevts) {
-		cfg.unsubscribe(k, cfgevts[k]);
-	}
-	for (var k in tdevts) {
-		todo.unsubscribe(k, tdevts[k]);
-	}
-}, false);
+}
+window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
 
 function onTodoHide(evt, v) {
 	var onoff = $$('nbc-notes-onoff');

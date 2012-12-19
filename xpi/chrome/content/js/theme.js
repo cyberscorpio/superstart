@@ -1,34 +1,28 @@
+"use strict";
 (function() {
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	init();
-}, false);
+var obevts = {
+	'theme': onThemeChanged,
+	'theme-loaded': onThemeLoaded,
+	'theme-removed': onThemeRemoved,
+	'use-customize': onUseCustomize,
+	'user-style-changed': onUserStyleChanged
+};
+evtMgr.register([obevts], [], []);
+window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+function onDOMLoaded() {
+	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
 
-function init() {
 	refresh();
-	var sEvts = {
-		'theme': onThemeChanged,
-		'theme-loaded': onThemeLoaded,
-		'theme-removed': onThemeRemoved,
-		'use-customize': onUseCustomize,
-		'user-style-changed': onUserStyleChanged
-	};
-
-	for (var k in sEvts) {
-		ob.subscribe(k, sEvts[k]);
-	}
 
 	var pointer = $$('nbc-themes-pointer');
-	pointer.addEventListener('mousedown', showThemes, false);
 	pointer.setAttribute('title', getString('ssThemes'));
+	pointer.addEventListener('mousedown', showThemes, false);
 
-	window.addEventListener('unload', function() {
-		window.removeEventListener('unload', arguments.callee, false);
-		for (var k in sEvts) {
-			ob.unsubscribe(k, sEvts[k]);
-		}
+	window.addEventListener('unload', onUnload, false);
+	function onUnload() {
+		window.removeEventListener('unload', onUnload, false);
 		$$('nbc-themes-pointer').removeEventListener('mousedown', showThemes, false);
-	}, false);
+	}
 }
 
 function refresh() {
@@ -114,7 +108,7 @@ function showThemes() {
 	window.getSelection().removeAllRanges()
 	var t = $$('nb-themes');
 	if (t == null) {
-		tp = document.createElement('div');
+		var tp = document.createElement('div');
 		tp.id = 'nb-themes';
 		var p = document.createElement('p');
 		p.appendChild(document.createTextNode('Themes'));

@@ -398,4 +398,4 @@ var layout = {
 	
 }; // layout
 	return layout;
-})();
+}());

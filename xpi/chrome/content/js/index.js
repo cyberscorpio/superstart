@@ -1,3 +1,4 @@
+"use strict";
 const {classes: Cc, interfaces: Ci} = Components;
 var SuperStart = $.getMainWindow().SuperStart;
 var getString = SuperStart.getString;
@@ -9,13 +10,58 @@ var todo = ssObj.getService(Ci.ssITodoList);
 var tm = ssObj.getService(Ci.ssIThemes);
 ssObj = undefined;
 
+var evtMgr = (function() {
+	var evts = [[], [], []]; // ob, window, document
+
+	var added = 0;
+	var removed = 0;
+	function doRegister(obs, ws, ds, isAdd) {
+		for (var i = 0; i < obs.length; ++ i) {
+			for (var k in obs[i]) {
+				isAdd ? ob.subscribe(k, obs[i][k]) : ob.unsubscribe(k, obs[i][k]);
+				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
+			}
+		}
+		for (var i = 0; i < ws.length; ++ i) {
+			for (var k in ws[i]) {
+				isAdd ? window.addEventListener(k, ws[i][k], false) : window.removeEventListener(k, ws[i][k], false);
+				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
+			}
+		}
+		for (var i = 0; i < ds.length; ++ i) {
+			for (var k in ds[i]) {
+				isAdd ? document.addEventListener(k, ds[i][k], false) : document.removeEventListener(k, ds[i][k], false);
+				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
+			}
+		}
+	}
+
+	function register(obs, ws, ds) {
+		evts[0] = evts[0].concat(obs);
+		evts[1] = evts[1].concat(ws);
+		evts[2] = evts[2].concat(ds);
+
+		doRegister(obs, ws, ds, true);
+	}
+
+	function unregister() {
+		window.removeEventListener('unload', unregister, false);
+		doRegister(evts[0], evts[1], evts[2], false);
+		evts = undefined;
+	}
+
+	window.addEventListener('unload', unregister, false);
+
+	return {
+		'register': register
+	};
+}());
+
 (function() {
+
  
 var sEvts = {
-	'sites-use-background-effect': onShowHide,
-};
-var evt2class = {
-	'sites-use-background-effect': 'use-background-effect',
+	'sites-use-background-effect': onUseBackgroundEffect,
 };
 var wEvts = {
 	'scroll': onScroll
@@ -23,56 +69,25 @@ var wEvts = {
 var dEvts = {
 	'contextmenu': onContextMenu
 };
-for (var k in wEvts) {
-	window.addEventListener(k, wEvts[k], false);
-}
 
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-	for (var evt in sEvts) {
-		var fn = sEvts[evt];
-		ob.subscribe(evt, fn);
-		fn(evt);
-	}
-	for (var k in dEvts) {
-		document.addEventListener(k, dEvts[k], false);
-	}
-
-	window.addEventListener('unload', function() {
-		window.removeEventListener('unload', arguments.callee, false);
-		for (var k in sEvts) {
-			ob.unsubscribe(k, sEvts[k]);
-		}
-		for (var k in wEvts) {
-			window.removeEventListener(k, wEvts[k], false);
-		}
-		for (var k in dEvts) {
-			document.removeEventListener(k, dEvts[k], false);
-		}
-	}, false);
-}, false);
-
-window.addEventListener('load', function() {
-	window.removeEventListener('load', arguments.callee, false);
+evtMgr.register([sEvts], [wEvts], [dEvts]);
+window.addEventListener('load', onLoad, false);
+function onLoad() {
+	window.removeEventListener('load', onLoad, false);
 	window.setTimeout(function() {
 		$.insertStyle('style/transition.css');
 	}, 0);
-}, false);
-
-// event handler
-function onShowHide(evt, value) {
-	var show = cfg.getConfig(evt);
-	if (evt == 'sites-use-background-effect') {
-		show = !show;
-	}
-
-	if (show) {
-		$.removeClass(document.body, evt2class[evt]);
-	} else {
-		$.addClass(document.body, evt2class[evt]);
-	}
 }
 
+// event handler
+function onUseBackgroundEffect(evt, value) {
+	var use = cfg.getConfig('sites-use-background-effect');
+	if (use) {
+		$.addClass(document.body, 'use-background-effect');
+	} else {
+		$.removeClass(document.body, 'use-background-effect');
+	}
+}
 
 function onScroll() {
 	var mask = $$('mask');
@@ -97,6 +112,5 @@ function onContextMenu(evt) {
 		evt.preventDefault();
 	}
 }
-
 
 }());

@@ -1,4 +1,5 @@
 // dragging
+"use strict";
 var gDrag = (function() {
 
 const HOVER = 500;

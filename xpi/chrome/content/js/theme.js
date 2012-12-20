@@ -8,22 +8,17 @@ var obevts = {
 	'user-style-changed': onUserStyleChanged
 };
 evtMgr.register([obevts], [], []);
-window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
-function onDOMLoaded() {
-	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
-
+evtMgr.ready(function() {
 	refresh();
 
 	var pointer = $$('nbc-themes-pointer');
 	pointer.setAttribute('title', getString('ssThemes'));
 	pointer.addEventListener('mousedown', showThemes, false);
 
-	window.addEventListener('unload', onUnload, false);
-	function onUnload() {
-		window.removeEventListener('unload', onUnload, false);
+	evtMgr.clear(function() {
 		$$('nbc-themes-pointer').removeEventListener('mousedown', showThemes, false);
-	}
-}
+	});
+});
 
 function refresh() {
 	try {

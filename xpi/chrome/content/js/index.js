@@ -13,25 +13,20 @@ ssObj = undefined;
 var evtMgr = (function() {
 	var evts = [[], [], []]; // ob, window, document
 
-	var added = 0;
-	var removed = 0;
 	function doRegister(obs, ws, ds, isAdd) {
 		for (var i = 0; i < obs.length; ++ i) {
 			for (var k in obs[i]) {
 				isAdd ? ob.subscribe(k, obs[i][k]) : ob.unsubscribe(k, obs[i][k]);
-				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
 			}
 		}
 		for (var i = 0; i < ws.length; ++ i) {
 			for (var k in ws[i]) {
 				isAdd ? window.addEventListener(k, ws[i][k], false) : window.removeEventListener(k, ws[i][k], false);
-				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
 			}
 		}
 		for (var i = 0; i < ds.length; ++ i) {
 			for (var k in ds[i]) {
 				isAdd ? document.addEventListener(k, ds[i][k], false) : document.removeEventListener(k, ds[i][k], false);
-				isAdd ? log('+++ ' + (++ added) + ' ' + k + ' subscribed') : log('--- ' + (++ removed) + ' ' + k + ' unsubscribed');
 			}
 		}
 	}
@@ -44,22 +39,56 @@ var evtMgr = (function() {
 		doRegister(obs, ws, ds, true);
 	}
 
-	function unregister() {
-		window.removeEventListener('unload', unregister, false);
-		doRegister(evts[0], evts[1], evts[2], false);
-		evts = undefined;
+	var isReady = false;
+	var readyFns = [];
+	function ready(fn) {
+		if (isReady) {
+			fn();
+		} else {
+			readyFns.push(fn);
+		}
 	}
 
-	window.addEventListener('unload', unregister, false);
+	function onDOMLoaded() {
+		window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
+		for (var i = 0; i < readyFns.length; ++ i) {
+			readyFns[i]();
+		}
+		readyFns = undefined;
+		isReady = true;
+	}
+
+	var clearFns = [];
+	function clear(fn) {
+		clearFns.push(fn);
+	}
+
+	function onUnload() {
+		window.removeEventListener('unload', onUnload, false);
+
+		doRegister(evts[0], evts[1], evts[2], false);
+		evts = undefined;
+
+		for (var i = 0; i < clearFns.length; ++ i) {
+			clearFns[i]();
+		}
+		clearFns = undefined;
+
+		ob = cfg = sm = todo = tm = undefined;
+	}
+
+	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+	window.addEventListener('unload', onUnload, false);
 
 	return {
-		'register': register
+		'ready': ready,
+		'register': register,
+		'clear': clear
 	};
 }());
 
 (function() {
 
- 
 var sEvts = {
 	'sites-use-background-effect': onUseBackgroundEffect,
 };
@@ -69,15 +98,12 @@ var wEvts = {
 var dEvts = {
 	'contextmenu': onContextMenu
 };
-
 evtMgr.register([sEvts], [wEvts], [dEvts]);
-window.addEventListener('load', onLoad, false);
-function onLoad() {
-	window.removeEventListener('load', onLoad, false);
+evtMgr.ready(function() {
 	window.setTimeout(function() {
 		$.insertStyle('style/transition.css');
 	}, 0);
-}
+});
 
 // event handler
 function onUseBackgroundEffect(evt, value) {

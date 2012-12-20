@@ -1,3 +1,4 @@
+"use strict";
 var $ = function(e, s) {
 	if (s === undefined) {
 		s = e;

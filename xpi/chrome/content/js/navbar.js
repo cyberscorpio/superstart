@@ -1,8 +1,9 @@
 /**
  * created on 10/2/2012, on hospital, with my father
  */
+"use strict";
 (function() {
-var e2id_map = { // use "onNavbarItemOnoff" to handle the events
+var e2id = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-recently-closed': 'nbb-recently-closed',
 	'navbar-add-site': 'nbb-add-site',
 	'navbar-themes': 'nbc-themes-pointer',
@@ -10,25 +11,23 @@ var e2id_map = { // use "onNavbarItemOnoff" to handle the events
 	'navbar': 'navbar'
 };
 
-window.addEventListener('DOMContentLoaded', function() {
-	window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+evtMgr.ready(function() {
 	init();
-}, false);
-window.addEventListener('unload', function() {
-	window.removeEventListener('unload', arguments.callee, false);
+});
+evtMgr.clear(function() {
 	cleanup();
-}, false);
+});
 
 function init() {
 	initPopupButton('nbb-recently-closed', 'superstart-recently-closed-list', getString('ssRecentlyClosed'));
-	for (var k in e2id_map) {
+	for (var k in e2id) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
 }
 
 function cleanup() {
-	for (var k in e2id_map) {
+	for (var k in e2id) {
 		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
 }
@@ -74,7 +73,7 @@ function initPopupButton(bid, mid, title) {
 
 function onNavbarItemOnoff(evt, onoff) {
 	onoff = cfg.getConfig(evt);
-	var id = e2id_map[evt];
+	var id = e2id[evt];
 	if (id !== undefined) {
 		var b = $$(id);
 		onoff ? $.removeClass(b, 'hidden') : $.addClass(b, 'hidden');

@@ -33,18 +33,12 @@ var devts = {
 	'dragend': gDrag.onEnd
 }
 evtMgr.register([obevts, cfgevts], [wevts], [devts]);
-
-
-window.addEventListener('unload', onUnload, false);
-function onUnload() {
-	window.removeEventListener('unload', onUnload, false);
+evtMgr.clear(function() {
 	var mask = $$('mask');
 	mask.onclick = null;
-}
+});
 
-window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
-function onDOMLoaded() {
-	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
+evtMgr.ready(function() {
 	var mask = $$('mask');
 	mask.onclick = function() {
 		closeFolder();
@@ -75,7 +69,7 @@ function onDOMLoaded() {
 	layout.layoutTopSites();
 
 	$.removeClass(container, 'hidden');
-}
+});
 
 var tmplMgr = (function() {
 	var [tmplSite, tmplFolder] = (function() {

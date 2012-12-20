@@ -1,4 +1,4 @@
-
+"use strict";
 if ("undefined" == typeof(SuperStart)) {
 	var SuperStart = {};
 
@@ -35,8 +35,8 @@ if ("undefined" == typeof(SuperStart)) {
 			} catch (e) {}
 		}
 
-		window.addEventListener('load', function() {
-			window.removeEventListener('load', arguments.callee, false);
+		function onLoad() {
+			window.removeEventListener('load', onLoad, false);
 
 			// context menu
 			let menu = $$('contentAreaContextMenu');
@@ -92,7 +92,8 @@ if ("undefined" == typeof(SuperStart)) {
 
 			// check version first
 			checkFirstRun();
-		}, false);
+		}
+		window.addEventListener('load', onLoad, false);
 
 		////////////////////////////////////////////////
 		// methods
@@ -192,7 +193,7 @@ if ("undefined" == typeof(SuperStart)) {
 			// "Restore All Tabs"
 			let strings = gNavigatorBundle;
 			menu.appendChild(document.createElement("menuseparator"));
-			m = menu.appendChild(document.createElement("menuitem"));
+			let m = menu.appendChild(document.createElement("menuitem"));
 			m.id = "superstart_restoreAllTabs";
 			m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
 			m.addEventListener("command", function() {

@@ -1,4 +1,4 @@
-
+"use strict";
 (function() {
 	const {classes: Cc, interfaces: Ci} = Components;
 	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
@@ -10,8 +10,8 @@
 	let g = idxes[0], idx = idxes[1];
 	let dialogs = window.arguments[1];
 
-	window.addEventListener('DOMContentLoaded', function() {
-		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+	function onDOMLoaded() {
+		window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
 
 		let d = document;
 		if (idx != -1) {
@@ -54,17 +54,18 @@
 		dlg.addEventListener('dialogaccept', function() {
 			return onAccept();
 		}, false);
-	}, false);
+	}
+	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
 
-	window.addEventListener('unload', function() {
+	function onUnload() {
 		if (dialogs) {
 			dialogs[str] = null;
 		}
 
 		var dlg = $$('superstart-url-dialog');
 		dlg.onAccept = null;
-
-	}, false);
+	}
+	window.addEventListener('unload', onUnload, false);
 
 	function onAccept() {
 		try {

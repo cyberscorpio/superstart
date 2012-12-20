@@ -1,6 +1,7 @@
 /**
  * superstart object
  */
+"use strict";
 var SuperStartObj = (function () {
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 	

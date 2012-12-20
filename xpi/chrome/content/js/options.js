@@ -1,4 +1,4 @@
-
+"use strict";
 var superStartOptions = {};
 
 (function(opt) {
@@ -12,20 +12,22 @@ var superStartOptions = {};
 
 	// logger.logStringMessage('screen: ' + screen.width + ' : ' + screen.height);
 
-	window.addEventListener('DOMContentLoaded', function() {
-		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+	function onDOMLoaded() {
+		window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
 		initialize();
 
 		let dlg = $$('options');
 		dlg.addEventListener('dialogaccept', function() {
 			return onAccept();
 		}, false);
-	}, false);
+	}
+	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
 
-	window.addEventListener('unload', function() {
-		window.removeEventListener('unload', arguments.callee, false);
+	function onUnload() {
+		window.removeEventListener('unload', onUnload, false);
 		cleanup();
-	}, false);
+	}
+	window.addEventListener('unload', onUnload, false);
 
 
 	let boolMap = {

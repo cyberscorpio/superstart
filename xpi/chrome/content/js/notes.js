@@ -11,13 +11,10 @@ var cfgevts = {
 	'todo-hide': onTodoHide
 };
 evtMgr.register([tdevts, cfgevts], [], []);
-
-function onDOMLoaded() {
-	window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
+evtMgr.ready(function() {
 	init();
 	onTodoHide('todo-hide', cfg.getConfig('todo-hide'));
-}
-window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+});
 
 function onTodoHide(evt, v) {
 	var onoff = $$('nbc-notes-onoff');

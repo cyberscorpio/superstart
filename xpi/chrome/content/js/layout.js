@@ -1,3 +1,4 @@
+"use strict";
 var layout = (function() {
 	const MINWIDTH = 960;
 	const NOTEWIDTH = 200;
@@ -66,25 +67,15 @@ var layout = (function() {
 		'sites-text-only': onSitesTextOnly,
 		'todo-hide': onTodoHide
 	};
-	window.addEventListener('DOMContentLoaded', function() {
-		window.removeEventListener('DOMContentLoaded', arguments.callee, false);
-
+	var wevts = {
+		'resize': onResize
+	};
+	evtMgr.register([cfgevts], [wevts], []);
+	evtMgr.ready(function() {
 		checkTextOnly();
-
-		for (var k in cfgevts) {
-			cfg.subscribe(k, cfgevts[k]);
-		}
 		calcLayout();
 		document.body.style.minWidth = MINWIDTH + 'px';
-	}, false);
-	window.addEventListener('resize', onResize, false);
-	window.addEventListener('unload', function() {
-		window.removeEventListener('unload', arguments.callee, false);
-		window.removeEventListener('resize', onResize, false);
-		for (var k in cfgevts) {
-			cfg.unsubscribe(k, cfgevts[k]);
-		}
-	}, false);
+	});
 	// -- register events ended ---
 
 	function onResize() {

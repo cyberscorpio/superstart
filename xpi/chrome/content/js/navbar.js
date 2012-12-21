@@ -35,7 +35,7 @@ function cleanup() {
 function initPopupButton(bid, mid, title) {
 	var b = $$(bid);
 	b.setAttribute('title', title);
-	b.addEventListener('mousedown', function(evt) {
+	function onMouseDown(evt) {
 		if (evt.button != 0) {
 			return;
 		}
@@ -59,7 +59,12 @@ function initPopupButton(bid, mid, title) {
 				m.hidePopup();
 			}
 		}
-	}, false);
+	}
+	b.addEventListener('mousedown', onMouseDown, false);
+	evtMgr.clear(function() {
+		b.removeEventListener('mousedown', onMouseDown, false);
+		b = undefined;
+	});
 
 	function onPopupHiding(evt) {
 		var m = evt.target;

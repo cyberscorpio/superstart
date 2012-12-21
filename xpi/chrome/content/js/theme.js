@@ -23,7 +23,6 @@ evtMgr.ready(function() {
 function refresh() {
 	try {
 		var currTheme = cfg.getConfig('theme');
-		var themes = JSON.parse(tm.getThemes());
 		var theme = JSON.parse(tm.getTheme(currTheme));
 
 		// theme & customize
@@ -106,10 +105,12 @@ function showThemes() {
 		var tp = document.createElement('div');
 		tp.id = 'nb-themes';
 		var p = document.createElement('p');
-		p.appendChild(document.createTextNode('Themes'));
+		p.appendChild(document.createTextNode(getString('Themes')));
+		p.id = 'nb-themes-title';
 		tp.appendChild(p);
 
 		var ul = document.createElement('ul');
+		ul.id = 'nb-themes-list';
 		tp.appendChild(ul);
 
 		var ts = JSON.parse(tm.getThemes());
@@ -119,13 +120,14 @@ function showThemes() {
 			var thumbnail = t['thumbnail'];
 			if (thumbnail !== undefined) {
 				var li = document.createElement('li');
+				li.className = 'nb-themes-list-item';
 				li.theme = t;
 				li.addEventListener('click', onClick, false);
 				li.setAttribute('title', t.name);
 
 				var preview = document.createElement('div');
 				preview.appendChild(document.createTextNode(t.name));
-				$.addClass(preview, 'preview');
+				$.addClass(preview, 'nb-themes-preview');
 
 				li.appendChild(preview);
 				if (t.name == curr) {
@@ -165,6 +167,4 @@ function onMouseDown(evt) {
 		evt.preventDefault();
 	}
 }
-
-
 })();

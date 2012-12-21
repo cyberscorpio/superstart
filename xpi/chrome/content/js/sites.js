@@ -10,7 +10,7 @@ var obevts = {
 	'site-changed': onSiteChanged,
 	'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
 	'site-title-changed': onSiteTitleChanged,
-	'sites-use-bg-effect': onUseBgEffect,
+	'sites-use-bg-effect': onUseBgEffect
 };
 var cfgevts = { // to be called in onDOMLoaded
 	'open-in-newtab': onOpenTypeChanged,
@@ -431,7 +431,7 @@ function openFolder(idx, f) {
 	var exH = folderArea.offsetHeight;
 	window.setTimeout(function() {
 		var fa = $$('folder');
-		var t = $.offsetTop(fa);
+		var t = $.getPosition(fa).top;
 		var h = parseInt(fa.style.height); // layout.act() will save the height in fa's style, so we can get it safely
 		h += exH;
 		if (h + t - window.pageYOffset > window.innerHeight) {

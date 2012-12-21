@@ -207,7 +207,7 @@ var layout = (function() {
 
 		var se = $('.folder.opened');
 		se = se[0];
-		var top = $.offsetTop(se) + parseInt(se.style.height);
+		var top = $.getPosition(se).top + parseInt(se.style.height);
 
 		folder.style.height = height + 'px';
 		folder.style.top = top + 'px';

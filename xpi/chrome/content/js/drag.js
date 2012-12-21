@@ -9,13 +9,13 @@ var dragIdxes = null;
 var timeoutId = null;
 
 var mover = (function() {
-	var oft = {x: 0, y: 0};
+	var pos = {left: 0, top: 0};
 	var _x = 0;
 	var _y = 0;
 	function _init(se, x, y) {
-		var of = $.offset(elem.parentNode);
-		oft.x = x - (of.left + parseInt(se.style.left) - window.scrollX);
-		oft.y = y - (of.top + parseInt(se.style.top) - window.scrollY);
+		var p = $.getPosition(elem.parentNode);
+		pos.left = x - (p.left + parseInt(se.style.left) - window.scrollX);
+		pos.top = y - (p.top + parseInt(se.style.top) - window.scrollY);
 	}
 
 	function _onMove(el, x, y) {
@@ -23,10 +23,10 @@ var mover = (function() {
 		_y = y;
 		var w = el.offsetWidth;
 		var h = el.offsetHeight;
-		var base = $.offset(el.parentNode);
+		var base = $.getPosition(el.parentNode);
 	
-		el.style.left = x - oft.x - base.left + window.scrollX + 'px';
-		el.style.top = y - oft.y - base.top + window.scrollY + 'px';
+		el.style.left = x - pos.left - base.left + window.scrollX + 'px';
+		el.style.top = y - pos.top - base.top + window.scrollY + 'px';
 	}
 
 	function _refresh(el) {
@@ -143,7 +143,7 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 			}
 		}
 
-		var pos = $.offset(se);
+		var pos = $.getPosition(se);
 		if (pos.left < prevX) {
 			if (prevY > y && x > prevX + sn.clientWidth / 2) {
 				break;
@@ -183,7 +183,7 @@ function getOpt(x, y) {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
 		} else {
-			if ($.inElem(x, y, p) && x < $.offsetLeft(sn) + sn.offsetWidth) {
+			if ($.inElem(x, y, p) && x < $.getPosition(sn).left + sn.offsetWidth) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;

@@ -84,46 +84,12 @@ var $$ = function(id) {
 	}
 
 	$.getPosition = function(el) {
-		var x = 0, y = 0;
-		if (el.offsetParent) {
-			do {
-				x += el.offsetLeft;
-				y += el.offsetTop;
-				el = el.offsetParent;
-			} while (el);
-		}
-
-		return [x, y];
+		var rc = el.getBoundingClientRect();
+		return {
+			left: rc.left + window.pageXOffset,
+			top: rc.top + window.pageYOffset
+		};
 	}
-
-	$.offset = function(el) {
-		var o = {left: 0, top: 0};
-		while(el) {
-			o.left += el.offsetLeft;
-			o.top += el.offsetTop;
-			el = el.offsetParent;
-		}
-		return o;
-	}
-
-	$.offsetTop = function(el) {
-		var t = 0;
-		while(el) {
-			t += el.offsetTop;
-			el = el.offsetParent;
-		}
-		return t;
-	}
-
-	$.offsetLeft = function(el) {
-		var l = 0;
-		while(el) {
-			l += el.offsetLeft;
-			el = el.offsetParent;
-		}
-		return l;
-	}
-
 
 	$.inRect = function(x, y, l, t, w, h) {
 		if (x >= l && x < (l + w) && y >= t && y < (t + h)) {
@@ -134,7 +100,7 @@ var $$ = function(id) {
 	}
 
 	$.inElem = function(x, y, el) {
-		var pos = $.offset(el);
+		var pos = $.getPosition(el);
 		var w = el.offsetWidth;
 		var h = el.offsetHeight;
 		return this.inRect(x, y, pos.left, pos.top, w, h);

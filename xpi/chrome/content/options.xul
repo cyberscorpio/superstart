@@ -43,7 +43,7 @@
 						</hbox>
 						<checkbox id="sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
 						<checkbox id="sites-use-textonly" label="&superstart.options.sites.text.only;" />
-						<checkbox id="sites-use-background-effect" label="&superstart.options.sites.use.background.effect;" />
+						<checkbox id="sites-use-bg-effect" label="&superstart.options.sites.use.background.effect;" />
 					</groupbox>
 
 					<groupbox style="display: none">

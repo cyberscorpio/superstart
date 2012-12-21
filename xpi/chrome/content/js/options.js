@@ -36,7 +36,7 @@ var superStartOptions = {};
 
 		'sites-use-compactmode' : 'sites-compact',
 		'sites-use-textonly': 'sites-text-only',
-		'sites-use-background-effect' : 'sites-use-background-effect',
+		'sites-use-bg-effect' : 'sites-use-bg-effect',
 
 		'show-navbar' : 'navbar',
 		'show-recently-closed' : 'navbar-recently-closed',

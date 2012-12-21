@@ -105,7 +105,7 @@ function showThemes() {
 		var tp = document.createElement('div');
 		tp.id = 'nb-themes';
 		var p = document.createElement('p');
-		p.appendChild(document.createTextNode(getString('Themes')));
+		p.appendChild(document.createTextNode(getString('ssThemes')));
 		p.id = 'nb-themes-title';
 		tp.appendChild(p);
 

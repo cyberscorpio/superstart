@@ -144,12 +144,11 @@ li.nbc { float: right; }
 	opacity: 0.85;
 }
 
-body.use-background-effect.folder-opened #sites > .site:not(.opened):not(.dragging),
-body.use-background-effect.folder-closing #sites > .site:not(.closing):not(.dragging) {
+#sites > .site.grayed:not(.opened):not(.closing):not(.dragging) {
 	opacity: .5;
 	filter: url("filters.svg#background-effect");
 }
-body.use-background-effect #mask {
+#mask.grayed {
 	opacity: 0;
 }
 
@@ -274,6 +273,7 @@ body.text-only .site .button {
 #sites.newtab .newtab,
 #folder.newtab .newtab,
 .site.folder.opened .button,
+.site.folder.closing .button,
 .site.dragging .button {
 	display: none;
 }

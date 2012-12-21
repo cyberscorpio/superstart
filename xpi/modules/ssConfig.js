@@ -47,7 +47,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
 		'sites-compact': {'key': 'sites.compact'},
 		'sites-text-only': {'key': 'sites.text.only'},
-		'sites-use-background-effect': {'key': 'sites.use.background.effect'},
+		'sites-use-bg-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
 

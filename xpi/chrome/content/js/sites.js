@@ -9,7 +9,8 @@ var obevts = {
 	'site-move-out': onSiteMoveOut,
 	'site-changed': onSiteChanged,
 	'site-snapshot-index-changed': onSiteSnapshotIndexChanged,
-	'site-title-changed': onSiteTitleChanged
+	'site-title-changed': onSiteTitleChanged,
+	'sites-use-bg-effect': onUseBgEffect,
 };
 var cfgevts = { // to be called in onDOMLoaded
 	'open-in-newtab': onOpenTypeChanged,
@@ -421,6 +422,8 @@ function openFolder(idx, f) {
 
 	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');
+	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
+
 
 	layout.layoutFolderArea();
 
@@ -464,6 +467,7 @@ function onFolderClosed(evt) {
 
 	var mask = $$('mask');
 	mask.style.display = '';
+	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
 
 	layout.layoutTopSites();
 }
@@ -802,6 +806,19 @@ function onSiteTitleChanged(evt, idxes) {
 	}
 }
 
+function onUseBgEffect(evt, ube) {
+	var opened = $('.folder.opened');
+	if (opened.length > 0 && ube) {
+		$.addClass(mask, 'grayed');
+		changeElementsClass('', '.site', 'add', 'grayed');
+	} else {
+		if ($.hasClass(mask, 'grayed')) {
+			$.removeClass(mask, 'grayed');
+			changeElementsClass('', '.site', 'remove', 'grayed');
+		}
+	}
+}
+
 function onOpenTypeChanged(evt, openInNewtab) {
 	if (openInNewtab) {
 		$.addClass($$('sites'), 'newtab');
@@ -852,7 +869,7 @@ function onButtonShowHide(evt, show) {
 function changeElementsClass(tmplSelector, selector, addOrRemove, cls) {
 	['site', 'folder'].forEach(function(t) {
 		var tmpl = tmplMgr.getTmpl(t);
-		var elems = $(tmpl, tmplSelector);
+		var elems = tmplSelector == '' ? [tmpl] : $(tmpl, tmplSelector);
 		for (var i = 0; i < elems.length; ++ i) {
 			if (addOrRemove === 'add') {
 				$.addClass(elems[i], cls);

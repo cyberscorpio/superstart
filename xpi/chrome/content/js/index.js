@@ -90,7 +90,6 @@ var evtMgr = (function() {
 (function() {
 
 var sEvts = {
-	'sites-use-background-effect': onUseBackgroundEffect,
 };
 var wEvts = {
 	'scroll': onScroll
@@ -106,15 +105,6 @@ evtMgr.ready(function() {
 });
 
 // event handler
-function onUseBackgroundEffect(evt, value) {
-	var use = cfg.getConfig('sites-use-background-effect');
-	if (use) {
-		$.addClass(document.body, 'use-background-effect');
-	} else {
-		$.removeClass(document.body, 'use-background-effect');
-	}
-}
-
 function onScroll() {
 	var mask = $$('mask');
 	mask.style.top = window.scrollY + 'px';

@@ -28,7 +28,7 @@ a {
 	background-color: rgba(0,0,0,0.25);
 }
 
-.navbar li {
+li.nbb, li.nbc {
 	opacity: .5;
 	cursor: pointer;
 	margin: 0 0;
@@ -37,12 +37,12 @@ a {
 	background: transparent center center no-repeat;
 }
 
-.navbar li:hover {
+li.nbb:hover, li.nbc:hover {
 	opacity: 1;
 }
 
-#nb-commands li { float: right; }
-#nb-buttons li { float: left; }
+li.nbb { float: left; }
+li.nbc { float: right; }
 
 #nbb-add-site { background-image: url(../images/site-add.png); }
 #nbb-recently-closed { background-image: url(../images/undo.png); }
@@ -67,7 +67,7 @@ a {
 	box-shadow: 10px 10px 15px rgba(0,0,0,0.75);
 }
 
-#nb-themes p {
+#nb-themes-title {
 	background-image: linear-gradient(#e7e7e7, #b1b1b1);
 	color: #3d3d3d;
 	text-shadow: 1px 1px white;
@@ -80,11 +80,11 @@ a {
 	-moz-user-select: -moz-none;
 }
 
-#nb-themes ul {
+#nb-themes-list {
 	background-color: transparent;
 }
 
-#nb-themes li {
+.nb-themes-list-item {
 	position: relative;
 	cursor: pointer;
 	width: 160px;
@@ -92,23 +92,23 @@ a {
 	background-color: white;
 }
 
-#nb-themes li:not(:last-child) {
+.nb-themes-list-item:not(:last-child) {
 	border-bottom: 1px solid #ddd;
 }
 
-#nb-themes li .preview {
+.nb-themes-preview {
 	height: 3.2rem;
 	line-height: 3.2rem;
 	font-size: 1.2rem;
 	padding-left: 0.5rem;
 }
 
-#nb-themes li:hover {
+.nb-themes-list-item:hover {
 	background-color: black;
 	color: white;
 }
 
-#nb-themes li.current .preview:after {
+.nb-themes-list-item.current > .nb-themes-preview:after {
 	content: "\2713";/* ✓ (check mark) */
 	position: absolute;
 	top: 6px;

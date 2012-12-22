@@ -4,7 +4,7 @@
 , #folder
 , .site .snapshot
 , .site .button
-, .site .title
+, .site .site-title
 , .site.folder .snapshot img
 , #notes
 , #note-edit
@@ -39,7 +39,7 @@
 	transition-property: opacity;
 }
 
-.site .title {
+.site-title {
 	transition-property: color, opacity, text-shadow;
 }
 

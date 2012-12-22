@@ -98,11 +98,16 @@ var dEvts = {
 	'contextmenu': onContextMenu
 };
 evtMgr.register([sEvts], [wEvts], [dEvts]);
-evtMgr.ready(function() {
-	window.setTimeout(function() {
-		$.insertStyle('style/transition.css');
-	}, 0);
-});
+
+(function() {
+	function installTransition() {
+		window.removeEventListener('load', installTransition, false);
+		window.setTimeout(function() {
+			$.insertStyle('style/transition.css');
+		}, 0);
+	}
+	window.addEventListener('load', installTransition, false);
+}());
 
 // event handler
 function onScroll() {

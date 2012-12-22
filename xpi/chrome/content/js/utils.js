@@ -66,16 +66,10 @@ var $$ = function(id) {
 		}
 	}
 
-	$.isChild = function(c, p) {
-		try {
-			while (c != null) {
-				if (c == p) {
-					return true;
-				}
-				c = c.parentNode;
-			}
-		} catch (e) {}
-		return false;
+	$.empty = function(el) {
+		while (el.firstChild) {
+			el.removeChild(el.firstChild);
+		}
 	}
 
 	$.isPointInElement = function(el, x, y) {

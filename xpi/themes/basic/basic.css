@@ -7,7 +7,7 @@ body {
 	background-color: gray;
 }
 
-#sites .site .title, #notes-list li {
+#sites .site-title, #notes-list li {
 	color: black;
 }
 

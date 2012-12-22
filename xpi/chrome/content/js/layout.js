@@ -240,7 +240,7 @@ var layout = (function() {
 		var l = ses.length;
 		if (l > 0) {
 			if (lp.siteHeight == 0) {
-				var ch = $(ses[0], '.title')[0].offsetHeight;
+				var ch = $(ses[0], '.site-title')[0].offsetHeight;
 				if (textOnly) {
 					lp.siteHeight = ch;
 				} else {
@@ -311,7 +311,7 @@ var layout = (function() {
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var se = ses[i];
 			var sn = $(se, '.snapshot')[0];
-			var title = $(se, '.title')[0];
+			var title = $(se, '.site-title')[0];
 			if (!$.hasClass(se, 'dragging')) {
 				se.style.width = sw + 'px';
 				sn.style.width = w + 'px';
@@ -331,7 +331,7 @@ var layout = (function() {
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var se = ses[i];
 			var sn = $(se, '.snapshot')[0];
-			var title = $(se, '.title')[0];
+			var title = $(se, '.site-title')[0];
 			if (!$.hasClass(se, 'dragging')) {
 				se.style.width = sw + 'px';
 				sn.style.width = w + 'px';

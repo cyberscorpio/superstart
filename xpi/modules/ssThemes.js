@@ -317,14 +317,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		} else {
 			let css = '';
 			if (data.color == 0) { // black
-				css += '#sites .site .title, #notes-list li { color: black;';
+				css += '#sites .site-title, #notes-list li { color: black;';
 				if (data.useShadow) {
 					css += ' text-shadow: 1px 0 white, 0 1px white, 1px 1px white, -1px 0 white, 0 -1px white, 1px -1px white, -1px 1px white;';
 				} else {
 					css += ' text-shadow: none;';
 				}
 			} else {
-				css += '#sites .site .title, #notes-list li { color: white;';
+				css += '#sites .site-title, #notes-list li { color: white;';
 				if (data.useShadow) {
 					css += ' text-shadow: 1px 0 black, 0 1px black, 1px 1px black, -1px 0 black, 0 -1px black, 1px -1px black, -1px 1px black;';
 				} else {

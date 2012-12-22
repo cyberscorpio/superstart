@@ -84,11 +84,15 @@ var tmplMgr = (function() {
 					snapshot.className = 'snapshot';
 				a.appendChild(snapshot);
 					var title = document.createElement('div');
-					title.className = 'title';
+					title.className = 'site-title';
 						var img = document.createElement('img');
+						img.className = 'site-title-image';
 						title.appendChild(img);
 						var text = document.createElement('p');
-						text.className = 'text';
+						text.className = 'site-title-text';
+							var name = document.createElement('span');
+							name.className = 'site-title-name';
+						text.appendChild(name);
 					title.appendChild(text);
 				a.appendChild(title);
 			tmpl.appendChild(a);
@@ -109,10 +113,15 @@ var tmplMgr = (function() {
 		var buttons = ['newtab', 'thistab', 'refresh', 'config', 'remove', 'next-snapshot'];
 		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 		var s = initTmpl(buttons, titles);
+
 		buttons = ['refresh', 'newtab', 'config'];
 		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
 		var f = initTmpl(buttons, titles);
 		$.addClass(f, 'folder');
+		// folder size
+			var size = document.createElement('span');
+			size.className = 'site-title-folder-size';
+			$(f, '.site-title p')[0].appendChild(size);
 		return [s, f];
 	}());
 	
@@ -210,30 +219,24 @@ function updateSite(s, se) {
 	e = $(se, '.snapshot')[0];
 	setBackground(s, e);
 
-	e = $(se, '.title img')[0];
+	e = $(se, '.site-title-image')[0];
 	e.src = 'moz-anno:favicon:' + s.icon;
 
-	e = $(se, '.text')[0];
-	while(e.firstChild) {
-		e.removeChild(e.firstChild);
-	}
+	e = $(se, '.site-title-name')[0];
+	$.empty(e);
 	e.appendChild(document.createTextNode(s.displayName));
 }
 
 function setFolderTitle(s, se) {
-	var img = $(se, '.title > img')[0];
-	img.src = 'chrome://global/skin/dirListing/folder.png';
+	$(se, '.site-title-image')[0].src = 'chrome://global/skin/dirListing/folder.png';
 
-	var e = $(se, '.text')[0];
-	while(e.firstChild) {
-		e.removeChild(e.firstChild);
-	}
-	var title = s.displayName || getString('ssFolderDefaultName');;
-	e.appendChild(document.createTextNode(title));
-	var size = document.createElement('span');
-	size.className = 'folder-size';
+	var name = $(se, '.site-title-name')[0];
+	$.empty(name);
+	name.appendChild(document.createTextNode(s.displayName || getString('ssFolderDefaultName')));
+
+	var size = $(se, '.site-title-folder-size')[0];
+	$.empty(size);
 	size.appendChild(document.createTextNode(' (' + s.sites.length + ')'));
-	e.appendChild(size);
 }
 
 function updateFolder(f, se) {
@@ -831,9 +834,9 @@ function onOpenTypeChanged(evt, openInNewtab) {
 
 function onFolderShowSize(evt, show) {
 	if (show) {
-		$.removeClass($$('sites'), 'hide-folder-size');
+		changeElementsClass('.site-title-folder-size', '.site-title-folder-size', 'remove', 'hidden');
 	} else {
-		$.addClass($$('sites'), 'hide-folder-size');
+		changeElementsClass('.site-title-folder-size', '.site-title-folder-size', 'add', 'hidden');
 	}
 }
 
@@ -869,7 +872,7 @@ function onButtonShowHide(evt, show) {
 function changeElementsClass(tmplSelector, selector, addOrRemove, cls) {
 	['site', 'folder'].forEach(function(t) {
 		var tmpl = tmplMgr.getTmpl(t);
-		var elems = tmplSelector == '' ? [tmpl] : $(tmpl, tmplSelector);
+		var elems = tmplSelector === '' ? [tmpl] : $(tmpl, tmplSelector);
 		for (var i = 0; i < elems.length; ++ i) {
 			if (addOrRemove === 'add') {
 				$.addClass(elems[i], cls);

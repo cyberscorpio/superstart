@@ -136,7 +136,7 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 			continue;
 		}
 
-		var sn = $(se, '.snapshot')[0];
+		var sn = $(se, '.site-snapshot')[0];
 		if (!inFolder && !$.hasClass(elem, 'folder')) {
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
@@ -175,7 +175,7 @@ function getOpt(x, y) {
 	var fa = $$('folder');
 	if (dragIdxes[0] != -1) {
 		var p = gDrag.at(-1, dragIdxes[0]);
-		var sn = $(p, '.snapshot')[0];
+		var sn = $(p, '.site-snapshot')[0];
 		if (fa == null) {
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);

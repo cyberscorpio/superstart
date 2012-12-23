@@ -79,9 +79,10 @@ var tmplMgr = (function() {
 			tmpl.className = 'site';
 			tmpl.setAttribute('draggable', true);
 				var a = document.createElement('a');
+				a.className = 'site-link';
 				a.setAttribute('draggable', false);
 					var snapshot = document.createElement('div');
-					snapshot.className = 'snapshot';
+					snapshot.className = 'site-snapshot';
 				a.appendChild(snapshot);
 					var title = document.createElement('div');
 					title.className = 'site-title';
@@ -135,7 +136,7 @@ var tmplMgr = (function() {
 		}
 	
 		se.ondragstart = gDrag.onStart;
-		$(se, '.snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
+		$(se, '.site-snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
 	}
 	
 	function createAnEmptySite() {
@@ -216,7 +217,7 @@ function updateSite(s, se) {
 	e.title = s.title || s.url;
 	e.href = s.url;
 
-	e = $(se, '.snapshot')[0];
+	e = $(se, '.site-snapshot')[0];
 	setBackground(s, e);
 
 	e = $(se, '.site-title-image')[0];
@@ -247,14 +248,15 @@ function updateFolder(f, se) {
 	} else { // createSiteElement wil call updateFolder()
 		var e = $(se, 'a')[0];
 		e.href = '#';
-		var snapshot = $(se, '.snapshot')[0];
-		var imgs = $(snapshot, 'img');
+		var snapshot = $(se, '.site-snapshot')[0];
+		var imgs = $(snapshot, '.site-snapshot-in-folder');
 		for (var i = imgs.length - 1; i >= 0; -- i) {
 			imgs[i].parentNode.removeChild(imgs[i]);
 		}
 		for (var i = f.sites.length - 1; i >= 0; -- i) {
 			var s = f.sites[i];
 			var img = document.createElement('img');
+			img.className = 'site-snapshot-in-folder';
 			img.src = s.thumbnail;
 			snapshot.insertBefore(img, snapshot.firstChild);
 		}
@@ -269,20 +271,21 @@ function updateFolder(f, se) {
 function flashFolder(f) {
 	var count = 3;
 	var tm = 100;
-	$.addClass(f, 'flash');
+	var sn = $(f, '.site-snapshot')[0];
+	$.addClass(sn, 'flash');
 	window.setTimeout(function() {
 		onTimer();
 	}, tm);
 
 	function onTimer() {
-		$.toggleClass(f, 'flash');
+		$.toggleClass(sn, 'flash');
 		count --;
 		if (count > 0) {
 			window.setTimeout(function() {
 				onTimer();
 			}, tm);
 		} else {
-			$.removeClass(f, 'flash');
+			$.removeClass(sn, 'flash');
 		}
 	}
 }
@@ -602,7 +605,7 @@ function nextSnapshot() {
 	if (idxes != null) {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
-			var snapshot = $(se, '.snapshot')[0];
+			var snapshot = $(se, '.site-snapshot')[0];
 			snapshot.style.opacity = '0';
 			snapshot.addEventListener('transitionend', onTransitionEnd, true);
 		}
@@ -668,7 +671,7 @@ function onSiteSimpleMove(evt, groupFromTo) {
 		layout.layoutTopSites();
 	} else {
 		var se = at(-1, g);
-		var imgs = $(se, 'img');
+		var imgs = $(se, '.site-snapshot-in-folder');
 		from = imgs[f];
 		to = imgs[t];
 		simpleMoveHelper(from, to, f, t);
@@ -758,8 +761,7 @@ function onSiteChanged(evt, idxes) {
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
-			// updateFolder(f, fe);
-			var imgs = $(fe, 'img');
+			var imgs = $(fe, '.site-snapshot-in-folder');
 			var img = imgs[i];
 			img.src = s.thumbnail;
 		}
@@ -786,7 +788,7 @@ function onSiteSnapshotIndexChanged(evt, idxes) {
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
-			var imgs = $(fe, 'img');
+			var imgs = $(fe, '.site-snapshot-in-folder');
 			var img = imgs[i];
 			img.src = s.thumbnail;
 		}
@@ -796,7 +798,7 @@ function onSiteSnapshotIndexChanged(evt, idxes) {
 		return;
 	}
 
-	var snapshot = $(se, '.snapshot')[0];
+	var snapshot = $(se, '.site-snapshot')[0];
 	setBackground(s, snapshot);
 }
 

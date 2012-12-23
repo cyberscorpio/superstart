@@ -146,7 +146,7 @@ var layout = (function() {
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
 		// setTopSiteSize(se);
-		var sn = $(se, '.snapshot')[0];
+		var sn = $(se, '.site-snapshot')[0];
 
 		var cw = sn.clientWidth;
 		if (cw == 0) {
@@ -228,7 +228,7 @@ var layout = (function() {
 		se.style.width = (inDragging ? lp0.siteWidthInDragging : lp0.siteWidth) + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 
-		var sn = $(se, '.snapshot')[0];
+		var sn = $(se, '.site-snapshot')[0];
 		sn.style.width = (inDragging ? lp0.snapshotWidthInDragging : lp0.snapshotWidth) + 'px';
 		sn.style.height = (inDragging ? lp0.snapshotHeightInDragging : lp0.snapshotHeight) + 'px';
 	}
@@ -261,7 +261,7 @@ var layout = (function() {
 				if (!$.hasClass(se, 'dragging')) {
 					se.style.width = sw;
 					se.style.height = sh;
-					var sn = $(se, '.snapshot')[0];
+					var sn = $(se, '.site-snapshot')[0];
 					sn.style.width = nw;
 					sn.style.height = nh;
 
@@ -310,7 +310,7 @@ var layout = (function() {
 		var ses = $('#sites > .site');
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var se = ses[i];
-			var sn = $(se, '.snapshot')[0];
+			var sn = $(se, '.site-snapshot')[0];
 			var title = $(se, '.site-title')[0];
 			if (!$.hasClass(se, 'dragging')) {
 				se.style.width = sw + 'px';
@@ -330,7 +330,7 @@ var layout = (function() {
 		var ses = $('#sites > .site');
 		for (var i = 0, l = ses.length; i < l; ++ i) {
 			var se = ses[i];
-			var sn = $(se, '.snapshot')[0];
+			var sn = $(se, '.site-snapshot')[0];
 			var title = $(se, '.site-title')[0];
 			if (!$.hasClass(se, 'dragging')) {
 				se.style.width = sw + 'px';

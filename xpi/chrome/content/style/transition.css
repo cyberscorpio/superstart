@@ -1,11 +1,12 @@
 #container
-, #navbar ul li
+, .nbb
+, .nbc
 , .site
 , #folder
-, .site .snapshot
+, .site-snapshot
 , .site .button
-, .site .site-title
-, .site.folder .snapshot img
+, .site-title
+, .site-snapshot-in-folder
 , #notes
 , #note-edit
 , #notes-list .button {
@@ -13,7 +14,7 @@
 	transition-timing-function: linear;
 }
 
-#navbar ul li {
+.nbb, .nbc {
 	transition-property: opacity;
 }
 
@@ -31,7 +32,7 @@
 	transition-property: top, left, width, height;
 }
 
-.site .snapshot {
+.site-snapshot {
 	transition-property: border, width, height, opacity;
 }
 
@@ -43,12 +44,12 @@
 	transition-property: color, opacity, text-shadow;
 }
 
-.site.folder .snapshot img {
+.site-snapshot-in-folder {
 	transition-property: top, left;
 }
 
 .site.dragging {
-	transition: none;
+	transition: none !important;
 }
 
 #notes {

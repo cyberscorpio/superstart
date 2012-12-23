@@ -3,11 +3,12 @@ body {
 	background: white;
 }
 
-.site.folder > a > .snapshot {
-	background-color: gray;
+.folder-snapshot.site-snapshot {
+	background-color: white;
+	border: 1px solid #aaa;
 }
 
-#sites .site-title, #notes-list li {
-	color: black;
+.site-snapshot {
+	border: 1px solid #aaa;
 }
 

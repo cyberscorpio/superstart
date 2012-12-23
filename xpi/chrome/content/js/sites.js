@@ -123,6 +123,7 @@ var tmplMgr = (function() {
 			var size = document.createElement('span');
 			size.className = 'site-title-folder-size';
 			$(f, '.site-title p')[0].appendChild(size);
+			$.addClass($(f, '.site-snapshot')[0], 'folder-snapshot');
 		return [s, f];
 	}());
 	
@@ -249,7 +250,7 @@ function updateFolder(f, se) {
 		var e = $(se, 'a')[0];
 		e.href = '#';
 		var snapshot = $(se, '.site-snapshot')[0];
-		var imgs = $(snapshot, '.site-snapshot-in-folder');
+		var imgs = $(snapshot, 'img');
 		for (var i = imgs.length - 1; i >= 0; -- i) {
 			imgs[i].parentNode.removeChild(imgs[i]);
 		}
@@ -671,7 +672,7 @@ function onSiteSimpleMove(evt, groupFromTo) {
 		layout.layoutTopSites();
 	} else {
 		var se = at(-1, g);
-		var imgs = $(se, '.site-snapshot-in-folder');
+		var imgs = $(se, 'img');
 		from = imgs[f];
 		to = imgs[t];
 		simpleMoveHelper(from, to, f, t);
@@ -761,7 +762,7 @@ function onSiteChanged(evt, idxes) {
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
-			var imgs = $(fe, '.site-snapshot-in-folder');
+			var imgs = $(fe, 'img');
 			var img = imgs[i];
 			img.src = s.thumbnail;
 		}
@@ -788,7 +789,7 @@ function onSiteSnapshotIndexChanged(evt, idxes) {
 		var f = sm.getSite(-1, g);
 		var fe = at(-1, g);
 		if (fe) {
-			var imgs = $(fe, '.site-snapshot-in-folder');
+			var imgs = $(fe, 'img');
 			var img = imgs[i];
 			img.src = s.thumbnail;
 		}

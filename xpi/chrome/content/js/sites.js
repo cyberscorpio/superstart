@@ -699,6 +699,7 @@ function onSiteMoveIn(evt, fromTo) {
 	from.parentNode.removeChild(from);
 	if ($.hasClass(from, 'dragging')) {
 		to.appendChild(from);
+		$.addClass(from, 'in-folder');
 	}
 
 	t = sm.getSite(-1, t);
@@ -738,6 +739,7 @@ function onSiteMoveOut(evt, idxes) {
 	if (se) {
 		se.parentNode.removeChild(se);
 		$$('sites').appendChild(se);
+		$.removeClass(se, 'in-folder');
 	} else {
 		var sites = $$('sites');
 		if ($(sites, '.site').length == sm.getTopSiteCount() - 1) {

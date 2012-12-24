@@ -5,12 +5,12 @@ body {
 
 .site.folder.opened > a > .folder-snapshot.site-snapshot,
 .site.folder.closing > a > .folder-snapshot.site-snapshot {
-	box-shadow: 1px 1px 3px #404040;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 .folder-snapshot.site-snapshot {
 	background-color: transparent;
-	box-shadow: 3px 3px 5px #404040;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
 }
 
 .site-snapshot {

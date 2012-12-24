@@ -1,9 +1,7 @@
 /** contain the project related global objects */
 const {classes: Cc, interfaces: Ci} = Components;
 
-var SuperStart = $.getMainWindow().SuperStart;
-var getString = SuperStart.getString;
-SuperStart = undefined;
+var getString = $.getMainWindow().SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
 var ob = ssObj.getService(Ci.ssIObserverable);
 var cfg = ssObj.getService(Ci.ssIConfig);

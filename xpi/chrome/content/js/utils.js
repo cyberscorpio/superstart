@@ -240,3 +240,4 @@ var $$ = function(id) {
 			.getInterface(Ci.nsIDOMWindow);
 	}
 })($);
+

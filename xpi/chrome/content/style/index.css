@@ -194,12 +194,12 @@ body.text-only .site-title-image {
 	height: 16px;
 	margin-top: 4px;
 }
-body.text-only .site .button {
+body.text-only .site > .button {
 	display: none !important;
 }
 
 
-.site .button {
+.site > .button {
 	width: 24px;
 	height: 24px;
 	position: absolute;
@@ -213,60 +213,61 @@ body.text-only .site .button {
 	opacity: 0;
 }
 
-.site .button:not(.next-snapshot) {
+.site > .button:not(.next-snapshot) {
 	top: 2px;
 }
 
-.site:hover .button {
+.site:hover > .button {
 	opacity: .25;
 }
 
-.site:hover .button:hover {
+.site:hover > .button:hover {
 	opacity: 1;
 }
 
-.site .remove {
+.button.remove {
 	right: 2px;
 	background-position: -96px 0;
 }
 
-.site .next-snapshot {
+.button.next-snapshot {
 	bottom: 25px;
 	right: 2px;
 	background-position: -120px 0;
 }
 
-.site .config {
+.button.config {
 	right: 33px;
 	background-position: -72px 0;
 }
 
-.site .refresh {
+.button.refresh {
 	right: 64px;
 	background-position: -48px 0;
 }
 
-.site .newtab ,
-.site .thistab {
+.button.newtab ,
+.button.thistab {
 	left: 2px;
 }
 
-.site .newtab {
+.button.newtab {
 	background-position: 0 0;
 }
 
-.site .thistab {
+.button.thistab {
 	background-position: -24px 0;
 	display: none;
 }
 
-.site.folder .config {
+.site.folder > .config {
 	right: 2px;
 }
-.site.folder .refresh {
+.site.folder > .refresh {
 	right: 33px;
 }
 
+/* FIXME */
 #sites.newtab .newtab,
 #folder.newtab .newtab,
 .site.folder.opened .button,
@@ -330,12 +331,7 @@ body.text-only .site.folder.closing:after {
 	color: white;
 }
 
-.site
-/*
-, .site.folder
-, .site.folder.opened 
-, .site.folder.opened * {
-*/ {
+.site {
 	-moz-user-select: -moz-none !important;
 }
 .site.folder.opened > a > .site-title,

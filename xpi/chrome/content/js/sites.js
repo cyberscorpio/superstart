@@ -585,32 +585,47 @@ function removeSite(evt) {
 }
 
 function nextSnapshot() {
-	function onTransitionEnd(evt) {
-		function onNewImageReady (evt) {
+	function on90deg(evt) {
+		function on0deg(evt) {
 			if (this != evt.target) {
 				return;
 			}
-			snapshot.removeEventListener('transitionend', onNewImageReady, true);
+			this.style.transitionProperty = this.style.transitionDuration = '';
+			this.removeAttribute('in-changing-snapshot');
+			this.removeEventListener('transitionend', on0deg, true);
 		}
 
 		if (this != evt.target) {
 			return;
 		}
-		snapshot.removeEventListener('transitionend', onTransitionEnd, true);
+		this.removeEventListener('transitionend', on90deg, true);
 	
+		this.style.transitionProperty = '';
+		this.style.transform = 'perspective(500px) rotateY(-90deg)';
+
 		sm.nextSnapshot(idxes[0], idxes[1]);
-	
-		snapshot.style.opacity = '1';
-		snapshot.addEventListener('transitionend', onNewImageReady, true);
+
+		var that = this;
+		window.setTimeout(function() {
+			that.style.transitionProperty = 'transform';
+			that.style.transform = '';
+			that.addEventListener('transitionend', on0deg, true);
+		}, 0);
 	}
 
 	var idxes = indexFromNode(this);
 	if (idxes != null) {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
-			var snapshot = $(se, '.site-snapshot')[0];
-			snapshot.style.opacity = '0';
-			snapshot.addEventListener('transitionend', onTransitionEnd, true);
+			var sn = $(se, '.site-snapshot')[0];
+			if (sn.getAttribute('in-changing-snapshot')) {
+				return false;
+			}
+			sn.setAttribute('in-changing-snapshot', true);
+			sn.style.transitionProperty = 'transform';
+			sn.style.transitionDuration = '125ms';
+			sn.style.transform = 'perspective(500px) rotateY(90deg)';
+			sn.addEventListener('transitionend', on90deg, true);
 		}
 	}
 	return false;

@@ -6,7 +6,7 @@
 , .site-snapshot
 , .site .button
 , .site-title
-, .site-snapshot-in-folder
+, .image-preview
 , #notes
 , #note-edit
 , #notes-list .button {
@@ -44,7 +44,7 @@
 	transition-property: color, opacity, text-shadow;
 }
 
-.site-snapshot-in-folder {
+.image-perview {
 	transition-property: top, left;
 }
 

@@ -3,9 +3,14 @@ body {
 	background: white;
 }
 
+.site.folder.opened > a > .folder-snapshot.site-snapshot,
+.site.folder.closing > a > .folder-snapshot.site-snapshot {
+	box-shadow: 1px 1px 3px #404040;
+}
+
 .folder-snapshot.site-snapshot {
-	background-color: white;
-	border: 1px solid #aaa;
+	background-color: transparent;
+	box-shadow: 3px 3px 5px #404040;
 }
 
 .site-snapshot {

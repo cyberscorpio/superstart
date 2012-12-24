@@ -257,7 +257,7 @@ function updateFolder(f, se) {
 		for (var i = f.sites.length - 1; i >= 0; -- i) {
 			var s = f.sites[i];
 			var img = document.createElement('img');
-			img.className = 'site-snapshot-in-folder';
+			img.className = 'image-preview';
 			img.src = s.thumbnail;
 			snapshot.insertBefore(img, snapshot.firstChild);
 		}
@@ -299,6 +299,7 @@ function insert(c, s) {
 	if (se) {
 		c.appendChild(se);
 	}
+	return se;
 }
 
 function createSiteElement(s) {
@@ -420,7 +421,8 @@ function openFolder(idx, f) {
 	var df = document.createDocumentFragment();
 	for (var i = 0, l = f.sites.length; i < l; ++ i) {
 		var s = f.sites[i];
-		insert(df, s);
+		var subse = insert(df, s);
+		$.addClass(subse, 'in-folder');
 	}
 	folderArea.appendChild(df);
 

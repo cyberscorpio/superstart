@@ -57,6 +57,6 @@ body {
 
 .site-title, #notes-list li {
 	color: black;
-	text-shadow: 1px 1px 0 white, 1px 1px 2px white;
+	text-shadow: 1px 0 white, 0 1px white, 1px 1px white, -1px 0 white, 0 -1px white, 1px -1px white, -1px 1px white;
 }
 

@@ -1,4 +1,5 @@
 "use strict";
+const {classes: Cc, interfaces: Ci} = Components;
 var $ = function(e, s) {
 	if (s === undefined) {
 		s = e;
@@ -100,86 +101,6 @@ var $$ = function(id) {
 		return this.inRect(x, y, pos.left, pos.top, w, h);
 	}
 
-
-	// return [width, height] of the element
-	$.getElementDimension = function(el, cs) {
-		try {
-			cs = cs || window.getComputedStyle(el, null);
-			return [
-				parseInt(cs.getPropertyValue('width')),
-				parseInt(cs.getPropertyValue('height'))
-				];
-		} catch (e) {
-			return [0, 0];
-		}
-	}
-
-	// margin + border + padding
-	$.getElementExtensionalY = function(el, cs) {
-		try {
-			cs = cs || window.getComputedStyle(el, null);
-			return parseInt(cs.getPropertyValue('margin-top')) +
-				parseInt(cs.getPropertyValue('margin-bottom')) +
-				parseInt(cs.getPropertyValue('border-top-width')) +
-				parseInt(cs.getPropertyValue('border-bottom-width')) +
-				parseInt(cs.getPropertyValue('padding-top')) +
-				parseInt(cs.getPropertyValue('padding-bottom'))
-		} catch (e) {
-			return 0;
-		}
-	}
-
-	$.getElementFullHeight = function(el, cs) {
-		try {
-			cs = cs || window.getComputedStyle(el, null);
-			return this.getElementExtensionalY(el, cs) + parseInt(cs.getPropertyValue('height'));
-		} catch (e) {
-			return 0;
-		}
-	}
-	
-	$.getElementMargin = function(el, cs) {
-		try {
-			cs = cs || window.getComputedStyle(el, null);
-			return [
-				parseInt(cs.getPropertyValue('margin-top')),
-				parseInt(cs.getPropertyValue('margin-right')),
-				parseInt(cs.getPropertyValue('margin-bottom')),
-				parseInt(cs.getPropertyValue('margin-left'))
-				];
-		} catch (e) {
-			return [0, 0, 0, 0];
-		}
-	}
-	
-	$.getElementBorder = function(el, cs) {
-		cs = cs || window.getComputedStyle(el, null);
-		try {
-			return [
-				parseInt(cs.getPropertyValue('border-top-width')),
-				parseInt(cs.getPropertyValue('border-right-width')),
-				parseInt(cs.getPropertyValue('border-bottom-width')),
-				parseInt(cs.getPropertyValue('border-left-width'))
-				];
-		} catch (e) {
-			return [0, 0, 0, 0];
-		}
-	}
-	
-	$.getElementPadding = function(el, cs) {
-		cs = cs || window.getComputedStyle(el, null);
-		try {
-			return [
-				parseInt(cs.getPropertyValue('padding-top')),
-				parseInt(cs.getPropertyValue('padding-right')),
-				parseInt(cs.getPropertyValue('padding-bottom')),
-				parseInt(cs.getPropertyValue('padding-left'))
-				];
-		} catch (e) {
-			return [0, 0, 0, 0];
-		}
-	}
-
 	$.getCSSRule = function(selector, what) {
 		var result = '';
 		for (var idx = 0; idx < document.styleSheets.length; ++ idx) {
@@ -206,7 +127,6 @@ var $$ = function(id) {
 		return result;
 	}
 
-
 	$.insertStyle = function(href, id) {
 		var style = document.createElement('link');
 		if (id !== undefined) {
@@ -218,20 +138,8 @@ var $$ = function(id) {
 		document.getElementsByTagName('head')[0].appendChild(style);
 	}
 	
-	$.escapeHTML = function(str) {
-		return str.replace(/[&"<>]/g, function (m) {
-				return "&" +
-					({
-						"&" : "amp",
-						'"' : "quot",
-						"<" : "lt",
-						">" : "gt"
-					})[m] + ";"
-				});
-	}
-
 	$.getMainWindow = function() {
-		return Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow("navigator:browser");
+		return Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getMostRecentWindow("navigator:browser");
 	}
 })($);
 

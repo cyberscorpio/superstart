@@ -48,10 +48,9 @@ function initPopupButton(bid, mid, title) {
 		if (m) {
 			if (m.state == 'closed') {
 				var obj = doc.getElementById('browser').boxObject;
-				var pos = $.getPosition(b), margin = $.getElementMargin(b), border = $.getElementBorder(b), padding = $.getElementPadding(b), dimension = $.getElementDimension(b);
-				var x = pos.left + obj.screenX, y = pos.top + obj.screenY;
-				y += dimension[1] + margin[0] + margin[2] + border[0] + border[2] + padding[0] + padding[2];
-				y += 2;
+				var rc = b.getBoundingClientRect();
+				var x = rc.left + obj.screenX, y = rc.top + obj.screenY;
+				y += rc.height + 2;
 				m.openPopupAtScreen(x, y, false);
 				$.addClass(b, 'opened');
 				m.addEventListener('popuphiding', onPopupHiding, true);

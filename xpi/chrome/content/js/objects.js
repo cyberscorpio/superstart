@@ -1,5 +1,4 @@
 /** contain the project related global objects */
-const {classes: Cc, interfaces: Ci} = Components;
 
 var getString = $.getMainWindow().SuperStart.getString;
 var ssObj = Cc['@enjoyfreeware.org/superstart;1'];

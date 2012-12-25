@@ -72,115 +72,76 @@ evtMgr.ready(function() {
 	$.removeClass(container, 'hidden');
 });
 
-var tmplMgr = (function() {
-	var [tmplSite, tmplFolder] = (function() {
-		function createBasicTmpl() {
-			var tmpl = document.createElement('div');
-			tmpl.className = 'site';
-			tmpl.setAttribute('draggable', true);
-				var a = document.createElement('a');
-				a.className = 'site-link';
-				a.setAttribute('draggable', false);
-					var snapshot = document.createElement('div');
-					snapshot.className = 'site-snapshot';
-				a.appendChild(snapshot);
-					var title = document.createElement('div');
-					title.className = 'site-title';
-						var img = document.createElement('img');
-						img.className = 'site-title-image';
-						title.appendChild(img);
-						var text = document.createElement('p');
-						text.className = 'site-title-text';
-							var name = document.createElement('span');
-							name.className = 'site-title-name';
-						text.appendChild(name);
-					title.appendChild(text);
-				a.appendChild(title);
-			tmpl.appendChild(a);
-			return tmpl;
-		}
-		
-		function initTmpl(buttons, titles) {
-			var tmpl = createBasicTmpl();
-			for (var i = 0; i < buttons.length; ++ i) {
-				var b = document.createElement('div');
-				b.className = buttons[i] + ' button';
-				b.title = getString(titles[i]);
-				tmpl.appendChild(b);
-			}
-			return tmpl;
-		}
-
-		var buttons = ['newtab', 'thistab', 'refresh', 'config', 'remove', 'next-snapshot'];
-		var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
-		var s = initTmpl(buttons, titles);
-
-		buttons = ['refresh', 'newtab', 'config'];
-		titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
-		var f = initTmpl(buttons, titles);
-		$.addClass(f, 'folder');
-		// folder size
-			var size = document.createElement('span');
-			size.className = 'site-title-folder-size';
-			$(f, '.site-title p')[0].appendChild(size);
-			$.addClass($(f, '.site-snapshot')[0], 'folder-snapshot');
-		return [s, f];
-	}());
-	
-	function installCmdHandlers(se, cmds) {
-		for (var k in cmds) {
-			var r = $(se, k);
-			if (r.length == 1) {
-				r = r[0];
-				r.onclick = cmds[k];
-			}
-		}
-	
-		se.ondragstart = gDrag.onStart;
-		$(se, '.site-snapshot')[0].addEventListener('transitionend', layout.onSnapshotTransitionEnd, false);
-	}
-	
-	function createAnEmptySite() {
-		var se = tmplSite.cloneNode(true);
-		var cmds = {
-			'a': onLinkClick,
-			'.next-snapshot': nextSnapshot,
-			'.remove': removeSite,
-			'.refresh': refreshSite,
-			'.newtab': openInNewTab,
-			'.thistab': openInThisTab,
-			'.config': configSite
-		};
-		installCmdHandlers(se, cmds);
-		return se;
-	}
-	
-	function createAnEmptyFolder() {
-		var se = tmplFolder.cloneNode(true);
-		var cmds = {
-			'a': onLinkClick,
-			'.config': onFolderConfigClick,
-			'.newtab': onFolderNewTabClick,
-			'.refresh': refreshGroup
-		};
-		installCmdHandlers(se, cmds);
-		return se;
+// create the templates
+(function() {
+	function createBasicTmpl() {
+		var tmpl = document.createElement('div');
+		tmpl.className = 'site';
+		tmpl.setAttribute('draggable', true);
+			var a = document.createElement('a');
+			a.className = 'site-link';
+			a.setAttribute('draggable', false);
+				var snapshot = document.createElement('div');
+				snapshot.className = 'site-snapshot';
+			a.appendChild(snapshot);
+				var title = document.createElement('div');
+				title.className = 'site-title';
+					var img = document.createElement('img');
+					img.className = 'site-title-image';
+					title.appendChild(img);
+					var text = document.createElement('p');
+					text.className = 'site-title-text';
+						var name = document.createElement('span');
+						name.className = 'site-title-name';
+					text.appendChild(name);
+				title.appendChild(text);
+			a.appendChild(title);
+		tmpl.appendChild(a);
+		return tmpl;
 	}
 
-	function getTmpl(which) {
-		if (which === 'site') {
-			return tmplSite;
-		} else if (which === 'folder') {
-			return tmplFolder;
+	function initTmpl(buttons, titles) {
+		var tmpl = createBasicTmpl();
+		for (var i = 0; i < buttons.length; ++ i) {
+			var b = document.createElement('div');
+			b.className = buttons[i] + ' button';
+			b.title = getString(titles[i]);
+			tmpl.appendChild(b);
 		}
-		return null;
+		return tmpl;
 	}
 
-	return {
-		'createAnEmptySite': createAnEmptySite,
-		'createAnEmptyFolder': createAnEmptyFolder,
-		'getTmpl': getTmpl
-	};
+	var buttons = ['newtab', 'thistab', 'refresh', 'config', 'remove', 'next-snapshot'];
+	var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
+	var s = initTmpl(buttons, titles);
+	tmplMgr.addTmpl('site', s, {
+					'a':              ['click',  onLinkClick],
+					'.next-snapshot': ['click',  nextSnapshot],
+					'.remove':        ['click',  removeSite],
+					'.refresh':       ['click',  refreshSite],
+					'.newtab':        ['click',  openInNewTab],
+					'.thistab':       ['click',  openInThisTab],
+					'.config':        ['click',  configSite],
+					'':               ['dragstart', gDrag.onStart],
+					'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+	});
+
+	buttons = ['refresh', 'newtab', 'config'];
+	titles = ['ssFolderRefresh', 'ssFolderOpenAll', 'ssFolderConfig'];
+	var f = initTmpl(buttons, titles);
+	$.addClass(f, 'folder');
+	var size = document.createElement('span'); // folder 'size'
+	size.className = 'site-title-folder-size';
+	$(f, '.site-title p')[0].appendChild(size);
+	$.addClass($(f, '.site-snapshot')[0], 'folder-snapshot');
+	tmplMgr.addTmpl('folder', f, {
+					'a':              ['click', onLinkClick],
+					'.config':        ['click', onFolderConfigClick],
+					'.newtab':        ['click', onFolderNewTabClick],
+					'.refresh':       ['click', refreshGroup],
+					'':               ['dragstart', gDrag.onStart],
+					'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+	});
 }());
 
 function swapSiteItem(se, tmp) {
@@ -305,10 +266,10 @@ function insert(c, s) {
 function createSiteElement(s) {
 	var se = null;
 	if (s.sites != undefined) { // folder
-		se = tmplMgr.createAnEmptyFolder();
+		se = tmplMgr.getNode('folder');
 		updateFolder(s, se);
 	} else {
-		se = tmplMgr.createAnEmptySite();
+		se = tmplMgr.getNode('site');
 		updateSite(s, se);
 	}
 	return se;
@@ -833,33 +794,26 @@ function onSiteTitleChanged(evt, idxes) {
 
 function onUseBgEffect(evt, ube) {
 	var opened = $('.folder.opened');
+	var nsp = {'site': '', 'folder': ''};
 	if (opened.length > 0 && ube) {
 		$.addClass(mask, 'grayed');
-		changeElementsClass('', '.site', 'add', 'grayed');
+		tmplMgr.changeElementsClass(nsp, '.site', 'add', 'grayed');
 	} else {
 		if ($.hasClass(mask, 'grayed')) {
 			$.removeClass(mask, 'grayed');
-			changeElementsClass('', '.site', 'remove', 'grayed');
+			tmplMgr.changeElementsClass(nsp, '.site', 'remove', 'grayed');
 		}
 	}
 }
 
 function onOpenTypeChanged(evt, openInNewtab) {
-	if (openInNewtab) {
-		$.addClass($$('sites'), 'newtab');
-		$.addClass($$('folder'), 'newtab');
-	} else {
-		$.removeClass($$('sites'), 'newtab');
-		$.removeClass($$('folder'), 'newtab');
-	}
+	tmplMgr.changeElementsClass({'site': '.button.newtab'}, '.site:not(.folder) .button.newtab', openInNewtab ? 'add' : 'remove', 'open-in-newtab');
+	tmplMgr.changeElementsClass({'site': '.button.thistab'}, '.site:not(.folder) .button.thistab', openInNewtab ? 'add' : 'remove', 'open-in-newtab');
 }
 
 function onFolderShowSize(evt, show) {
-	if (show) {
-		changeElementsClass('.site-title-folder-size', '.site-title-folder-size', 'remove', 'hidden');
-	} else {
-		changeElementsClass('.site-title-folder-size', '.site-title-folder-size', 'add', 'hidden');
-	}
+	var nsp = {'site': '.site-title-folder-size', 'folder': '.site-title-folder-size'}
+	tmplMgr.changeElementsClass(nsp, '.site-title-folder-size', show ? 'remove' : 'add', 'hidden');
 }
 
 function onButtonShowHide(evt, show) {
@@ -877,39 +831,15 @@ function onButtonShowHide(evt, show) {
 				onButtonShowHide(k, cfg.getConfig(k));
 			}
 		} else {
-			changeElementsClass('.button', '.site .button', 'add', 'hidden');
+			tmplMgr.changeElementsClass({'site': '.button', 'folder': '.button'}, '.site .button', 'add', 'hidden');
 		}
 	} else {
 		var showAll = cfg.getConfig('site-buttons');
 		show = showAll && show;
 		evt2classes[evt].forEach(function(cls) {
-			changeElementsClass('.' + cls, '.site .' + cls, show ? 'remove' : 'add', 'hidden');
+			var nsp = {'site': '.' + cls, 'folder': '.' + cls};
+			tmplMgr.changeElementsClass(nsp, '.site .' + cls, show ? 'remove' : 'add', 'hidden');
 		});
-	}
-}
-
-/**
- * change class for elements in templates and the document
- */
-function changeElementsClass(tmplSelector, selector, addOrRemove, cls) {
-	['site', 'folder'].forEach(function(t) {
-		var tmpl = tmplMgr.getTmpl(t);
-		var elems = tmplSelector === '' ? [tmpl] : $(tmpl, tmplSelector);
-		for (var i = 0; i < elems.length; ++ i) {
-			if (addOrRemove === 'add') {
-				$.addClass(elems[i], cls);
-			} else if (addOrRemove === 'remove') {
-				$.removeClass(elems[i], cls);
-			}
-		}
-	});
-	var elems = $(selector);
-	for (var i = 0; i < elems.length; ++ i) {
-		if (addOrRemove === 'add') {
-			$.addClass(elems[i], cls);
-		} else if (addOrRemove === 'remove') {
-			$.removeClass(elems[i], cls);
-		}
 	}
 }
 

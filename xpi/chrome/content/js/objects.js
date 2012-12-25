@@ -8,6 +8,7 @@ var sm = ssObj.getService(Ci.ssISiteManager);
 var todo = ssObj.getService(Ci.ssITodoList);
 var tm = ssObj.getService(Ci.ssIThemes);
 
+/* evtMgr */
 var evtMgr = (function() {
 	var evts = [[], [], []]; // ob, window, document
 
@@ -82,5 +83,73 @@ var evtMgr = (function() {
 		'ready': ready,
 		'register': register,
 		'clear': clear
+	};
+}());
+
+
+/* tmplMgr */
+var tmplMgr = (function() {
+	var templates = {};
+	function addTmpl(name, tmpl, evts) {
+		templates[name] = {
+			'tmpl': tmpl,
+			'evts': evts
+		};
+	}
+
+	function getTmpl(name) {
+		if (templates[name] !== undefined) {
+			return templates[name].tmpl;
+		}
+		return null;
+	}
+
+	function getNode(name) {
+		var node = null
+		if (templates[name] !== undefined) {
+			var tmpl = templates[name];
+			node = tmpl.tmpl.cloneNode(true);
+			var evts = tmpl.evts;
+			if (evts !== undefined) {
+				for (var sel in evts) {
+					var evt = evts[sel];
+					[].forEach.call($(node, sel), function(el) {
+						el.addEventListener(evt[0], evt[1], false);
+					});
+				}
+			}
+		}
+		return node;
+	}
+
+	function changeElementsClass(nameSelectorPairs, liveSelector, addOrRemove, cls) {
+		for (var name in nameSelectorPairs) {
+			var tmpl = getTmpl(name);
+			if (tmpl) {
+				var elems = $(tmpl, nameSelectorPairs[name]);
+				for (var i = 0; i < elems.length; ++ i) {
+					if (addOrRemove === 'add') {
+						$.addClass(elems[i], cls);
+					} else if (addOrRemove === 'remove') {
+						$.removeClass(elems[i], cls);
+					}
+				}
+			}
+		}
+
+		var elems = $(document, liveSelector);
+		for (var i = 0; i < elems.length; ++ i) {
+			if (addOrRemove === 'add') {
+				$.addClass(elems[i], cls);
+			} else if (addOrRemove === 'remove') {
+				$.removeClass(elems[i], cls);
+			}
+		}
+	}
+
+	return {
+		'addTmpl': addTmpl,
+		'getNode': getNode,
+		'changeElementsClass': changeElementsClass
 	};
 }());

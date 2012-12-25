@@ -5,14 +5,13 @@ var $ = function(e, s) {
 		s = e;
 		e = document;
 	}
-	if (typeof(s) != 'string' || s == '') {
-		return null;
+	if (typeof(s) != 'string') {
+		return [];
 	}
-	if (s.charAt(0) == '#' && s.indexOf(' ') == -1 && s.indexOf('>') == -1) {
-		return document.getElementById(s.substr(1));
-	} else {
-		return e.querySelectorAll(s);
+	if (s === '') { // return the element itself
+		return [e];
 	}
+	return e.querySelectorAll(s);
 };
 
 var $$ = function(id) {
@@ -21,42 +20,33 @@ var $$ = function(id) {
 
 (function($) {
 	$.hasClass = function(el, cls) {
-		try {
-			return el.classList.contains(cls);
-		} catch (e) {}
-		return false;
+		return el.classList.contains(cls);
 	}
 
 	$.addClass = function(el, cls) {
-		try {
-			if (!el.classList.contains(cls)) {
-				el.classList.add(cls);
-			}
-		} catch (e) {}
+		if (!el.classList.contains(cls)) {
+			el.classList.add(cls);
+		}
 	}
 
 	function _removeClass(el, cls) {
-		try {
-			if (el.classList.contains(cls)) {
-				el.classList.remove(cls);
-			}
-		} catch (e) {}
+		if (el.classList.contains(cls)) {
+			el.classList.remove(cls);
+		}
 	}
 
 	$.removeClass = function(el, cls) {
-		try {
-			if (cls.indexOf(' ') == -1) {
-				_removeClass(el, cls);
-			} else {
-				var cs = cls.split(' ');
-				for (var i = 0, l = cs.length; i < l; ++ i) {
-					var c = cs[i];
-					if (c != '') {
-						_removeClass(el, c);
-					}
+		if (cls.indexOf(' ') == -1) {
+			_removeClass(el, cls);
+		} else {
+			var cs = cls.split(' ');
+			for (var i = 0, l = cs.length; i < l; ++ i) {
+				var c = cs[i];
+				if (c != '') {
+					_removeClass(el, c);
 				}
 			}
-		} catch (e) {}
+		}
 	}
 
 	$.toggleClass = function(el, cls) {
@@ -71,11 +61,6 @@ var $$ = function(id) {
 		while (el.firstChild) {
 			el.removeChild(el.firstChild);
 		}
-	}
-
-	$.isPointInElement = function(el, x, y) {
-		var rc = el.getBoundingClientRect();
-		return rc.left <= x && rc.right > x && rc.top <= y && rc.bottom > y;
 	}
 
 	$.getPosition = function(el) {
@@ -95,10 +80,8 @@ var $$ = function(id) {
 	}
 
 	$.inElem = function(x, y, el) {
-		var pos = $.getPosition(el);
-		var w = el.offsetWidth;
-		var h = el.offsetHeight;
-		return this.inRect(x, y, pos.left, pos.top, w, h);
+		var rc = el.getBoundingClientRect();
+		return this.inRect(x, y, rc.left + window.pageXOffset, rc.top + window.pageYOffset, rc.width, rc.height);
 	}
 
 	$.getCSSRule = function(selector, what) {

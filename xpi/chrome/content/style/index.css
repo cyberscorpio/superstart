@@ -249,14 +249,15 @@ body.text-only .site > .button {
 .button.newtab ,
 .button.thistab {
 	left: 2px;
-}
-
-.button.newtab {
 	background-position: 0 0;
 }
 
 .button.thistab {
 	background-position: -24px 0;
+}
+
+.button.newtab.open-in-newtab,
+.button.thistab:not(.open-in-newtab) {
 	display: none;
 }
 
@@ -265,21 +266,6 @@ body.text-only .site > .button {
 }
 .site.folder > .refresh {
 	right: 33px;
-}
-
-/* FIXME */
-#sites.newtab .newtab,
-#folder.newtab .newtab,
-.site.folder.opened .button,
-.site.folder.closing .button,
-.site.dragging .button {
-	display: none;
-}
-
-#sites.newtab .site.folder:not(.opened):not(.dragging) .newtab,
-#sites.newtab .site:not(.dragging) .thistab,
-#folder.newtab .site:not(.dragging) .thistab {
-	display: block;
 }
 
 .site.folder.opened:after,

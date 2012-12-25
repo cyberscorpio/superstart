@@ -230,14 +230,8 @@ var $$ = function(id) {
 				});
 	}
 
-	const Ci = Components.interfaces;
 	$.getMainWindow = function() {
-		return window.QueryInterface(Ci.nsIInterfaceRequestor)
-			.getInterface(Ci.nsIWebNavigation)
-			.QueryInterface(Ci.nsIDocShellTreeItem)
-			.rootTreeItem
-			.QueryInterface(Ci.nsIInterfaceRequestor)
-			.getInterface(Ci.nsIDOMWindow);
+		return Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow("navigator:browser");
 	}
 })($);
 

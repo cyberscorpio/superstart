@@ -16,11 +16,11 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 			'j': ['xl.js', 'ssConfig.js', 'ssSiteManager.js', 'ssTodoList.js', 'ssThemes.js']
 		}
 	];
-	for (let i = 0; i < m.length; ++ i) {
-		for (let j = 0, l = m[i].j.length; j < l; ++ j) {
-			Cu.import(m[i].p + m[i].j[j]);;
-		}
-	}
+	m.forEach(function(n) {
+		n.j.forEach(function(o) {
+			Cu.import(n.p + o);;
+		});
+	});
 	m = undefined;
 	
 	/**
@@ -77,7 +77,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		},
 	
 		// below file I/O is copied from:
-		// - https://developer.mozilla.org/en/Code_snippets/File_I%2f%2fO
+		// - https://developer.mozilla.org/en/docs/Code_snippets/File_I_O
 		fileGetContents: function(iF) {
 			var data = '';
 			try {
@@ -102,20 +102,16 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 	
 		filePutContents: function(iF, data) {
 			let os = Cc["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
+			let cs = Cc["@mozilla.org/intl/converter-output-stream;1"].createInstance(Ci.nsIConverterOutputStream);
 			
 			os.init(iF, 0x02 | 0x08 | 0x20, FileUtils.PERMS_FILE, 0); 
-			let converter = Cc["@mozilla.org/intl/converter-output-stream;1"].createInstance(Ci.nsIConverterOutputStream);
-			converter.init(os, "UTF-8", 0, 0);
-			converter.writeString(data);
-			converter.close();
+			cs.init(os, "UTF-8", 0, 0);
+			cs.writeString(data);
+			cs.close();
 		},
 	};
 	
 	return SuperStartObj;
 })();
 
-if (XPCOMUtils.generateNSGetFactory) {
-	var NSGetFactory = XPCOMUtils.generateNSGetFactory([SuperStartObj]);
-} else {
-	var NSGetModule = XPCOMUtils.generateNSGetModule([SuperStartObj]);
-}
+var NSGetFactory = XPCOMUtils.generateNSGetFactory ? XPCOMUtils.generateNSGetFactory([SuperStartObj]) : XPCOMUtils.generateNSGetModule([SuperStartObj]);

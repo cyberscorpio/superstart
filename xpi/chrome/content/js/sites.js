@@ -569,6 +569,7 @@ function nextSnapshot() {
 		var that = this;
 		window.setTimeout(function() {
 			that.style.transitionProperty = 'transform';
+			that.style.transitionDuration = '100ms';
 			that.style.transform = '';
 			that.addEventListener('transitionend', on0deg, true);
 		}, 0);
@@ -584,7 +585,7 @@ function nextSnapshot() {
 			}
 			sn.setAttribute('in-changing-snapshot', true);
 			sn.style.transitionProperty = 'transform';
-			sn.style.transitionDuration = '125ms';
+			sn.style.transitionDuration = '150ms';
 			sn.style.transform = 'perspective(500px) rotateY(90deg)';
 			sn.addEventListener('transitionend', on90deg, true);
 		}

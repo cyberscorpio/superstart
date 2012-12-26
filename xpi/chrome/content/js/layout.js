@@ -120,12 +120,24 @@ var layout = (function() {
 	}
 
 	function checkTextOnly() {
-		var to = cfg.getConfig('sites-text-only');
-		if (to) {
-			$.addClass(document.body, 'text-only');
-		} else {
-			$.removeClass(document.body, 'text-only');
-		}
+		var only = cfg.getConfig('sites-text-only');
+		var nsps = [
+			{'site': '', 'folder': ''},
+			{'site': '.site-snapshot', 'folder': '.site-snapshot'},
+			{'site': '.site-title', 'folder': '.site-title'},
+			{'site': '.site-title-image', 'folder': '.site-title-image'},
+			{'site': '.button', 'folder': '.button'}
+		];
+		var sels = [
+			'.site.folder',
+			'.site-snapshot',
+			'.site-title',
+			'.site-title-image',
+			'.button'
+		];
+		for (var i = 0; i < nsps.length; ++ i) {
+			tmplMgr.changeElementsClass(nsps[i], sels[i], only ? 'add' : 'remove', 'text-only');
+		};
 	}
 
 	function onTodoHide(evt, v) {

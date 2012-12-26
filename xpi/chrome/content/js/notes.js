@@ -16,6 +16,19 @@ evtMgr.ready(function() {
 	onTodoHide('todo-hide', cfg.getConfig('todo-hide'));
 });
 
+(function() {
+	var li = document.createElement('li');
+	li.className = 'note';
+	var done = document.createElement('div');
+	done.className = 'button done';
+	done.setAttribute('title', getString('ssNoteDone'));
+	li.appendChild(done);
+
+	tmplMgr.addTmpl('note', li, {
+		'.button.done': ['click', onDone]
+	});
+}())
+
 function onTodoHide(evt, v) {
 	var onoff = $$('nbc-notes-onoff');
 	if (v) {
@@ -93,20 +106,13 @@ function onDone() {
 
 function insertNote(n) {
 	var list = $$('notes-list');
-	var li = document.createElement('li');
-	var done = document.createElement('div');
-	$.addClass(done, 'button');
-	$.addClass(done, 'done');
-	done.setAttribute('title', getString('ssNoteDone'));
-	done.onclick = onDone;
-	li.appendChild(done);
-
-	updateNote(li, n);
-	list.appendChild(li);
+	var note = tmplMgr.getNode('note');
+	updateNote(note, n);
+	list.appendChild(note);
 }
 
-function updateNote(li, n) {
-	li.appendChild(document.createTextNode(n.text));
+function updateNote(note, n) {
+	note.appendChild(document.createTextNode(n.text));
 }
 
 /// event handlers

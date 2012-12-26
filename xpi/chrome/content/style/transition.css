@@ -4,12 +4,11 @@
 , .site
 , #folder
 , .site-snapshot
-, .site .button
+, .button
 , .site-title
 , .image-preview
 , #notes
-, #note-edit
-, #notes-list .button {
+, #note-edit {
 	transition-duration: 250ms;
 	transition-timing-function: linear;
 }
@@ -36,7 +35,7 @@
 	transition-property: border, width, height, opacity;
 }
 
-.site .button {
+.button {
 	transition-property: opacity;
 }
 
@@ -60,6 +59,3 @@
 	transition-property: height, opacity;
 }
 
-#notes-list .button {
-	transition-property: opacity;
-}

@@ -115,15 +115,15 @@ evtMgr.ready(function() {
 	var titles = ['ssSiteOpenInNewTab', 'ssSiteOpenInThisTab', 'ssSiteRefresh', 'ssSiteSetting', 'ssSiteRemove', 'ssSiteNextSnapshot'];
 	var s = initTmpl(buttons, titles);
 	tmplMgr.addTmpl('site', s, {
-					'a':              ['click',  onLinkClick],
-					'.next-snapshot': ['click',  nextSnapshot],
-					'.remove':        ['click',  removeSite],
-					'.refresh':       ['click',  refreshSite],
-					'.newtab':        ['click',  openInNewTab],
-					'.thistab':       ['click',  openInThisTab],
-					'.config':        ['click',  configSite],
-					'':               ['dragstart', gDrag.onStart],
-					'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+		'a':              ['click',  onLinkClick],
+		'.next-snapshot': ['click',  nextSnapshot],
+		'.remove':        ['click',  removeSite],
+		'.refresh':       ['click',  refreshSite],
+		'.newtab':        ['click',  openInNewTab],
+		'.thistab':       ['click',  openInThisTab],
+		'.config':        ['click',  configSite],
+		'':               ['dragstart', gDrag.onStart],
+		'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
 	});
 
 	buttons = ['refresh', 'newtab', 'config'];
@@ -135,12 +135,12 @@ evtMgr.ready(function() {
 	$(f, '.site-title p')[0].appendChild(size);
 	$.addClass($(f, '.site-snapshot')[0], 'folder-snapshot');
 	tmplMgr.addTmpl('folder', f, {
-					'a':              ['click', onLinkClick],
-					'.config':        ['click', onFolderConfigClick],
-					'.newtab':        ['click', onFolderNewTabClick],
-					'.refresh':       ['click', refreshGroup],
-					'':               ['dragstart', gDrag.onStart],
-					'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+		'a':              ['click', onLinkClick],
+		'.config':        ['click', onFolderConfigClick],
+		'.newtab':        ['click', onFolderNewTabClick],
+		'.refresh':       ['click', refreshGroup],
+		'':               ['dragstart', gDrag.onStart],
+		'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
 	});
 }());
 

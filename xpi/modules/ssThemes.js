@@ -268,7 +268,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		if (selector.charAt(0) == '+') {
 			switch(selector) {
 			case '+transparent':
-				return getTranslateCss();
+				return getTransparentCss();
 			case '+bg-color':
 				return getBgColor(data);
 			case '+text-color':
@@ -291,11 +291,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	function getTranslateCss() {
+	function getTransparentCss() {
 		let obj = {};
 		let css = '';
-		obj['#sites .site:not(.opened):not(.closing):not(:hover), #notes:not(:hover)'] = {'opacity' : '0.333333333333333'};
-		obj['#sites .site.folder > a > .snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)'};
+		obj['.site:not(.opened):not(.closing):not(:hover), #notes:not(:hover)'] = {'opacity' : '0.333333333333333'};
+		obj['.site-snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)'};
 
 		for (let k in obj) {
 			css += getCssRule(k, obj[k]);
@@ -317,14 +317,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		} else {
 			let css = '';
 			if (data.color == 0) { // black
-				css += '#sites .site-title, #notes-list li { color: black;';
+				css += '.site-title, li.note { color: black;';
 				if (data.useShadow) {
 					css += ' text-shadow: 1px 0 white, 0 1px white, 1px 1px white, -1px 0 white, 0 -1px white, 1px -1px white, -1px 1px white;';
 				} else {
 					css += ' text-shadow: none;';
 				}
 			} else {
-				css += '#sites .site-title, #notes-list li { color: white;';
+				css += '.site-title, li.note { color: white;';
 				if (data.useShadow) {
 					css += ' text-shadow: 1px 0 black, 0 1px black, 1px 1px black, -1px 0 black, 0 -1px black, 1px -1px black, -1px 1px black;';
 				} else {

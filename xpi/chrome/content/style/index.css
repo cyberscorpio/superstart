@@ -144,7 +144,7 @@ li.nbc { float: right; }
 	opacity: 0.85;
 }
 
-#sites > .site.grayed:not(.opened):not(.closing):not(.dragging) {
+.site.grayed:not(.opened):not(.closing):not(.dragging):not(.in-folder) {
 	opacity: .5;
 	filter: url("filters.svg#background-effect");
 }
@@ -221,6 +221,11 @@ li.nbc { float: right; }
 
 .site:hover > .button:hover {
 	opacity: 1;
+}
+
+.site.folder.opened > .button,
+.site.folder.closing > .button {
+	display: none;
 }
 
 .button.remove {

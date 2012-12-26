@@ -464,10 +464,6 @@ function closeFolder() {
 }
 
 function onLinkClick(evt) {
-	if ($.hasClass(evt.target, 'button')) {
-		return false;
-	}
-
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
@@ -485,6 +481,8 @@ function onLinkClick(evt) {
 			inNewTab ? $.getMainWindow().getBrowser().addTab(s.url) : document.location.href = s.url;
 		}
 	}
+	evt.preventDefault();
+	evt.stopPropagation();
 	return false;
 }
 

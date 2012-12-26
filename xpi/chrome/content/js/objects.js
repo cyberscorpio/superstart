@@ -147,6 +147,10 @@ var tmplMgr = (function() {
 		}
 	}
 
+	evtMgr.clear(function() {
+		templates = undefined;
+	});
+
 	return {
 		'addTmpl': addTmpl,
 		'getNode': getNode,

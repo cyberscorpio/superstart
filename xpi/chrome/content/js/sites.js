@@ -142,6 +142,16 @@ evtMgr.ready(function() {
 		'':               ['dragstart', gDrag.onStart],
 		'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
 	});
+
+	buttons = ['remove'];
+	titles = ['ssSiteRemove'];
+	var p = initTmpl(buttons, titles);
+	$.addClass(p, 'placeholder');
+	tmplMgr.addTmpl('site', p, {
+		'a':              ['click',  onLinkClick],
+		'.remove':        ['click',  removeSite],
+		'':               ['dragstart', gDrag.onStart]
+	});
 }());
 
 function swapSiteItem(se, tmp) {

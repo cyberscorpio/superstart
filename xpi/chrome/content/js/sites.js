@@ -144,6 +144,9 @@ evtMgr.ready(function() {
 	titles = ['ssSiteRemove'];
 	var p = initTmpl(buttons, titles);
 	$.addClass(p, 'placeholder');
+	var icon = $(p, '.site-title-image')[0];
+	icon.parentNode.removeChild(icon);
+	$.addClass($(p, '.site-snapshot')[0], 'placeholder-snapshot');
 	tmplMgr.addTmpl('placeholder', p, {
 		'a':              ['click',  onLinkClick],
 		'.remove':        ['click',  removeSite],
@@ -259,6 +262,11 @@ function flashFolder(f) {
 	}
 }
 
+function updatePlaceholder(s, se) {
+	var e = $(se, 'a')[0];
+	e.href = s.url;
+}
+
 /**
  * always insert into the end
  */
@@ -275,6 +283,9 @@ function createSiteElement(s) {
 	if (s.sites != undefined) { // folder
 		se = tmplMgr.getNode('folder');
 		updateFolder(s, se);
+	} else if (s.url == 'about:placeholder') {
+		se = tmplMgr.getNode('placeholder');
+		updatePlaceholder(s, se);
 	} else {
 		se = tmplMgr.getNode('site');
 		updateSite(s, se);
@@ -484,7 +495,7 @@ function onLinkClick(evt) {
 		if (evt.ctrlKey || evt.metaKey) {
 			inNewTab = !inNewTab;
 		}
-		if (s.url != null) {
+		if (s.url != null && s.url != 'about:placeholder') {
 			inNewTab ? $.getMainWindow().getBrowser().addTab(s.url) : document.location.href = s.url;
 		}
 	}
@@ -800,7 +811,7 @@ function onSiteTitleChanged(evt, idxes) {
 
 function onUseBgEffect(evt, ube) {
 	var opened = $('.folder.opened');
-	var nsp = {'site': '', 'folder': ''};
+	var nsp = {'site': '', 'folder': '', 'placeholder': ''};
 	if (opened.length > 0 && ube) {
 		$.addClass(mask, 'grayed');
 		tmplMgr.changeElementsClass(nsp, '.site', 'add', 'grayed');
@@ -837,13 +848,13 @@ function onButtonShowHide(evt, show) {
 				onButtonShowHide(k, cfg.getConfig(k));
 			}
 		} else {
-			tmplMgr.changeElementsClass({'site': '.button', 'folder': '.button'}, '.site .button', 'add', 'hidden');
+			tmplMgr.changeElementsClass({'site': '.button', 'folder': '.button', 'placeholder': '.button'}, '.site .button', 'add', 'hidden');
 		}
 	} else {
 		var showAll = cfg.getConfig('site-buttons');
 		show = showAll && show;
 		evt2classes[evt].forEach(function(cls) {
-			var nsp = {'site': '.' + cls, 'folder': '.' + cls};
+			var nsp = {'site': '.' + cls, 'folder': '.' + cls, 'placeholder': '.' + cls};
 			tmplMgr.changeElementsClass(nsp, '.site .' + cls, show ? 'remove' : 'add', 'hidden');
 		});
 	}

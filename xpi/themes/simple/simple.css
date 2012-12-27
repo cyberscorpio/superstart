@@ -63,3 +63,36 @@ body {
 	text-shadow: 1px 0 white, 0 1px white, 1px 1px white, -1px 0 white, 0 -1px white, 1px -1px white, -1px 1px white;
 }
 
+/*
+.site.folder.opened > a > .folder-snapshot.site-snapshot,
+.site.folder.closing > a > .folder-snapshot.site-snapshot {
+	background-color: rgba(255,255,255,0.25);
+}
+
+.site.folder.opened:after,
+.site.folder.closing:after {
+	border-bottom-color: white;
+}
+
+#folder {
+	background: white;
+}
+
+.site.in-folder > a > .site-title {
+	color: rgba(0,0,0,0.75);
+}
+
+.site.in-folder:hover > a > .site-title {
+	color: black;
+}
+
+
+#mask {
+	background-color: black;
+	opacity: .75;
+}
+
+#mask.grayed {
+	opacity: .75;
+}
+*/

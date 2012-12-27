@@ -166,7 +166,7 @@ li.nbc { float: right; }
 	box-sizing: border-box;
 }
 
-.site-link { /* <a> */
+.site-link {
 	position: absolute;
 	text-align: center;
 	left: 0;
@@ -348,6 +348,30 @@ li.nbc { float: right; }
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.site.placeholder,
+.placeholder-snapshot.site-snapshot {
+	border: 1px solid transparent;
+	background-color: transparent;
+}
+
+.site.placeholder > a {
+	cursor: move;
+}
+
+.site.placeholder.text-only:hover,
+.site.placeholder.text-only.dragging {
+	background-color: rgba(0,0,0,0.05);
+}
+
+.placeholder-snapshot.site-snapshot:hover,
+.site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot {
+	background-color: rgba(0,0,0,0.05);
+}
+
+.site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot {
+	border: 1px solid rgba(255,255,255,0.05);
 }
 
 

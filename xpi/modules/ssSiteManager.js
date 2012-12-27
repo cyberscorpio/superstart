@@ -325,12 +325,17 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	this.addSite = function(url, name, snapshotIndex, useLastVisited, image) {
 		url = this.regulateUrl(url);
-		let living = getLiveSnapshot(url);
-		if (snapshotIndex == 3 && image == null) {
-			snapshotIndex = 0;
+		if (url == 'about:placeholder') {
+			let s = createSite(url, url, '', imgNoSnapshot, imgNoSnapshot, '', false, '', 0);
+			data.sites.push(s);
+		} else {
+			let living = getLiveSnapshot(url);
+			if (snapshotIndex == 2 && image == null) {
+				snapshotIndex = 0;
+			}
+			let s = createSite(url, url, name, imgLoading, imgLoading, living, useLastVisited, image, snapshotIndex);
+			data.sites.push(s);
 		}
-		let s = createSite(url, url, name, imgLoading, imgLoading, living, useLastVisited, image, snapshotIndex);
-		data.sites.push(s);
 		save();
 		this.fireEvent('site-added', data.sites.length - 1);
 		takeSnapshot(url); // TODO: if the url already exists, why not use the existed screenshots instead?
@@ -457,18 +462,20 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						this.refreshSite(index, i);
 					}
 				} else {
-					let used = false;
-					travel(function(_s, idxes) {
-						if (_s.snapshots[0] == s.snapshots[0] && s != _s) {
-							used = true;
-							return true;
+					if (s.url != 'about:placeholder') {
+						let used = false;
+						travel(function(_s, idxes) {
+							if (_s.snapshots[0] == s.snapshots[0] && s != _s) {
+								used = true;
+								return true;
+							}
+						});
+						if (!used) {
+							removeSnapshots([s.snapshots[0], s.snapshots[1]]);
 						}
-					});
-					if (!used) {
-						removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+						updateSiteInformation([group, index], s.url, s.realurl, s.title, s.name, s.icon, [imgLoading, imgLoading]);
+						takeSnapshot(s.url);
 					}
-					updateSiteInformation([group, index], s.url, s.realurl, s.title, s.name, s.icon, [imgLoading, imgLoading]);
-					takeSnapshot(s.url);
 				}
 			}
 		}
@@ -730,7 +737,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		function takeSnapshot(url) {
-			if (exists(url)) {
+			if (url == 'about:placeholder' || exists(url)) {
 				return;
 			}
 			q.push(url);

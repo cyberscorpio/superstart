@@ -122,11 +122,11 @@ var layout = (function() {
 	function checkTextOnly() {
 		var only = cfg.getConfig('sites-text-only');
 		var nsps = [
-			{'site': '', 'folder': ''},
-			{'site': '.site-snapshot', 'folder': '.site-snapshot'},
-			{'site': '.site-title', 'folder': '.site-title'},
+			{'site': '', 'folder': '', 'placeholder': ''},
+			{'site': '.site-snapshot', 'folder': '.site-snapshot', 'placeholder': '.site-snapshot'},
+			{'site': '.site-title', 'folder': '.site-title', 'placeholder': '.site-title'},
 			{'site': '.site-title-image', 'folder': '.site-title-image'},
-			{'site': '.button', 'folder': '.button'}
+			{'site': '.button', 'folder': '.button', 'placeholder': '.button'}
 		];
 		var sels = [
 			'.site.folder',

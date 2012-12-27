@@ -12,25 +12,17 @@ var e2id = { // use "onNavbarItemOnoff" to handle the events
 };
 
 evtMgr.ready(function() {
-	init();
-});
-evtMgr.clear(function() {
-	cleanup();
-});
-
-function init() {
 	initPopupButton('nbb-recently-closed', 'superstart-recently-closed-list', getString('ssRecentlyClosed'));
 	for (var k in e2id) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
-}
-
-function cleanup() {
+});
+evtMgr.clear(function() {
 	for (var k in e2id) {
 		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
-}
+});
 
 function initPopupButton(bid, mid, title) {
 	var b = $$(bid);

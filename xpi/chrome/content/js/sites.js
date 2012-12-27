@@ -49,7 +49,6 @@ evtMgr.ready(function() {
 	var add = $$('nbb-add-site');
 	add.onclick = function() { showAddSite(); };
 	add.setAttribute('title', getString('ssSiteAddNew') + ' - ' + getString('ssSiteAddNewHint'));
-	$.removeClass(add, 'hidden');
 
 	// check the necessary statuses
 	for (var k in cfgevts) {
@@ -68,8 +67,6 @@ evtMgr.ready(function() {
 	container.appendChild(df);
 
 	layout.layoutTopSites();
-
-	$.removeClass(container, 'hidden');
 });
 
 // create the templates
@@ -147,7 +144,7 @@ evtMgr.ready(function() {
 	titles = ['ssSiteRemove'];
 	var p = initTmpl(buttons, titles);
 	$.addClass(p, 'placeholder');
-	tmplMgr.addTmpl('site', p, {
+	tmplMgr.addTmpl('placeholder', p, {
 		'a':              ['click',  onLinkClick],
 		'.remove':        ['click',  removeSite],
 		'':               ['dragstart', gDrag.onStart]

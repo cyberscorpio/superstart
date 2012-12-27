@@ -3,8 +3,6 @@
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-language" content="en" />
-	<link rel="stylesheet" type="text/css" href="style/reset.css" />
-	<link rel="stylesheet" type="text/css" href="style/index.css" />
 	<title>Super Start</title>
 	<script type="text/javascript" src="js/debug.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
@@ -16,11 +14,18 @@
 	<script type="text/javascript" src="js/sites.js"></script>
 	<script type="text/javascript" src="js/notes.js"></script>
 	<script type="text/javascript" src="js/navbar.js"></script>
+	<script type="text/javascript">
+		evtMgr.ready(function(){
+			$.removeClass(document.body, 'hidden');
+		});
+	</script>
+	<link rel="stylesheet" type="text/css" href="style/reset.css" />
+	<link rel="stylesheet" type="text/css" href="style/index.css" />
 	<link rel="shortcut icon" href="images/superstart.png" />
 </head>
-<body>
+<body class="hidden">
 	<div id="container">
-		<div id="navbar" class="hidden navbar">
+		<div id="navbar" class="navbar">
 			<ul id="nb-buttons">
 				<li id="nbb-recently-closed" class="nbb"></li>
 				<li id="nbb-add-site" class="nbb"></li>
@@ -30,9 +35,9 @@
 				<li id="nbc-themes-pointer" class="nbc"></li>
 			</ul>
 		</div>
-		<div id="sites" class="hidden">
+		<div id="sites">
 		</div>
-		<div id="notes" class="hidden">
+		<div id="notes">
 			<textarea id="note-edit" class="init" maxlength="300"></textarea>
 			<ul id="notes-list"></ul>
 		</div>

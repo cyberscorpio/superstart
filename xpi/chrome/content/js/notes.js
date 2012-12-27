@@ -13,7 +13,6 @@ var cfgevts = {
 evtMgr.register([tdevts, cfgevts], [], []);
 evtMgr.ready(function() {
 	init();
-	onTodoHide('todo-hide', cfg.getConfig('todo-hide'));
 });
 
 (function() {
@@ -74,11 +73,14 @@ function init() {
 		}
 	}, false);
 
-
 	var nl = $$('notes-list');
 	var ns = todo.getTodoList();
 	for (var i = 0; i < ns.length; ++ i) {
 		insertNote(ns[i]);
+	}
+
+	for (var evt in cfgevts) {
+		cfgevts[evt](evt, cfg.getConfig(evt));
 	}
 }
 

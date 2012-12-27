@@ -30,7 +30,6 @@ function refresh() {
 			var style = $$(id);
 			if (style) {
 				style.parentNode.removeChild(style);
-				style = null;
 			}
 		});
 		if (theme.css != '') {

@@ -13,6 +13,10 @@ a {
 	text-decoration: none;
 }
 
+.invisible {
+	visibility: hidden;
+}
+
 .hidden {
 	display: none;
 }
@@ -224,7 +228,8 @@ li.nbc { float: right; }
 }
 
 .site.folder.opened > .button,
-.site.folder.closing > .button {
+.site.folder.closing > .button,
+.site.dragging > .button {
 	display: none;
 }
 

@@ -394,7 +394,7 @@ li.nbc { float: right; }
 }
 
 .site.in-dragging:not(.in-folder):not(.dragging) > a > .site-snapshot {
-	transform: scale3d(0.75, 0.75, 1);
+	transform: scale(0.75) rotate(0.01deg); /* https://bugzilla.mozilla.org/show_bug.cgi?id=663776 */
 }
 
 #folder {

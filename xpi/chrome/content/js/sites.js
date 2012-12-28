@@ -368,6 +368,10 @@ function onFolderOpened(evt) {
 	if (this == evt.target) {
 		this.removeEventListener('transitionend', onFolderOpened, false);
 		$.removeClass(this, 'resizing');
+		var ses = $(this, '.site');
+		for (var i = 0; i < ses.length; ++ i) {
+			$.removeClass(ses[i], 'inserting');
+		}
 	}
 }
 
@@ -401,6 +405,7 @@ function openFolder(idx, f) {
 		var s = f.sites[i];
 		var subse = insert(df, s);
 		$.addClass(subse, 'in-folder');
+		$.addClass(subse, 'inserting');
 	}
 	folderArea.appendChild(df);
 
@@ -410,7 +415,6 @@ function openFolder(idx, f) {
 	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');
 	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
-
 
 	layout.layoutFolderArea();
 
@@ -443,7 +447,7 @@ function onFolderClosed(evt) {
 	}
 	this.removeEventListener('transitionend', onFolderClosed, false);
 	this.parentNode.removeChild(this); // FIXME: if you click a folder very quickly, 'this.parentNode' could be null ???
-	$.addClass(this, 'resizing');
+	$.removeClass(this, 'resizing');
 
 	$.removeClass(document.body, 'folder-closing');
 

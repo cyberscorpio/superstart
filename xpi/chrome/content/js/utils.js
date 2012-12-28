@@ -67,7 +67,9 @@ var $$ = function(id) {
 		var rc = el.getBoundingClientRect();
 		return {
 			left: rc.left + window.pageXOffset,
-			top: rc.top + window.pageYOffset
+			top: rc.top + window.pageYOffset,
+			width: rc.width,
+			height: rc.height
 		};
 	}
 

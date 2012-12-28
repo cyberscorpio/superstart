@@ -212,20 +212,30 @@ var layout = (function() {
 
 		var se = $('.folder.opened');
 		se = se[0];
-		var top = $.getPosition(se).top + parseInt(se.style.height);
+		// var top = $.getPosition(se).top + parseInt(se.style.height);
+		var sepos = $.getPosition(se);
+		var top = sepos.top + sepos.height;
 
 		folder.style.height = height + 'px';
 		folder.style.top = top + 'px';
 
 		// move below sites
+		var col = cfg.getConfig('col');
 		var ses = $('#sites > .site');
-		for (var i = 0, l = ses.length; i < l; ++ i) {
-			var s = ses[i];
-			if (s.offsetTop > se.offsetTop) {
-				var top = parseInt(s.style.top);
-				top += height;
-				s.style.top = top + 'px';
+		var begin = 0;
+		for (var i = 0; i < ses.length; ++ i) {
+			if (ses[i] == se) {
+				begin = i + col - (i % col);
+				break;
 			}
+		}
+
+		for (var i = begin; i < ses.length; ++ i) {
+			var se = ses[i];
+			var [left, top] = se.pos;
+			top += height;
+			// se.style.top = top + 'px';
+			se.style.transform = 'translate(' + left + 'px, ' + top + 'px)';
 		}
 	}
 
@@ -272,9 +282,12 @@ var layout = (function() {
 
 					var top = y + 'px';
 					var left = x + 'px';
+					se['pos'] = [x, y];
+					/*
 					se.style.top = top;
 					se.style.left = left;
-					// se.style.transform = 'translate(' + left + ', ' + top + ')';
+					*/
+					se.style.transform = 'translate(' + left + ', ' + top + ')';
 				}
 
 				x += lp.siteWidth + lp.xPadding;

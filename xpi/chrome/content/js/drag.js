@@ -13,25 +13,18 @@ var mover = (function() {
 	var _x = 0;
 	var _y = 0;
 	function _init(se, x, y) {
-		var p = $.getPosition(elem.parentNode);
-		pos.left = x - (p.left + parseInt(se.style.left) - window.scrollX);
-		pos.top = y - (p.top + parseInt(se.style.top) - window.scrollY);
+		var rc = se.getBoundingClientRect();
+		pos.left = x - rc.left;
+		pos.top = y - rc.top;
 	}
 
 	function _onMove(el, x, y) {
 		_x = x;
 		_y = y;
-		var w = el.offsetWidth;
-		var h = el.offsetHeight;
-		var base = $.getPosition(el.parentNode);
-	
-		el.style.left = x - pos.left - base.left + window.scrollX + 'px';
-		el.style.top = y - pos.top - base.top + window.scrollY + 'px';
-		/*
-		var left = x - pos.left - base.left + window.scrollX + 'px';
-		var top = y - pos.top - base.top + window.scrollY + 'px';
-		el.style.transform = '';
-		*/
+		var rc = el.parentNode.getBoundingClientRect();
+		var left = x - pos.left - rc.left + 'px';
+		var top = y - pos.top - rc.top + 'px';
+		el.style.transform = 'translate(' + left + ', ' + top + ')';
 	}
 
 	function _refresh(el) {
@@ -189,9 +182,8 @@ function getOpt(x, y) {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
 		} else {
-			// if ($.inElem(x, y, p) && x < $.getPosition(sn).left + sn.offsetWidth) {
-			var rc = sn.getBoundingClientRect();
-			if ($.inElem(x, y, sn) || ($.inElem(x, y, p) && y >= (rc.top + rc.height + window.pageYOffset))) {
+			var rc = $.getPosition(sn);
+			if ($.inElem(x, y, sn) || ($.inElem(x, y, p) && y >= rc.top + rc.height)) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;

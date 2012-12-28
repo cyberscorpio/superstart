@@ -25,7 +25,10 @@
 	transition-property: top;
 }
 .site {
-	transition-property: top, left, opacity;
+	transition-property: top, left, opacity, transform;
+}
+.site.inserting { /* the first time opened the folder, there is an animation for the sites */
+	transition: none;
 }
 #folder {
 	transition-property: top, left, width, height;

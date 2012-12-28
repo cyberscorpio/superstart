@@ -232,9 +232,8 @@ function updateFolder(f, se) {
 			img.src = s.thumbnail;
 			snapshot.insertBefore(img, snapshot.firstChild);
 		}
-	
 		setFolderTitle(f, se);
-	
+
 		layout.setTopSiteSize(se);
 		layout.layoutFolderElement(se);
 	}
@@ -264,7 +263,7 @@ function flashFolder(f) {
 
 function updatePlaceholder(s, se) {
 	var e = $(se, 'a')[0];
-	e.href = s.url;
+	e.href = '#';
 }
 
 /**
@@ -577,7 +576,7 @@ function nextSnapshot() {
 		}
 		this.removeEventListener('transitionend', on90deg, true);
 	
-		this.style.transitionProperty = '';
+		this.style.transitionProperty = 'none';
 		this.style.transform = 'perspective(500px) rotateY(-90deg)';
 
 		sm.nextSnapshot(idxes[0], idxes[1]);

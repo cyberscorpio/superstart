@@ -27,6 +27,11 @@ var mover = (function() {
 	
 		el.style.left = x - pos.left - base.left + window.scrollX + 'px';
 		el.style.top = y - pos.top - base.top + window.scrollY + 'px';
+		/*
+		var left = x - pos.left - base.left + window.scrollX + 'px';
+		var top = y - pos.top - base.top + window.scrollY + 'px';
+		el.style.transform = '';
+		*/
 	}
 
 	function _refresh(el) {
@@ -130,6 +135,7 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 	var l = ses.length;
 	var prevX = -1;
 	var prevY = 0;
+	var isPlaceHolder = $.hasClass(elem, 'placeholder');
 	for (var i = 0; i < l; ++ i) {
 		var se = ses[i];
 		if ($.hasClass(se, 'dragging')) { // skip myself
@@ -137,7 +143,7 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 		}
 
 		var sn = $(se, '.site-snapshot')[0];
-		if (!inFolder && !$.hasClass(elem, 'folder')) {
+		if (!inFolder && !isPlaceHolder && !$.hasClass(elem, 'folder') && !$.hasClass(se, 'placeholder')) {
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
 			}
@@ -183,7 +189,9 @@ function getOpt(x, y) {
 				return new DragOperator(DO_MOVE_OUT, dragIdxes[0], dragIdxes[1]);
 			}
 		} else {
-			if ($.inElem(x, y, p) && x < $.getPosition(sn).left + sn.offsetWidth) {
+			// if ($.inElem(x, y, p) && x < $.getPosition(sn).left + sn.offsetWidth) {
+			var rc = sn.getBoundingClientRect();
+			if ($.inElem(x, y, sn) || ($.inElem(x, y, p) && y >= (rc.top + rc.height + window.pageYOffset))) {
 				return new DragOperator();
 			} else if ($.inElem(x, y, fa)) {
 				var p = fa;
@@ -196,6 +204,19 @@ function getOpt(x, y) {
 
 	var p = sites;
 	return getMoveOpt(x, y, p, false);
+}
+
+var dmnsps = {
+	'site': '',
+	'folder': '',
+	'placeholder': ''
+};
+function enterDraggingMode() {
+	tmplMgr.changeElementsClass(dmnsps, '.site', 'add', 'in-dragging');
+}
+
+function leaveDraggingMode() {
+	tmplMgr.changeElementsClass(dmnsps, '.site', 'remove', 'in-dragging');
 }
 
 
@@ -231,7 +252,8 @@ return {
 
 			dragIdxes = idxes;
 
-			layout.enterDraggingMode();
+			// layout.enterDraggingMode();
+			enterDraggingMode();
 
 			evt.stopPropagation();
 		}
@@ -313,7 +335,8 @@ return {
 			}
 			elem = null;
 	
-			layout.leaveDraggingMode();
+			// layout.leaveDraggingMode();
+			leaveDraggingMode();
 			if ($('.folder.opened').length == 0) {
 				layout.layoutTopSites();
 			} else {

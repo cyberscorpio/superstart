@@ -34,7 +34,6 @@ var layout = (function() {
 	}
 	var lp0 = new LayoutParameter(MINWIDTH, 1);
 	var lp1 = new LayoutParameter(MINWIDTH, 1);
-	var inDragging = false;
 
 	function calcLayout() {
 		var w = window.innerWidth;//document.body.clientWidth;
@@ -46,15 +45,9 @@ var layout = (function() {
 		}
 		var col = cfg.getConfig('col');
 		lp0 = new LayoutParameter(w, col);
-		lp0.siteWidthInDragging = Math.floor(lp0.siteWidth * 4 / 5);
-		lp0.snapshotWidthInDragging = Math.floor(lp0.snapshotWidth * 4 / 5);
-		lp0.snapshotHeightInDragging = Math.floor(lp0.snapshotWidthInDragging * ratio);
 
 		col = getFolderColumn();
 		lp1 = new LayoutParameter(w, col);
-		lp1.siteWidthInDragging = lp1.siteWidth;
-		lp1.snapshotWidthInDragging = lp1.snapshotWidth;
-		lp1.snapshotHeightInDragging = lp1.snapshotHeight;
 
 		var notes = $$('notes');
 		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
@@ -129,7 +122,7 @@ var layout = (function() {
 			{'site': '.button', 'folder': '.button', 'placeholder': '.button'}
 		];
 		var sels = [
-			'.site.folder',
+			'.site',
 			'.site-snapshot',
 			'.site-title',
 			'.site-title-image',
@@ -237,12 +230,12 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
-		se.style.width = (inDragging ? lp0.siteWidthInDragging : lp0.siteWidth) + 'px';
+		se.style.width = lp0.siteWidth + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 
 		var sn = $(se, '.site-snapshot')[0];
-		sn.style.width = (inDragging ? lp0.snapshotWidthInDragging : lp0.snapshotWidth) + 'px';
-		sn.style.height = (inDragging ? lp0.snapshotHeightInDragging : lp0.snapshotHeight) + 'px';
+		sn.style.width = lp0.snapshotWidth + 'px';
+		sn.style.height = lp0.snapshotHeight + 'px';
 	}
 
 	// return the height of the container, used by the #folder
@@ -260,12 +253,12 @@ var layout = (function() {
 				}
 			}
 
-			var nw = (inDragging ? lp.snapshotWidthInDragging : lp.snapshotWidth) + 'px';
-			var nh = (inDragging ? lp.snapshotHeightInDragging : lp.snapshotHeight) + 'px';
+			var nw = lp.snapshotWidth + 'px';
+			var nh = lp.snapshotHeight + 'px';
 			if (textOnly) {
 				nh = '0px';
 			}
-			var sw = (inDragging ? lp.siteWidthInDragging : lp.siteWidth) + 'px';
+			var sw = lp.siteWidth + 'px';
 			var sh = lp.siteHeight + 'px';
 			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
@@ -281,6 +274,7 @@ var layout = (function() {
 					var left = x + 'px';
 					se.style.top = top;
 					se.style.left = left;
+					// se.style.transform = 'translate(' + left + ', ' + top + ')';
 				}
 
 				x += lp.siteWidth + lp.xPadding;
@@ -311,46 +305,6 @@ var layout = (function() {
 
 		placeSites(ses, col, lp0);
 		layoutFolderElements();
-	}
-
-	function enterDraggingMode() {
-		inDragging = true;
-		var sw = lp0.siteWidthInDragging;
-		var w = lp0.snapshotWidthInDragging;
-		var h = lp0.snapshotHeightInDragging;
-
-		var ses = $('#sites > .site');
-		for (var i = 0, l = ses.length; i < l; ++ i) {
-			var se = ses[i];
-			var sn = $(se, '.site-snapshot')[0];
-			var title = $(se, '.site-title')[0];
-			if (!$.hasClass(se, 'dragging')) {
-				se.style.width = sw + 'px';
-				sn.style.width = w + 'px';
-				sn.style.height = h + 'px';
-				title.style.width = w + 'px';
-			}
-		}
-	}
-
-	function leaveDraggingMode() {
-		inDragging = false;
-		var w = lp0.snapshotWidth;
-		var h = lp0.snapshotHeight;
-		var sw = lp0.siteWidth;
-
-		var ses = $('#sites > .site');
-		for (var i = 0, l = ses.length; i < l; ++ i) {
-			var se = ses[i];
-			var sn = $(se, '.site-snapshot')[0];
-			var title = $(se, '.site-title')[0];
-			if (!$.hasClass(se, 'dragging')) {
-				se.style.width = sw + 'px';
-				sn.style.width = w + 'px';
-				sn.style.height = h + 'px';
-				title.style.width = '';
-			}
-		}
 	}
 
 	function onSnapshotTransitionEnd(e) {
@@ -390,9 +344,6 @@ var layout = {
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'layoutFolderElement': layoutFolderElement
 	, 'setTopSiteSize': setTopSiteSize
-
-	, 'enterDraggingMode': enterDraggingMode
-	, 'leaveDraggingMode': leaveDraggingMode
 
 	// 'onSiteResize': onSiteResize
 	// Maybe I can use MutationObserver to mointor the resizing event!!

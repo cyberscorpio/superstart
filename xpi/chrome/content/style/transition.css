@@ -32,7 +32,7 @@
 }
 
 .site-snapshot {
-	transition-property: border, width, height, opacity;
+	transition-property: border, width, height, opacity, transform;
 }
 
 .button {

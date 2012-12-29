@@ -86,6 +86,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			// mutable
 			case 'theme':
 				return theme;
+			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
+				return false;
 			default:
 				if (intCfgs[name] != undefined) {
 					return intCfgs[name].value;

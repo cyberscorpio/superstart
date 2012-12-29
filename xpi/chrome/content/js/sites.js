@@ -219,7 +219,7 @@ function updateFolder(f, se) {
 		$.addClass(se, 'folder');
 		var tmp = createSiteElement(f);
 		swapSiteItem(se, tmp);
-	} else { // createSiteElement wil call updateFolder()
+	} else { // createSiteElement will call updateFolder()
 		var e = $$$(se, 'a');
 		e.href = '#';
 		var snapshot = $$$(se, '.site-snapshot');
@@ -230,7 +230,7 @@ function updateFolder(f, se) {
 		for (var i = f.sites.length - 1; i >= 0; -- i) {
 			var s = f.sites[i];
 			var img = document.createElement('img');
-			img.className = 'image-preview';
+			img.className = 'image-preview notransition';
 			img.src = s.thumbnail;
 			snapshot.insertBefore(img, snapshot.firstChild);
 		}
@@ -238,6 +238,13 @@ function updateFolder(f, se) {
 
 		layout.setTopSiteSize(se);
 		layout.layoutFolderElement(se);
+
+		window.setTimeout(function() {
+			var imgs = $(snapshot, '.image-preview');
+			[].forEach.call(imgs, function(img) {
+				$.removeClass(img, 'notransition');
+			});
+		}, 0);
 	}
 }
 
@@ -372,7 +379,7 @@ function onFolderOpened(evt) {
 		$.removeClass(this, 'resizing');
 		var ses = $(this, '.site');
 		for (var i = 0; i < ses.length; ++ i) {
-			$.removeClass(ses[i], 'inserting');
+			$.removeClass(ses[i], 'notransition');
 		}
 	}
 }
@@ -408,7 +415,7 @@ function openFolder(idx, f) {
 		var s = f.sites[i];
 		var subse = insert(df, s);
 		$.addClass(subse, 'in-folder');
-		$.addClass(subse, 'inserting');
+		$.addClass(subse, 'notransition');
 	}
 	folderArea.appendChild(df);
 

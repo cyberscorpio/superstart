@@ -17,7 +17,17 @@
 	transition-property: opacity;
 }
 
-#sites.notransition .site, .site.notransition {
+#container.notransition
+, .nbb.notransition
+, .nbc.notransition
+, .site.notransition
+, #folder.notransition
+, .site-snapshot.notransition
+, .button.notransition
+, .site-title.notransition
+, .image-preview.notransition
+, #notes.notransition
+, #note-edit.notransition {
 	transition-property: none;
 }
 

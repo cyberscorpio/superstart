@@ -153,7 +153,6 @@ var layout = (function() {
 	// 3 items per column
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
-		// setTopSiteSize(se);
 		var sn = $$$(se, '.site-snapshot');
 
 		var cw = sn.clientWidth;
@@ -177,8 +176,7 @@ var layout = (function() {
 		var y = mh;
 		for (var i = 0; i < imgs.length;) {
 			var img = imgs[i];
-			img.style.left = x + 'px';
-			img.style.top = y + 'px';
+			img.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 			img.style.width = ww + 'px';
 			img.style.height = hh + 'px';
 			x += ww + w;

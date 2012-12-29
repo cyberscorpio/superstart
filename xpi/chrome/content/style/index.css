@@ -332,11 +332,11 @@ li.nbc { float: right; }
 	opacity: 0;
 }
 
-.site-snapshot.folder-snapshot
-{
+.site-snapshot.folder-snapshot {
 	overflow: hidden;
 	background-color: rgba(0,0,0,0.25);
 	border: none;
+	text-align: left;
 }
 
 .site-snapshot.flash {
@@ -436,6 +436,7 @@ li.nbc { float: right; }
 
 #notes-list {
 	margin-top: 1.5em;
+	padding: 10px 2px 8px 2px;
 	font-size: 1.2rem;
 	line-height: 2em;
 	word-wrap: break-word;
@@ -445,7 +446,7 @@ li.note {
 	position: relative;
 	border-top: 1px solid rgba(255,255,255,0.1);
 	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: .1em .5em;
+	padding: 1px 16px 1px 2px;
 }
 
 li.note:nth-child(1) {
@@ -459,15 +460,30 @@ li.note:nth-last-child(1) {
 li.note > .button {
 	position: absolute;
 	cursor: pointer;
-	height: 16px;
-	margin: 0 2px 0 8px;
-	width: 16px;
+	height: 20px;
+	margin: 0 0 0 8px;
+	width: 20px;
 }
 
 .button.done {
-	background: url("../images/button-done.png") no-repeat scroll 0 0 transparent;
-	right: 0;
+	right: -2px;
 	opacity: 0;
+}
+
+.button.done:after {
+	content: "\2713";/* ✓ (check mark) */
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	border: 2px solid white;
+	text-shadow: none;
+
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+	color: white;
+	background-image: linear-gradient(#4b4, green);
+	border-radius: 50%;
 }
 
 li.note:hover > .button {

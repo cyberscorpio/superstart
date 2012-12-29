@@ -1,5 +1,5 @@
 "use strict";
-(function() {
+var gSites = (function() {
 
 var obevts = {
 	'site-added': onSiteAdded,
@@ -37,6 +37,8 @@ evtMgr.register([obevts, cfgevts], [wevts], [devts]);
 evtMgr.clear(function() {
 	var mask = $$('mask');
 	mask.onclick = null;
+
+	gSites = null;
 });
 
 evtMgr.ready(function() {
@@ -129,8 +131,8 @@ evtMgr.ready(function() {
 	$.addClass(f, 'folder');
 	var size = document.createElement('span'); // folder 'size'
 	size.className = 'site-title-folder-size';
-	$(f, '.site-title p')[0].appendChild(size);
-	$.addClass($(f, '.site-snapshot')[0], 'folder-snapshot');
+	$$$(f, '.site-title p').appendChild(size);
+	$.addClass($$$(f, '.site-snapshot'), 'folder-snapshot');
 	tmplMgr.addTmpl('folder', f, {
 		'a':              ['click', onLinkClick],
 		'.config':        ['click', onFolderConfigClick],
@@ -144,9 +146,9 @@ evtMgr.ready(function() {
 	titles = ['ssSiteRemove'];
 	var p = initTmpl(buttons, titles);
 	$.addClass(p, 'placeholder');
-	var icon = $(p, '.site-title-image')[0];
+	var icon = $$$(p, '.site-title-image');
 	icon.parentNode.removeChild(icon);
-	$.addClass($(p, '.site-snapshot')[0], 'placeholder-snapshot');
+	$.addClass($$$(p, '.site-snapshot'), 'placeholder-snapshot');
 	tmplMgr.addTmpl('placeholder', p, {
 		'a':              ['click',  onLinkClick],
 		'.remove':        ['click',  removeSite],
@@ -185,29 +187,29 @@ function updateSite(s, se) {
 		var tmp = createSiteElement(s);
 		swapSiteItem(se, tmp);
 	}
-	var e = $(se, 'a')[0];
+	var e = $$$(se, 'a');
 	e.title = s.title || s.url;
 	e.href = s.url;
 
-	e = $(se, '.site-snapshot')[0];
+	e = $$$(se, '.site-snapshot');
 	setBackground(s, e);
 
-	e = $(se, '.site-title-image')[0];
+	e = $$$(se, '.site-title-image');
 	e.src = 'moz-anno:favicon:' + s.icon;
 
-	e = $(se, '.site-title-name')[0];
+	e = $$$(se, '.site-title-name');
 	$.empty(e);
 	e.appendChild(document.createTextNode(s.displayName));
 }
 
 function setFolderTitle(s, se) {
-	$(se, '.site-title-image')[0].src = 'chrome://global/skin/dirListing/folder.png';
+	$$$(se, '.site-title-image').src = 'chrome://global/skin/dirListing/folder.png';
 
-	var name = $(se, '.site-title-name')[0];
+	var name = $$$(se, '.site-title-name');
 	$.empty(name);
 	name.appendChild(document.createTextNode(s.displayName || getString('ssFolderDefaultName')));
 
-	var size = $(se, '.site-title-folder-size')[0];
+	var size = $$$(se, '.site-title-folder-size');
 	$.empty(size);
 	size.appendChild(document.createTextNode(' (' + s.sites.length + ')'));
 }
@@ -218,9 +220,9 @@ function updateFolder(f, se) {
 		var tmp = createSiteElement(f);
 		swapSiteItem(se, tmp);
 	} else { // createSiteElement wil call updateFolder()
-		var e = $(se, 'a')[0];
+		var e = $$$(se, 'a');
 		e.href = '#';
-		var snapshot = $(se, '.site-snapshot')[0];
+		var snapshot = $$$(se, '.site-snapshot');
 		var imgs = $(snapshot, 'img');
 		for (var i = imgs.length - 1; i >= 0; -- i) {
 			imgs[i].parentNode.removeChild(imgs[i]);
@@ -242,7 +244,7 @@ function updateFolder(f, se) {
 function flashFolder(f) {
 	var count = 3;
 	var tm = 100;
-	var sn = $(f, '.site-snapshot')[0];
+	var sn = $$$(f, '.site-snapshot');
 	$.addClass(sn, 'flash');
 	window.setTimeout(function() {
 		onTimer();
@@ -262,7 +264,7 @@ function flashFolder(f) {
 }
 
 function updatePlaceholder(s, se) {
-	var e = $(se, 'a')[0];
+	var e = $$$(se, 'a');
 	e.href = '#';
 }
 
@@ -379,8 +381,7 @@ function openFolder(idx, f) {
 	var se = at(-1, idx);
 	se.draggable = false;
 	var removeLastElem = false;
-	var dragging = $(se, '.dragging');
-	dragging = dragging.length == 1 ? dragging[0] : null;
+	var dragging = $$$(se, '.dragging');
 	if (dragging) {
 		removeLastElem = true; // the last item is just moved in, so it has already existed, however, we need the item to calc the height of the #folder, so we create a duplicated one, then remove it.
 	}
@@ -602,7 +603,7 @@ function nextSnapshot() {
 	if (idxes != null) {
 		var se = at(idxes[0], idxes[1]);
 		if (se) {
-			var sn = $(se, '.site-snapshot')[0];
+			var sn = $$$(se, '.site-snapshot');
 			if (sn.getAttribute('in-changing-snapshot')) {
 				return false;
 			}
@@ -723,10 +724,7 @@ function onSiteMoveOut(evt, idxes) {
 	var fe = at(-1, g);
 	var se = at(g, i);
 	if (se == null) {
-		var dragging = $('.dragging');
-		if (dragging.length > 0) {
-			se = dragging[0];
-		}
+		se = $$$('.dragging');
 	}
 
 	if (f.sites == undefined) {
@@ -803,7 +801,7 @@ function onSiteSnapshotIndexChanged(evt, idxes) {
 		return;
 	}
 
-	var snapshot = $(se, '.site-snapshot')[0];
+	var snapshot = $$$(se, '.site-snapshot');
 	setBackground(s, snapshot);
 }
 
@@ -954,11 +952,12 @@ function onKeyPress(e) {
 	}
 }
 
-// export methods to drag.js
-gDrag.elemFromNode = elemFromNode;
-gDrag.indexFromNode = indexFromNode;
-gDrag.at = at;
-gDrag.openFolder = openFolder;
-gDrag.closeFolder = closeFolder;
+// methods exported (for drag)
+return {
+	'elemFromNode': elemFromNode,
+	'indexFromNode': indexFromNode,
+	'at': at,
+	'openFolder': openFolder
+}
 
 }());

@@ -120,6 +120,12 @@ var superStartOptions = {};
 		let colPop = $$('sites-col-popup');
 		colPop.addEventListener('command', onSitesColSelected, false);
 		let from = 3, to = 8;
+		if (col > 32) {
+			col = 32;
+		}
+		if (col > to) {
+			to = col;
+		}
 		for (let i = 0; i + from <= to; ++ i) {
 			let item = document.createElement('menuitem');
 			let idx = i + from;

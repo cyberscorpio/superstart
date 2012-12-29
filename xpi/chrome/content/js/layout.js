@@ -36,7 +36,7 @@ var layout = (function() {
 	var lp1 = new LayoutParameter(MINWIDTH, 1);
 
 	function calcLayout() {
-		var w = window.innerWidth;//document.body.clientWidth;
+		var w = window.innerWidth;
 		if (w < MINWIDTH) {
 			w = MINWIDTH;
 		}
@@ -68,6 +68,9 @@ var layout = (function() {
 		checkTextOnly();
 		calcLayout();
 		document.body.style.minWidth = MINWIDTH + 'px';
+	});
+	evtMgr.clear(function() {
+		layout = null;
 	});
 	// -- register events ended ---
 
@@ -151,7 +154,7 @@ var layout = (function() {
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
 		// setTopSiteSize(se);
-		var sn = $(se, '.site-snapshot')[0];
+		var sn = $$$(se, '.site-snapshot');
 
 		var cw = sn.clientWidth;
 		if (cw == 0) {
@@ -210,9 +213,7 @@ var layout = (function() {
 
 		var height = placeSitesInFolderArea();
 
-		var se = $('.folder.opened');
-		se = se[0];
-		// var top = $.getPosition(se).top + parseInt(se.style.height);
+		var se = $$$('.folder.opened');
 		var sepos = $.getPosition(se);
 		var top = sepos.top + sepos.height;
 
@@ -243,7 +244,7 @@ var layout = (function() {
 		se.style.width = lp0.siteWidth + 'px';
 		se.style.height = lp0.siteHeight + 'px';
 
-		var sn = $(se, '.site-snapshot')[0];
+		var sn = $$$(se, '.site-snapshot');
 		sn.style.width = lp0.snapshotWidth + 'px';
 		sn.style.height = lp0.snapshotHeight + 'px';
 	}
@@ -255,7 +256,7 @@ var layout = (function() {
 		var l = ses.length;
 		if (l > 0) {
 			if (lp.siteHeight == 0) {
-				var ch = $(ses[0], '.site-title')[0].offsetHeight;
+				var ch = $$$(ses[0], '.site-title').offsetHeight;
 				if (textOnly) {
 					lp.siteHeight = ch;
 				} else {
@@ -275,7 +276,7 @@ var layout = (function() {
 				var se = ses[i];
 				se.style.width = sw;
 				se.style.height = sh;
-				var sn = $(se, '.site-snapshot')[0];
+				var sn = $$$(se, '.site-snapshot');
 				sn.style.width = nw;
 				sn.style.height = nh;
 

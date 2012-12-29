@@ -1,21 +1,30 @@
 "use strict";
 const {classes: Cc, interfaces: Ci} = Components;
-var $ = function(e, s) {
+var $ = function(e, s, f) {
 	if (s === undefined) {
 		s = e;
 		e = document;
 	}
-	if (typeof(s) != 'string') {
-		return [];
-	}
 	if (s === '') { // return the element itself
-		return [e];
+		return f ? e : [e];
 	}
-	return e.querySelectorAll(s);
+	try {
+		return f ? e.querySelector(s) : e.querySelectorAll(s);
+	} catch (e) {
+		return f ? null : [];
+	}
 };
 
 var $$ = function(id) {
 	return document.getElementById(id);
+};
+
+var $$$ = function(e, s) {
+	if (s === undefined) {
+		s = e;
+		e = document;
+	}
+	return $(e, s, true);
 };
 
 (function($) {

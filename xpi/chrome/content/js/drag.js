@@ -89,7 +89,7 @@ DragOperator.prototype.act = function() {
 		mover.refresh(elem);
 		break;
 	case DO_OPEN_FOLDER:
-		gDrag.openFolder(this.p1);
+		gSites.openFolder(this.p1);
 		// TODO: if the user drop here, whether there will be a problem???
 		// that is, onDrop will get called before the timer handler, and elem will be null...
 		window.setTimeout(function() {
@@ -135,7 +135,7 @@ function getMoveOpt(x, y, parentArea, inFolder) {
 			continue;
 		}
 
-		var sn = $(se, '.site-snapshot')[0];
+		var sn = $$$(se, '.site-snapshot');
 		if (!inFolder && !isPlaceHolder && !$.hasClass(elem, 'folder') && !$.hasClass(se, 'placeholder')) {
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_MOVE_IN, dragIdxes[1], i);
@@ -173,8 +173,8 @@ function getOpt(x, y) {
 	var sites = $$('sites');
 	var fa = $$('folder');
 	if (dragIdxes[0] != -1) {
-		var p = gDrag.at(-1, dragIdxes[0]);
-		var sn = $(p, '.site-snapshot')[0];
+		var p = gSites.at(-1, dragIdxes[0]);
+		var sn = $$$(p, '.site-snapshot');
 		if (fa == null) {
 			if ($.inElem(x, y, sn)) {
 				return new DragOperator(DO_OPEN_FOLDER, dragIdxes[0]);
@@ -211,6 +211,9 @@ function leaveDraggingMode() {
 	tmplMgr.changeElementsClass(dmnsps, '.site', 'remove', 'in-dragging');
 }
 
+evtMgr.clear(function() {
+	gDrag = null;
+});
 
 return {
 	inDragging: function() {
@@ -220,13 +223,13 @@ return {
 	onStart: function(evt) {
 		init();
 	
-		var se = gDrag.elemFromNode(evt.target);
+		var se = gSites.elemFromNode(evt.target);
 		if (!se || $.hasClass(se, 'opened') || !$.hasClass(se, 'site')) {
 			evt.preventDefault();
 			return false;
 		}
 	
-		var idxes = gDrag.indexFromNode(se);
+		var idxes = gSites.indexFromNode(se);
 		var s = idxes != null ? sm.getSite(idxes[0], idxes[1]) : null;
 		if (s != null) {
 			elem = se;
@@ -244,9 +247,7 @@ return {
 
 			dragIdxes = idxes;
 
-			// layout.enterDraggingMode();
 			enterDraggingMode();
-
 			evt.stopPropagation();
 		}
 	},

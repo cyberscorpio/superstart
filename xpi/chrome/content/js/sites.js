@@ -379,7 +379,9 @@ function openFolder(idx, f) {
 	var se = at(-1, idx);
 	se.draggable = false;
 	var removeLastElem = false;
-	if ($(se, '.dragging').length == 1) {
+	var dragging = $(se, '.dragging');
+	dragging = dragging.length == 1 ? dragging[0] : null;
+	if (dragging) {
 		removeLastElem = true; // the last item is just moved in, so it has already existed, however, we need the item to calc the height of the #folder, so we create a duplicated one, then remove it.
 	}
 
@@ -436,7 +438,9 @@ function openFolder(idx, f) {
 
 		if (removeLastElem) {
 			var ses = $(fa, '.site');
-			fa.removeChild(ses[ses.length - 1]);
+			var last = ses[ses.length - 1];
+			dragging['pos'] = last.pos;
+			fa.removeChild(last);
 		}
 	}, 0);
 }

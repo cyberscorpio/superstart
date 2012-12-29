@@ -69,7 +69,7 @@ if ("undefined" == typeof(SuperStart)) {
 				item = $$('context-superstart-add');
 				item.hidden = true;
 				let doc = gBrowser.selectedBrowser.contentDocument;
-				if (!isText && !isLink && isProtocolSupported(doc.location.href)) {
+				if (!isText && !isLink && !isImage && isProtocolSupported(doc.location.href)) {
 					item.hidden = false;
 				}
 			}, false);

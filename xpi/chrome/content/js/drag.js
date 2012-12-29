@@ -324,16 +324,15 @@ return {
 						fa.appendChild(elem);
 					}
 				}
+				if ($$('folder') == null) {
+					layout.layoutTopSites();
+				}
 			}
-			elem = null;
 	
-			// layout.leaveDraggingMode();
+			var [x, y] = elem.pos;
+			elem.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+			elem = null;
 			leaveDraggingMode();
-			if ($('.folder.opened').length == 0) {
-				layout.layoutTopSites();
-			} else {
-				layout.placeSitesInFolderArea();
-			}
 
 			evt.stopPropagation();
 			evt.preventDefault();

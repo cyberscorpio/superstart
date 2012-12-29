@@ -273,20 +273,16 @@ var layout = (function() {
 			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
-				if (!$.hasClass(se, 'dragging')) {
-					se.style.width = sw;
-					se.style.height = sh;
-					var sn = $(se, '.site-snapshot')[0];
-					sn.style.width = nw;
-					sn.style.height = nh;
+				se.style.width = sw;
+				se.style.height = sh;
+				var sn = $(se, '.site-snapshot')[0];
+				sn.style.width = nw;
+				sn.style.height = nh;
 
-					var top = y + 'px';
-					var left = x + 'px';
-					se['pos'] = [x, y];
-					/*
-					se.style.top = top;
-					se.style.left = left;
-					*/
+				var top = y + 'px';
+				var left = x + 'px';
+				se['pos'] = [x, y];
+				if (!$.hasClass(se, 'dragging')) {
 					se.style.transform = 'translate(' + left + ', ' + top + ')';
 				}
 

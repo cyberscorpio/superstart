@@ -37,9 +37,6 @@
 .site {
 	transition-property: top, left, opacity, transform;
 }
-.site.inserting { /* the first time opening the folder, there is an animation for the sites, I don't like this effect */
-	transition: none;
-}
 #folder {
 	transition-property: top, left, width, height;
 }

@@ -11,6 +11,7 @@
         title="&superstart.options;">  
 
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/objects.js"/>
 	<script type="application/x-javascript" src="chrome://superstart/content/js/options.js"/>
 
 	<tabbox flex="1" id="option-tabbox">

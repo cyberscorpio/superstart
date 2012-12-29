@@ -4,30 +4,19 @@ var superStartOptions = {};
 (function(opt) {
 	const {classes: Cc, interfaces: Ci} = Components;
 	const nsIFilePicker = Ci.nsIFilePicker;
-	let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
 	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-	let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
-	let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
 	let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
-	// logger.logStringMessage('screen: ' + screen.width + ' : ' + screen.height);
-
-	function onDOMLoaded() {
-		window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
+	evtMgr.ready(function() {
 		initialize();
-
-		let dlg = $$('options');
-		dlg.addEventListener('dialogaccept', function() {
+		$$('options').addEventListener('dialogaccept', function() {
 			return onAccept();
 		}, false);
-	}
-	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+	});
 
-	function onUnload() {
-		window.removeEventListener('unload', onUnload, false);
+	evtMgr.clear(function() {
 		cleanup();
-	}
-	window.addEventListener('unload', onUnload, false);
+	});
 
 
 	let boolMap = {
@@ -150,8 +139,8 @@ var superStartOptions = {};
 		}
 
 	// hints
-		$$('show-add-site').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteAddNewHint'));
-		$$('show-buttons').setAttribute('tooltiptext', strings.GetStringFromName('ssSiteButtonsHint'));
+		$$('show-add-site').setAttribute('tooltiptext', getString('ssSiteAddNewHint'));
+		$$('show-buttons').setAttribute('tooltiptext', getString('ssSiteButtonsHint'));
 
 	// version
 		let v = $$('version');
@@ -178,7 +167,7 @@ var superStartOptions = {};
 			let key = buttonMap[id];
 			let c = $$(id);
 			if (c) {
-				cb.addEventListener('command', key, false);
+				cb.removeEventListener('command', key, false);
 			}
 		}
 
@@ -438,7 +427,7 @@ var superStartOptions = {};
 
 	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, strings.GetStringFromName('ssSelectImage'), nsIFilePicker.modeOpen);
+		fp.init(window, getString('ssSelectImage'), nsIFilePicker.modeOpen);
 		fp.appendFilters(nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == nsIFilePicker.returnOK) {

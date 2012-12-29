@@ -9,6 +9,7 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 >
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/objects.js"/>
 	<script type="application/x-javascript" src="chrome://superstart/content/js/url.js"></script>
 
 	<vbox>

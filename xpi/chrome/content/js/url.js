@@ -2,17 +2,13 @@
 (function() {
 	const {classes: Cc, interfaces: Ci} = Components;
 	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-	let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
-	let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 
 	let idxes = window.arguments[0];
 	let str = idxes[0] + '-' + idxes[1];
 	let g = idxes[0], idx = idxes[1];
 	let dialogs = window.arguments[1];
 
-	function onDOMLoaded() {
-		window.removeEventListener('DOMContentLoaded', onDOMLoaded, false);
-
+	evtMgr.ready(function() {
 		let d = document;
 		if (idx != -1) {
 			let s = sm.getSite(g, idx);
@@ -50,22 +46,18 @@
 			l.setAttribute('tooltiptext', l.getAttribute('href'));
 		}
 
-		var dlg = $$('superstart-url-dialog');
-		dlg.addEventListener('dialogaccept', function() {
+		$$('superstart-url-dialog').addEventListener('dialogaccept', function() {
 			return onAccept();
 		}, false);
-	}
-	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
+	});
 
-	function onUnload() {
+	evtMgr.clear(function() {
 		if (dialogs) {
 			dialogs[str] = null;
 		}
 
-		var dlg = $$('superstart-url-dialog');
-		dlg.onAccept = null;
-	}
-	window.addEventListener('unload', onUnload, false);
+		$$('superstart-url-dialog').onAccept = null;
+	});
 
 	function onAccept() {
 		try {
@@ -101,7 +93,7 @@
 
 	function selectImage() {
 		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
-		fp.init(window, strings.GetStringFromName('ssSelectImage'), Ci.nsIFilePicker.modeOpen);
+		fp.init(window, getString('ssSelectImage'), Ci.nsIFilePicker.modeOpen);
 		fp.appendFilters(Ci.nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == Ci.nsIFilePicker.returnOK) {

@@ -21,3 +21,34 @@ body {
 	background-image: url("chrome://browser/skin/newtab/noise.png");
 }
 
+/** notes **/
+#notes-list {
+    background: linear-gradient(#ffa, #ffc);
+    border-bottom-right-radius: 36px 12px;
+    min-height: 30px;
+    box-shadow: none !important;
+    margin: 1em 0 0 -2px;
+    padding: 10px 2px 8px 2px;
+    position: relative;
+}
+
+#notes-list:after {
+    bottom: 18px;
+    box-shadow: 13px 18px 6px rgba(0, 0, 0, 0.3);
+    content: "";
+    height: 30px;
+    position: absolute;
+    right: 18px;
+    transform: rotate(3deg) skew(8deg);
+    width: 80%;
+    z-index: -1;
+}
+
+li.note {
+	padding-right: 14px;
+}
+
+#notes-list > li.note { /* to make sure it won't be overwritten by the 'customization' */
+	color: black;
+	text-shadow: none;
+}

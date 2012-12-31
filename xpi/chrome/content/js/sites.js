@@ -626,9 +626,22 @@ function nextSnapshot() {
 
 // event handlers
 function onSiteAdded(evt, idx) {
-	var c = $$('sites');
-	insert(c, sm.getSite(-1, idx));
+	var s = sm.getSite(-1, idx);
+	var se = insert($$('sites'), s);
 	layout.layoutTopSites();
+
+	if (s.url == 'about:placeholder') {
+		var phs = $('.placeholder');
+		[].forEach.call(phs, function(ph) {
+			$.addClass(ph, 'new-placeholder');
+		});
+		window.setTimeout(function() {
+			var phs = $('.placeholder');
+			[].forEach.call(phs, function(ph) {
+				$.removeClass(ph, 'new-placeholder');
+			});
+		}, 2000);
+	}
 }
 
 function onSiteRemoved(evt, idxes) {

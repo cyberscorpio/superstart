@@ -42,7 +42,7 @@
 }
 
 .site-snapshot {
-	transition-property: border, width, height, opacity, transform;
+	transition-property: border, width, height, opacity, transform, background-color;
 }
 
 .button {

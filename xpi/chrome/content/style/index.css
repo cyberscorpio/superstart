@@ -360,23 +360,25 @@ li.nbc { float: right; }
 	cursor: default;
 }
 
-/*
-.site.placeholder.text-only:hover,
-.site.placeholder.text-only.dragging,
-*/
 .site.placeholder.text-only.in-dragging {
 	background-color: rgba(0,0,0,0.05);
 }
 
 .site.placeholder:hover > a > .placeholder-snapshot.site-snapshot,
 .site.placeholder.in-dragging > a > .placeholder-snapshot.site-snapshot,
+.site.placeholder.new-placeholder> a > .placeholder-snapshot.site-snapshot,
 .site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot {
 	background-color: rgba(0,0,0,0.1);
 }
 
-.site.placeholder.in-dragging > a > .placeholder-snapshot.site-snapshot/*,
+.site.placeholder.in-dragging > a > .placeholder-snapshot.site-snapshot,
+.site.placeholder.new-placeholder> a > .placeholder-snapshot.site-snapshot/*,
 .site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot*/ {
 	border: 1px solid rgba(255,255,255,0.25);
+}
+
+.site.placeholder.new-placeholder > .button.remove {
+	opacity: 1;
 }
 
 

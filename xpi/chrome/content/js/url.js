@@ -27,6 +27,8 @@
 				}
 				d.title = d.title + ' - ' + s.title;
 			}
+		} else {
+			$$('snapshot-index').selectedIndex = 1;
 		}
 
 		$$('select-image').onclick = function() {

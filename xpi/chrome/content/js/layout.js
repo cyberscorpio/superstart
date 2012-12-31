@@ -192,11 +192,6 @@ var layout = (function() {
 
 	function placeSitesInFolderArea() {
 		var ses = $('#folder > .site');
-		var x = lp1.startX;
-		var y = lp1.startY;
-		var w = lp1.siteWidth;
-		var h = Math.floor(w * ratio);
-
 		var col = getFolderColumn();
 		return placeSites(ses, col, lp1);
 	}
@@ -233,7 +228,6 @@ var layout = (function() {
 			var se = ses[i];
 			var [left, top] = se.pos;
 			top += height;
-			// se.style.top = top + 'px';
 			se.style.transform = 'translate(' + left + 'px, ' + top + 'px)';
 		}
 	}

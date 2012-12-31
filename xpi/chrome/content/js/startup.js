@@ -102,7 +102,7 @@ if ("undefined" == typeof(SuperStart)) {
 			let n = menu.triggerNode;
 			while (n) {
 				if (n.tagName == 'A') {
-					sm.addSite(n.href, '', 0, false, '');
+					sm.addSite(n.href, '', 1, false, '');
 					break;
 				}
 				n = n.parentNode;
@@ -113,7 +113,7 @@ if ("undefined" == typeof(SuperStart)) {
 			let doc = gBrowser.selectedBrowser.contentDocument;
 			let url = doc.location.href;
 	
-			sm.addSite(url, '', 0, false, '');
+			sm.addSite(url, '', 1, false, '');
 		}
 
 		SuperStart.onMenuAdd = function() {

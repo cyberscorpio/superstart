@@ -32,10 +32,6 @@ body {
 
 */
 
-#mask {
-	background-image: url("chrome://browser/skin/newtab/noise.png");
-}
-
 /** notes **/
 #notes-list {
     background: linear-gradient(#ffa, #ffc);

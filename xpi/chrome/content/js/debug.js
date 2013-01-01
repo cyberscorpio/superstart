@@ -7,6 +7,9 @@ var logger = Components.classes['@mozilla.org/consoleservice;1'].getService(Comp
 log = function() {
 	var s = '';
 	for (var i = 0; i < arguments.length; ++ i) {
+		if (s !== '') {
+			s += ', ';
+		}
 		s += arguments[i];
 	}
 	if (s !== '') {

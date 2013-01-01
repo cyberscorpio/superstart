@@ -28,7 +28,7 @@ var layout = (function() {
 			this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
 			this.startX = Math.floor(this.siteWidth / 2);
 		}
-		this.siteHeight = 0; // get it in runtime
+		this.lineHeight = 0;
 		this.snapshotWidth = this.siteWidth;
 		this.snapshotHeight = Math.floor(this.snapshotWidth * ratio);
 	}
@@ -50,6 +50,7 @@ var layout = (function() {
 		lp1 = new LayoutParameter(w, col);
 
 		var notes = $$('notes');
+		notes.style.width = NOTEWIDTH + 'px';
 		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
 	}
 
@@ -70,7 +71,7 @@ var layout = (function() {
 		document.body.style.minWidth = MINWIDTH + 'px';
 	});
 	evtMgr.clear(function() {
-		layout = null;
+		layout = undefined;
 	});
 	// -- register events ended ---
 
@@ -247,12 +248,9 @@ var layout = (function() {
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
-			var lh = 0;
-
 			var nw = lp.snapshotWidth + 'px';
 			var nh = lp.snapshotHeight + 'px';
 			var sw = lp.siteWidth + 'px';
-			var sh = lp.siteHeight + 'px';
 			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
@@ -262,9 +260,9 @@ var layout = (function() {
 				var title = $$$(se, '.site-title');
 				title.style.width = nw;
 
-				if (lh == 0) {
-					lh = (textOnly ? 0 : lp.snapshotHeight) + se.getBoundingClientRect().height - sn.getBoundingClientRect().height;
-					lh += lp.yPadding;
+				if (lp.lineHeight == 0) {
+					lp.lineHeight = (textOnly ? 0 : lp.snapshotHeight) + se.getBoundingClientRect().height - sn.getBoundingClientRect().height;
+					lp.lineHeight += lp.yPadding;
 				}
 
 				var top = y + 'px';
@@ -278,10 +276,10 @@ var layout = (function() {
 				++ i;
 				if (i % col == 0 && i < l) {
 					x = lp.startX;
-					y += lh;
+					y += lp.lineHeight;
 				}
 			}
-			height = y + lh;
+			height = y + lp.lineHeight;
 		}
 		return height;
 	}

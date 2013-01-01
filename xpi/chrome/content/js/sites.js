@@ -222,7 +222,7 @@ function updateFolder(f, se) {
 	} else { // createSiteElement will call updateFolder()
 		var e = $$$(se, 'a');
 		e.href = '#';
-		var snapshot = $$$(se, '.site-snapshot');
+		var snapshot = $$$(se, '.folder-snapshot');
 		var imgs = $(snapshot, 'img');
 		for (var i = imgs.length - 1; i >= 0; -- i) {
 			imgs[i].parentNode.removeChild(imgs[i]);
@@ -251,7 +251,7 @@ function updateFolder(f, se) {
 function flashFolder(f) {
 	var count = 3;
 	var tm = 100;
-	var sn = $$$(f, '.site-snapshot');
+	var sn = $$$(f, '.folder-snapshot');
 	$.addClass(sn, 'flash');
 	window.setTimeout(function() {
 		onTimer();
@@ -709,9 +709,8 @@ function onSiteSimpleMove(evt, groupFromTo) {
 
 function onSiteMoveIn(evt, fromTo) {
 	var [f, t] = fromTo;
-	var g = -1;
-	var from = at(g, f);
-	var to = at(g, t);
+	var from = at(-1, f);
+	var to = at(-1, t);
 
 	if (t > f) {
 		-- t;
@@ -719,7 +718,7 @@ function onSiteMoveIn(evt, fromTo) {
 
 	from.parentNode.removeChild(from);
 	if ($.hasClass(from, 'dragging')) {
-		to.appendChild(from);
+		to.insertBefore(from, to.firstChild);
 		$.addClass(from, 'in-folder');
 	}
 

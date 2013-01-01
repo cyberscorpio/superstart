@@ -17,6 +17,21 @@ body {
 	border: 1px solid #aaa;
 }
 
+/*
+.site-title {
+	margin-top: -24px;
+	background-color: rgba(0,0,0,0.1);
+}
+.site-title:hover {
+	background-color: rgba(0,0,0,0.2);
+}
+
+.button.next-snapshot {
+	bottom: 1px;
+}
+
+*/
+
 #mask {
 	background-image: url("chrome://browser/skin/newtab/noise.png");
 }
@@ -43,7 +58,15 @@ body {
     z-index: -1;
 }
 
+li.note {
+	padding: 2px 20px 5px 10px;
+}
+
 #notes-list > li.note { /* to make sure it won't be overwritten by the 'customization' */
-	color: black;
+	color: #333;
 	text-shadow: none;
+}
+
+#notes-list > li.note:hover { /* to make sure it won't be overwritten by the 'customization' */
+	color: black;
 }

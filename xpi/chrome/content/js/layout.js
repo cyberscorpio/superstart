@@ -153,7 +153,7 @@ var layout = (function() {
 	// 3 items per column
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
-		var sn = $$$(se, '.site-snapshot');
+		var sn = $$$(se, '.folder-snapshot');
 
 		var cw = sn.clientWidth;
 		if (cw == 0) {
@@ -233,12 +233,12 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
-		se.style.width = lp0.siteWidth + 'px';
-		se.style.height = lp0.siteHeight + 'px';
-
 		var sn = $$$(se, '.site-snapshot');
 		sn.style.width = lp0.snapshotWidth + 'px';
 		sn.style.height = lp0.snapshotHeight + 'px';
+
+		var title = $$$(se, '.site-title');
+		title.style.width = lp0.snapshotWidth + 'px';
 	}
 
 	// return the height of the container, used by the #folder
@@ -247,30 +247,25 @@ var layout = (function() {
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
-			if (lp.siteHeight == 0) {
-				var ch = $$$(ses[0], '.site-title').offsetHeight;
-				if (textOnly) {
-					lp.siteHeight = ch;
-				} else {
-					lp.siteHeight = lp.snapshotHeight + ch;
-				}
-			}
+			var lh = 0;
 
 			var nw = lp.snapshotWidth + 'px';
 			var nh = lp.snapshotHeight + 'px';
-			if (textOnly) {
-				nh = '0px';
-			}
 			var sw = lp.siteWidth + 'px';
 			var sh = lp.siteHeight + 'px';
 			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
-				se.style.width = sw;
-				se.style.height = sh;
 				var sn = $$$(se, '.site-snapshot');
 				sn.style.width = nw;
 				sn.style.height = nh;
+				var title = $$$(se, '.site-title');
+				title.style.width = nw;
+
+				if (lh == 0) {
+					lh = (textOnly ? 0 : lp.snapshotHeight) + se.getBoundingClientRect().height - sn.getBoundingClientRect().height;
+					lh += lp.yPadding;
+				}
 
 				var top = y + 'px';
 				var left = x + 'px';
@@ -283,10 +278,10 @@ var layout = (function() {
 				++ i;
 				if (i % col == 0 && i < l) {
 					x = lp.startX;
-					y += lp.siteHeight + lp.yPadding;
+					y += lh;
 				}
 			}
-			height = y + lp.siteHeight + lp.yPadding;
+			height = y + lh;
 		}
 		return height;
 	}

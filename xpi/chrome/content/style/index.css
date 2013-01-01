@@ -167,7 +167,7 @@ li.nbc { float: right; }
 }
 
 .site-link {
-	position: absolute;
+	position: relative;
 	text-align: center;
 	left: 0;
 	right: 0;
@@ -339,7 +339,7 @@ li.nbc { float: right; }
 	text-align: left;
 }
 
-.site-snapshot.flash {
+.folder-snapshot.flash {
 	transform: scale(1) !important;
 }
 

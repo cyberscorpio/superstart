@@ -131,7 +131,49 @@ var $$$ = function(e, s) {
 		style.setAttribute('href', href);
 		document.getElementsByTagName('head')[0].appendChild(style);
 	}
-	
+
+	$.flip = function(elem, fn) {
+		function on90deg(evt) {
+			function on0deg(evt) {
+				if (this != evt.target) {
+					return;
+				}
+				this.style.transitionProperty = this.style.transitionDuration = '';
+				this.removeAttribute('in-flipping');
+				this.removeEventListener('transitionend', on0deg, true);
+			}
+
+			if (this != evt.target) {
+				return;
+			}
+			this.removeEventListener('transitionend', on90deg, true);
+		
+			this.style.transitionProperty = 'none';
+			var perspective = this.clientWidth * 3;
+			this.style.transform = 'perspective(' + perspective + 'px) rotateY(-90deg)';
+
+			fn();
+
+			var that = this;
+			window.setTimeout(function() {
+				that.style.transitionProperty = 'transform';
+				that.style.transitionDuration = '100ms';
+				that.style.transform = '';
+				that.addEventListener('transitionend', on0deg, true);
+			}, 0);
+		}
+
+		if (elem.getAttribute('in-flipping')) {
+			return false;
+		}
+		elem.setAttribute('in-flipping', true);
+		var perspective = elem.clientWidth * 3;
+		elem.style.transitionProperty = 'transform';
+		elem.style.transitionDuration = '150ms';
+		elem.style.transform = 'perspective(' + perspective + 'px) rotateY(90deg)';
+		elem.addEventListener('transitionend', on90deg, true);
+	}
+
 	$.getMainWindow = function() {
 		return Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getMostRecentWindow("navigator:browser");
 	}

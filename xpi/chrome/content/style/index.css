@@ -138,6 +138,31 @@ li.nbc { float: right; }
 
 
 /* sites */
+#margin-helper {
+	min-width: 40px;
+	max-width: 300px;
+	margin-top: 20px;
+}
+#site-helper {
+	min-width: 128px;
+	max-width: 384px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+#margin-helper.compact-mode {
+	min-width: 150px;
+	max-width: 300px;
+	margin-top: 40px;
+}
+#site-helper.compact-mode {
+	min-width: 128px;
+	max-width: 208px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+
+
 #mask {
 	position: absolute;
 	width: 100%;
@@ -148,12 +173,13 @@ li.nbc { float: right; }
 	opacity: 0.85;
 }
 
+#mask.grayed {
+	opacity: 0;
+}
+
 .site.grayed:not(.opened):not(.closing):not(.dragging):not(.in-folder) {
 	opacity: .5;
 	filter: url("filters.svg#background-effect");
-}
-#mask.grayed {
-	opacity: 0;
 }
 
 #sites {
@@ -189,6 +215,9 @@ li.nbc { float: right; }
 }
 .text-only.site-title {
 	text-align: left;
+}
+.text-only.site-title:hover {
+	text-decoration: underline;
 }
 .text-only.site-title-image {
 	display: block;
@@ -312,7 +341,7 @@ li.nbc { float: right; }
 	text-overflow: ellipsis;
 	height: 1em;
 	padding: .5em;
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 }
 
 .site.in-folder > a > .site-title {
@@ -395,6 +424,12 @@ li.nbc { float: right; }
 	opacity: 0.75;
 }
 
+/*
+.site.dragging > a > .site-snapshot {
+	transform: scale(1.1);
+}
+*/
+
 .site.in-dragging:not(.in-folder):not(.dragging) > a > .site-snapshot {
 	transform: scale(0.75) rotate(0.01deg); /* https://bugzilla.mozilla.org/show_bug.cgi?id=663776 */
 }
@@ -417,6 +452,7 @@ li.nbc { float: right; }
 
 /** notes **/
 #notes {
+	margin-right: 20px;
 }
 
 #note-edit::-moz-placeholder {

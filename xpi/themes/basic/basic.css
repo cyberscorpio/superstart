@@ -18,19 +18,27 @@ body {
 }
 
 /*
-.site-title {
-	margin-top: -24px;
-	background-color: rgba(0,0,0,0.1);
+.site {
+	margin-bottom: 30px;
 }
-.site-title:hover {
-	background-color: rgba(0,0,0,0.2);
+
+.site-title:not(.text-only) {
+	margin-top: -24px;
+	background-color: rgba(0,0,0,0.25);
+	color: white;
+}
+.site-link:hover > .site-title:not(.text-only) {
+	background-color: rgba(0,0,0,0.75);
+}
+.site-link:hover > .site-title:not(.text-only):hover {
+	background-color: rgba(0,0,0,0.95);
 }
 
 .button.next-snapshot {
 	bottom: 1px;
 }
-
 */
+
 
 /** notes **/
 #notes-list {

@@ -5,53 +5,59 @@ var layout = (function() {
 	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;
 	const ratio = 0.5625;//0.625; // 0.5625 => 16:9, 0.625 => 16:10
 
-	function LayoutParameter(width, col) {
-		var compact = cfg.getConfig('sites-compact');
-		this.width = width;
-		this.startY = 20;
-		if (compact) {
-			this.xPadding = 20;
-			this.yPadding = 5;
-			if (cfg.getConfig('sites-text-only')) {
-				this.yPadding = 15;
-			}
-
-			var w = Math.floor(width * 2 / 3);
-			this.siteWidth = Math.floor((w - (col - 1) * this.xPadding) / col);
-			if (this.siteWidth > SITE_MIN_WIDTH_IN_COMPACTMODE) {
-				this.siteWidth = SITE_MIN_WIDTH_IN_COMPACTMODE;
-			}
-			this.startX = Math.floor((width - this.siteWidth * col - (col - 1) * this.xPadding) / 2);
-		} else {
-			this.xPadding = 30;
-			this.yPadding = 20;
-			this.siteWidth = Math.floor((width - (col - 1) * this.xPadding) / (col + 1));
-			this.startX = Math.floor(this.siteWidth / 2);
+	function getLayoutParameter(col) {
+		if ($.hasClass(document.body, 'hidden')) {
+			return null;
 		}
-		this.lineHeight = 0;
-		this.snapshotWidth = this.siteWidth;
-		this.snapshotHeight = Math.floor(this.snapshotWidth * ratio);
-	}
-	var lp0 = new LayoutParameter(MINWIDTH, 1);
-	var lp1 = new LayoutParameter(MINWIDTH, 1);
 
-	function calcLayout() {
-		var w = window.innerWidth;
-		if (w < MINWIDTH) {
-			w = MINWIDTH;
-		}
-		if (!cfg.getConfig('todo-hide')) {
-			w -= NOTEWIDTH;
-		}
-		var col = cfg.getConfig('col');
-		lp0 = new LayoutParameter(w, col);
-
-		col = getFolderColumn();
-		lp1 = new LayoutParameter(w, col);
-
+		var width = window.innerWidth;
 		var notes = $$('notes');
-		notes.style.width = NOTEWIDTH + 'px';
-		notes.style.marginRight = Math.floor(lp0.startX / 4) + 'px';
+		var rc = notes.getBoundingClientRect();
+		if (rc.width > 0) { // it is not hidden
+			width = rc.left;
+		}
+
+		var cs = window.getComputedStyle($$('margin-helper'));
+		var minMargin = parseInt(cs['minWidth']);
+		var maxMargin = parseInt(cs['maxWidth']);
+		if (maxMargin == 0) {
+			maxMargin = 999999;
+		}
+		var startY = parseInt(cs['marginTop']);
+		cs = window.getComputedStyle($$('site-helper'));
+		var minSiteWidth = parseInt(cs['minWidth']);
+		var maxSiteWidth = parseInt(cs['maxWidth']);
+		if (maxSiteWidth == 0) {
+			maxSiteWidth = 999999;
+		}
+		var gapX = parseInt(cs['marginRight']);
+		var gapY = parseInt(cs['marginBottom']);
+
+		var siteWidth = Math.floor((width - 2 * minMargin - (col - 1) * gapX) / col);
+		if (siteWidth > maxSiteWidth) {
+			siteWidth = maxSiteWidth;
+		}
+		if (siteWidth < minSiteWidth) {
+			siteWidth = minSiteWidth;
+		}
+
+		var startX = Math.floor((width - siteWidth * col - (col - 1) * gapX) / 2);
+
+		return {
+			'startX': startX,
+			'startY': startY,
+			'siteWidth': siteWidth,
+			'gapX': gapX,
+			'gapY': gapY,
+			'lineHeight': 0
+		};
+	}
+
+	var lp0 = null;
+	var lp1 = null;
+
+	function resetLayout() {
+		lp0 = lp1 = null;
 	}
 
 	// -- register events begin ---
@@ -59,24 +65,20 @@ var layout = (function() {
 		'col': onColChanged,
 		'sites-compact': onSitesCompactChanged,
 		'sites-text-only': onSitesTextOnly,
-		'todo-hide': onTodoHide
+		'todo-hide': onTodoHide,
+		'theme': onThemeChanged
 	};
 	var wevts = {
 		'resize': onResize
 	};
 	evtMgr.register([cfgevts], [wevts], []);
-	evtMgr.ready(function() {
-		checkTextOnly();
-		calcLayout();
-		document.body.style.minWidth = MINWIDTH + 'px';
-	});
 	evtMgr.clear(function() {
 		layout = undefined;
 	});
 	// -- register events ended ---
 
 	function onResize() {
-		calcLayout();
+		resetLayout();
 
 		var ss = $$('sites');
 		$.addClass(ss, 'notransition');
@@ -92,57 +94,51 @@ var layout = (function() {
 	}
 
 	function onColChanged(evt, v) {
-		calcLayout();
+		resetLayout();
 		layoutTopSites();
 		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
 		}
 	}
 
-	function onSitesCompactChanged(evt, v) {
-		calcLayout();
-		layoutTopSites();
-		if($('.folder.opened').length == 1) {
-			layout.layoutFolderArea();
-		}
+	function onSitesCompactChanged(evt, compact) {
+		window.setTimeout(function() {
+			resetLayout();
+			layoutTopSites();
+			if($('.folder.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
+		}, 0);
 	}
 
 	function onSitesTextOnly(evt, v) {
-		checkTextOnly();
-		calcLayout();
-		layoutTopSites();
-		if($('.folder.opened').length == 1) {
-			layout.layoutFolderArea();
-		}
-	}
-
-	function checkTextOnly() {
-		var only = cfg.getConfig('sites-text-only');
-		var nsps = [
-			{'site': '', 'folder': '', 'placeholder': ''},
-			{'site': '.site-snapshot', 'folder': '.site-snapshot', 'placeholder': '.site-snapshot'},
-			{'site': '.site-title', 'folder': '.site-title', 'placeholder': '.site-title'},
-			{'site': '.site-title-image', 'folder': '.site-title-image'},
-			{'site': '.button', 'folder': '.button', 'placeholder': '.button'}
-		];
-		var sels = [
-			'.site',
-			'.site-snapshot',
-			'.site-title',
-			'.site-title-image',
-			'.button'
-		];
-		for (var i = 0; i < nsps.length; ++ i) {
-			tmplMgr.changeElementsClass(nsps[i], sels[i], only ? 'add' : 'remove', 'text-only');
-		};
+		window.setTimeout(function() {
+			resetLayout();
+			layoutTopSites();
+			if($('.folder.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
+		}, 0);
 	}
 
 	function onTodoHide(evt, v) {
-		calcLayout();
-		layoutTopSites();
-		if($('.folder.opened').length == 1) {
-			layout.layoutFolderArea();
-		}
+		window.setTimeout(function() {
+			resetLayout();
+			layoutTopSites();
+			if($('.folder.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
+		}, 0);
+	}
+
+	function onThemeChanged(evt, t) {
+		window.setTimeout(function() { // theme.js will change the actual theme, so we must make sure we run after that.
+			resetLayout();
+			layoutTopSites();
+			if($('.folder.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
+		}, 0);
 	}
 
 	function getFolderColumn() {
@@ -154,8 +150,10 @@ var layout = (function() {
 	// 3 items per column
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
 	function layoutFolderElement(se) {
+		if (lp0 === null) {
+			return;
+		}
 		var sn = $$$(se, '.folder-snapshot');
-
 		var cw = sn.clientWidth;
 		if (cw == 0) {
 			cw = parseInt(sn.style.width);
@@ -193,8 +191,13 @@ var layout = (function() {
 
 	function placeSitesInFolderArea() {
 		var ses = $('#folder > .site');
-		var col = getFolderColumn();
-		return placeSites(ses, col, lp1);
+		if (ses.length > 0) {
+			var col = getFolderColumn();
+			if (lp1 === null) {
+				lp1 = getLayoutParameter(col);
+			}
+			return placeSites(ses, col, lp1);
+		}
 	}
 
 	function layoutFolderArea() { 
@@ -234,12 +237,15 @@ var layout = (function() {
 	}
 
 	function setTopSiteSize(se) {
+		if (lp0 === null) {
+			return;
+		}
 		var sn = $$$(se, '.site-snapshot');
-		sn.style.width = lp0.snapshotWidth + 'px';
-		sn.style.height = lp0.snapshotHeight + 'px';
+		sn.style.width = lp0.siteWidth + 'px';
+		sn.style.height = Math.floor(lp0.siteWidth * ratio)+ 'px';
 
 		var title = $$$(se, '.site-title');
-		title.style.width = lp0.snapshotWidth + 'px';
+		title.style.width = lp0.siteWidth + 'px';
 	}
 
 	// return the height of the container, used by the #folder
@@ -248,21 +254,21 @@ var layout = (function() {
 		var height = 0;
 		var l = ses.length;
 		if (l > 0) {
-			var nw = lp.snapshotWidth + 'px';
-			var nh = lp.snapshotHeight + 'px';
-			var sw = lp.siteWidth + 'px';
+			var wpx = lp.siteWidth + 'px';
+			var snapshotHeight = Math.floor(lp.siteWidth * ratio);
+			var hpx = snapshotHeight + 'px';
 			var x = lp.startX, y = lp.startY;
 			for (var i = 0, l = ses.length; i < l;) {
 				var se = ses[i];
 				var sn = $$$(se, '.site-snapshot');
-				sn.style.width = nw;
-				sn.style.height = nh;
+				sn.style.width = wpx;
+				sn.style.height = hpx;
 				var title = $$$(se, '.site-title');
-				title.style.width = nw;
+				title.style.width = wpx;
 
 				if (lp.lineHeight == 0) {
-					lp.lineHeight = (textOnly ? 0 : lp.snapshotHeight) + se.getBoundingClientRect().height - sn.getBoundingClientRect().height;
-					lp.lineHeight += lp.yPadding;
+					lp.lineHeight = (textOnly ? 0 : snapshotHeight) + se.getBoundingClientRect().height - sn.getBoundingClientRect().height;
+					lp.lineHeight += lp.gapY;
 				}
 
 				var top = y + 'px';
@@ -272,7 +278,7 @@ var layout = (function() {
 					se.style.transform = 'translate(' + left + ', ' + top + ')';
 				}
 
-				x += lp.siteWidth + lp.xPadding;
+				x += lp.siteWidth + lp.gapX;
 				++ i;
 				if (i % col == 0 && i < l) {
 					x = lp.startX;
@@ -296,10 +302,14 @@ var layout = (function() {
 
 	function layoutTopSites() {
 		var ses = $('#sites > .site');
-		var col = cfg.getConfig('col');
-
-		placeSites(ses, col, lp0);
-		layoutFolderElements();
+		if (ses.length > 0) {
+			var col = cfg.getConfig('col');
+			if (lp0 == null) {
+				lp0 = getLayoutParameter(col);
+			}
+			placeSites(ses, col, lp0);
+			layoutFolderElements();
+		}
 	}
 
 	function onSnapshotTransitionEnd(e) {
@@ -333,16 +343,11 @@ var layout = {
 				}, 0);
 			}
 		}
-	},
-
-	'layoutFolderArea': layoutFolderArea
-	, 'placeSitesInFolderArea': placeSitesInFolderArea
-	, 'layoutFolderElement': layoutFolderElement
+	}
 	, 'setTopSiteSize': setTopSiteSize
-
-	// 'onSiteResize': onSiteResize
-	// Maybe I can use MutationObserver to mointor the resizing event!!
-	// https://developer.mozilla.org/en-US/docs/DOM/MutationObserver
+	, 'layoutFolderElement': layoutFolderElement
+	, 'layoutFolderArea': layoutFolderArea
+	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'onSnapshotTransitionEnd': onSnapshotTransitionEnd
 	
 }; // layout

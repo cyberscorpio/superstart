@@ -139,7 +139,7 @@ li.nbc { float: right; }
 
 /* sites */
 #margin-helper {
-	min-width: 40px;
+	min-width: 80px;
 	max-width: 300px;
 	margin-top: 20px;
 }
@@ -147,19 +147,19 @@ li.nbc { float: right; }
 	min-width: 128px;
 	max-width: 384px;
 	margin-right: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 #margin-helper.compact-mode {
 	min-width: 150px;
 	max-width: 300px;
-	margin-top: 40px;
+	margin-top: 32px;
 }
 #site-helper.compact-mode {
 	min-width: 128px;
 	max-width: 208px;
 	margin-right: 20px;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 }
 
 
@@ -268,7 +268,7 @@ li.nbc { float: right; }
 }
 
 .button.next-snapshot {
-	bottom: 25px;
+	bottom: 30px;
 	right: 2px;
 	background-position: -120px 0;
 }
@@ -329,6 +329,7 @@ li.nbc { float: right; }
 .site-title {
 	position: relative;
 	text-align: center;
+	font-size: 1.4rem;
 }
 
 .site-title-image {
@@ -341,7 +342,6 @@ li.nbc { float: right; }
 	text-overflow: ellipsis;
 	height: 1em;
 	padding: .5em;
-	font-size: 1.4rem;
 }
 
 .site.in-folder > a > .site-title {

@@ -42,6 +42,9 @@ var layout = (function() {
 		}
 
 		var startX = Math.floor((width - siteWidth * col - (col - 1) * gapX) / 2);
+		if (startX < 0) {
+			startX = 0;
+		}
 
 		return {
 			'startX': startX,
@@ -66,7 +69,8 @@ var layout = (function() {
 		'sites-compact': onSitesCompactChanged,
 		'sites-text-only': onSitesTextOnly,
 		'todo-hide': onTodoHide,
-		'theme': onThemeChanged
+		'theme': onThemeChanged,
+		'use-customize': onUseCustomize
 	};
 	var wevts = {
 		'resize': onResize
@@ -132,6 +136,16 @@ var layout = (function() {
 	}
 
 	function onThemeChanged(evt, t) {
+		window.setTimeout(function() { // theme.js will change the actual theme, so we must make sure we run after that.
+			resetLayout();
+			layoutTopSites();
+			if($('.folder.opened').length == 1) {
+				layout.layoutFolderArea();
+			}
+		}, 0);
+	}
+
+	function onUseCustomize(evt, u) {
 		window.setTimeout(function() { // theme.js will change the actual theme, so we must make sure we run after that.
 			resetLayout();
 			layoutTopSites();

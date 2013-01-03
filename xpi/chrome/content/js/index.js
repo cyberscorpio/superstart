@@ -29,7 +29,6 @@ function onScroll() {
 	mask.style.left = window.scrollX + 'px';
 }
 
-
 function onContextMenu(evt) {
 	var t = evt.target;
 	while (t) {

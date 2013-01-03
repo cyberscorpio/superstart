@@ -10,14 +10,6 @@ var obevts = {
 evtMgr.register([obevts], [], []);
 evtMgr.ready(function() {
 	refresh();
-
-	var pointer = $$('nbc-themes-pointer');
-	pointer.setAttribute('title', getString('ssThemes'));
-	pointer.addEventListener('mousedown', showThemes, false);
-
-	evtMgr.clear(function() {
-		$$('nbc-themes-pointer').removeEventListener('mousedown', showThemes, false);
-	});
 });
 
 function refresh() {
@@ -46,19 +38,6 @@ function refresh() {
 
 function onThemeChanged(evt, newTheme) {
 	refresh();
-
-	var t = $$('nb-themes');
-	if (t) {
-		var ts = $(t, 'li');
-		for (var i = 0; i < ts.length; ++ i) {
-			var li = ts[i];
-			if (li.theme.name == newTheme) {
-				$.addClass(li, 'current');
-			} else {
-				$.removeClass(li, 'current');
-			}
-		}
-	}
 }
 
 function onThemeLoaded(evt, themeName) {
@@ -84,86 +63,4 @@ function onUserStyleChanged(evt, url) {
 	document.location.reload();
 }
 
-function onClick(evt) {
-	var li = evt.target;
-	while (li && li.tagName != 'LI') {
-		li = li.parentNode;
-	}
-	if (li && !$.hasClass(li, 'current')) {
-		var t = li.theme;
-		if (t != undefined) {
-			cfg.setConfig('theme', t.name);
-		}
-	}
-}
-
-function showThemes() {
-	window.getSelection().removeAllRanges()
-	var t = $$('nb-themes');
-	if (t == null) {
-		var tp = document.createElement('div');
-		tp.id = 'nb-themes';
-		var p = document.createElement('p');
-		p.appendChild(document.createTextNode(getString('ssThemes')));
-		p.id = 'nb-themes-title';
-		tp.appendChild(p);
-
-		var ul = document.createElement('ul');
-		ul.id = 'nb-themes-list';
-		tp.appendChild(ul);
-
-		var ts = JSON.parse(tm.getThemes());
-		var curr = cfg.getConfig('theme');
-		for (var i = 0; i < ts.length; ++ i) {
-			var t = ts[i];
-			var thumbnail = t['thumbnail'];
-			if (thumbnail !== undefined) {
-				var li = document.createElement('li');
-				li.className = 'nb-themes-list-item';
-				li.theme = t;
-				li.addEventListener('click', onClick, false);
-				li.setAttribute('title', t.name);
-
-				var preview = document.createElement('div');
-				preview.appendChild(document.createTextNode(t.name));
-				$.addClass(preview, 'nb-themes-preview');
-
-				li.appendChild(preview);
-				if (t.name == curr) {
-					$.addClass(li, 'current');
-				}
-				ul.appendChild(li);
-			}
-		}
-		document.body.appendChild(tp);
-		$.addClass($$('nbc-themes-pointer'), 'opened');
-
-		window.addEventListener('mousedown', onMouseDown, true);
-	}
-}
-
-function hideThemes() {
-	var tp = $$('nb-themes');
-	tp.parentNode.removeChild(tp);
-	$.removeClass($$('nbc-themes-pointer'), 'opened');
-}
-
-function onMouseDown(evt) {
-	var t = evt.target;
-	var cancel = true;
-	while(t) {
-		if (t.id == 'nb-themes') {
-			cancel = false;
-			break;
-		}
-		t = t.parentNode;
-	}
-	if (cancel) {
-		window.removeEventListener('mousedown', onMouseDown, true);
-
-		hideThemes();
-		evt.stopPropagation();
-		evt.preventDefault();
-	}
-}
 })();

@@ -6,35 +6,8 @@
 	100% { transform: rotate(360deg); }
 }
 
-/*
-.button.newtab:hover,
-.button.thistab:hover {
-	animation: yturn 500ms linear 500ms 1;
+#nbc-themes-pointer.opened,
+#nbb-recently-closed.opened {
+	background-color: orange;
 }
 
-.button.remove:hover {
-	animation: rotate 500ms linear 500ms 1;
-}
-
-.button.config:hover {
-	animation: xturn 500ms linear 500ms 1;
-}
-
-.button.next-snapshot:hover {
-	animation: next-snapshot 500ms linear 500ms 1;
-}
-
-
-@keyframes xturn {
-	100% { perspective: 320px; transform: rotateX(360deg); }
-}
-
-@keyframes yturn {
-	100% { perspective: 320px; transform: rotateY(360deg); }
-}
-
-@keyframes next-snapshot {
-	from { background-position: -148px 0; }
-	to { background-position: -120px 0; }
-}
-*/

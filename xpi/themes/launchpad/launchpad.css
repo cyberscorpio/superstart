@@ -8,6 +8,11 @@ body {
 	background-color: transparent;
 }
 
+.nbb.opened,
+.nbc.opened {
+	background-color: #272727;
+}
+
 .site-snapshot {
 	border-radius: 10px 10px 10px 10px;
 }

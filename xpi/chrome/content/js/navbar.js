@@ -12,7 +12,10 @@ var e2id = { // use "onNavbarItemOnoff" to handle the events
 };
 
 evtMgr.ready(function() {
-	initPopupButton('nbb-recently-closed', 'superstart-recently-closed-list', getString('ssRecentlyClosed'));
+	initPopupButton([
+		{bid: 'nbb-recently-closed', mid: 'superstart-recently-closed-list', title: getString('ssRecentlyClosed')},
+		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')}
+	]);
 	for (var k in e2id) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
@@ -24,9 +27,7 @@ evtMgr.clear(function() {
 	}
 });
 
-function initPopupButton(bid, mid, title) {
-	var b = $$(bid);
-	b.setAttribute('title', title);
+function initPopupButton(pops) {
 	function onMouseDown(evt) {
 		if (evt.button != 0) {
 			return;
@@ -34,9 +35,9 @@ function initPopupButton(bid, mid, title) {
 		evt.preventDefault();
 		evt.stopPropagation();
 
-		var mw = $.getMainWindow();
-		var doc = mw.document;
-		var m = doc.getElementById(mid);
+		var doc = $.getMainWindow().document;
+		var b = evt.target;
+		var m = doc.getElementById(b.mid);
 		if (m) {
 			if (m.state == 'closed') {
 				var obj = doc.getElementById('browser').boxObject;
@@ -46,25 +47,34 @@ function initPopupButton(bid, mid, title) {
 				m.openPopupAtScreen(x, y, false);
 				$.addClass(b, 'opened');
 				m.addEventListener('popuphiding', onPopupHiding, true);
+				m.bid = b.id;
 			} else {
 				m.hidePopup();
 			}
 		}
 	}
-	b.addEventListener('mousedown', onMouseDown, false);
-	evtMgr.clear(function() {
-		b.removeEventListener('mousedown', onMouseDown, false);
-		b = undefined;
-	});
 
 	function onPopupHiding(evt) {
 		var m = evt.target;
-		if (m.id != mid) {
-			return;
-		}
-		m.removeEventListener('popuphiding', onPopupHiding, true);
+		var b = $$(m.bid);
+		delete m.bid;
 		$.removeClass(b, 'opened');
+		m.removeEventListener('popuphiding', onPopupHiding, true);
 	}
+
+	for (var i = 0; i < pops.length; ++ i) {
+		var p = pops[i];
+		var b = $$(p.bid);
+		b.mid = p.mid;
+		b.setAttribute('title', p.title);
+		b.addEventListener('mousedown', onMouseDown, false);
+	}
+	evtMgr.clear(function() {
+		for (var i = 0; i < pops.length; ++ i) {
+			var b = $$(p.bid);
+			b.removeEventListener('mousedown', onMouseDown, false);
+		}
+	});
 }
 
 function onNavbarItemOnoff(evt, onoff) {

@@ -38,6 +38,9 @@
 		<menupopup id="superstart-recently-closed-list"
 			onpopupshowing="SuperStart.populateUndoMenu();">
 		</menupopup>
+		<menupopup id="superstart-themes-list-menu"
+			onpopupshowing="SuperStart.populateThemes();">
+		</menupopup>
 	</window>
 
 	<toolbarpalette id="BrowserToolbarPalette">

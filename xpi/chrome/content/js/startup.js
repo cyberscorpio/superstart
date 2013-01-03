@@ -25,6 +25,7 @@ if ("undefined" == typeof(SuperStart)) {
 		let bs = Cc["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Ci.nsINavBookmarksService);
 		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
 		let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
+		let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');
@@ -203,6 +204,31 @@ if ("undefined" == typeof(SuperStart)) {
 			}, false);
 		}
 
+		SuperStart.populateThemes = function() {
+			let menu = $$('superstart-themes-list-menu');
+			while (menu.hasChildNodes()) {
+				menu.removeChild(menu.firstChild);
+			}
+			let ts = JSON.parse(tm.getThemes());
+			let curr = cfg.getConfig('theme');
+			for (let i = 0; i < ts.length; ++ i) {
+				let t = ts[i];
+				let m = document.createElement('menuitem');
+				m.setAttribute('label', t.name);
+				m.setAttribute('value', t.name);
+				m.setAttribute('type', 'radio');
+				m.setAttribute('name', 'superstart-themes-list');
+				if (t.name == curr) {
+					m.setAttribute('checked', true);
+				}
+				m.addEventListener("command", function() {
+					cfg.setConfig('theme', this.getAttribute('value'));
+				}, false);
+
+				menu.appendChild(m);
+			}
+		}
+
 		SuperStart.getString = function(name) {
 			try {
 				var str = strings.GetStringFromName(name);
@@ -279,8 +305,8 @@ if ("undefined" == typeof(SuperStart)) {
 		}
 
 		function showHomepage() {
-			var tm = Cc["@mozilla.org/thread-manager;1"].getService(Ci.nsIThreadManager);
-			tm.mainThread.dispatch({
+			var thm = Cc["@mozilla.org/thread-manager;1"].getService(Ci.nsIThreadManager);
+			thm.mainThread.dispatch({
 				run: function(){
 					let homepg = 'http://www.enjoyfreeware.org/superstart/?v=' + cfg.getConfig('version');
 					gBrowser.selectedTab = gBrowser.addTab(homepg);

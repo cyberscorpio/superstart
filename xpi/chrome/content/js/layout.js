@@ -23,6 +23,18 @@ var layout = (function() {
 		if (maxMargin == 0) {
 			maxMargin = 999999;
 		}
+		var margin = parseFloat(cs['height']);
+		/* since fx will support 'vw' until version 19, so we must use this way as a workaround */
+		if (margin < 0.5) {
+			margin = Math.floor(width * margin);
+		}
+		if (margin < minMargin) {
+			margin = minMargin;
+		}
+		if (margin > maxMargin) {
+			margin = maxMargin;
+		}
+
 		var startY = parseInt(cs['marginTop']);
 		cs = window.getComputedStyle($$('site-helper'));
 		var minSiteWidth = parseInt(cs['minWidth']);
@@ -33,7 +45,7 @@ var layout = (function() {
 		var gapX = parseInt(cs['marginRight']);
 		var gapY = parseInt(cs['marginBottom']);
 
-		var siteWidth = Math.floor((width - 2 * minMargin - (col - 1) * gapX) / col);
+		var siteWidth = Math.floor((width - 2 * margin - (col - 1) * gapX) / col);
 		if (siteWidth > maxSiteWidth) {
 			siteWidth = maxSiteWidth;
 		}
@@ -228,6 +240,10 @@ var layout = (function() {
 		var sepos = $.getPosition(se);
 		var top = sepos.top + sepos.height;
 
+		var cs = window.getComputedStyle(se, ':after');
+		var offset = parseInt(cs['bottom']);
+		top -= offset;
+
 		folder.style.height = height + 'px';
 		folder.style.top = top + 'px';
 
@@ -242,10 +258,11 @@ var layout = (function() {
 			}
 		}
 
+		var siteOffset = height - offset;
 		for (var i = begin; i < ses.length; ++ i) {
 			var se = ses[i];
 			var [left, top] = se.pos;
-			top += height;
+			top += siteOffset;
 			se.style.transform = 'translate(' + left + 'px, ' + top + 'px)';
 		}
 	}

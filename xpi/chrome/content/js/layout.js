@@ -24,7 +24,7 @@ var layout = (function() {
 			maxMargin = 999999;
 		}
 		var margin = parseFloat(cs['height']);
-		/* since fx will support 'vw' until version 19, so we must use this way as a workaround */
+		/* since fx won't support 'vw' until version 19, so we must use this way as a workaround */
 		if (margin < 0.5) {
 			margin = Math.floor(width * margin);
 		}

@@ -149,7 +149,6 @@ var $$$ = function(e, s) {
 			this.removeEventListener('transitionend', on90deg, true);
 		
 			this.style.transitionProperty = 'none';
-			var perspective = this.clientWidth * 3;
 			this.style.transform = 'perspective(' + perspective + 'px) rotateY(-90deg)';
 
 			fn();

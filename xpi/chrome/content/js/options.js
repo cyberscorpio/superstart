@@ -287,7 +287,7 @@ var superStartOptions = {};
 
 		let cstm = JSON.parse(tm.getUsData());
 		usCss = cstm['css'] || '';
-		let body = cstm['body'] || {};
+		let body = cstm['#bg'] || cstm['body'] || {};
 
 		cb = $$('use-bg-color');
 		cb.addEventListener('CheckboxStateChange', function(evt) {
@@ -340,19 +340,19 @@ var superStartOptions = {};
 
 	function saveCustomize() {
 		let cstm = {
-			'body': {}
+			'#bg': {}
 		};
 		let bgi = getCstmElem('bg-image').getAttribute('src');
 		if (bgi != '') {
-			cstm['body']['background-image'] = bgi;
+			cstm['#bg']['background-image'] = bgi;
 
 			let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
 			if (repeat != undefined) {
-				cstm['body']['background-repeat'] = repeat;
+				cstm['#bg']['background-repeat'] = repeat;
 			}
 			let size = sizeMap[getCstmElem('bg-size').selectedIndex];
 			if (size != undefined) {
-				cstm['body']['background-size'] = size;
+				cstm['#bg']['background-size'] = size;
 			}
 		}
 		

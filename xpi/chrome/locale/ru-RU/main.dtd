@@ -13,6 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Добавить новый URL">
+<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
 <!ENTITY superstart.menu.site.refreshall "Обновить всё">
 <!ENTITY superstart.menu.options "Настройки">
 

@@ -123,6 +123,10 @@ if ("undefined" == typeof(SuperStart)) {
 					'chrome,dialog,dependent=yes,centerscreen=yes,resizable=yes', [-1, -1]);
 		}
 
+		SuperStart.onMenuAddPlaceHolder = function() {
+			sm.addSite('about:placeholder', '', 0, false, '');
+		}
+
 		SuperStart.onMenuRefreshAll = function() {
 			if (gBrowser.selectedBrowser.contentWindow.confirm(SuperStart.getString('ssSiteRefreshAllConfirm'))) {
 				sm.refreshSite(-1, -1);

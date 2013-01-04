@@ -13,6 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Додати новий URL">
+<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
 <!ENTITY superstart.menu.site.refreshall "Оновити всі">
 <!ENTITY superstart.menu.options "Налаштування">
 

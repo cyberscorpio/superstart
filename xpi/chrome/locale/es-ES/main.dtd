@@ -1,0 +1,84 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Introducir URL">
+<!ENTITY superstart.dialog.url.url "Introducir aquí la URL">
+<!ENTITY superstart.dialog.url.name "Nombre del sitio (opcional)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Opciones de miniatura">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Izquierda &amp; Esquina superior">
+<!ENTITY superstart.dialog.url.snapshot.entire "Ventana completa">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Usar el servicio de miniaturas de Firefox (Quizás no disponible en algunos sitios)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Customize image">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Establecer mombre de grupo">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Añadir nueva URL">
+<!ENTITY superstart.menu.placeholder.add "Añadir un espacio">
+<!ENTITY superstart.menu.site.refreshall "Recargar todo">
+<!ENTITY superstart.menu.options "Opciones">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Añadir este link a Super Start">
+<!ENTITY superstart.context.menu.add "Añadir esta pestaña a Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Opciones">
+
+<!ENTITY superstart.options.general "General">
+<!ENTITY superstart.options.sites.setup "Configuración">
+<!ENTITY superstart.options.load.in.blanktab "Cargar en pestaña en blanco">
+<!ENTITY superstart.options.set.as.homepage "Establecer Super Start como página de inicio">
+<!ENTITY superstart.options.sites.open.in.newtab "OAbrir en nueva pestaña por defecto">
+<!ENTITY superstart.options.sites.displaysettings "Opciones de visualización">
+<!ENTITY superstart.options.sites.use.compactmode "Usar modo compacto">
+<!ENTITY superstart.options.sites.text.only "Solo texto">
+<!ENTITY superstart.options.sites.use.background.effect "Usar efectos de fondo (puede ralentizar)">
+<!ENTITY superstart.options.sites.col "Número de enlaces por línea:">
+
+<!ENTITY superstart.options.navbar "Navbar">
+<!ENTITY superstart.options.show.navbar "Mostrar Navbar">
+<!ENTITY superstart.options.navbar.show.recently.closed "Recientemente cerradas">
+<!ENTITY superstart.options.navbar.show.add.site "Añadir nuevo sitio">
+<!ENTITY superstart.options.navbar.show.themes "Temas">
+<!ENTITY superstart.options.navbar.show.todo "Notas">
+<!ENTITY superstart.options.show.elements "Mostra elementos...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Mostrar botones">
+<!ENTITY superstart.options.site.buttons.show.newtab "Nueva pestaña">
+<!ENTITY superstart.options.site.buttons.show.refresh "Recargar">
+<!ENTITY superstart.options.site.buttons.show.config "Configuración">
+<!ENTITY superstart.options.site.buttons.show.remove "Eliminar">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Siguiente miniatura">
+
+<!ENTITY superstart.options.general.hint "* las configuraciones en esta pestaña tienen efecto inmediato">
+
+<!ENTITY superstart.ui.customize "Personalizar UI">
+<!ENTITY superstart.ui.customize.use "Permitir personaización">
+<!ENTITY superstart.ui.customize.howto "(Ayuda) ¿Cómo personalizar?">
+<!ENTITY superstart.ui.background.image "Imagen de fondo">
+<!ENTITY superstart.ui.select.image "Seleccionar imagen">
+<!ENTITY superstart.ui.clear.image "Limpiar imagen">
+<!ENTITY superstart.ui.background.repeat "Repetir">
+<!ENTITY superstart.ui.background.repeat.repeat "Repetir (por defecto)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "No repetir">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Repetir horizontal">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Repetir vertical">
+<!ENTITY superstart.ui.background.size "Tamaño">
+<!ENTITY superstart.ui.background.size.default "Por defecto">
+<!ENTITY superstart.ui.background.size.cover "Escalar para ajustar (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Escalar para ajustar (CSS:contain)">
+<!ENTITY superstart.ui.colors "Colores">
+<!ENTITY superstart.ui.background.color.enable "Habilitar color de fondo">
+<!ENTITY superstart.ui.background.color.select "Seleccionar color">
+<!ENTITY superstart.ui.text.color "Texto">
+<!ENTITY superstart.ui.text.color.enable "Habilitar color de texto">
+<!ENTITY superstart.ui.text.color.black "Negro">
+<!ENTITY superstart.ui.text.color.white "Blanco">
+<!ENTITY superstart.ui.text.color.use.shadow "Utilizar sombra">
+<!ENTITY superstart.ui.others "Otros">
+<!ENTITY superstart.ui.transparent "Transparente (puede ralentizar)">
+<!ENTITY superstart.ui.customize.advanced "Avanzado">
+<!ENTITY superstart.ui.css.edit.hint "Introducir CSS aquí directamente:">
+
+<!ENTITY superstart.options.about "Acerca de">
+<!ENTITY superstart.options.author "Autor">
+<!ENTITY superstart.options.help "Ayuda">

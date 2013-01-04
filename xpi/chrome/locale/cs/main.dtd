@@ -13,6 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Přidat nové URL">
+<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
 <!ENTITY superstart.menu.site.refreshall "Obnovit vše">
 <!ENTITY superstart.menu.options "Možnosti">
 

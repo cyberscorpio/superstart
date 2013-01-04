@@ -37,3 +37,5 @@ locale	superstart	uk-UA   jar:chrome/superstart.jar!/locale/uk-UA/
 locale	superstart	hu      jar:chrome/superstart.jar!/locale/hu/
 # Czech
 locale	superstart	cs      jar:chrome/superstart.jar!/locale/cs/
+# Spanish
+locale	superstart	es-ES   jar:chrome/superstart.jar!/locale/es-ES/

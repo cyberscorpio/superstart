@@ -12,7 +12,8 @@
 <!ENTITY superstart.dialog.groupname.title "设置群组名称">
 
 <!-- context menu in superstart page -->
-<!ENTITY superstart.menu.site.add "增加一个新网址">
+<!ENTITY superstart.menu.site.add "添加一个新网址">
+<!ENTITY superstart.menu.placeholder.add "添加一个占位符">
 <!ENTITY superstart.menu.site.refreshall "刷新所有">
 <!ENTITY superstart.menu.options "选项">
 

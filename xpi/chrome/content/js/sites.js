@@ -572,6 +572,9 @@ function removeSite(evt) {
 		if (s) {
 			var str = getString('ssSiteRemovePrompt');
 			str = str.replace(/%title%/g, s.title).replace(/%url%/g, s.url);
+			if (s.url === 'about:placeholder') {
+				str = getString('ssSitePlaceholderPrompt');
+			}
 			if (evt.ctrlKey || evt.metaKey || confirm(str)) {
 				sm.removeSite(g, i);
 			}
@@ -594,23 +597,27 @@ function nextSnapshot() {
 	return false;
 }
 
+function showAllPlaceholders() {
+	var phs = $('.placeholder');
+	[].forEach.call(phs, function(ph) {
+		$.addClass(ph, 'show-placeholder');
+	});
+	window.setTimeout(function() {
+		var phs = $('.placeholder');
+		[].forEach.call(phs, function(ph) {
+			$.removeClass(ph, 'show-placeholder');
+		});
+	}, 2000);
+}
+
 // event handlers
 function onSiteAdded(evt, idx) {
 	var s = sm.getSite(-1, idx);
 	var se = insert($$('sites'), s);
 	layout.layoutTopSites();
 
-	if (s.url == 'about:placeholder') {
-		var phs = $('.placeholder');
-		[].forEach.call(phs, function(ph) {
-			$.addClass(ph, 'new-placeholder');
-		});
-		window.setTimeout(function() {
-			var phs = $('.placeholder');
-			[].forEach.call(phs, function(ph) {
-				$.removeClass(ph, 'new-placeholder');
-			});
-		}, 2000);
+	if (s.url === 'about:placeholder') {
+		showAllPlaceholders();
 	}
 }
 
@@ -637,6 +644,10 @@ function onSiteRemoved(evt, idxes) {
 				layout.placeSitesInFolderArea();
 			} else {
 				layout.layoutTopSites(true);
+			}
+
+			if ($.hasClass(se, 'placeholder')) {
+				showAllPlaceholders();
 			}
 		}
 	}

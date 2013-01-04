@@ -27,6 +27,9 @@
 			<menuitem label="&superstart.menu.site.add;"
 				oncommand="SuperStart.onMenuAdd();"
 				/> 
+			<menuitem label="&superstart.menu.placeholder.add;"
+				oncommand="SuperStart.onMenuAddPlaceHolder();"
+				/> 
 			<menuitem label="&superstart.menu.site.refreshall;"
 				oncommand="SuperStart.onMenuRefreshAll();"
 				/>

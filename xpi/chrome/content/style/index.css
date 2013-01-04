@@ -332,18 +332,18 @@ li.nbc { float: right; }
 }
 
 .site.placeholder.in-dragging > a > .placeholder-snapshot.site-snapshot,
-.site.placeholder.new-placeholder> a > .placeholder-snapshot.site-snapshot,
+.site.placeholder.show-placeholder> a > .placeholder-snapshot.site-snapshot,
 .site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot {
 	background-color: rgba(0,0,0,0.25);
 }
 
 .site.placeholder.in-dragging > a > .placeholder-snapshot.site-snapshot,
-.site.placeholder.new-placeholder> a > .placeholder-snapshot.site-snapshot,
+.site.placeholder.show-placeholder> a > .placeholder-snapshot.site-snapshot,
 .site.placeholder.dragging > a > .placeholder-snapshot.site-snapshot {
 	border: 1px solid rgba(255,255,255,0.5);
 }
 
-.site.placeholder.new-placeholder > .button.remove {
+.site.placeholder.show-placeholder > .button.remove {
 	opacity: 1;
 }
 

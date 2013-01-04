@@ -8,12 +8,13 @@ body {
 }
 
 #bg {
-	position: absolute;
+	position: fixed !important;
 	width: 100%;
 	height: 100%;
 	background-attachment: fixed;
 	background-image: url("chrome://browser/skin/newtab/noise.png"), linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
 	background-color: #e5e5e5;
+	z-index: -9999 !important;
 }
 
 a {

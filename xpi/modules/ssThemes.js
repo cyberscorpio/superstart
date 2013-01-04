@@ -252,6 +252,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		for (let k in u) {
 			let v = u[k];
 			if (k != 'css') {
+				if (k === 'body') { /* we don't use 'body' any more */
+					k = '#bg';
+				}
 				css += getCssRule(k, v);
 			}
 		}

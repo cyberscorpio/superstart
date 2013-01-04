@@ -952,7 +952,7 @@ function refreshGroup() {
 
 function onDblClick(e) {
 	var t = e.target;
-	if (t.tagName == 'HTML' || t.id == 'navbar' || t.id == 'container' || t.id == 'sites') {
+	if (t.tagName == 'HTML' || t.id == 'bg' || t.id == 'navbar' || t.id == 'container' || t.id == 'sites') {
 		window.getSelection().removeAllRanges()
 		showAddSite();
 		return false;

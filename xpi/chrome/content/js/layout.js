@@ -93,7 +93,13 @@ var layout = (function() {
 	});
 	// -- register events ended ---
 
+	var bgLocked = false;
+	function lockBG(lock) {
+		bgLocked = (lock === true);
+	}
+
 	function onResize() {
+		console.log('on resize with lock: ' + bgLocked);
 		resetLayout();
 
 		var ss = $$('sites');
@@ -102,6 +108,12 @@ var layout = (function() {
 
 		if($('.folder.opened').length == 1) {
 			layout.layoutFolderArea();
+		}
+
+		if (!bgLocked) {
+			var bg = $$('bg');
+			bg.style.width = window.innerWidth + 'px';
+			bg.style.height = window.innerHeight + 'px';
 		}
 
 		window.setTimeout(function() {
@@ -380,6 +392,7 @@ var layout = {
 	, 'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'onSnapshotTransitionEnd': onSnapshotTransitionEnd
+	, 'lockBG': lockBG
 	
 }; // layout
 	return layout;

@@ -385,6 +385,7 @@ function onFolderOpened(evt) {
 		for (var i = 0; i < ses.length; ++ i) {
 			$.removeClass(ses[i], 'notransition');
 		}
+		layout.lockBG(false);
 	}
 }
 
@@ -425,6 +426,7 @@ function openFolder(idx, f) {
 
 	var mask = $$('mask');
 	mask.style.display = 'block';
+	layout.lockBG(true);
 
 	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');
@@ -570,14 +572,20 @@ function removeSite(evt) {
 		var g = idxes[0], i = idxes[1];
 		var s = sm.getSite(g, i);
 		if (s) {
+			var se = at(g, i);
+			var isPlaceholder = s.url === 'about:placeholder';
 			var str = getString('ssSiteRemovePrompt');
 			str = str.replace(/%title%/g, s.title).replace(/%url%/g, s.url);
-			if (s.url === 'about:placeholder') {
+			if (isPlaceholder) {
 				str = getString('ssSitePlaceholderPrompt');
+				$.addClass(se, 'show-placeholder');
 			}
 			if (evt.ctrlKey || evt.metaKey || confirm(str)) {
 				sm.removeSite(g, i);
+			} else if (isPlaceholder) {
+				$.removeClass(se, 'show-placeholder');
 			}
+			se = undefined;
 		}
 	}
 	return false;
@@ -614,11 +622,18 @@ function showAllPlaceholders() {
 function onSiteAdded(evt, idx) {
 	var s = sm.getSite(-1, idx);
 	var se = insert($$('sites'), s);
+
 	layout.layoutTopSites();
+
+	$.addClass(se, 'notransition');
+	window.setTimeout(function(){
+		$.removeClass(se, 'notransition');
+	}, 0);
 
 	if (s.url === 'about:placeholder') {
 		showAllPlaceholders();
 	}
+
 }
 
 function onSiteRemoved(evt, idxes) {
@@ -963,7 +978,19 @@ function refreshGroup() {
 
 function onDblClick(e) {
 	var t = e.target;
-	if (t.tagName == 'HTML' || t.id == 'bg' || t.id == 'navbar' || t.id == 'container' || t.id == 'sites') {
+	var tag = t.tagName;
+	var id = t.id;
+	var inPlaceholder = false;
+
+	while(t && t.classList) {
+		if ($.hasClass(t, 'placeholder')) {
+			inPlaceholder = true;
+			break;
+		}
+		t = t.parentNode; // TODO: for such case, can we change a placeholder into a normal site?
+	}
+
+	if (tag == 'HTML' || id == 'bg' || id == 'bg-mask' || id == 'navbar' || id == 'container' || id == 'sites' || inPlaceholder) {
 		window.getSelection().removeAllRanges()
 		showAddSite();
 		return false;

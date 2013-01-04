@@ -19,6 +19,14 @@
 			/>
 	</menupopup>
 
+	<menupopup id="tabContextMenu">
+		<menuitem id="tab-context-superstart-add" class="menuitem-iconic"
+			label="&superstart.context.menu.add;"
+			image="chrome://superstart/content/images/superstart.png"
+			oncommand="SuperStart.onTabContextMenuAdd();"
+			/>
+	</menupopup>
+
 	<window id="main-window">
 		<hbox style="overflow:hidden; height: 0;">
 			<vbox id="superstart-snapshot-container" />

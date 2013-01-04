@@ -12,9 +12,20 @@
 <!ENTITY superstart.dialog.groupname.title "设置群组名称">
 
 <!-- context menu in superstart page -->
+<!ENTITY superstart.menu.folder.open.all "打开群组所有链接">
+<!ENTITY superstart.menu.folder.refresh "刷新群组内所有缩略图">
+<!ENTITY superstart.menu.folder.config "设置群组名称">
+
+<!ENTITY superstart.menu.site.open.in.newtab "新建页面打开">
+<!ENTITY superstart.menu.site.open.in.thistab "当前页面打开">
+<!ENTITY superstart.menu.site.refresh "刷新">
+<!ENTITY superstart.menu.site.remove "移除">
+
 <!ENTITY superstart.menu.site.add "添加一个新网址">
 <!ENTITY superstart.menu.placeholder.add "添加一个占位符">
 <!ENTITY superstart.menu.site.refreshall "刷新所有">
+
+<!ENTITY superstart.menu.options.compact.mode "紧凑模式">
 <!ENTITY superstart.menu.options "选项">
 
 <!-- context menu for other page -->

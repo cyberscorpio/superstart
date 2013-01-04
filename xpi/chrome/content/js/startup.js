@@ -42,35 +42,30 @@ if ("undefined" == typeof(SuperStart)) {
 			// context menu
 			let menu = $$('contentAreaContextMenu');
 			menu.addEventListener('popupshowing', function(evt) {
-				let isLink = false;
-				let isImage = false;
-				let isText = false;
-				let n = this.triggerNode;
-				while (n != null) {
-					let t = n.tagName;
-					if (!isLink && t == 'A' && isProtocolSupported(n.href)) {
-						isLink = true;
-					}
-					if (!isImage && t == 'IMG') {
-						isImage = true;
-					}
-					if (!isText && (t == 'INPUT' || t == 'TEXTAREA')) {
-						isText = true;
-					}
-					n = n.parentNode;
-				}
-				n = this.triggerNode;
-
+				// let n = this.triggerNode;
+				// check this link: https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Extensions
+				let m = gContextMenu;
 				let item = $$('context-superstart-add-link');
 				item.hidden = true;
-				if (isLink) {
+				if (m.onLink && isProtocolSupported(m.linkURL)) {
 					item.hidden = false;
 				}
 
 				item = $$('context-superstart-add');
 				item.hidden = true;
-				let doc = gBrowser.selectedBrowser.contentDocument;
-				if (!isText && !isLink && !isImage && isProtocolSupported(doc.location.href)) {
+				let link = gBrowser.selectedBrowser.contentDocument.location.href;
+				if (!m.onTextInput && !m.onImage && !m.onLink && !m.onMailtoLink && isProtocolSupported(link)) {
+					item.hidden = false;
+				}
+			}, false);
+
+			// tab context menu
+			menu = $$('tabContextMenu');
+			menu.addEventListener('popupshowing', function(evt) {
+				let item = $$('tab-context-superstart-add');
+				item.hidden = true;
+				let link = gBrowser.getBrowserForTab(TabContextMenu.contextTab).contentDocument.location.href;
+				if (isProtocolSupported(link)) {
 					item.hidden = false;
 				}
 			}, false);
@@ -99,22 +94,23 @@ if ("undefined" == typeof(SuperStart)) {
 		////////////////////////////////////////////////
 		// methods
 		SuperStart.onContextMenuAddLink = function() {
-			let menu = $$('contentAreaContextMenu');
-			let n = menu.triggerNode;
-			while (n) {
-				if (n.tagName == 'A') {
-					sm.addSite(n.href, '', 1, false, '');
-					break;
-				}
-				n = n.parentNode;
+			let m = gContextMenu;
+			if (m.onLink && isProtocolSupported(m.linkURL)) {
+				sm.addSite(m.linkURL, '', 1, false, '');
 			}
 		}
 	
 		SuperStart.onContextMenuAdd = function() {
-			let doc = gBrowser.selectedBrowser.contentDocument;
-			let url = doc.location.href;
+			let link = gBrowser.selectedBrowser.contentDocument.location.href;
 	
-			sm.addSite(url, '', 1, false, '');
+			sm.addSite(link, '', 1, false, '');
+		}
+
+		SuperStart.onTabContextMenuAdd = function() {
+			let link = gBrowser.getBrowserForTab(TabContextMenu.contextTab).contentDocument.location.href;
+			if (isProtocolSupported(link)) {
+				sm.addSite(link, '', 1, false, '');
+			}
 		}
 
 		SuperStart.onMenuAdd = function() {

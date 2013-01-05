@@ -125,8 +125,7 @@ evtMgr.ready(function() {
 		'.newtab':        ['click',  openInNewTab],
 		'.thistab':       ['click',  openInThisTab],
 		'.config':        ['click',  configSite],
-		'':               ['dragstart', gDrag.onStart],
-		'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+		'':               ['dragstart', gDrag.onStart]
 	});
 
 	buttons = ['refresh', 'newtab', 'config'];
@@ -142,8 +141,7 @@ evtMgr.ready(function() {
 		'.config':        ['click', onFolderConfigClick],
 		'.newtab':        ['click', onFolderNewTabClick],
 		'.refresh':       ['click', refreshGroup],
-		'':               ['dragstart', gDrag.onStart],
-		'.site-snapshot': ['transitionend', layout.onSnapshotTransitionEnd]
+		'':               ['dragstart', gDrag.onStart]
 	});
 
 	buttons = ['remove'];
@@ -241,7 +239,6 @@ function updateFolder(f, se) {
 		setFolderTitle(f, se);
 
 		layout.setTopSiteSize(se);
-		layout.layoutFolderElement(se);
 
 		window.setTimeout(function() {
 			var imgs = $(snapshot, '.image-preview');

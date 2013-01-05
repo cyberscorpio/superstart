@@ -186,41 +186,66 @@ var layout = (function() {
 	// 3 items per line
 	// 3 items per column
 	// < w > <  3w  > < w > <  3w  > < w > <  3w  > < w >
+	function getFolderPreviewParameter(se) {
+		if (lp0 === null || !$.hasClass(se, 'folder')) {
+			return false;
+		}
+		var sn = $$$(se, '.folder-snapshot');
+		var cw = parseInt(sn.style.width);
+		var ch = parseInt(sn.style.height);
+		if (cw == 0 || ch == 0) {
+			return false;
+		}
+
+		var cs = window.getComputedStyle(sn);
+		cw -= parseInt(cs['borderLeftWidth']) + parseInt(cs['borderRightWidth']);
+		ch -= parseInt(cs['borderTopWidth']) + parseInt(cs['borderBottomWidth']);
+
+		var w = cw / 13;
+		var h = ch / 13;
+		var width = Math.ceil(w * 3);
+		var height = Math.ceil(h * 3);
+		var gapX = Math.ceil((cw - 3 * width) / 4);
+		var gapY = Math.ceil((ch - 3 * height) / 4);
+
+		lp0.pp = {
+			'startX': gapX,
+			'startY': gapY,
+			'width': width,
+			'height': height,
+			'col': width + gapX,
+			'line': height + gapY
+		};
+
+		return true;
+	}
+
 	function layoutFolderElement(se) {
 		if (lp0 === null) {
 			return;
 		}
+		if (lp0.pp === undefined) {
+			if (!getFolderPreviewParameter(se)) {
+				return;
+			}
+		}
+		var pp = lp0.pp;
+
 		var sn = $$$(se, '.folder-snapshot');
-		var cw = sn.clientWidth;
-		if (cw == 0) {
-			cw = parseInt(sn.style.width);
-		}
-		var ch = sn.clientHeight;
-		if (ch == 0) {
-			ch = parseInt(sn.style.height);
-		}
-		var w = cw / 13;
-		var h = ch / 13;
-		var ww = Math.ceil(w * 3);
-		var hh = Math.ceil(h * 3);
-		var mh = Math.ceil((ch - 3 * hh) / 4);
-		w = Math.floor(w);
-		h = Math.floor(h);
-		
 		var imgs = sn.getElementsByTagName('img');
-		var x = w;
-		var y = mh;
+		var x = pp.startX;
+		var y = pp.startY;
 		for (var i = 0; i < imgs.length;) {
 			var img = imgs[i];
 			img.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-			img.style.width = ww + 'px';
-			img.style.height = hh + 'px';
-			x += ww + w;
+			img.style.width = pp.width + 'px';
+			img.style.height = pp.height + 'px';
+			x += pp.col;
 
 			++ i;
 			if (i % 3 == 0) {
-				x = w;
-				y += hh + mh;
+				x = pp.startX;
+				y += pp.line;
 			}
 
 		}
@@ -288,6 +313,10 @@ var layout = (function() {
 
 		var title = $$$(se, '.site-title');
 		title.style.width = lp0.siteWidth + 'px';
+
+		if ($.hasClass(se, 'folder')) {
+			layoutFolderElement(se);
+		}
 	}
 
 	// return the height of the container, used by the #folder
@@ -354,20 +383,6 @@ var layout = (function() {
 		}
 	}
 
-	function onSnapshotTransitionEnd(e) {
-		if (e.propertyName != 'width') {
-			return;
-		}
-		var se = this.parentNode;
-		while (se && !$.hasClass(se, 'site')) {
-			se = se.parentNode;
-		}
-		if (se && $.hasClass(se, 'folder')) {
-			layoutFolderElement(se);
-		}
-	}
-
-
 	var actID = null;
 var layout = {
 	layoutTopSites: function(actingNow) {
@@ -390,7 +405,6 @@ var layout = {
 	, 'layoutFolderElement': layoutFolderElement
 	, 'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
-	, 'onSnapshotTransitionEnd': onSnapshotTransitionEnd
 	
 }; // layout
 	return layout;

@@ -4,7 +4,7 @@
 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>superstart@enjoyfreeware.org</em:id>
-		<em:version>4.0.4.1</em:version>
+		<em:version>4.5.0</em:version>
 		<em:type>2</em:type>
 		<em:unpack>true</em:unpack>
 		<em:targetApplication>

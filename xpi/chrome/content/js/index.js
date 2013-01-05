@@ -25,8 +25,8 @@ evtMgr.register([sEvts], [wEvts], [dEvts]);
 // event handler
 function onScroll() {
 	var mask = $$('mask');
-	mask.style.top = window.scrollY + 'px';
-	mask.style.left = window.scrollX + 'px';
+	mask.style.top = window.pageYOffset + 'px';
+	mask.style.left = window.pageXOffset + 'px';
 }
 
 function onContextMenu(evt) {

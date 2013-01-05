@@ -278,7 +278,7 @@ return {
 			var y = evt.clientY;
 			mover.onMove(elem, x, y);
 
-			var newOpt = getOpt(evt.clientX + window.scrollX, evt.clientY + window.scrollY);
+			var newOpt = getOpt(evt.clientX + window.pageXOffset, evt.clientY + window.pageYOffset);
 			if (!newOpt.isEqual(currOpt)) {
 				clrTimeout(timeoutId);
 				currOpt = newOpt;

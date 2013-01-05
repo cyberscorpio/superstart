@@ -1,3 +1,7 @@
+#bg {
+	background-image: url("chrome://browser/skin/newtab/noise.png");
+}
+
 .button.refresh:hover {
 	animation: rotate 500ms linear 500ms 1;
 }

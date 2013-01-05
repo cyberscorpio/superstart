@@ -88,18 +88,21 @@ var layout = (function() {
 		'resize': onResize
 	};
 	evtMgr.register([cfgevts], [wevts], []);
+	evtMgr.ready(function() {
+		setBgSize();
+	});
 	evtMgr.clear(function() {
 		layout = undefined;
 	});
 	// -- register events ended ---
 
-	var bgLocked = false;
-	function lockBG(lock) {
-		bgLocked = (lock === true);
+	function setBgSize() {
+		var bg = $$('bg');
+		bg.style.width = window.innerWidth + 'px';
+		bg.style.height = window.innerHeight + 'px';
 	}
 
 	function onResize() {
-		console.log('on resize with lock: ' + bgLocked);
 		resetLayout();
 
 		var ss = $$('sites');
@@ -110,11 +113,7 @@ var layout = (function() {
 			layout.layoutFolderArea();
 		}
 
-		if (!bgLocked) {
-			var bg = $$('bg');
-			bg.style.width = window.innerWidth + 'px';
-			bg.style.height = window.innerHeight + 'px';
-		}
+		setBgSize();
 
 		window.setTimeout(function() {
 			$.removeClass(ss, 'notransition');
@@ -392,7 +391,6 @@ var layout = {
 	, 'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
 	, 'onSnapshotTransitionEnd': onSnapshotTransitionEnd
-	, 'lockBG': lockBG
 	
 }; // layout
 	return layout;

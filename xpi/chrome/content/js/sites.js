@@ -385,7 +385,6 @@ function onFolderOpened(evt) {
 		for (var i = 0; i < ses.length; ++ i) {
 			$.removeClass(ses[i], 'notransition');
 		}
-		layout.lockBG(false);
 	}
 }
 
@@ -426,7 +425,6 @@ function openFolder(idx, f) {
 
 	var mask = $$('mask');
 	mask.style.display = 'block';
-	layout.lockBG(true);
 
 	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');

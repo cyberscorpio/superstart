@@ -28,7 +28,7 @@
 <!ENTITY superstart.options.sites.setup "Configuración">
 <!ENTITY superstart.options.load.in.blanktab "Cargar en pestaña en blanco">
 <!ENTITY superstart.options.set.as.homepage "Establecer Super Start como página de inicio">
-<!ENTITY superstart.options.sites.open.in.newtab "OAbrir en nueva pestaña por defecto">
+<!ENTITY superstart.options.sites.open.in.newtab "Abrir en una nueva pestaña por defecto">
 <!ENTITY superstart.options.sites.displaysettings "Opciones de visualización">
 <!ENTITY superstart.options.sites.use.compactmode "Usar modo compacto">
 <!ENTITY superstart.options.sites.text.only "Solo texto">

@@ -13,7 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "新しいURLを追加">
-<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
+<!ENTITY superstart.menu.placeholder.add "プレースホルダを追加">
 <!ENTITY superstart.menu.site.refreshall "全て更新">
 <!ENTITY superstart.menu.options "オプション">
 

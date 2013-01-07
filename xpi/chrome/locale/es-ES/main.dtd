@@ -52,7 +52,7 @@
 <!ENTITY superstart.options.general.hint "* las configuraciones en esta pestaña tienen efecto inmediato">
 
 <!ENTITY superstart.ui.customize "Personalizar UI">
-<!ENTITY superstart.ui.customize.use "Permitir personaización">
+<!ENTITY superstart.ui.customize.use "Permitir personalización">
 <!ENTITY superstart.ui.customize.howto "(Ayuda) ¿Cómo personalizar?">
 <!ENTITY superstart.ui.background.image "Imagen de fondo">
 <!ENTITY superstart.ui.select.image "Seleccionar imagen">

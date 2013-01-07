@@ -14,7 +14,7 @@
 	background-image: url(../images/toolbar.png);
 	border-radius: 50%;
 	margin: 2px;
-	-moz-transform: scale(0.75);
+	transform: scale(0.75);
 }
 
 .site-button-icon[disabled=true] {
@@ -68,8 +68,6 @@ label.cstm-ctrl {
 
 #cstm-bg-image {
 	position: absolute;
-	transform: scale(0.2, 0.2);
-	transform-origin: left top;
 	transform: scale(0.2, 0.2);
 	transform-origin: left top;
 	width: 1280px;

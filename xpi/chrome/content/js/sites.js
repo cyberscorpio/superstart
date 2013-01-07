@@ -600,18 +600,28 @@ function nextSnapshot() {
 	return false;
 }
 
-function showAllPlaceholders() {
-	var phs = $('.placeholder');
-	[].forEach.call(phs, function(ph) {
-		$.addClass(ph, 'show-placeholder');
-	});
-	window.setTimeout(function() {
+var showAllPlaceholders = (function() {
+	var tmid = null;
+	function hide() {
+		tmid = null;
 		var phs = $('.placeholder');
 		[].forEach.call(phs, function(ph) {
 			$.removeClass(ph, 'show-placeholder');
 		});
-	}, 2000);
-}
+	}
+
+	function show() {
+		var phs = $('.placeholder');
+		[].forEach.call(phs, function(ph) {
+			$.addClass(ph, 'show-placeholder');
+		});
+		if (tmid !== null) {
+			window.clearTimeout(tmid);
+		}
+		tmid = window.setTimeout(hide, 2000);
+	}
+	return show;
+}());
 
 // event handlers
 function onSiteAdded(evt, idx) {

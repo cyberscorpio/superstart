@@ -113,26 +113,30 @@
 							</hbox>
 							<hbox flex="1" pack="end">
 								<vbox>
-									<button label="&superstart.ui.select.image;" id="cstm-select-image" class="cstm-ctrl" />
-									<button label="&superstart.ui.clear.image;" id="cstm-clear-image" class="cstm-ctrl" />
-									<label value="&superstart.ui.background.repeat;" class="cstm-ctrl" />
-									<menulist class="cstm-ctrl" id="cstm-bg-repeat">
-										<menupopup>
+									<hbox>
+										<button label="&superstart.ui.select.image;" id="cstm-select-image" class="cstm-ctrl" />
+										<button label="&superstart.ui.clear.image;" id="cstm-clear-image" class="cstm-ctrl" />
+									</hbox>
+									<button type="menu" class="cstm-ctrl" id="cstm-bg-repeat" label="&superstart.ui.background.repeat;">
+										<menupopup id="cstm-bg-repeat-menu">
 											<menuitem label="&superstart.ui.background.repeat.repeat;" />
 											<menuitem label="&superstart.ui.background.repeat.no.repeat;" />
 											<menuitem label="&superstart.ui.background.repeat.repeat.horizontal;" />
 											<menuitem label="&superstart.ui.background.repeat.repeat.vertical;" />
 										</menupopup>
-									</menulist>
+									</button>
 
-									<label value="&superstart.ui.background.size;" class="cstm-ctrl" />
-									<menulist class="cstm-ctrl" id="cstm-bg-size">
-										<menupopup>
+									<button type="menu" class="cstm-ctrl" id="cstm-bg-size" label="&superstart.ui.background.size;">
+										<menupopup id="cstm-bg-size-menu">
 											<menuitem label="&superstart.ui.background.size.default;" />
 											<menuitem label="&superstart.ui.background.size.cover;" />
 											<menuitem label="&superstart.ui.background.size.contain;" />
 										</menupopup>
-									</menulist>
+									</button>
+									<panel id="test">
+										<button label="test" />
+									</panel>
+									<button label="show test" popup="test" />
 								</vbox>
 							</hbox>
 						</hbox>
@@ -143,7 +147,6 @@
 							<hbox>
 								<checkbox id="use-bg-color" checked="true" label="&superstart.ui.background.color.enable;" class="cstm-ctrl" />
 								<hbox flex="1" pack="end" class="bg-color">
-									<!--<checkbox id="use-bg-color-pure" checked="false" class="cstm-ctrl" label="Use pure color" />-->
 									<textbox id="cstm-bg-color" class="cstm-ctrl" placeholder="#rrggbb/rgb()/rgba()/HTML color name" />
 									<colorpicker id="cstm-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="cstm-ctrl" />
 								</hbox>

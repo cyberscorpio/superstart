@@ -119,24 +119,40 @@
 									</hbox>
 									<button type="menu" class="cstm-ctrl" id="cstm-bg-repeat" label="&superstart.ui.background.repeat;">
 										<menupopup id="cstm-bg-repeat-menu">
-											<menuitem label="&superstart.ui.background.repeat.repeat;" />
-											<menuitem label="&superstart.ui.background.repeat.no.repeat;" />
-											<menuitem label="&superstart.ui.background.repeat.repeat.horizontal;" />
-											<menuitem label="&superstart.ui.background.repeat.repeat.vertical;" />
+											<menuitem name="rpt" type="radio" value="repeat" label="&superstart.ui.background.repeat.repeat;" />
+											<menuitem name="rpt" type="radio" value="no-repeat" label="&superstart.ui.background.repeat.no.repeat;" />
+											<menuitem name="rpt" type="radio" value="repeat-x" label="&superstart.ui.background.repeat.repeat.horizontal;" />
+											<menuitem name="rpt" type="radio" value="repeat-y" label="&superstart.ui.background.repeat.repeat.vertical;" />
 										</menupopup>
 									</button>
 
 									<button type="menu" class="cstm-ctrl" id="cstm-bg-size" label="&superstart.ui.background.size;">
 										<menupopup id="cstm-bg-size-menu">
-											<menuitem label="&superstart.ui.background.size.default;" />
-											<menuitem label="&superstart.ui.background.size.cover;" />
-											<menuitem label="&superstart.ui.background.size.contain;" />
+											<menuitem name="size" type="radio" value="auto" label="&superstart.ui.background.size.default;" />
+											<menuitem name="size" type="radio" value="cover" label="&superstart.ui.background.size.cover;" />
+											<menuitem name="size" type="radio" value="contain" label="&superstart.ui.background.size.contain;" />
 										</menupopup>
 									</button>
-									<panel id="test">
-										<button label="test" />
-									</panel>
-									<button label="show test" popup="test" />
+
+									<button type="menu" label="Position" popup="cstm-bg-position">
+										<panel id="cstm-bg-position" class="cstm-ctrl" style="padding: 20px;">
+											<groupbox>
+												<caption label="Position" />
+												<vbox>
+													<label value="Horizontal" />
+													<hbox>
+														<scale id="cstm-bg-x-pos" min="0" max="100" />
+														<label id="cstm-bg-x-pos-value" />
+													</hbox>
+													<label value="Vertical" />
+													<hbox>
+														<scale id="cstm-bg-y-pos" min="0" max="100" />
+														<label id="cstm-bg-y-pos-value" />
+													</hbox>
+												</vbox>
+											</groupbox>
+										</panel>
+									</button>
 								</vbox>
 							</hbox>
 						</hbox>

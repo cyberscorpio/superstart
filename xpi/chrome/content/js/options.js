@@ -1,7 +1,6 @@
 "use strict";
-var superStartOptions = {};
 
-(function(opt) {
+(function() {
 	const {classes: Cc, interfaces: Ci} = Components;
 	const nsIFilePicker = Ci.nsIFilePicker;
 	let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
@@ -20,27 +19,20 @@ var superStartOptions = {};
 
 
 	let boolMap = {
-		'load-in-blanktab' : 'load-in-blanktab',
-		'sites-open-in-newtab' : 'open-in-newtab',
+		'load-in-blanktab': 'load-in-blanktab',
+		'sites-open-in-newtab': 'open-in-newtab',
 
-		'sites-use-compactmode' : 'sites-compact',
+		'sites-use-compactmode': 'sites-compact',
 		'sites-use-textonly': 'sites-text-only',
-		'sites-use-bg-effect' : 'sites-use-bg-effect',
+		'sites-use-bg-effect': 'sites-use-bg-effect',
 
-		'show-navbar' : 'navbar',
-		'show-recently-closed' : 'navbar-recently-closed',
-		'show-add-site' : 'navbar-add-site',
-		'show-themes' : 'navbar-themes',
-		'show-todo' : 'navbar-todo',
+		'show-navbar': 'navbar', 'show-buttons': 'site-buttons',
 
-		'show-buttons' : 'site-buttons',
-		'show-newtab' : 'site-buttons-newtab',
-		'show-refresh' : 'site-buttons-refresh',
-		'show-config' : 'site-buttons-config',
-		'show-remove' : 'site-buttons-remove',
-		'show-next-snapshot' : 'site-buttons-next-snapshot',
+		'show-newtab': 'site-buttons-newtab',  'show-refresh': 'site-buttons-refresh',
+		'show-config': 'site-buttons-config',  'show-remove': 'site-buttons-remove',
+		'show-next-snapshot': 'site-buttons-next-snapshot',
 
-		'use-customize' : 'use-customize'
+		'use-customize': 'use-customize'
 	};
 
 	let buttonMap = {
@@ -49,14 +41,9 @@ var superStartOptions = {};
 	};
 
 	let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
-	let mainWindow = null;
-
 
 	function initialize() {
 		let d = document;
-	// get main window
-		let wm = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);  
-		mainWindow = wm.getMostRecentWindow("navigator:browser");  
 
 	// restore the selected tab
 		let idx = window.opener['option-tab-index'];
@@ -129,7 +116,7 @@ var superStartOptions = {};
 		initCustomize();
 
 	// themes
-		initThemes();
+		// initThemes();
 
 	// links
 		let links = document.getElementsByClassName('text-link');
@@ -232,20 +219,9 @@ var superStartOptions = {};
 		return true;
 	}
 
-	opt.selectTheme = function() {
-		let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, "Select a File", nsIFilePicker.modeOpen);
-		fp.appendFilter("Theme files", "*.zip;");
-		let res = fp.show();
-		if (res == nsIFilePicker.returnOK) {
-			let themeFile = fp.file;
-			tm.installTheme(themeFile);
-		}
-	}
-
 	// customize
-	let repeatMap = [undefined, 'no-repeat', 'repeat-x', 'repeat-y'];
-	let sizeMap = [undefined, 'cover', 'contain'];
+	let repeatMap = ['repeat', 'no-repeat', 'repeat-x', 'repeat-y'];
+	let sizeMap = ['auto', 'cover', 'contain'];
 	let usCss = '';
 
 	function getCstmElem(id) {
@@ -287,7 +263,7 @@ var superStartOptions = {};
 
 		let cstm = JSON.parse(tm.getUsData());
 		usCss = cstm['css'] || '';
-		let body = cstm['#bg'] || cstm['body'] || {};
+		let bg = cstm['#bg'] || cstm['body'] || {};
 
 		cb = $$('use-bg-color');
 		cb.addEventListener('CheckboxStateChange', function(evt) {
@@ -310,15 +286,16 @@ var superStartOptions = {};
 		initTextColor(cstm);
 
 		let bgImg = getCstmElem('bg-image');
-		if (body['background-image'] && body['background-image'] != 'none') {
-			bgImg.setAttribute('src', body['background-image']);
-			bgImg.style.backgroundImage = 'url(' + body['background-image'] + ')';
+		if (bg['background-image'] && bg['background-image'] != 'none') {
+			bgImg.setAttribute('src', bg['background-image']);
+			bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
 		}
 		bgImg.addEventListener('mousemove', onMouseMove, false);
 		bgImg.addEventListener('mouseout', onMouseOut, false);
 
-		initBackgroundRepeat(body['background-repeat']);
-		initBackgroundSize(body['background-size']);
+		initBackgroundRepeat(bg['background-repeat']);
+		initBackgroundSize(bg['background-size']);
+		initBackgroundPosition(bg['background-position']);
 
 		let transparent = cstm['+transparent'] || false;
 		if (transparent) {
@@ -346,12 +323,12 @@ var superStartOptions = {};
 		if (bgi != '') {
 			cstm['#bg']['background-image'] = bgi;
 
-			let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
-			if (repeat != undefined) {
+			let repeat = getCstmElem('bg-repeat-menu').getAttribute('bgValue');
+			if (repeat != '') {
 				cstm['#bg']['background-repeat'] = repeat;
 			}
-			let size = sizeMap[getCstmElem('bg-size').selectedIndex];
-			if (size != undefined) {
+			let size = getCstmElem('bg-size-menu').getAttribute('bgValue');
+			if (size != '') {
 				cstm['#bg']['background-size'] = size;
 			}
 		}
@@ -381,26 +358,49 @@ var superStartOptions = {};
 		tm.setUsData(JSON.stringify(cstm));
 	}
 	function initWithMap(value, map, id) {
-		if (value) {
-			let idx = 0;
-			for (let i = 0, l = map.length; i < l; ++ i) {
-				if (value == map[i]) {
-					idx = i;
-					break;
-				}
+		var menu = getCstmElem(id);
+		menu.setAttribute('bgValue', value);
+		var items = menu.getElementsByTagName('menuitem');
+		[].some.call(items, function(m) {
+			if (m.value == value) {
+				m.setAttribute('checked', true);
+				return true;
 			}
-			getCstmElem(id).selectedIndex = idx;
-		}
+		});
 	}
 	function initBackgroundRepeat(repeat) {
-		initWithMap(repeat, repeatMap, 'bg-repeat');
-		updateBgRpt();
-		getCstmElem('bg-repeat').addEventListener('command', updateBgRpt, false);
+		if (repeat === undefined) {
+			repeat = 'repeat';
+		}
+		initWithMap(repeat, repeatMap, 'bg-repeat-menu');
+		updateBgRpt(repeat);
+		let menu = getCstmElem('bg-repeat-menu');
+		let items = menu.getElementsByTagName('menuitem');
+		[].forEach.call(items, function(m) {
+			m.addEventListener('command', function() {
+				let value = this.getAttribute('value');
+				this.parentNode.setAttribute('bgValue', value);
+				updateBgRpt(value);
+			}, false);
+		});
 	}
 	function initBackgroundSize(size) {
-		initWithMap(size, sizeMap, 'bg-size');
-		updateBgSize();
-		getCstmElem('bg-size').addEventListener('command', updateBgSize, false);
+		if (size === undefined) {
+			size = 'auto';
+		}
+		initWithMap(size, sizeMap, 'bg-size-menu');
+		updateBgSize(size);
+		let menu = getCstmElem('bg-size-menu');
+		let items = menu.getElementsByTagName('menuitem');
+		[].forEach.call(items, function(m) {
+			m.addEventListener('command', function() {
+				let value = this.getAttribute('value');
+				this.parentNode.setAttribute('bgValue', value);
+				updateBgSize(value);
+			}, false);
+		});
+	}
+	function initBackgroundPosition(pos) {
 	}
 	function initBackgroundColor(cstm) {
 		let input = getCstmElem('bg-color');
@@ -442,15 +442,13 @@ var superStartOptions = {};
 		bgImg.style.backgroundImage = '';
 	}
 
-	function updateBgRpt() {
+	function updateBgRpt(rpt) {
 		let bgImg = getCstmElem('bg-image');
-		let repeat = repeatMap[getCstmElem('bg-repeat').selectedIndex];
-		repeat = repeat || '';
-		bgImg.style.backgroundRepeat = repeat;
+		rpt = rpt || '';
+		bgImg.style.backgroundRepeat = rpt;
 	}
-	function updateBgSize() {
+	function updateBgSize(size) {
 		let bgImg = getCstmElem('bg-image');
-		let size = sizeMap[getCstmElem('bg-size').selectedIndex];
 		size = size || ''
 		bgImg.style.backgroundSize = size;
 	}
@@ -535,5 +533,4 @@ var superStartOptions = {};
 		let ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
 		return ios.newFileURI(iF).spec; 
 	}
-})(superStartOptions);
-
+}());

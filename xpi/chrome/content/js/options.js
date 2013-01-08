@@ -32,11 +32,6 @@ let boolMap = {
 	'use-customize': 'use-customize'
 };
 
-let buttonMap = {
-	'cstm-select-image': selectImage,
-	'cstm-clear-image': clearImage
-};
-
 let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
 
 function initialize() {
@@ -60,38 +55,21 @@ function initialize() {
 		let c = $$(id);
 		if (c) {
 			let enabled = cfg.getConfig(key);
-			if (enabled) {
-				c.setAttribute('checked', true);
-			}
+			enabled && c.setAttribute('checked', true);
 			c.addEventListener('command', onCheckboxChanged, false);
 
-			if (id == 'show-navbar' && !enabled) {
-				let items = $('.navbar-item');
-				for (let i = 0; i < items.length; ++ i) {
-					items[i].setAttribute('disabled', true);
-				}
-			}
-
 			if (id == 'show-buttons' && !enabled) {
-				let items = $('.buttons-item');
-				for (let i = 0; i < items.length; ++ i) {
-					items[i].setAttribute('disabled', true);
-				}
+				[].forEach.call($('.buttons-item'), function(m) {
+					m.setAttribute('disabled', true);
+				});
 			}
 		}
-	}
-
-// buttons
-	for (let id in buttonMap) {
-		let key = buttonMap[id];
-		let c = $$(id);
-		c && c.addEventListener('command', key, false);
 	}
 
 // Col
 	let col = cfg.getConfig('col');
 	let colPop = $$('sites-col-popup');
-	colPop.addEventListener('command', onSitesColSelected, false);
+	colPop && colPop.addEventListener('command', onSitesColSelected, false);
 	let from = 3, to = 8;
 	if (col > 32) {
 		col = 32;
@@ -117,7 +95,7 @@ function initialize() {
 
 // links
 	let links = document.getElementsByClassName('text-link');
-	for (let i = 0, l = links.length; i < l; ++ i) {
+	for (let i = 0; i < links.length; ++ i) {
 		let l = links[i];
 		l.setAttribute('tooltiptext', l.getAttribute('href'));
 	}
@@ -135,30 +113,15 @@ function cleanup() {
 	cleanupThemes();
 
 	let cb = $$('set-as-homepage');
-	if (cb) {
-		cb.removeEventListener('command', onSetHomepageChanged, false);
-	}
+	cb && cb.removeEventListener('command', onSetHomepageChanged, false);
 
 	for (let id in boolMap) {
-		let key = boolMap[id];
 		let c = $$(id);
-		if (c) {
-			c.removeEventListener('command', onCheckboxChanged, false);
-		}
-	}
-
-	for (let id in buttonMap) {
-		let key = buttonMap[id];
-		let c = $$(id);
-		if (c) {
-			cb.removeEventListener('command', key, false);
-		}
+		c && c.removeEventListener('command', onCheckboxChanged, false);
 	}
 
 	let colPop = $$('sites-col-popup');
-	if (colPop) {
-		colPop.removeEventListener('command', onSitesColSelected, false);
-	}
+	colPop && colPop.removeEventListener('command', onSitesColSelected, false);
 }
 
 function onCheckboxChanged(evt) {
@@ -166,14 +129,6 @@ function onCheckboxChanged(evt) {
 	let id = cb.id;
 	if (id && boolMap[id]) {
 		cfg.setConfig(boolMap[id], cb.checked);
-	}
-
-	if (id == 'show-navbar') {
-		let enabled = cb.checked;
-		let items = $('.navbar-item');
-		for (let i = 0; i < items.length; ++ i) {
-			items[i].setAttribute('disabled', !enabled);
-		}
 	}
 
 	if (id == 'show-buttons') {
@@ -235,8 +190,8 @@ function initCustomize() {
 	let cb = $$('use-customize');
 	cb.addEventListener('CheckboxStateChange', function(evt) {
 		let checked = evt.target.checked;
-		let ctrls = document.getElementsByClassName('cstm-ctrl');
-		for (let i = 0, l = ctrls.length; i < l; ++ i) {
+		let ctrls = $('.cstm-ctrl');
+		for (let i = 0; i < ctrls.length; ++ i) {
 			let ctrl = ctrls[i];
 			if (ctrl.getAttribute('focused')) {
 				ctrl.blur();
@@ -256,45 +211,27 @@ function initCustomize() {
 	usCss = cstm['css'] || '';
 	let bg = cstm['#bg'] || cstm['body'] || {};
 
-	cb = $$('use-bg-color');
-	cb.addEventListener('CheckboxStateChange', function(evt) {
-		let checked = evt.target.checked;
-		hideElements(!checked, 'bg-color');
-	}, false);
-	if (cstm['+bg-color'] == null || !cstm['+bg-color']['enabled']) {
-		cb.checked = false;
-	}
-	initBackgroundColor(cstm);
+	initBgImage(bg);
 
-	cb = $$('use-text-color');
-	cb.addEventListener('CheckboxStateChange', function(evt) {
-		let checked = evt.target.checked;
-		hideElements(!checked, 'text-color');
-	}, false);
-	if (cstm['+text-color'] == null || !cstm['+text-color']['enabled']) {
-		cb.checked = false;
-	}
-	initTextColor(cstm);
+	['bg-color', 'text-color'].forEach(function(cls) {
+		cb = $$('use-' + cls);
+		cb.addEventListener('CheckboxStateChange', function(evt) {
+			let checked = evt.target.checked;
+			hideElements(!checked, cls);
+		}, false);
 
-	let bgImg = $$('cstm-bg-image');
-	if (bg['background-image'] && bg['background-image'] != 'none') {
-		bgImg.setAttribute('src', bg['background-image']);
-		bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
-	}
-	bgImg.addEventListener('mousemove', onMouseMove, false);
-	bgImg.addEventListener('mouseout', onMouseOut, false);
-
-	initBackgroundPopupMenu(bg['background-repeat'], 'repeat', 'cstm-bg-repeat-menu', updateBgRpt, onBgRptCmd);
-	initBackgroundPopupMenu(bg['background-size'], 'auto', 'cstm-bg-size-menu', updateBgSize, onBgSzCmd);
-	initBackgroundPosition(bg['background-position']);
+		let key = '+' + cls;
+		if (cstm[key] == null || !cstm[key]['enabled']) {
+			cb.checked = false;
+		}
+		cls == 'bg-color' ? initBackgroundColor(cstm) : initTextColor(cstm);
+	});
 
 	let transparent = cstm['+transparent'] || false;
-	if (transparent) {
-		$$('cstm-transparent').checked = true;
-	}
+	transparent && ($$('cstm-transparent').checked = true);
 
 	let adv = $$('cstm-advanced');
-	adv.addEventListener('command', function() {
+	adv && adv.addEventListener('command', function() {
 		var params = { input: usCss, output: null };
 		window.openDialog('chrome://superstart/content/css.xul', 
 			'',
@@ -310,19 +247,8 @@ function saveCustomize() {
 	let cstm = {
 		'#bg': {}
 	};
-	let bgi = $$('cstm-bg-image').getAttribute('src');
-	if (bgi != '') {
-		cstm['#bg']['background-image'] = bgi;
 
-		let repeat = $$('cstm-bg-repeat-menu').getAttribute('bgValue');
-		if (repeat != '') {
-			cstm['#bg']['background-repeat'] = repeat;
-		}
-		let size = $$('cstm-bg-size-menu').getAttribute('bgValue');
-		if (size != '') {
-			cstm['#bg']['background-size'] = size;
-		}
-	}
+	saveBgImage(cstm['#bg']);
 	
 	let bgColor = {};
 	bgColor['enabled'] = $$('use-bg-color').checked == true;
@@ -332,11 +258,11 @@ function saveCustomize() {
 	}
 	cstm['+bg-color'] = bgColor;
 
-	let textColor = {};
-	textColor['enabled'] = $$('use-text-color').checked == true;
-	textColor['color'] = $$('cstm-text-color').selectedIndex;
-	textColor['useShadow'] = $$('cstm-text-shadow').checked == true;
-	cstm['+text-color'] = textColor;
+	cstm['+text-color'] = {
+		'enabled': $$('use-text-color').checked == true,
+		'color': $$('cstm-text-color').selectedIndex,
+		'useShadow': $$('cstm-text-shadow').checked == true
+	};
 
 	if ($$('cstm-transparent').checked == true) {
 		cstm['+transparent'] = true;
@@ -347,73 +273,6 @@ function saveCustomize() {
 	}
 
 	tm.setUsData(JSON.stringify(cstm));
-}
-function initBackgroundPopupMenu(value, vDef, popupid, fnUpdate, onCmd) {
-	if (value === undefined || value == '') {
-		value = vDef;
-	}
-
-	var menu = $$(popupid);
-	menu.setAttribute('bgValue', value);
-	var items = menu.getElementsByTagName('menuitem');
-	[].forEach.call(items, function(m) {
-		if (m.value == value) {
-			m.setAttribute('checked', true);
-		}
-		m.addEventListener('command', onCmd, false);
-	});
-	fnUpdate(value);
-}
-
-function onBgRptCmd() {
-	let value = this.getAttribute('value');
-	this.parentNode.setAttribute('bgValue', value);
-	updateBgRpt(value);
-}
-function onBgSzCmd() {
-	let value = this.getAttribute('value');
-	this.parentNode.setAttribute('bgValue', value);
-	updateBgSize(value);
-}
-
-function onPosChanged(evt) {
-	let scaleX = $$('cstm-bg-x-pos');
-	let scaleY = $$('cstm-bg-y-pos');
-	let labelX = $$('cstm-bg-x-pos-value');
-	let labelY = $$('cstm-bg-y-pos-value');
-	let x = parseInt(scaleX.value);
-	labelX.value = x + '%';
-	let y = parseInt(scaleY.value);
-	labelY.value = y + '%';
-
-	let bgImg = $$('cstm-bg-image');
-	bgImg.style.backgroundPosition = x + '% ' + y + '%';
-}
-
-function initBackgroundPosition(pos) {
-	if (pos === undefined || pos == '') {
-		pos = '10% 100%';
-	}
-	let ps = pos.split(' ');
-	if (ps.length == 1) {
-		ps.push(ps[0]);
-	}
-	let x = parseInt(ps[0]);
-	let y = parseInt(ps[1]);
-	let scaleX = $$('cstm-bg-x-pos');
-	let scaleY = $$('cstm-bg-y-pos');
-	let labelX = $$('cstm-bg-x-pos-value');
-	let labelY = $$('cstm-bg-y-pos-value');
-	scaleX.value = x;
-	labelX.value = x + '%';
-	scaleY.value = y;
-	labelY.value = y + '%';
-
-	let bgImg = $$('cstm-bg-image');
-	bgImg.style.backgroundPosition = x + '% ' + y + '%';
-
-	scaleX.addEventListener('change', onPosChanged, false);
-	scaleY.addEventListener('change', onPosChanged, false);
 }
 
 function initBackgroundColor(cstm) {
@@ -439,33 +298,6 @@ function initTextColor(cstm) {
 	}
 }
 
-function selectImage() {
-	let fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-	fp.init(window, getString('ssSelectImage'), nsIFilePicker.modeOpen);
-	fp.appendFilters(nsIFilePicker.filterImages);
-	let res = fp.show();
-	if (res == nsIFilePicker.returnOK) {
-		let bgImg = $$('cstm-bg-image');
-		bgImg.setAttribute('src', getUrlFromFile(fp.file));
-		bgImg.style.backgroundImage = 'url(' + getUrlFromFile(fp.file) + ')';
-	}
-}
-function clearImage() {
-	let bgImg = $$('cstm-bg-image');
-	bgImg.removeAttribute('src');
-	bgImg.style.backgroundImage = '';
-}
-
-function updateBgRpt(rpt) {
-	let bgImg = $$('cstm-bg-image');
-	rpt = rpt || '';
-	bgImg.style.backgroundRepeat = rpt;
-}
-function updateBgSize(size) {
-	let bgImg = $$('cstm-bg-image');
-	size = size || ''
-	bgImg.style.backgroundSize = size;
-}
 function updateBgColor() {
 	let bgImg = $$('cstm-bg-image');
 	let color = $$('cstm-bg-color').value;
@@ -473,29 +305,6 @@ function updateBgColor() {
 	bgImg.style.backgroundColor = color;
 }
 
-function onMouseOver() {
-	let bgImg = $$('cstm-bg-image');
-}
-function onMouseMove(evt) {
-	let bgImg = $$('cstm-bg-image');
-	if (bgImg.getAttribute('disabled') == 'true') {
-		return;
-	}
-	let wrapper = $$('cstm-bg-image-wrapper');
-	let x = evt.clientX;
-	let y = evt.clientY;
-	x = x - wrapper.boxObject.x;
-	y = y - wrapper.boxObject.y;
-	let top = y * (1280 - 256) / 256;
-	let left = x * (1280 - 256) / 256;
-	bgImg.style.top = '-' + top + 'px';
-	bgImg.style.left = '-' + left + 'px';
-}
-function onMouseOut() {
-	let bgImg = $$('cstm-bg-image');
-	bgImg.style.top = '';
-	bgImg.style.left = '';
-}
 
 // themes
 function initThemes() {

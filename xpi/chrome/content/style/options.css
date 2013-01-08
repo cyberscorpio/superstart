@@ -70,6 +70,7 @@ label.cstm-ctrl {
 	position: absolute;
 	transform: scale(0.2, 0.2);
 	transform-origin: left top;
+	/*transition: transform 250ms;*/
 	width: 1280px;
 	height: 720px;
 
@@ -82,6 +83,19 @@ label.cstm-ctrl {
 #cstm-bg-image[src]:not([disabled=true]):hover {
 	transform: none;
 	cursor: move;
+}
+
+#cstm-bg-position {
+	padding: .5em;
+}
+#cstm-bg-x-pos,
+#cstm-bg-y-pos {
+	width: 202px;
+}
+
+.bg-pos-value {
+	min-width: 5em;
+	text-align: right;
 }
 
 #my-love {

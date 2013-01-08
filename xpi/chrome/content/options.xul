@@ -13,6 +13,7 @@
 	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"/>
 	<script type="application/x-javascript" src="chrome://superstart/content/js/objects.js"/>
 	<script type="application/x-javascript" src="chrome://superstart/content/js/options.js"/>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/options.bgimg.js"/>
 
 	<tabbox flex="1" id="option-tabbox">
 		<tabs>
@@ -134,22 +135,18 @@
 										</menupopup>
 									</button>
 
-									<button type="menu" label="Position" popup="cstm-bg-position">
-										<panel id="cstm-bg-position" class="cstm-ctrl" style="padding: 0 .5em .5em .5em;">
+									<button type="menu" class="cstm-ctrl" label="Position" popup="cstm-bg-position">
+										<panel id="cstm-bg-position" class="cstm-ctrl">
 											<vbox>
-												<label value="Horizontal" />
 												<hbox>
-													<scale id="cstm-bg-x-pos" min="0" max="100" style="width: 202px;" />
-													<box style="min-width: 5em;">
-														<label id="cstm-bg-x-pos-value" />
-													</box>
+													<label value="x: " />
+													<scale id="cstm-bg-x-pos" min="0" max="100" />
+													<box class="bg-pos-value"><label id="cstm-bg-x-pos-value" /></box>
 												</hbox>
-												<label value="Vertical" />
 												<hbox>
-													<scale id="cstm-bg-y-pos" min="0" max="100" style="width: 202px;" />
-													<box style="min-width: 5em;">
-														<label id="cstm-bg-y-pos-value" />
-													</box>
+													<label value="y: " />
+													<scale id="cstm-bg-y-pos" min="0" max="100" />
+													<box class="bg-pos-value"><label id="cstm-bg-y-pos-value" /></box>
 												</hbox>
 											</vbox>
 										</panel>

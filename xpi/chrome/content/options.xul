@@ -135,22 +135,23 @@
 									</button>
 
 									<button type="menu" label="Position" popup="cstm-bg-position">
-										<panel id="cstm-bg-position" class="cstm-ctrl" style="padding: 20px;">
-											<groupbox>
-												<caption label="Position" />
-												<vbox>
-													<label value="Horizontal" />
-													<hbox>
-														<scale id="cstm-bg-x-pos" min="0" max="100" />
+										<panel id="cstm-bg-position" class="cstm-ctrl" style="padding: 0 .5em .5em .5em;">
+											<vbox>
+												<label value="Horizontal" />
+												<hbox>
+													<scale id="cstm-bg-x-pos" min="0" max="100" style="width: 202px;" />
+													<box style="min-width: 5em;">
 														<label id="cstm-bg-x-pos-value" />
-													</hbox>
-													<label value="Vertical" />
-													<hbox>
-														<scale id="cstm-bg-y-pos" min="0" max="100" />
+													</box>
+												</hbox>
+												<label value="Vertical" />
+												<hbox>
+													<scale id="cstm-bg-y-pos" min="0" max="100" style="width: 202px;" />
+													<box style="min-width: 5em;">
 														<label id="cstm-bg-y-pos-value" />
-													</hbox>
-												</vbox>
-											</groupbox>
+													</box>
+												</hbox>
+											</vbox>
 										</panel>
 									</button>
 								</vbox>

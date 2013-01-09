@@ -1,5 +1,20 @@
 "use strict";
 
+let clientInfo = {
+	'w': 1280,
+	'h': 720,
+	'r': 1
+};
+(function() {
+	let w = $.getMainWindow().gBrowser.selectedBrowser.contentWindow;
+	clientInfo.w = w.innerWidth;
+	clientInfo.h = w.innerHeight;
+	if (clientInfo.w < 640 || clientInfo.h < 480) {
+		clientInfo.w = 640;
+		clientInfo.h = 480;
+	}
+}());
+
 let buttonMap = {
 	'cstm-select-image': selectImage,
 	'cstm-clear-image': clearImage
@@ -39,8 +54,23 @@ evtMgr.clear(function() {
 	}
 });
 
+function setupBgImageSize(bgImg) {
+	bgImg.style.width = clientInfo.w + 'px';
+	bgImg.style.height = clientInfo.h + 'px';
+
+	clientInfo.r = (200 / clientInfo.w);
+	
+	let wrapper = $$('cstm-bg-image-wrapper');
+	wrapper.style.width = '200px';
+	wrapper.style.height = Math.floor(clientInfo.h * 200 / clientInfo.w) + 'px';
+
+	bgImg.style.transform = 'scale(' + clientInfo.r + ')';
+}
+
 function initBgImage(bg) {
 	let bgImg = $$('cstm-bg-image');
+
+	setupBgImageSize(bgImg);
 	if (bg['background-image'] && bg['background-image'] != 'none') {
 		bgImg.setAttribute('src', bg['background-image']);
 		bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
@@ -174,8 +204,8 @@ function onMouseMove(evt) {
 	let y = evt.clientY;
 	x = x - wrapper.boxObject.x;
 	y = y - wrapper.boxObject.y;
-	let top = y * (1280 - 256) / 256;
-	let left = x * (1280 - 256) / 256;
+	let top = y * (clientInfo.w - 200) / 200;
+	let left = x * (clientInfo.w - 200) / 200;
 	bgImg.style.top = '-' + top + 'px';
 	bgImg.style.left = '-' + left + 'px';
 }

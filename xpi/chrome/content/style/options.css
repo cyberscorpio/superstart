@@ -60,19 +60,26 @@ label.cstm-ctrl {
 #cstm-bg-image-wrapper {
 	position: relative;
 	margin: 10px;
-	width: 256px;
-	height: 144px;
 	overflow: hidden;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	/*
+	width: 256px;
+	height: 144px;
+	*/
 }
 
 #cstm-bg-image {
 	position: absolute;
-	transform: scale(0.2, 0.2);
 	transform-origin: left top;
-	/*transition: transform 250ms;*/
+	left: 0;
+	top: 0;
+
+	transform: scale(0.16);
+	/*
+	transform: scale(0.2, 0.2);
 	width: 1280px;
 	height: 720px;
+	*/
 
 	background-color: transparent;
 }
@@ -90,7 +97,7 @@ label.cstm-ctrl {
 }
 #cstm-bg-x-pos,
 #cstm-bg-y-pos {
-	width: 202px;
+	min-width: 202px;
 }
 
 .bg-pos-value {

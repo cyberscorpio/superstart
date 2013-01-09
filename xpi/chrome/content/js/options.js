@@ -127,16 +127,15 @@ function cleanup() {
 function onCheckboxChanged(evt) {
 	let cb = evt.target;
 	let id = cb.id;
+	let enabled = cb.checked;
 	if (id && boolMap[id]) {
-		cfg.setConfig(boolMap[id], cb.checked);
+		cfg.setConfig(boolMap[id], enabled);
 	}
 
 	if (id == 'show-buttons') {
-		let enabled = cb.checked;
-		let items = $('.buttons-item');
-		for (let i = 0; i < items.length; ++ i) {
-			items[i].setAttribute('disabled', !enabled);
-		}
+		[].forEach.call($('.buttons-item'), function(i) {
+			i.setAttribute('disabled', !enabled);
+		});
 	}
 }
 
@@ -215,16 +214,22 @@ function initCustomize() {
 
 	['bg-color', 'text-color'].forEach(function(cls) {
 		cb = $$('use-' + cls);
+		(cls == 'bg-color') ? initBackgroundColor(cstm) : initTextColor(cstm);
 		cb.addEventListener('CheckboxStateChange', function(evt) {
-			let checked = evt.target.checked;
-			hideElements(!checked, cls);
+			let enabled = evt.target.checked;
+			hideElements(!enabled, cls);
+
+			if (cls == 'bg-color') {
+				$$('cstm-bg-image').style.backgroundColor = enabled ? $$('cstm-bg-color').value : '';
+			}
 		}, false);
 
 		let key = '+' + cls;
-		if (cstm[key] == null || !cstm[key]['enabled']) {
-			cb.checked = false;
+		if (cstm[key] && cstm[key]['enabled']) {
+			cb.checked = true;
+		} else {
+			hideElements(true, cls);
 		}
-		cls == 'bg-color' ? initBackgroundColor(cstm) : initTextColor(cstm);
 	});
 
 	let transparent = cstm['+transparent'] || false;
@@ -285,6 +290,17 @@ function initBackgroundColor(cstm) {
 	}
 	picker.onchange = function() {
 		$$('cstm-bg-color').value = this.color;
+		$$('cstm-bg-image').style.backgroundColor = this.color;
+	}
+	input.onblur = function() {
+		$$('cstm-bg-color-picker').color = this.value;
+		$$('cstm-bg-image').style.backgroundColor = this.value;
+	}
+	input.onkeypress = function(evt) {
+		if (evt.keyCode == 13) {
+			$$('cstm-bg-color-picker').color = this.value;
+			$$('cstm-bg-image').style.backgroundColor = this.value;
+		}
 	}
 }
 function initTextColor(cstm) {
@@ -297,14 +313,6 @@ function initTextColor(cstm) {
 		$$('cstm-text-shadow').checked = true;
 	}
 }
-
-function updateBgColor() {
-	let bgImg = $$('cstm-bg-image');
-	let color = $$('cstm-bg-color').value;
-	color = color || '';
-	bgImg.style.backgroundColor = color;
-}
-
 
 // themes
 function initThemes() {

@@ -105,7 +105,7 @@
 					<groupbox>
 						<caption label="&superstart.ui.background.image;" />
 						<hbox>
-							<hbox pack="center" width="256" height="144">
+							<hbox pack="center" width="200">
 								<vbox>
 									<box id="cstm-bg-image-wrapper">
 										<box id="cstm-bg-image" class="cstm-ctrl"></box>
@@ -159,14 +159,14 @@
 						<caption label="&superstart.ui.colors;" />
 						<vbox>
 							<hbox>
-								<checkbox id="use-bg-color" checked="true" label="&superstart.ui.background.color.enable;" class="cstm-ctrl" />
+								<checkbox id="use-bg-color" label="&superstart.ui.background.color.enable;" class="cstm-ctrl" />
 								<hbox flex="1" pack="end" class="bg-color">
 									<textbox id="cstm-bg-color" class="cstm-ctrl" placeholder="#rrggbb/rgb()/rgba()/HTML color name" />
 									<colorpicker id="cstm-bg-color-picker" type="button" tooltiptext="&superstart.ui.background.color.select;" class="cstm-ctrl" />
 								</hbox>
 							</hbox>
 							<hbox>
-								<checkbox id="use-text-color" checked="true" class="cstm-ctrl" label="&superstart.ui.text.color.enable;" />
+								<checkbox id="use-text-color" class="cstm-ctrl" label="&superstart.ui.text.color.enable;" />
 								<hbox flex="1" pack="end">
 									<radiogroup class="cstm-ctrl" id="cstm-text-color">
 										<hbox>

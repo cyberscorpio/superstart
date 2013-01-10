@@ -108,7 +108,8 @@
 							<hbox pack="center" width="200">
 								<vbox>
 									<box id="cstm-bg-image-wrapper">
-										<box id="cstm-bg-image" class="cstm-ctrl"></box>
+										<!--<box id="cstm-bg-image" class="cstm-ctrl"></box>-->
+										<browser src="chrome://superstart/content/index.html" class="cstm-ctrl" id="cstm-bg-image"></browser>
 									</box>
 								</vbox>
 							</hbox>

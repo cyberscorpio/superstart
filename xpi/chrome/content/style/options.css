@@ -62,25 +62,11 @@ label.cstm-ctrl {
 	margin: 10px;
 	overflow: hidden;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	/*
-	width: 256px;
-	height: 144px;
-	*/
 }
 
 #cstm-bg-image {
 	position: absolute;
 	transform-origin: left top;
-	left: 0;
-	top: 0;
-
-	transform: scale(0.16);
-	/*
-	transform: scale(0.2, 0.2);
-	width: 1280px;
-	height: 720px;
-	*/
-
 	background-color: transparent;
 }
 #cstm-bg-image[disabled=true] {
@@ -88,7 +74,7 @@ label.cstm-ctrl {
 }
 
 #cstm-bg-image[src]:not([disabled=true]):hover {
-	transform: none;
+	transform: none !important;
 	cursor: move;
 }
 

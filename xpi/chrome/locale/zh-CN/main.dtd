@@ -77,6 +77,7 @@
 <!ENTITY superstart.ui.background.size.default "默认">
 <!ENTITY superstart.ui.background.size.cover "缩放到合适大小 (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "缩放到合适大小 (CSS:contain)">
+<!ENTITY superstart.ui.background.position "位置">
 <!ENTITY superstart.ui.colors "颜色">
 <!ENTITY superstart.ui.background.color.enable "定制背景颜色">
 <!ENTITY superstart.ui.background.color.select "选择颜色">

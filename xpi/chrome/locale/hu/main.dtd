@@ -66,6 +66,7 @@
 <!ENTITY superstart.ui.background.size.default "Alapértelmezett">
 <!ENTITY superstart.ui.background.size.cover "Igazítás (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Igazítás (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.colors "Színek">
 <!ENTITY superstart.ui.background.color.enable "Egyszínű háttér engedélyezése">
 <!ENTITY superstart.ui.background.color.select "Szín kiválasztása">

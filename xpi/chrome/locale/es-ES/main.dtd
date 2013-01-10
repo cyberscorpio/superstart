@@ -66,6 +66,7 @@
 <!ENTITY superstart.ui.background.size.default "Por defecto">
 <!ENTITY superstart.ui.background.size.cover "Escalar para ajustar (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Escalar para ajustar (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.colors "Colores">
 <!ENTITY superstart.ui.background.color.enable "Habilitar color de fondo">
 <!ENTITY superstart.ui.background.color.select "Seleccionar color">

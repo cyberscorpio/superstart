@@ -66,6 +66,7 @@
 <!ENTITY superstart.ui.background.size.default "Výchozí">
 <!ENTITY superstart.ui.background.size.cover "Scale to fit (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Scale to fit (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.colors "Barvy">
 <!ENTITY superstart.ui.background.color.enable "Povolit barvu na pozadí">
 <!ENTITY superstart.ui.background.color.select "Vzbrat barvu">

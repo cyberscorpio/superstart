@@ -66,7 +66,7 @@
 <!ENTITY superstart.ui.background.size.default "Domyślny">
 <!ENTITY superstart.ui.background.size.cover "Skaluj, aby dopasować (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Skaluj, aby dopasować (CSS:contain)">
-<!ENTITY superstart.ui.background.position "Position">
+<!ENTITY superstart.ui.background.position "Pozycja">
 <!ENTITY superstart.ui.colors "Kolory">
 <!ENTITY superstart.ui.background.color.enable "Włącz kolor tła">
 <!ENTITY superstart.ui.background.color.select "Wybierz kolor">

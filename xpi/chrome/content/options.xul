@@ -135,13 +135,8 @@
 										</menupopup>
 									</button>
 
-<<<<<<< HEAD
 									<button type="menu" class="cstm-ctrl" id="cstm-bg-position" label="&superstart.ui.background.position;" popup="cstm-bg-position-menu">
 										<panel id="cstm-bg-position-menu" class="cstm-ctrl">
-=======
-									<button type="menu" class="cstm-ctrl" label="&superstart.ui.background.position;" popup="cstm-bg-position">
-										<panel id="cstm-bg-position" class="cstm-ctrl">
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 											<vbox>
 												<hbox>
 													<label value="x: " />

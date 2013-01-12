@@ -29,11 +29,7 @@ function selectImage() {
 		let bgImg = $$('cstm-bg-image');
 		bgImg.setAttribute('src', getUrlFromFile(fp.file));
 		bgImg.style.backgroundImage = 'url(' + getUrlFromFile(fp.file) + ')';
-<<<<<<< HEAD
-
 		checkImageStatus();
-=======
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 	}
 }
 
@@ -41,11 +37,7 @@ function clearImage() {
 	let bgImg = $$('cstm-bg-image');
 	bgImg.removeAttribute('src');
 	bgImg.style.backgroundImage = '';
-<<<<<<< HEAD
-
 	checkImageStatus();
-=======
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 }
 
 evtMgr.ready(function() {
@@ -64,7 +56,6 @@ evtMgr.clear(function() {
 	}
 });
 
-<<<<<<< HEAD
 function checkImageStatus() { // enable / disable some controls if necessary
 	var ids = ['cstm-clear-image', 'cstm-bg-repeat', 'cstm-bg-size', 'cstm-bg-position'];
 	var disable = false;
@@ -77,8 +68,6 @@ function checkImageStatus() { // enable / disable some controls if necessary
 	});
 };
 
-=======
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 function setupBgImageSize(bgImg) {
 	bgImg.style.width = clientInfo.w + 'px';
 	bgImg.style.height = clientInfo.h + 'px';
@@ -98,16 +87,12 @@ function initBgImage(bg) {
 	setupBgImageSize(bgImg);
 	if (bg['background-image'] && bg['background-image'] != 'none') {
 		bgImg.setAttribute('src', bg['background-image']);
-<<<<<<< HEAD
 		// if the image is not available, for example, deleted, then the dialog won't show up.
 		// Seems like the dialog will show up only after the 'load' event.
 		// So we must delay the operation and set it after the dialog shows up.
 		window.setTimeout(function() {
 			bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
 		}, 0);
-=======
-		bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 	}
 	bgImg.addEventListener('mousemove', onMouseMove, false);
 	bgImg.addEventListener('mouseout', onMouseOut, false);
@@ -120,11 +105,8 @@ function initBgImage(bg) {
 	initBackgroundPopupMenu(bg['background-repeat'], 'repeat', 'cstm-bg-repeat-menu', updateBgRpt, onBgRptCmd);
 	initBackgroundPopupMenu(bg['background-size'], 'auto', 'cstm-bg-size-menu', updateBgSize, onBgSzCmd);
 	initBackgroundPosition(bg['background-position']);
-<<<<<<< HEAD
 
 	checkImageStatus();
-=======
->>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 }
 
 function saveBgImage(bg) {

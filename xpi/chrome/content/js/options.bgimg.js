@@ -105,7 +105,6 @@ function initBgImage(bg) {
 	initBackgroundPopupMenu(bg['background-repeat'], 'repeat', 'cstm-bg-repeat-menu', updateBgRpt, onBgRptCmd);
 	initBackgroundPopupMenu(bg['background-size'], 'auto', 'cstm-bg-size-menu', updateBgSize, onBgSzCmd);
 	initBackgroundPosition(bg['background-position']);
-
 	checkImageStatus();
 }
 

@@ -201,7 +201,10 @@ function initCustomize() {
 				ctrl.setAttribute('disabled', true);
 			}
 		}
+<<<<<<< HEAD
 		checkImageStatus();
+=======
+>>>>>>> 31bf700bfcce533bc2e889cb690888709d8a9e3a
 	}, false);
 	if (!cfg.getConfig('use-customize')) {
 		cb.checked = false;

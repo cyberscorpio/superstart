@@ -201,6 +201,7 @@ function initCustomize() {
 				ctrl.setAttribute('disabled', true);
 			}
 		}
+		checkImageStatus();
 	}, false);
 	if (!cfg.getConfig('use-customize')) {
 		cb.checked = false;

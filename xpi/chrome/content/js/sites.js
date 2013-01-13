@@ -375,8 +375,7 @@ function onFolderClick(idx, f) {
 
 
 function onFolderOpened(evt) {
-	if (this == evt.target) {
-		this.removeEventListener('transitionend', onFolderOpened, false);
+	if (!evt || this == evt.target) {
 		$.removeClass(this, 'resizing');
 		var ses = $(this, '.site');
 		for (var i = 0; i < ses.length; ++ i) {
@@ -409,7 +408,7 @@ function openFolder(idx, f) {
 		$.addClass(folderArea, 'newtab');
 	}
 
-	folderArea.addEventListener('transitionend', onFolderOpened, false);
+	evtMgr.once(folderArea, 'transitionend', onFolderOpened, 500);
 
 	var df = document.createDocumentFragment();
 	for (var i = 0, l = f.sites.length; i < l; ++ i) {
@@ -455,10 +454,9 @@ function openFolder(idx, f) {
 }
 
 function onFolderClosed(evt) {
-	if (this != evt.target) {
+	if (evt && this != evt.target) {
 		return;
 	}
-	this.removeEventListener('transitionend', onFolderClosed, false);
 	this.parentNode.removeChild(this); // FIXME: if you click a folder very quickly, 'this.parentNode' could be null ???
 	$.removeClass(this, 'resizing');
 
@@ -481,7 +479,7 @@ function closeFolder() {
 
 	folderArea.style.height = '0px';
 	$.addClass(folderArea, 'resizing');
-	folderArea.addEventListener('transitionend', onFolderClosed, false);
+	evtMgr.once(folderArea, 'transitionend', onFolderClosed, 500);
 
 	var idx = folderArea.idx;
 	var se = at(-1, idx);

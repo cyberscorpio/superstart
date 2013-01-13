@@ -11,27 +11,11 @@ var dEvts = {
 	'contextmenu': onContextMenu
 };
 evtMgr.register([sEvts], [wEvts], [dEvts]);
-
-(function() {
-	function installTransition() {
+evtMgr.once(window, 'load', function() {
 		window.setTimeout(function() {
 			$.insertStyle('style/transition.css');
 		}, 0);
-	}
-	window.addEventListener('load', function() {
-		window.removeEventListener('load', installTransition, false);
-		if (timeout) {
-			window.clearTimeout(timeout);
-			timeout = undefined;
-		}
-		installTransition();
-	}, false);
- 	var timeout = window.setTimeout(function() {
-		window.removeEventListener('load', installTransition, false);
-		timeout = undefined;
-		installTransition();
 	}, 500);
-}());
 
 // event handler
 function onScroll() {

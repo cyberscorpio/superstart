@@ -79,9 +79,29 @@ var evtMgr = (function() {
 	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
 	window.addEventListener('unload', onUnload, false);
 
+	function once(elem, evtName, fn, timeout) {
+		function handler(evt) {
+			fn.call(elem, evt);
+			elem.removeEventListener(evtName, handler, false);
+			if (timeoutid) {
+				window.clearTimeout(timeoutid);
+				timeoutid = undefined;
+			}
+		}
+
+		var timeoutid = window.setTimeout(function() {
+			fn.call(elem);
+			elem.removeEventListener(evtName, handler, false);
+			timeoutid = undefined;
+		}, timeout);
+
+		elem.addEventListener(evtName, handler, false);
+	}
+
 	return {
 		'ready': ready,
 		'register': register,
+		'once': once,
 		'clear': clear
 	};
 }());

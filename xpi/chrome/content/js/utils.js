@@ -135,18 +135,16 @@ var $$$ = function(e, s) {
 	$.flip = function(elem, fn) {
 		function on90deg(evt) {
 			function on0deg(evt) {
-				if (this != evt.target) {
+				if (evt && this != evt.target) {
 					return;
 				}
 				this.style.transitionProperty = this.style.transitionDuration = '';
 				this.removeAttribute('in-flipping');
-				this.removeEventListener('transitionend', on0deg, true);
 			}
 
-			if (this != evt.target) {
+			if (evt && this != evt.target) {
 				return;
 			}
-			this.removeEventListener('transitionend', on90deg, true);
 		
 			this.style.transitionProperty = 'none';
 			this.style.transform = 'perspective(' + perspective + 'px) rotateY(-90deg)';
@@ -158,7 +156,7 @@ var $$$ = function(e, s) {
 				that.style.transitionProperty = 'transform';
 				that.style.transitionDuration = '100ms';
 				that.style.transform = '';
-				that.addEventListener('transitionend', on0deg, true);
+				evtMgr.once(that, 'transitionend', on0deg, 150);
 			}, 0);
 		}
 
@@ -170,7 +168,7 @@ var $$$ = function(e, s) {
 		elem.style.transitionProperty = 'transform';
 		elem.style.transitionDuration = '150ms';
 		elem.style.transform = 'perspective(' + perspective + 'px) rotateY(90deg)';
-		elem.addEventListener('transitionend', on90deg, true);
+		evtMgr.once(elem, 'transitionend', on90deg, 200);
 	}
 
 	$.getMainWindow = function() {

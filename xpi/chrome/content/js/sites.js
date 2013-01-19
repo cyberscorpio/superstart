@@ -505,12 +505,17 @@ function onLinkClick(evt) {
 			onFolderClick(idxes[1], s);
 		}
 	} else {
-		var inNewTab = cfg.getConfig('open-in-newtab');
-		if (evt.ctrlKey || evt.metaKey) {
-			inNewTab = !inNewTab;
-		}
 		if (s.url != null && s.url != 'about:placeholder') {
-			inNewTab ? $.getMainWindow().getBrowser().addTab(s.url) : document.location.href = s.url;
+			var b = $.getMainWindow().getBrowser();
+			if (evt.shiftKey) {
+				b.selectedTab = b.addTab(s.url);
+			} else {
+				var inNewTab = cfg.getConfig('open-in-newtab');
+				if (evt.ctrlKey || evt.metaKey) {
+					inNewTab = !inNewTab;
+				}
+				inNewTab ? b.addTab(s.url) : document.location.href = s.url;
+			}
 		}
 	}
 	evt.preventDefault();
@@ -518,25 +523,34 @@ function onLinkClick(evt) {
 	return false;
 }
 
-function openInThisTab() {
-	var idxes = indexFromNode(this);
+function getLinkFromElem(elem) {
+	var idxes = indexFromNode(elem);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
 		var s = sm.getSite(g, i);
-		if (s.url != null) {
-			document.location.href = s.url;
+		if (s.url != null && s.url != 'about:placeholder') {
+			return s.url;
 		}
+	}
+	return null;
+}
+
+function openInThisTab(evt) {
+	var link = getLinkFromElem(this);
+	if (link) {
+		document.location.href = link;
 	}
 	return false;
 }
 
-function openInNewTab() {
-	var idxes = indexFromNode(this);
-	if (idxes != null) {
-		var g = idxes[0], i = idxes[1];
-		var s = sm.getSite(g, i);
-		if (s.url != null) {
-			$.getMainWindow().getBrowser().addTab(s.url);
+function openInNewTab(evt) {
+	var link = getLinkFromElem(this);
+	if (link) {
+		if (evt.shiftKey) {
+			var b = $.getMainWindow().getBrowser();
+			b.selectedTab = b.addTab(link);
+		} else {
+			$.getMainWindow().getBrowser().addTab(link);
 		}
 	}
 	return false;

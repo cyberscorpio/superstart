@@ -73,7 +73,7 @@ label.cstm-ctrl {
 	filter: url("filters.svg#gray-effect");
 }
 
-#cstm-bg-image[src]:not([disabled=true]):hover {
+#cstm-bg-image[bgsrc]:not([disabled=true]):hover {
 	transform: none !important;
 	cursor: move;
 }

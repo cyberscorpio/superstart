@@ -105,8 +105,26 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	// user styles
 	this.setUsData = function(json) {
 		if (this.fileGetContents(usdFile) != json) {
+			let data = this.jparse(json);
+			// do we need to remove the background image?
+			try {
+				if (usData && usData['#bg'] && usData['#bg']['background-image']) {
+					let bgi = usData['#bg']['background-image'];
+					let newbgi = (data['#bg'] && data['#bg']['background-image']) ? data['#bg']['background-image'] : '';;
+					if (newbgi != bgi) {
+						if (bgi.indexOf('://') === -1) {
+							let file = bgDir.clone();
+							file.append(bgi);
+							file.remove(false);
+						}
+					}
+				}
+			} catch (e) {
+				logger.logStringMessage('remove exists background image failed');// it could fail if the file is removed...
+			}
+
 			this.filePutContents(usdFile, json);
-			usData = this.jparse(json);
+			usData = checkUsData(data);
 			updateCSS();
 
 			this.fireEvent('user-style-changed', this.getUsUrl());
@@ -119,6 +137,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	this.getUsUrl = function() {
 		return this.regulateUrl(uscFile.path);
+	}
+
+	this.getBackgroundImageUrl = function(fileOrUrl) {
+		if (fileOrUrl.indexOf('://') === -1) {
+			let file = bgDir.clone();
+			file.append(fileOrUrl);
+			return that.getUrlFromFile(file).spec;
+		} else {
+			return fileOrUrl;
+		}
 	}
 
 	// 1. themes
@@ -139,6 +167,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	// 2. user style
 	let usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.json']);
 	let uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.css']);
+	let bgDir = FileUtils.getFile('ProfD', ['superstart', 'background-images']);
 	let usData = {};
 	if (usdFile.exists()) {
 		loadUsData();
@@ -242,8 +271,60 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return false;
 	}
 
+	function checkUsData(usData) {
+		if (usData['version'] && usData['version'] == '1.0') {
+			return usData;
+		}
+
+		let changed = false;
+		/*
+		if (usData['version'] === undefined) {
+			usData['version'] = '1.0';
+			changed = true;
+		}
+		*/
+
+		if (usData['body'] !== undefined) {
+			if (usData['#bg'] === undefined) {
+				usData['#bg'] = usData['body'];
+			}
+			delete usData['body'];
+			changed = true;
+		}
+
+		if (usData['#bg'] && usData['#bg']['background-image']) {
+			let bgi = usData['#bg']['background-image'];
+			if (bgi && bgi.indexOf('file:///') === 0) {
+				if (bgi.length < 13) { // shortest: 'file:///1.jpg'
+					delete usData['#bg']['background-image'];
+				} else {
+					if (bgi.charAt(9) === ':') {
+						bgi = bgi.replace('file:///', '');
+						bgi = bgi.replace('/', '\\');
+					} else {
+						bgi = bgi.replace('file://', '');
+					}
+					bgi = FileUtils.File(bgi);
+					if (!bgi.exists()) {
+						delete usData['#bg']['background-image'];
+					} else {
+						bgi.copyTo(bgDir, bgi.leafName);
+						usData['#bg']['background-image'] = bgi.leafName;
+					}
+				}
+				changed = true;
+			}
+		}
+
+		if (changed) {
+			that.filePutContents(usdFile, that.stringify(usData));
+		}
+
+		return usData;
+	}
+
 	function loadUsData() {
-		usData = that.jparse(that.fileGetContents(usdFile));
+		usData = checkUsData(that.jparse(that.fileGetContents(usdFile)));
 	}
 
 	function updateCSS() {
@@ -283,10 +364,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				let v = data[k];
 				if (k == 'background-image') {
 					if (v != 'none') {
-						css += '\t' + k + ': ' + 'url("' + v + '");\n';
+						css += '\t' + k + ': ' + 'url("' + that.getBackgroundImageUrl(v) + '");\n';
 					}
 				} else {
-					css += '\t' + k + ': ' + v + ';\n';
+					if (k !== 'version') {
+						css += '\t' + k + ': ' + v + ';\n';
+					}
 				}
 			}
 			css += '}\n';

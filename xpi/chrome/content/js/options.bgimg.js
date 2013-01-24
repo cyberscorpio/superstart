@@ -86,12 +86,13 @@ function initBgImage(bg) {
 
 	setupBgImageSize(bgImg);
 	if (bg['background-image'] && bg['background-image'] != 'none') {
-		bgImg.setAttribute('bgsrc', bg['background-image']);
+		let bgsrc = bg['background-image'];
+		bgImg.setAttribute('bgsrc', bgsrc);
 		// if the image is not available, for example, deleted, then the dialog won't show up.
 		// Seems like the dialog will show up only after the 'load' event.
 		// So we must delay the operation and set it after the dialog shows up.
 		window.setTimeout(function() {
-			bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
+			bgImg.style.backgroundImage = 'url(' + tm.getBackgroundImageUrl(bgsrc) + ')';
 		}, 0);
 	}
 	bgImg.addEventListener('mousemove', onMouseMove, false);

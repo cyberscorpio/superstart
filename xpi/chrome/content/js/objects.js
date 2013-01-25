@@ -79,13 +79,17 @@ var evtMgr = (function() {
 	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);
 	window.addEventListener('unload', onUnload, false);
 
+	/**
+	 * fn return **true** to skip the current event
+	 */
 	function once(elem, evtName, fn, timeout) {
 		function handler(evt) {
-			fn.call(elem, evt);
-			elem.removeEventListener(evtName, handler, false);
-			if (timeoutid) {
-				window.clearTimeout(timeoutid);
-				timeoutid = undefined;
+			if (fn.call(elem, evt) !== true) {
+				elem.removeEventListener(evtName, handler, false);
+				if (timeoutid) {
+					window.clearTimeout(timeoutid);
+					timeoutid = undefined;
+				}
 			}
 		}
 

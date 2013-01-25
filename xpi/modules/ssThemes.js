@@ -284,40 +284,45 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 		*/
 
-		if (usData['body'] !== undefined) {
-			if (usData['#bg'] === undefined) {
-				usData['#bg'] = usData['body'];
-			}
-			delete usData['body'];
-			changed = true;
-		}
-
-		if (usData['#bg'] && usData['#bg']['background-image']) {
-			let bgi = usData['#bg']['background-image'];
-			if (bgi && bgi.indexOf('file:///') === 0) {
-				if (bgi.length < 13) { // shortest: 'file:///1.jpg'
-					delete usData['#bg']['background-image'];
-				} else {
-					if (bgi.charAt(9) === ':') {
-						bgi = bgi.replace('file:///', '');
-						bgi = bgi.replace('/', '\\');
-					} else {
-						bgi = bgi.replace('file://', '');
-					}
-					bgi = FileUtils.File(bgi);
-					if (!bgi.exists()) {
-						delete usData['#bg']['background-image'];
-					} else {
-						bgi.copyTo(bgDir, bgi.leafName);
-						usData['#bg']['background-image'] = bgi.leafName;
-					}
+		try {
+			if (usData['body'] !== undefined) {
+				if (usData['#bg'] === undefined) {
+					usData['#bg'] = usData['body'];
 				}
+				delete usData['body'];
 				changed = true;
 			}
-		}
 
-		if (changed) {
-			that.filePutContents(usdFile, that.stringify(usData));
+			if (usData['#bg'] && usData['#bg']['background-image']) {
+				let bgi = usData['#bg']['background-image'];
+				if (bgi && bgi.indexOf('file:///') === 0) {
+					if (bgi.length < 13) { // shortest: 'file:///1.jpg'
+						delete usData['#bg']['background-image'];
+					} else {
+						if (bgi.charAt(9) === ':') {
+							bgi = bgi.replace('file:///', '');
+							bgi = bgi.replace(/\//g, '\\');
+						} else {
+							bgi = bgi.replace('file://', '');
+						}
+						logger.logStringMessage(bgi);
+						bgi = FileUtils.File(bgi);
+						if (!bgi.exists()) {
+							delete usData['#bg']['background-image'];
+						} else {
+							bgi.copyTo(bgDir, bgi.leafName);
+							usData['#bg']['background-image'] = bgi.leafName;
+						}
+					}
+					changed = true;
+				}
+			}
+
+			if (changed) {
+				that.filePutContents(usdFile, that.stringify(usData));
+			}
+		} catch (e) {
+			logger.logStringMessage(e);
 		}
 
 		return usData;

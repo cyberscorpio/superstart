@@ -375,12 +375,14 @@ function onFolderClick(idx, f) {
 
 
 function onFolderOpened(evt) {
-	if (!evt || this == evt.target) {
-		$.removeClass(this, 'resizing');
-		var ses = $(this, '.site');
-		for (var i = 0; i < ses.length; ++ i) {
-			$.removeClass(ses[i], 'notransition');
-		}
+	if (evt && this != evt.target) {
+		return true;
+	}
+
+	$.removeClass(this, 'resizing');
+	var ses = $(this, '.site');
+	for (var i = 0; i < ses.length; ++ i) {
+		$.removeClass(ses[i], 'notransition');
 	}
 }
 
@@ -455,7 +457,7 @@ function openFolder(idx, f) {
 
 function onFolderClosed(evt) {
 	if (evt && this != evt.target) {
-		return;
+		return true;
 	}
 	this.parentNode.removeChild(this); // FIXME: if you click a folder very quickly, 'this.parentNode' could be null ???
 	$.removeClass(this, 'resizing');

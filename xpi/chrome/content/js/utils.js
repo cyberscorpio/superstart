@@ -136,14 +136,14 @@ var $$$ = function(e, s) {
 		function on90deg(evt) {
 			function on0deg(evt) {
 				if (evt && this != evt.target) {
-					return;
+					return true;
 				}
 				this.style.transitionProperty = this.style.transitionDuration = '';
 				this.removeAttribute('in-flipping');
 			}
 
 			if (evt && this != evt.target) {
-				return;
+				return true;
 			}
 		
 			this.style.transitionProperty = 'none';

@@ -27,7 +27,7 @@ function selectImage() {
 	let res = fp.show();
 	if (res == nsIFilePicker.returnOK) {
 		let bgImg = $$('cstm-bg-image');
-		bgImg.setAttribute('src', getUrlFromFile(fp.file));
+		bgImg.setAttribute('bgsrc', getUrlFromFile(fp.file));
 		bgImg.style.backgroundImage = 'url(' + getUrlFromFile(fp.file) + ')';
 		checkImageStatus();
 	}
@@ -35,7 +35,7 @@ function selectImage() {
 
 function clearImage() {
 	let bgImg = $$('cstm-bg-image');
-	bgImg.removeAttribute('src');
+	bgImg.removeAttribute('bgsrc');
 	bgImg.style.backgroundImage = '';
 	checkImageStatus();
 }
@@ -59,7 +59,7 @@ evtMgr.clear(function() {
 function checkImageStatus() { // enable / disable some controls if necessary
 	var ids = ['cstm-clear-image', 'cstm-bg-repeat', 'cstm-bg-size', 'cstm-bg-position'];
 	var disable = false;
-	if ($$('cstm-bg-image').getAttribute('src') == '' ||  $$('cstm-select-image').getAttribute('disabled') == 'true') {
+	if ($$('cstm-bg-image').getAttribute('bgsrc') == '' ||  $$('cstm-select-image').getAttribute('disabled') == 'true') {
 		disable = true;
 	}
 
@@ -86,12 +86,13 @@ function initBgImage(bg) {
 
 	setupBgImageSize(bgImg);
 	if (bg['background-image'] && bg['background-image'] != 'none') {
-		bgImg.setAttribute('src', bg['background-image']);
+		let bgsrc = bg['background-image'];
+		bgImg.setAttribute('bgsrc', bgsrc);
 		// if the image is not available, for example, deleted, then the dialog won't show up.
 		// Seems like the dialog will show up only after the 'load' event.
 		// So we must delay the operation and set it after the dialog shows up.
 		window.setTimeout(function() {
-			bgImg.style.backgroundImage = 'url(' + bg['background-image'] + ')';
+			bgImg.style.backgroundImage = 'url(' + tm.getBackgroundImageUrl(bgsrc) + ')';
 		}, 0);
 	}
 	bgImg.addEventListener('mousemove', onMouseMove, false);
@@ -109,7 +110,7 @@ function initBgImage(bg) {
 }
 
 function saveBgImage(bg) {
-	let bgi = $$('cstm-bg-image').getAttribute('src');
+	let bgi = $$('cstm-bg-image').getAttribute('bgsrc');
 	if (bgi != '') {
 		bg['background-image'] = bgi;
 

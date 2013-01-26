@@ -375,13 +375,14 @@ function onFolderClick(idx, f) {
 
 
 function onFolderOpened(evt) {
-	if (this == evt.target) {
-		this.removeEventListener('transitionend', onFolderOpened, false);
-		$.removeClass(this, 'resizing');
-		var ses = $(this, '.site');
-		for (var i = 0; i < ses.length; ++ i) {
-			$.removeClass(ses[i], 'notransition');
-		}
+	if (evt && this != evt.target) {
+		return true;
+	}
+
+	$.removeClass(this, 'resizing');
+	var ses = $(this, '.site');
+	for (var i = 0; i < ses.length; ++ i) {
+		$.removeClass(ses[i], 'notransition');
 	}
 }
 
@@ -409,7 +410,7 @@ function openFolder(idx, f) {
 		$.addClass(folderArea, 'newtab');
 	}
 
-	folderArea.addEventListener('transitionend', onFolderOpened, false);
+	evtMgr.once(folderArea, 'transitionend', onFolderOpened, 500);
 
 	var df = document.createDocumentFragment();
 	for (var i = 0, l = f.sites.length; i < l; ++ i) {
@@ -455,10 +456,9 @@ function openFolder(idx, f) {
 }
 
 function onFolderClosed(evt) {
-	if (this != evt.target) {
-		return;
+	if (evt && this != evt.target) {
+		return true;
 	}
-	this.removeEventListener('transitionend', onFolderClosed, false);
 	this.parentNode.removeChild(this); // FIXME: if you click a folder very quickly, 'this.parentNode' could be null ???
 	$.removeClass(this, 'resizing');
 
@@ -481,7 +481,7 @@ function closeFolder() {
 
 	folderArea.style.height = '0px';
 	$.addClass(folderArea, 'resizing');
-	folderArea.addEventListener('transitionend', onFolderClosed, false);
+	evtMgr.once(folderArea, 'transitionend', onFolderClosed, 500);
 
 	var idx = folderArea.idx;
 	var se = at(-1, idx);
@@ -507,12 +507,17 @@ function onLinkClick(evt) {
 			onFolderClick(idxes[1], s);
 		}
 	} else {
-		var inNewTab = cfg.getConfig('open-in-newtab');
-		if (evt.ctrlKey || evt.metaKey) {
-			inNewTab = !inNewTab;
-		}
 		if (s.url != null && s.url != 'about:placeholder') {
-			inNewTab ? $.getMainWindow().getBrowser().addTab(s.url) : document.location.href = s.url;
+			var b = $.getMainWindow().getBrowser();
+			if (evt.shiftKey) {
+				b.selectedTab = b.addTab(s.url);
+			} else {
+				var inNewTab = cfg.getConfig('open-in-newtab');
+				if (evt.ctrlKey || evt.metaKey) {
+					inNewTab = !inNewTab;
+				}
+				inNewTab ? b.addTab(s.url) : document.location.href = s.url;
+			}
 		}
 	}
 	evt.preventDefault();
@@ -520,25 +525,34 @@ function onLinkClick(evt) {
 	return false;
 }
 
-function openInThisTab() {
-	var idxes = indexFromNode(this);
+function getLinkFromElem(elem) {
+	var idxes = indexFromNode(elem);
 	if (idxes != null) {
 		var g = idxes[0], i = idxes[1];
 		var s = sm.getSite(g, i);
-		if (s.url != null) {
-			document.location.href = s.url;
+		if (s.url != null && s.url != 'about:placeholder') {
+			return s.url;
 		}
+	}
+	return null;
+}
+
+function openInThisTab(evt) {
+	var link = getLinkFromElem(this);
+	if (link) {
+		document.location.href = link;
 	}
 	return false;
 }
 
-function openInNewTab() {
-	var idxes = indexFromNode(this);
-	if (idxes != null) {
-		var g = idxes[0], i = idxes[1];
-		var s = sm.getSite(g, i);
-		if (s.url != null) {
-			$.getMainWindow().getBrowser().addTab(s.url);
+function openInNewTab(evt) {
+	var link = getLinkFromElem(this);
+	if (link) {
+		if (evt.shiftKey) {
+			var b = $.getMainWindow().getBrowser();
+			b.selectedTab = b.addTab(link);
+		} else {
+			$.getMainWindow().getBrowser().addTab(link);
 		}
 	}
 	return false;

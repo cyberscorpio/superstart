@@ -20,4 +20,5 @@ interface ssIThemes : nsISupports
 	void setUsData(in AString data);
 	AString getUsData();
 	AString getUsUrl();
+	AString getBackgroundImageUrl(in AString fileOrUrl);
 };

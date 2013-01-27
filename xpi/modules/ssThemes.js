@@ -305,7 +305,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						} else {
 							bgi = bgi.replace('file://', '');
 						}
-						logger.logStringMessage(bgi);
+						bgi = decodeURI(bgi);
 						bgi = FileUtils.File(bgi);
 						if (!bgi.exists()) {
 							delete usData['#bg']['background-image'];

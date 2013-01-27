@@ -13,6 +13,7 @@ interfaces components/ssIConfig.xpt
 interfaces components/ssISiteManager.xpt
 interfaces components/ssITodoList.xpt
 interfaces components/ssIThemes.xpt
+interfaces components/ssIExIm.xpt
 
 component {61af2fde-0514-46b6-ae57-149dd057d75f} components/superstart.js
 contract @enjoyfreeware.org/superstart;1 {61af2fde-0514-46b6-ae57-149dd057d75f}

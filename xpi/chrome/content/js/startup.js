@@ -26,6 +26,9 @@ if ("undefined" == typeof(SuperStart)) {
 		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
 		let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 		let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
+		let ei = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
+
+		ei.test();
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');

@@ -167,7 +167,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	// 2. user style
 	let usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.json']);
 	let uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.css']);
-	let bgDir = FileUtils.getFile('ProfD', ['superstart', 'background-images']);
+	let bgDir = FileUtils.getDir('ProfD', ['superstart', 'background-images']);
 	let usData = {};
 	if (usdFile.exists()) {
 		loadUsData();

@@ -29,6 +29,7 @@ if ("undefined" == typeof(SuperStart)) {
 		let ei = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
 
 		ei.test();
+		logger.logStringMessage(ei.isDropboxInstalled() ? 'Dropbox is installed ....' : 'Dropbox is not installed...');
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');

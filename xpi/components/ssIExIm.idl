@@ -5,4 +5,5 @@
 interface ssIExIm : nsISupports
 {
 	void test();
+	bool isDropboxInstalled();
 };

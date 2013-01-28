@@ -9,8 +9,14 @@ const {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
-var that = this;
-var logger = this.logger;
+let that = this;
+let logger = this.logger;
+
+function getDropboxDir() {
+	let xr = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime);
+	return FileUtils.getDir('Home', (xr.OS == 'WINNT' ? ['My Documents', 'Dropbox'] : ['Dropbox']));
+}
+
 
 function addDirToZip(path, dir, zip) {
 	zip.addEntryDirectory(path, dir.lastModifiedTime, false);
@@ -46,6 +52,11 @@ this.test = function() {
 		logger.logStringMessage(e);
 	}
 	*/
+}
+
+this.isDropboxInstalled = function() {
+	let dir = getDropboxDir();
+	return dir.exists();
 }
 
 }

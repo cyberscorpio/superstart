@@ -12,14 +12,27 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 let that = this;
 let logger = this.logger;
 
-function getDropboxDir() {
-	let xr = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime);
-	return FileUtils.getDir('Home', (xr.OS == 'WINNT' ? ['My Documents', 'Dropbox'] : ['Dropbox']));
-}
+let getDropboxDir = (function() {
+	let dir = undefined;
+	return function() {
+		if (dir === undefined) {
+			dir = FileUtils.getDir('Home', ['My Documents', 'Dropbox']);
+			if (!dir.exists()) {
+				dir = FileUtils.getDir('Home', ['Dropbox']);
+				if (!dir.exists()) {
+					dir = null;
+				}
+			}
+		}
+		return dir;
+	}
+}());
 
 
 function addDirToZip(path, dir, zip) {
-	zip.addEntryDirectory(path, dir.lastModifiedTime, false);
+	if (path != '') {
+		zip.addEntryDirectory(path, dir.lastModifiedTime, false);
+	}
 
 	let entries = dir.directoryEntries.QueryInterface(Ci.nsIDirectoryEnumerator);
 	let entry;
@@ -45,18 +58,22 @@ this.test = function() {
 	
 		let src = FileUtils.getDir("ProfD", ['superstart']);
 		if (src.exists() && src.isDirectory()) {
-			addDirToZip('/', src, zw);
+			addDirToZip('', src, zw);
 		}
 		zw.close();
 	} catch (e) {
 		logger.logStringMessage(e);
 	}
 	*/
+
+	// test.. get host name
+	var dnsSvc = Cc["@mozilla.org/network/dns-service;1"].getService(Ci.nsIDNSService);
+	logger.logStringMessage('hostname: ' + dnsSvc.myHostName);
 }
 
 this.isDropboxInstalled = function() {
 	let dir = getDropboxDir();
-	return dir.exists();
+	return dir != null;
 }
 
 }

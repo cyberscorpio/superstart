@@ -6,4 +6,7 @@ interface ssIExIm : nsISupports
 {
 	void test();
 	bool isDropboxInstalled();
+
+	bool export(in AString pathName);
+	bool import(in AString pathName);
 };

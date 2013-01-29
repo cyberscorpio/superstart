@@ -12,6 +12,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 let that = this;
 let logger = this.logger;
 
+function getHostName() {
+	var dnsSvc = Cc["@mozilla.org/network/dns-service;1"].getService(Ci.nsIDNSService);
+	logger.logStringMessage('hostname: ' + dnsSvc.myHostName);
+	return dnsSvc.myHostName;
+}
+
 let getDropboxDir = (function() {
 	let dir = undefined;
 	return function() {
@@ -29,51 +35,116 @@ let getDropboxDir = (function() {
 }());
 
 
-function addDirToZip(path, dir, zip) {
-	if (path != '') {
-		zip.addEntryDirectory(path, dir.lastModifiedTime, false);
+function addDirToZip(path, dir, zip, excludes) {
+	if (excludes === undefined) {
+		excludes = {};
 	}
 
-	let entries = dir.directoryEntries.QueryInterface(Ci.nsIDirectoryEnumerator);
-	let entry;
-	while (entry = entries.nextFile) {
-		if (entry.isDirectory()) {
-			addDirToZip(path + entry.leafName + '/', entry, zip);
-		} else {
-			zip.addEntryFile(path + entry.leafName, Ci.nsIZipWriter.COMPRESSION_DEFAULT, entry, false);
+	if (excludes[path] === undefined) {
+		if (path != '') {
+			zip.addEntryDirectory(path, dir.lastModifiedTime, false);
 		}
+	
+		let entries = dir.directoryEntries.QueryInterface(Ci.nsIDirectoryEnumerator);
+		let entry;
+		while (entry = entries.nextFile) {
+			if (entry.leafName.charAt(0) === '.') {
+				continue; // skip .xxx
+			}
+			let p = path + entry.leafName;
+			if (entry.isDirectory()) {
+				p += '/';
+				if (excludes[p] === undefined) {
+					addDirToZip(p, entry, zip);
+				}
+			} else {
+				if (excludes[p] === undefined) {
+					zip.addEntryFile(p, Ci.nsIZipWriter.COMPRESSION_DEFAULT, entry, false);
+				}
+			}
+		}
+		entries.close();
 	}
-	entries.close();
 }
 
 this.test = function() {
-
-	/*
-	try {
-		let zipWriter = Components.Constructor("@mozilla.org/zipwriter;1", "nsIZipWriter");
-		let zw = new zipWriter();
-	
-		let dst = FileUtils.getFile('Desk', ['test.zip']);
-		zw.open(dst, FileUtils.MODE_RDWR | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE);
-	
-		let src = FileUtils.getDir("ProfD", ['superstart']);
-		if (src.exists() && src.isDirectory()) {
-			addDirToZip('', src, zw);
-		}
-		zw.close();
-	} catch (e) {
-		logger.logStringMessage(e);
+	let dst = FileUtils.getFile('Desk', ['test.zip']);
+	if (dst.exists()) {
+		this.import(dst.path);
+	} else {
+		this.export(dst.path);
 	}
-	*/
-
-	// test.. get host name
-	var dnsSvc = Cc["@mozilla.org/network/dns-service;1"].getService(Ci.nsIDNSService);
-	logger.logStringMessage('hostname: ' + dnsSvc.myHostName);
 }
 
 this.isDropboxInstalled = function() {
 	let dir = getDropboxDir();
 	return dir != null;
+}
+
+this.export = function(pathName) {
+	let ret = false;
+	try {
+		let src = FileUtils.getDir("ProfD", ['superstart']);
+		if (src.exists() && src.isDirectory()) {
+			let dst = FileUtils.File(pathName);
+
+			let zipWriter = Components.Constructor("@mozilla.org/zipwriter;1", "nsIZipWriter");
+			let zip = new zipWriter();
+			zip.open(dst, FileUtils.MODE_RDWR | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE);
+	
+			addDirToZip('superstart/', src, zip, {
+					'superstart/user.style.v1.css': true,
+					'superstart/user.style.css': true
+				});
+			zip.addEntryDirectory('.v1/', Date.now() * 1000, false);
+
+			zip.close();
+		} else {
+			throw "can't find superstart directory, it shouldn't happen...";
+		}
+		ret = true;
+	} catch (e) {
+		logger.logStringMessage(e);
+	}
+	return ret;
+}
+
+this.import = function(pathName) {
+	let ret = false;
+	try {
+		let src = FileUtils.File(pathName);
+		if (src.exists()) {
+			let zip = Cc["@mozilla.org/libjar/zip-reader;1"].createInstance(Ci.nsIZipReader);
+			zip.open(src);
+
+			if (!zip.hasEntry('superstart/') || !zip.hasEntry('.v1/')) {
+				zip.close();
+				throw 'Format of ' + pathName + ' is incorrect...';
+			}
+
+			// check this article for how to extract the files:
+			// https://developer.mozilla.org/en-US/docs/Talk:XPCOM_Interface_Reference/nsIZipReader
+			let dst = FileUtils.getDir("Desk", ['superstart.1']);
+			if (!dst.exists()) {
+				dst.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
+			}
+
+			let entry;
+			let entries = zip.findEntries('superstart/*/');
+			while (entries.hasMore()) {
+				entry = entries.getNext();
+				logger.logStringMessage('entry: ' + entry);
+			}
+
+
+			zip.close();
+			ret = true;
+		}
+
+	} catch (e) {
+		logger.logStringMessage(e);
+	}
+	return ret;
 }
 
 }

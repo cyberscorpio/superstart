@@ -34,6 +34,38 @@ let getDropboxDir = (function() {
 	}
 }());
 
+function getItemFile(zipbase, zippath, dst) {
+	zippath = zippath.replace(zipbase, '');
+	let parts = zippath.split('/');
+	let dir = dst.clone();
+	for (let i = 0; i < parts.length; ++ i) {
+		let part = parts[i];
+		dir.append(part);
+	}
+	return dir;
+}
+
+function extract(zipbase, zip, dst) {
+	let entries = zip.findEntries(zipbase + '*/');
+	while (entries.hasMore()) {
+		let zippath = entries.getNext();
+		let dir = getItemFile(zipbase, zippath, dst);
+		if (!dir.exists()) {
+			dir.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
+		}
+	}
+
+	entries = zip.findEntries(null);
+	while (entries.hasMore()) {
+		let zippath = entries.getNext();
+		let file = getItemFile(zipbase, zippath, dst);
+		if (file.exists()) {
+			continue;
+		}
+		zip.extract(zippath, file);
+	}
+}
+
 
 function addDirToZip(path, dir, zip, excludes) {
 	if (excludes === undefined) {
@@ -129,13 +161,7 @@ this.import = function(pathName) {
 				dst.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 			}
 
-			let entry;
-			let entries = zip.findEntries('superstart/*/');
-			while (entries.hasMore()) {
-				entry = entries.getNext();
-				logger.logStringMessage('entry: ' + entry);
-			}
-
+			extract('superstart/', zip, dst);
 
 			zip.close();
 			ret = true;

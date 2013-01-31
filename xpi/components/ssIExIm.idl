@@ -8,5 +8,5 @@ interface ssIExIm : nsISupports
 	bool isDropboxInstalled();
 
 	bool export(in AString pathName);
-	bool import(in AString pathName);
+	bool import(in AString pathName, in bool importNotes);
 };

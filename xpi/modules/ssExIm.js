@@ -45,7 +45,7 @@ function getItemFile(zipbase, zippath, dst) {
 	return dir;
 }
 
-function extract(zipbase, zip, dst) {
+function extract(zipbase, zip, dst, excludes) {
 	let entries = zip.findEntries(zipbase + '*/');
 	while (entries.hasMore()) {
 		let zippath = entries.getNext();
@@ -58,6 +58,9 @@ function extract(zipbase, zip, dst) {
 	entries = zip.findEntries(null);
 	while (entries.hasMore()) {
 		let zippath = entries.getNext();
+		if (excludes[zippath] === true) {
+			continue;
+		}
 		let file = getItemFile(zipbase, zippath, dst);
 		if (file.exists()) {
 			continue;
@@ -102,7 +105,7 @@ function addDirToZip(path, dir, zip, excludes) {
 this.test = function() {
 	let dst = FileUtils.getFile('Desk', ['test.zip']);
 	if (dst.exists()) {
-		this.import(dst.path);
+		this.import(dst.path, true);
 	} else {
 		this.export(dst.path);
 	}
@@ -141,7 +144,7 @@ this.export = function(pathName) {
 	return ret;
 }
 
-this.import = function(pathName) {
+this.import = function(pathName, importNotes) {
 	let ret = false;
 	try {
 		let src = FileUtils.File(pathName);
@@ -154,14 +157,15 @@ this.import = function(pathName) {
 				throw 'Format of ' + pathName + ' is incorrect...';
 			}
 
-			// check this article for how to extract the files:
-			// https://developer.mozilla.org/en-US/docs/Talk:XPCOM_Interface_Reference/nsIZipReader
+			// TODO: 
+			// 1. use the correct place
+			// 2. handle 'importNotes'
 			let dst = FileUtils.getDir("Desk", ['superstart.1']);
 			if (!dst.exists()) {
 				dst.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 			}
 
-			extract('superstart/', zip, dst);
+			extract('superstart/', zip, dst, importNotes ? {} : {'/superstart/todo.json': true});
 
 			zip.close();
 			ret = true;

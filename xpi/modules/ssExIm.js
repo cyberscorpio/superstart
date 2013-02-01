@@ -22,10 +22,10 @@ let getDropboxDir = (function() {
 	let dir = undefined;
 	return function() {
 		if (dir === undefined) {
-			dir = FileUtils.getDir('Home', ['My Documents', 'Dropbox']);
+			dir = FileUtils.getDir('Home', ['My Documents', 'Dropbox']); // xp
 			if (!dir.exists()) {
-				dir = FileUtils.getDir('Home', ['Dropbox']);
-				if (!dir.exists()) {
+				dir = FileUtils.getDir('Home', ['Dropbox']); // vista / 7 / osx (linux not tested)
+				if (!dir.exists() || !dir.isDirectory()) {
 					dir = null;
 				}
 			}
@@ -146,6 +146,7 @@ this.export = function(pathName) {
 
 this.import = function(pathName, importNotes) {
 	let ret = false;
+	let dst = null;
 	try {
 		let src = FileUtils.File(pathName);
 		if (src.exists()) {
@@ -157,21 +158,44 @@ this.import = function(pathName, importNotes) {
 				throw 'Format of ' + pathName + ' is incorrect...';
 			}
 
-			// TODO: 
-			// 1. use the correct place
-			// 2. handle 'importNotes'
-			let dst = FileUtils.getDir("Desk", ['superstart.1']);
+			dst = FileUtils.getDir("ProfD", ['superstart.' + Date.now()]);
 			if (!dst.exists()) {
 				dst.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 			}
-
 			extract('superstart/', zip, dst, importNotes ? {} : {'/superstart/todo.json': true});
-
 			zip.close();
+
+			if (!importNotes) {
+				try {
+					let notes = FileUtils.getFile("ProfD", ['superstart', 'todo.json']);
+					if (notes && notes.exists()) {
+						notes.copyTo(dst, 'todo.json');
+					}
+				} catch (ne) {
+					logger.logStringMessage(ne);
+				}
+			}
+
+			let origin = FileUtils.getDir("ProfD", ['superstart']);
+			origin.remove(true);
+			dst.moveTo(FileUtils.getDir('ProfD', []), 'superstart');
+
+			this.reloadSites();
+			if (importNotes) {
+				this.reloadTodoList();
+			}
+			this.reloadTheme();
+			this.fireEvent('reload', null);
+
 			ret = true;
 		}
 
 	} catch (e) {
+		try {
+			if (dst && dst.exists()) {
+				dst.remove(true);
+			}
+		} catch (dontcare) {}
 		logger.logStringMessage(e);
 	}
 	return ret;

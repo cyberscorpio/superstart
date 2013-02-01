@@ -1,6 +1,5 @@
 /**
  * events:
- * 	sites-loaded
  *	sites-added
  *	site-removed
  *	site-simple-move
@@ -89,7 +88,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			'sites' : []
 		};
 		save();
-		that.fireEvent('sites-loaded', null);
 	}
 
 	function check() {
@@ -302,6 +300,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	////////////////////
 	// methods
+	this.reloadSites = function() {
+		load();
+	}
+
 	this.getTopSiteCount = function() {
 		return data.sites.length;
 	}

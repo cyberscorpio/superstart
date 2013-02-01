@@ -46,6 +46,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 
+	this.reloadTodoList = function() {
+		load();
+	}
 
 	this.getTodoList = function() {
 		let s = this.stringify(todoList);

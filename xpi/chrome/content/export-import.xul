@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://superstart/content/style/url.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
+
+<dialog title="Export / Import"
+	id="superstart-url-dialog"
+	buttons="cancel"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/utils.js"></script>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/objects.js"></script>
+	<script type="application/x-javascript" src="chrome://superstart/content/js/export-import.js"></script>
+
+	<vbox>
+		<groupbox>
+			<caption label="Export / Import via Dropbox" />
+		</groupbox>
+
+		<groupbox>
+			<caption label="Export / Import manually" />
+			<button id="export" label="Export..." />
+			<button id="import" label="Import..." />
+		</groupbox>
+	</vbox>
+</dialog>

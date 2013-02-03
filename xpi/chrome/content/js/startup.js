@@ -130,6 +130,12 @@ if ("undefined" == typeof(SuperStart)) {
 			}
 		}
 
+		SuperStart.showExImDialog = function() {
+			let dlg = window.openDialog('chrome://superstart/content/export-import.xul',
+					'',
+					'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes');
+		}
+
 		SuperStart.onMenuOptions = function() {
 			let dlg = window.openDialog('chrome://superstart/content/options.xul',
 					'',

@@ -1,0 +1,85 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Introducere URL">
+<!ENTITY superstart.dialog.url.url "Introduceți URL-ul">
+<!ENTITY superstart.dialog.url.name "Nume site (opțional)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Setări miniatură">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Stânga &amp; Colțul de sus">
+<!ENTITY superstart.dialog.url.snapshot.entire "Toată fereastra">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Folosește serviciul de miniaturi din Firefox (indisponibil pentru anumite site-uri)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Personalizează instantaneul">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Definiți numele grupului">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Adaugă un URL nou">
+<!ENTITY superstart.menu.placeholder.add "Adaugă un înlocuitor">
+<!ENTITY superstart.menu.site.refreshall "Reîmprospătează tot">
+<!ENTITY superstart.menu.options "Opțiuni">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Adaugă legătura în Super Start">
+<!ENTITY superstart.context.menu.add "Adaugă fila în Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Opțiuni">
+
+<!ENTITY superstart.options.general "General">
+<!ENTITY superstart.options.sites.setup "Configurare">
+<!ENTITY superstart.options.load.in.blanktab "Încarcă în filă goală">
+<!ENTITY superstart.options.set.as.homepage "Definește Super Start ca pagină de început">
+<!ENTITY superstart.options.sites.open.in.newtab "Deschide în filă nouă în mod implicit">
+<!ENTITY superstart.options.sites.displaysettings "Opțiuni de afișare">
+<!ENTITY superstart.options.sites.use.compactmode "Folosește modul compact">
+<!ENTITY superstart.options.sites.text.only "Afișează doar titlul">
+<!ENTITY superstart.options.sites.use.background.effect "Folosește efecte de fundal (lent)">
+<!ENTITY superstart.options.sites.col "Număr de site-uri afișate pe un rând:">
+
+<!ENTITY superstart.options.navbar "Bara de navigare">
+<!ENTITY superstart.options.show.navbar "Afișează bara de navigare">
+<!ENTITY superstart.options.navbar.show.recently.closed "File închise recent">
+<!ENTITY superstart.options.navbar.show.add.site "Adaugă un site nou">
+<!ENTITY superstart.options.navbar.show.themes "Teme">
+<!ENTITY superstart.options.navbar.show.todo "Memo">
+<!ENTITY superstart.options.show.elements "Afișeaza elementele...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Arată">
+<!ENTITY superstart.options.site.buttons.show.newtab "Filă nouă">
+<!ENTITY superstart.options.site.buttons.show.refresh "Reîmprospătare">
+<!ENTITY superstart.options.site.buttons.show.config "Configurare">
+<!ENTITY superstart.options.site.buttons.show.remove "Șterge">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Următorul instantaneu">
+
+<!ENTITY superstart.options.general.hint "* setările din această filă se vor aplica instant">
+
+<!ENTITY superstart.ui.customize "Personalizare UI">
+<!ENTITY superstart.ui.customize.use "Activează personalizarea">
+<!ENTITY superstart.ui.customize.howto "(Ajutor) Cum personalizez?">
+<!ENTITY superstart.ui.background.image "Imagine de fundal">
+<!ENTITY superstart.ui.select.image "Selectează imaginea">
+<!ENTITY superstart.ui.clear.image "Șterge imaginea">
+<!ENTITY superstart.ui.background.repeat "Repetă">
+<!ENTITY superstart.ui.background.repeat.repeat "Repetă (implicit)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Fară repetare">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Repetă pe orizontală">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Repetă pe verticală">
+<!ENTITY superstart.ui.background.size "Mărime">
+<!ENTITY superstart.ui.background.size.default "Implicit">
+<!ENTITY superstart.ui.background.size.cover "Scalează pentru potrivire (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Scalează pentru potrivire (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Poziție">
+<!ENTITY superstart.ui.colors "Culori">
+<!ENTITY superstart.ui.background.color.enable "Activează fundal color">
+<!ENTITY superstart.ui.background.color.select "Alegere culoare">
+<!ENTITY superstart.ui.text.color "Text">
+<!ENTITY superstart.ui.text.color.enable "Activează text color">
+<!ENTITY superstart.ui.text.color.black "Negru">
+<!ENTITY superstart.ui.text.color.white "Alb">
+<!ENTITY superstart.ui.text.color.use.shadow "Folosește umbre">
+<!ENTITY superstart.ui.others "Altele">
+<!ENTITY superstart.ui.transparent "Transparent (lent)">
+<!ENTITY superstart.ui.customize.advanced "Avansat">
+<!ENTITY superstart.ui.css.edit.hint "Introduceți cod CSS aici:">
+
+<!ENTITY superstart.options.about "Despre">
+<!ENTITY superstart.options.author "Autor">
+<!ENTITY superstart.options.help "Ajutor">

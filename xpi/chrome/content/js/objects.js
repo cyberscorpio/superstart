@@ -1,12 +1,12 @@
 /** contain the project related global objects */
-
+"use strict"
 var getString = $.getMainWindow().SuperStart.getString;
-var ssObj = Cc['@enjoyfreeware.org/superstart;1'];
-var ob = ssObj.getService(Ci.ssIObserverable);
-var cfg = ssObj.getService(Ci.ssIConfig);
-var sm = ssObj.getService(Ci.ssISiteManager);
-var todo = ssObj.getService(Ci.ssITodoList);
-var tm = ssObj.getService(Ci.ssIThemes);
+var ssObj = '@enjoyfreeware.org/superstart;1';
+var ob = Cc[ssObj].getService(Ci.ssIObserverable);
+var cfg = Cc[ssObj].getService(Ci.ssIConfig);
+var sm = Cc[ssObj].getService(Ci.ssISiteManager);
+var todo = Cc[ssObj].getService(Ci.ssITodoList);
+var tm = Cc[ssObj].getService(Ci.ssIThemes);
 
 /* evtMgr */
 var evtMgr = (function() {
@@ -73,7 +73,7 @@ var evtMgr = (function() {
 		}
 		clearFns = undefined;
 
-		ob = cfg = sm = todo = tm = ssObj = getString = undefined;
+		ob = cfg = sm = todo = tm = getString = undefined;
 	}
 
 	window.addEventListener('DOMContentLoaded', onDOMLoaded, false);

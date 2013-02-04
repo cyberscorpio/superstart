@@ -1,5 +1,5 @@
 "use strict";
-const {classes: Cc, interfaces: Ci} = Components;
+const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 var $ = function(e, s, f) {
 	if (s === undefined) {
 		s = e;

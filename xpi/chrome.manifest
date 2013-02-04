@@ -43,4 +43,4 @@ locale	superstart	es-ES   jar:chrome/superstart.jar!/locale/es-ES/
 # Brazilian
 locale	superstart	pt-BR	jar:chrome/superstart.jar!/locale/pt-BR/
 # Romanian
-locale	superstart	pt-BR	jar:chrome/superstart.jar!/locale/ro-RO/
+locale	superstart	ro-RO	jar:chrome/superstart.jar!/locale/ro-RO/

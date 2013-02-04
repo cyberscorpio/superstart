@@ -15,6 +15,7 @@ Dutch:        Jon van Kleef (jon.vankleef {at} gmail.com) and  Ibrahim Al-Dalaim
 Turkish:      Hasan Sarptaş (sarptas {at} gmail.com) 
 Solvenian:    Urban Krajnc (ijoker1337 {at} gmail.com)
 Arabic:       MOHAMMAD AL jASEM (xblue.hacker95 {at} gmail.com)
+Romaniam:     Cristian Ștefănescu (howerkraft {at} gmail.com)
 
 
 ---    theme    ---

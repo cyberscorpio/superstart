@@ -6,6 +6,13 @@ let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService
 let exim = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
 let defExt = 'ssbackup';
 let dlg = null;
+function showPanel(n) {
+	let ids = ['main-panel', 'progress-panel', 'result-panel'];
+	for (let i = 0; i < ids.length; ++ i) {
+		let p = $$(ids[i]);
+		i == n ? ($.removeClass(p, 'hidden')) : ($.addClass(p, 'hidden'));
+	}
+}
 
 function formatDate(d) { // format Date to 'yyyy-mm-dd'
 	function pad(n) { return n < 10 ? '0' + n : n; }
@@ -43,25 +50,26 @@ evtMgr.ready(function() {
 		$$('export').addEventListener('click', function() {
 			let path = getExportFilePathName();
 			if (path != '') {
+				showPanel(1);
 				let res = exim.export(path);
-				if (res) {
-					dlg.cancelDialog();
-				}
 				let f = FileUtils.File(path);
-				alert('Export to ' + f.leafName + (res ? ' successfully!' : ' failed!'));
+				let result = 'Export to ' + f.leafName + (res ? ' successfully!' : ' failed!');
+				$$('result').setAttribute('value', result);
+				showPanel(2);
 			}
 		});
 		$$('import').addEventListener('click', function() {
 			let path = getImportFilePathName();
 			if (path != '') {
+				showPanel(1);
 				let res = exim.import(path, true);
-				if (res) {
-					dlg.cancelDialog();
-				}
 				let f = FileUtils.File(path);
-				alert('Import ' + f.leafName + (res ? ' successfully!' : ' failed!'));
+				let result = 'Import ' + f.leafName + (res ? ' successfully!' : ' failed!');
+				$$('result').setAttribute('value', result);
+				showPanel(2);
 			}
 		});
+		showPanel(0);
 	} catch (e) {
 		logger.logStringMessage(e);
 	}

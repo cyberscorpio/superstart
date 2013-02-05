@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
-<?xml-stylesheet href="chrome://superstart/content/style/url.css" type="text/css"?>
+<?xml-stylesheet href="chrome://superstart/content/style/export-import.css" type="text/css"?>
 <!DOCTYPE dialog SYSTEM "chrome://superstart/locale/main.dtd">
 
 <dialog title="Export / Import"
@@ -13,14 +13,24 @@
 	<script type="application/x-javascript" src="chrome://superstart/content/js/export-import.js"></script>
 
 	<vbox>
-		<groupbox>
-			<caption label="Export / Import via Dropbox" />
-		</groupbox>
-
-		<groupbox>
-			<caption label="Export / Import manually" />
-			<button id="export" label="Export..." />
-			<button id="import" label="Import..." />
-		</groupbox>
+		<vbox id="main-panel" class="hidden">
+			<groupbox>
+				<caption label="Export / Import via Dropbox" />
+			</groupbox>
+	
+			<groupbox>
+				<caption label="Export / Import manually" />
+				<button id="export" label="Export..." />
+				<button id="import" label="Import..." />
+			</groupbox>
+		</vbox>
+		<vbox id="progress-panel" class="hidden" pack="center">
+			<hbox pack="center" flex="1">
+				<image src="chrome://browser/skin/tabbrowser/loading.png" />
+			</hbox>
+		</vbox>
+		<vbox id="result-panel" class="hidden" pack="center">
+			<label id="result" value=".." />
+		</vbox>
 	</vbox>
 </dialog>

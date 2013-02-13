@@ -37,12 +37,15 @@ let getDropboxDir = (function() {
 function getItemFile(zipbase, zippath, dst) {
 	zippath = zippath.replace(zipbase, '');
 	let parts = zippath.split('/');
-	let dir = dst.clone();
+	let f = dst.clone();
 	for (let i = 0; i < parts.length; ++ i) {
 		let part = parts[i];
-		dir.append(part);
+		if (part.charAt(0) == '.') { // .xxx excluded
+			return null;
+		}
+		f.append(part);
 	}
-	return dir;
+	return f;
 }
 
 function extract(zipbase, zip, dst, excludes) {
@@ -50,7 +53,7 @@ function extract(zipbase, zip, dst, excludes) {
 	while (entries.hasMore()) {
 		let zippath = entries.getNext();
 		let dir = getItemFile(zipbase, zippath, dst);
-		if (!dir.exists()) {
+		if (dir && !dir.exists()) {
 			dir.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 		}
 	}
@@ -62,7 +65,7 @@ function extract(zipbase, zip, dst, excludes) {
 			continue;
 		}
 		let file = getItemFile(zipbase, zippath, dst);
-		if (file.exists()) {
+		if (file === null || file.exists()) {
 			continue;
 		}
 		zip.extract(zippath, file);
@@ -148,6 +151,7 @@ this.import = function(pathName, importNotes) {
 	let ret = false;
 	let dst = null;
 	try {
+		let profD = FileUtils.getDir('ProfD', []);
 		let src = FileUtils.File(pathName);
 		if (src.exists()) {
 			let zip = Cc["@mozilla.org/libjar/zip-reader;1"].createInstance(Ci.nsIZipReader);
@@ -157,6 +161,7 @@ this.import = function(pathName, importNotes) {
 				zip.close();
 				throw 'Format of ' + pathName + ' is incorrect...';
 			}
+
 
 			dst = FileUtils.getDir("ProfD", ['superstart.' + Date.now()]);
 			if (!dst.exists()) {
@@ -176,9 +181,16 @@ this.import = function(pathName, importNotes) {
 				}
 			}
 
-			let origin = FileUtils.getDir("ProfD", ['superstart']);
-			origin.remove(true);
-			dst.moveTo(FileUtils.getDir('ProfD', []), 'superstart');
+			let backup = FileUtils.getDir("ProfD", ['superstart.backup']);
+			if (backup.exists()) {
+				try {
+					backup.remove(true);
+				} catch (dontcare) { }
+			}
+			let origin = FileUtils.getDir('ProfD', ['superstart']);
+			origin.moveTo(profD, 'superstart.backup');
+
+			dst.moveTo(profD, 'superstart');
 
 			this.reloadSites();
 			if (importNotes) {

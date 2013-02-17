@@ -44,3 +44,5 @@ locale	superstart	es-ES   jar:chrome/superstart.jar!/locale/es-ES/
 locale	superstart	pt-BR	jar:chrome/superstart.jar!/locale/pt-BR/
 # Romanian
 locale	superstart	ro-RO	jar:chrome/superstart.jar!/locale/ro-RO/
+# Korean
+locale	superstart	ko-KR	jar:chrome/superstart.jar!/locale/ko-KR/

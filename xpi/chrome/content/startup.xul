@@ -42,7 +42,7 @@
 				oncommand="SuperStart.onMenuRefreshAll();"
 				/>
 			<menuseparator />
-			<menuitem label="Export / Import ..."
+			<menuitem label="&superstart.export; / &superstart.import;..."
 				oncommand="SuperStart.showExImDialog();"
 				/>
 			<menuseparator />

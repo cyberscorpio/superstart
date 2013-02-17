@@ -94,3 +94,9 @@
 <!ENTITY superstart.options.about "关于">
 <!ENTITY superstart.options.author "作者">
 <!ENTITY superstart.options.help "帮助">
+
+<!-- export / import -->
+<!ENTITY superstart.export "导出">
+<!ENTITY superstart.import "导入">
+<!ENTITY superstart.import.sites.only "只导入网址链接">
+<!ENTITY superstart.processing "正在处理">

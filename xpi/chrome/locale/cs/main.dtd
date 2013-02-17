@@ -83,3 +83,9 @@
 <!ENTITY superstart.options.about "O SuperStart">
 <!ENTITY superstart.options.author "Autor">
 <!ENTITY superstart.options.help "Nápověda">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Export">
+<!ENTITY superstart.import "Import">
+<!ENTITY superstart.import.sites.only "Import sites only">
+<!ENTITY superstart.processing "Processing">

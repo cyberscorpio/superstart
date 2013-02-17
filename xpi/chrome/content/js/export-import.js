@@ -67,8 +67,8 @@ evtMgr.ready(function() {
 				window.setTimeout(function() {
 					let res = exim.export(path);
 					let f = FileUtils.File(path);
-					let result = 'Export to ' + f.leafName + (res ? ' successfully!' : ' failed!');
-					$$('result').textContent = result;
+					let result = res ? getString('ssExportSuccessfully') : getString('ssExportFailed');
+					$$('result').textContent = result.replace('%file%', f.leafName);
 					showPanel(2);
 				}, 0);
 			}
@@ -80,8 +80,8 @@ evtMgr.ready(function() {
 				window.setTimeout(function() {
 					let res = exim.import(path, $$('import-sites-only').checked ? false : true);
 					let f = FileUtils.File(path);
-					let result = 'Import ' + f.leafName + (res ? ' successfully!' : ' failed!');
-					$$('result').textContent = result;
+					let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
+					$$('result').textContent = result.replace('%file%', f.leafName);
 					showPanel(2);
 				}, 0);
 			}
@@ -103,7 +103,7 @@ function onCheckboxChanged(evt) {
 
 function getExportFilePathName() {
 	let fp = getFP();
-	fp.init(window, "Save to...", nsIFilePicker.modeSave);
+	fp.init(window, getString('ssExportTo'), nsIFilePicker.modeSave);
 	let res = fp.show();
 	if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace) {
 		return addExtIfNotFound(fp.file.path, defExt);
@@ -113,7 +113,7 @@ function getExportFilePathName() {
 
 function getImportFilePathName() {
 	let fp = getFP();
-	fp.init(window, "Open...", nsIFilePicker.modeOpen);
+	fp.init(window, getString('ssImportFrom'), nsIFilePicker.modeOpen);
 	let res = fp.show();
 	if (res == nsIFilePicker.returnOK) {
 		return fp.file.path;

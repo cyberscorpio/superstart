@@ -6,7 +6,7 @@
 	<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >	%browserDTD;
 ]>
 
-<dialog title="Export / Import"
+<dialog title="&superstart.export; / &superstart.import;"
 	id="superstart-url-dialog"
 	buttons="cancel"
 	buttonlabelcancel="&closeCmd.label;"
@@ -26,15 +26,15 @@
 			-->
 			<groupbox>
 				<!-- <caption label="Export / Import manually" /> -->
-				<button id="export" label="Export..." />
-				<button id="import" label="Import..." />
+				<button id="export" label="&superstart.export;..." />
+				<button id="import" label="&superstart.import;..." />
 			</groupbox>
 			<hbox pack="end">
-				<checkbox label="Import sites only" id="import-sites-only" />
+				<checkbox label="&superstart.import.sites.only;" id="import-sites-only" />
 			</hbox>
 		</vbox>
 		<vbox id="progress-panel" class="hidden" pack="center">
-			<description id="processing" value="processing..."></description>
+			<description id="processing" value="&superstart.processing;..."></description>
 		</vbox>
 		<vbox id="result-panel" class="hidden" pack="center">
 			<hbox pack="center">

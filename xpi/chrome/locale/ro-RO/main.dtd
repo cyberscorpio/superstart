@@ -83,3 +83,9 @@
 <!ENTITY superstart.options.about "Despre">
 <!ENTITY superstart.options.author "Autor">
 <!ENTITY superstart.options.help "Ajutor">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Export">
+<!ENTITY superstart.import "Import">
+<!ENTITY superstart.import.sites.only "Import sites only">
+<!ENTITY superstart.processing "Processing">

@@ -1,0 +1,91 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "URL 추가">
+<!ENTITY superstart.dialog.url.url "이곳에 URL을 입력하세요">
+<!ENTITY superstart.dialog.url.name "사이트 이름(옵션)">
+<!ENTITY superstart.dialog.url.snapshot.setting "썸네일 설정">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "왼쪽 위 스샷">
+<!ENTITY superstart.dialog.url.snapshot.entire "전체 창 스샷">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefox 썸네일 서비스 사용(몇몇 사이트은 사용할 수 없음)">
+<!ENTITY superstart.dialog.url.snapshot.customize "이미지 사용">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "그룹 이름 설정">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "새 URL 추가">
+<!ENTITY superstart.menu.placeholder.add "공간 차지 추가">
+<!ENTITY superstart.menu.site.refreshall "모두 새로 고침">
+<!ENTITY superstart.menu.options "설정">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "이 링크를 Super Start에 추가">
+<!ENTITY superstart.context.menu.add "이 탭을 Super Start에 추가">
+
+<!-- options -->
+<!ENTITY superstart.options "설정">
+
+<!ENTITY superstart.options.general "일반">
+<!ENTITY superstart.options.sites.setup "설정">
+<!ENTITY superstart.options.load.in.blanktab "새 탭에 실행">
+<!ENTITY superstart.options.set.as.homepage "Super Start를 홈페이지로 설정">
+<!ENTITY superstart.options.sites.open.in.newtab "자동으로 사이트 새 탭에 열기">
+<!ENTITY superstart.options.sites.displaysettings "표시 설정">
+<!ENTITY superstart.options.sites.use.compactmode "미니 모드 사용">
+<!ENTITY superstart.options.sites.text.only "텍스트만 사용">
+<!ENTITY superstart.options.sites.use.background.effect "배경 효과 사용 (느릴 수 있음)">
+<!ENTITY superstart.options.sites.col "한 줄당 사이트 개수:">
+
+<!ENTITY superstart.options.navbar "Navbar">
+<!ENTITY superstart.options.show.navbar "Navbar 보이기">
+<!ENTITY superstart.options.navbar.show.recently.closed "최근에 닫힌 창">
+<!ENTITY superstart.options.navbar.show.add.site "새로운 사이트 추가">
+<!ENTITY superstart.options.navbar.show.themes "테마">
+<!ENTITY superstart.options.navbar.show.todo "메모">
+<!ENTITY superstart.options.show.elements "요소 설정...">
+<!ENTITY superstart.options.site.buttons.show.buttons "버튼 보이기">
+<!ENTITY superstart.options.site.buttons.show.newtab "새 탭">
+<!ENTITY superstart.options.site.buttons.show.refresh "새로 고침">
+<!ENTITY superstart.options.site.buttons.show.config "설정">
+<!ENTITY superstart.options.site.buttons.show.remove "제거">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "다음 스샷">
+
+<!ENTITY superstart.options.general.hint "* 설정은 바로 적용됩니다.">
+
+<!ENTITY superstart.ui.customize "UI 꾸미기">
+<!ENTITY superstart.ui.customize.use "꾸미기 사용">
+<!ENTITY superstart.ui.customize.howto "(도움말) 꾸미는 방법에 대해서?">
+<!ENTITY superstart.ui.background.image "배경 이미지">
+<!ENTITY superstart.ui.select.image "이미지 선택">
+<!ENTITY superstart.ui.clear.image "이미지 제거">
+<!ENTITY superstart.ui.background.repeat "반복">
+<!ENTITY superstart.ui.background.repeat.repeat "반복 (기본)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "반복 NO">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "가로 반복">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "세로 반복">
+<!ENTITY superstart.ui.background.size "크기">
+<!ENTITY superstart.ui.background.size.default "기본">
+<!ENTITY superstart.ui.background.size.cover "Scale to fit (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Scale to fit (CSS:contain)">
+<!ENTITY superstart.ui.background.position "위치">
+<!ENTITY superstart.ui.colors "색상">
+<!ENTITY superstart.ui.background.color.enable "배경 색깔 사용">
+<!ENTITY superstart.ui.background.color.select "색 선택">
+<!ENTITY superstart.ui.text.color "텍스트">
+<!ENTITY superstart.ui.text.color.enable "텍스트 색깔 사용">
+<!ENTITY superstart.ui.text.color.black "검정">
+<!ENTITY superstart.ui.text.color.white "흰색">
+<!ENTITY superstart.ui.text.color.use.shadow "그림자 사용">
+<!ENTITY superstart.ui.others "기타">
+<!ENTITY superstart.ui.transparent "투명 모드(느릴 수 있음)">
+<!ENTITY superstart.ui.customize.advanced "고급 설정">
+<!ENTITY superstart.ui.css.edit.hint "이 곳에 CSS를 입력하세요:">
+
+<!ENTITY superstart.options.about "정보">
+<!ENTITY superstart.options.author "제작">
+<!ENTITY superstart.options.help "도움말">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Export">
+<!ENTITY superstart.import "Import">
+<!ENTITY superstart.import.sites.only "Import sites only">
+<!ENTITY superstart.processing "Processing">

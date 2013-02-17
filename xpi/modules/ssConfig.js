@@ -65,7 +65,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'site-buttons-next-snapshot': {'key': 'site.buttons.next.snapshot'},
 		'site-folder-show-size': {'key': 'site.folder.show.size'},
 
-		'use-customize': {'key': 'use.customize'}
+		'use-customize': {'key': 'use.customize'},
+		'import-sites-only': {'key': 'import.sites.only'}
 	};
 	for (let k in boolCfgs) {
 		let cfg = boolCfgs[k];

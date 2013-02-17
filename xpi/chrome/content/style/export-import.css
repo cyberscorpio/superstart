@@ -2,6 +2,14 @@
 	display: none;
 }
 
-#result {
+#superstart-url-dialog {
+	width: 240px;
+}
+
+#processing {
 	text-align: center;
+}
+
+#result {
+	width: 200px;
 }

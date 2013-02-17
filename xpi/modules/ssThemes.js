@@ -2,7 +2,6 @@
  * the implements of ssIThemes
  *
  * related events:
- * 	'theme-loaded' - (evt, theme-name)
  * 	'theme-removed' - (evt, theme-name)
  * 	'user-style-changed' - (evt, user-style-css-url)
  */
@@ -233,7 +232,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					// save it
 					themeNames[theme.name] = themes.length;
 					themes.push(theme);
-					that.fireEvent('theme-loaded', theme.name);
 
 					return theme;
 				}

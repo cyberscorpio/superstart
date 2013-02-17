@@ -5,7 +5,11 @@ const nsIFilePicker = Ci.nsIFilePicker;
 let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 let exim = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
 let defExt = 'ssbackup';
-let dlg = null;
+
+let boolMap = {
+	'import-sites-only': 'import-sites-only'
+}
+
 function showPanel(n) {
 	let ids = ['main-panel', 'progress-panel', 'result-panel'];
 	for (let i = 0; i < ids.length; ++ i) {
@@ -46,27 +50,40 @@ function addExtIfNotFound(path, ext) {
 
 evtMgr.ready(function() {
 	try {
-		dlg = $$('superstart-url-dialog');
+		for (let id in boolMap) {
+			let key = boolMap[id];
+			let c = $$(id);
+			if (c) {
+				let enabled = cfg.getConfig(key);
+				enabled && c.setAttribute('checked', true);
+				c.addEventListener('command', onCheckboxChanged, false);
+			}
+		}
+
 		$$('export').addEventListener('click', function() {
 			let path = getExportFilePathName();
 			if (path != '') {
 				showPanel(1);
-				let res = exim.export(path);
-				let f = FileUtils.File(path);
-				let result = 'Export to ' + f.leafName + (res ? ' successfully!' : ' failed!');
-				$$('result').setAttribute('value', result);
-				showPanel(2);
+				window.setTimeout(function() {
+					let res = exim.export(path);
+					let f = FileUtils.File(path);
+					let result = 'Export to ' + f.leafName + (res ? ' successfully!' : ' failed!');
+					$$('result').textContent = result;
+					showPanel(2);
+				}, 0);
 			}
 		});
 		$$('import').addEventListener('click', function() {
 			let path = getImportFilePathName();
 			if (path != '') {
 				showPanel(1);
-				let res = exim.import(path, true);
-				let f = FileUtils.File(path);
-				let result = 'Import ' + f.leafName + (res ? ' successfully!' : ' failed!');
-				$$('result').setAttribute('value', result);
-				showPanel(2);
+				window.setTimeout(function() {
+					let res = exim.import(path, $$('import-sites-only').checked ? false : true);
+					let f = FileUtils.File(path);
+					let result = 'Import ' + f.leafName + (res ? ' successfully!' : ' failed!');
+					$$('result').textContent = result;
+					showPanel(2);
+				}, 0);
 			}
 		});
 		showPanel(0);
@@ -74,6 +91,15 @@ evtMgr.ready(function() {
 		logger.logStringMessage(e);
 	}
 });
+
+function onCheckboxChanged(evt) {
+	let cb = evt.target;
+	let id = cb.id;
+	let enabled = cb.checked;
+	if (id && boolMap[id]) {
+		cfg.setConfig(boolMap[id], enabled);
+	}
+}
 
 function getExportFilePathName() {
 	let fp = getFP();

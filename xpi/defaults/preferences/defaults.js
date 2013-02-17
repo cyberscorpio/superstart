@@ -29,3 +29,5 @@ pref('extensions.superstart.site.folder.show.size', true);
 
 pref('extensions.superstart.use.customize', false);
 
+pref('extensions.superstart.import.sites.only', false);
+

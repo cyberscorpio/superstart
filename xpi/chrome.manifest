@@ -13,6 +13,7 @@ interfaces components/ssIConfig.xpt
 interfaces components/ssISiteManager.xpt
 interfaces components/ssITodoList.xpt
 interfaces components/ssIThemes.xpt
+interfaces components/ssIExIm.xpt
 
 component {61af2fde-0514-46b6-ae57-149dd057d75f} components/superstart.js
 contract @enjoyfreeware.org/superstart;1 {61af2fde-0514-46b6-ae57-149dd057d75f}
@@ -41,3 +42,7 @@ locale	superstart	cs      jar:chrome/superstart.jar!/locale/cs/
 locale	superstart	es-ES   jar:chrome/superstart.jar!/locale/es-ES/
 # Brazilian
 locale	superstart	pt-BR	jar:chrome/superstart.jar!/locale/pt-BR/
+# Romanian
+locale	superstart	ro-RO	jar:chrome/superstart.jar!/locale/ro-RO/
+# Korean
+locale	superstart	ko-KR	jar:chrome/superstart.jar!/locale/ko-KR/

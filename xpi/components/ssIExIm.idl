@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+#include "nsIVariant.idl"
+
+[scriptable, uuid(1F2B14DE-3B38-4FB1-AD30-C524ABA9DE22)]
+interface ssIExIm : nsISupports
+{
+	void test();
+	bool isDropboxInstalled();
+
+	bool export(in AString pathName);
+	bool import(in AString pathName, in bool importNotes);
+};

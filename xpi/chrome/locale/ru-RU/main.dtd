@@ -83,3 +83,9 @@
 <!ENTITY superstart.options.about "О дополнении">
 <!ENTITY superstart.options.author "Автор">
 <!ENTITY superstart.options.help "Помощь">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Export">
+<!ENTITY superstart.import "Import">
+<!ENTITY superstart.import.sites.only "Import sites only">
+<!ENTITY superstart.processing "Processing">

@@ -2,7 +2,6 @@
 (function() {
 var obevts = {
 	'theme': onThemeChanged,
-	'theme-loaded': onThemeLoaded,
 	'theme-removed': onThemeRemoved,
 	'use-customize': onUseCustomize,
 	'user-style-changed': onUserStyleChanged
@@ -37,10 +36,6 @@ function refresh() {
 
 
 function onThemeChanged(evt, newTheme) {
-	refresh();
-}
-
-function onThemeLoaded(evt, themeName) {
 	refresh();
 }
 

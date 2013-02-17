@@ -13,7 +13,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		},
 		{
 			'p': 'resource://superstart/',
-			'j': ['xl.js', 'ssConfig.js', 'ssSiteManager.js', 'ssTodoList.js', 'ssThemes.js']
+			'j': ['xl.js', 'ssConfig.js', 'ssSiteManager.js', 'ssTodoList.js', 'ssThemes.js', 'ssExIm.js']
 		}
 	];
 	m.forEach(function(n) {
@@ -32,6 +32,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		ssSiteManager.call(this);
 		ssTodoList.call(this);
 		ssThemes.call(this);
+		ssExIm.call(this);
 	}
 	
 	SuperStartObj.prototype = {
@@ -45,7 +46,8 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 			Ci.ssIConfig,
 			Ci.ssISiteManager,
 			Ci.ssITodoList,
-			Ci.ssIThemes
+			Ci.ssIThemes,
+			Ci.ssIExIm
 		]),
 	
 		logger : Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService),

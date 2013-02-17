@@ -3,6 +3,7 @@
 (function() {
 
 var sEvts = {
+	'reload': onReload
 };
 var wEvts = {
 	'scroll': onScroll
@@ -18,6 +19,10 @@ evtMgr.once(window, 'load', function() {
 	}, 500);
 
 // event handler
+function onReload() {
+	document.location.reload();
+}
+
 function onScroll() {
 	var mask = $$('mask');
 	mask.style.top = window.pageYOffset + 'px';

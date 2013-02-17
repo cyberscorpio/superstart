@@ -26,6 +26,7 @@ if ("undefined" == typeof(SuperStart)) {
 		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
 		let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 		let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
+		// let ei = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');
@@ -127,6 +128,12 @@ if ("undefined" == typeof(SuperStart)) {
 			if (gBrowser.selectedBrowser.contentWindow.confirm(SuperStart.getString('ssSiteRefreshAllConfirm'))) {
 				sm.refreshSite(-1, -1);
 			}
+		}
+
+		SuperStart.showExImDialog = function() {
+			let dlg = window.openDialog('chrome://superstart/content/export-import.xul',
+					'',
+					'chrome,dialog,modal=yes,dependent=yes,centerscreen=yes,resizable=yes');
 		}
 
 		SuperStart.onMenuOptions = function() {

@@ -2,7 +2,6 @@
  * the implements of ssIThemes
  *
  * related events:
- * 	'theme-loaded' - (evt, theme-name)
  * 	'theme-removed' - (evt, theme-name)
  * 	'user-style-changed' - (evt, user-style-css-url)
  */
@@ -17,20 +16,61 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	let that = this;
 	let logger = this.logger;
-	let themeNames = {
-		'Default' : 0 // index in themes
-	};
-	let themes = [
-		// default
-		{
-			'name': 'Default',
-			'css': '../skin/default/default.css',
-			'thumbnail': {
-				'background': '#eee',
-				'color': 'black'
+	let extid = this.getConfig('extension-id');
+
+	let themeNames;
+	let themes;
+
+	let installedDir;
+	let usdFile;
+	let uscFile;
+	let bgDir;
+	let usData;
+
+	function load() {
+		try {
+			themeNames = {
+				'Default' : 0 // index in themes
+			};
+			themes = [
+				{
+					'name': 'Default',
+					'css': '../skin/default/default.css',
+					'thumbnail': {
+						'background': '#eee',
+						'color': 'black'
+					}
+				}
+			];
+
+			// 1. themes
+			// 1.1 load themes
+			installedDir = FileUtils.getDir("ProfD", ['superstart', 'themes']);
+			loadThemes(FileUtils.getDir("ProfD", ['extensions', extid, 'themes']), true); // builtin
+			loadThemes(installedDir, false);
+		
+			// 1.2 finally, we check whether the "current" theme exists
+			if (themeNames[that.getConfig('theme')] == undefined) {
+				that.setConfig('theme', 'Default');
 			}
+		
+			// 2. user style
+			usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.json']);
+			uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.css']);
+			bgDir = FileUtils.getDir('ProfD', ['superstart', 'background-images']);
+			usData = {};
+			if (usdFile.exists()) {
+				loadUsData();
+			}
+			updateCSS();
+		} catch (e) {
+			logger.logStringMessage('>>>> ' + e);
 		}
-	];
+	}
+
+	this.reloadTheme = function() {
+		load();
+	}
 
 	this.getThemes = function () {
 		return this.stringify(themes);
@@ -149,32 +189,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	// 1. themes
-	// 1.1 load themes
-	let extid = this.getConfig('extension-id');
-	let builtinDir = FileUtils.getDir("ProfD", ['extensions', extid, 'themes']);
-	let installedDir = FileUtils.getDir("ProfD", ['superstart', 'themes']);
-	loadThemes(builtinDir, true);
-	loadThemes(installedDir, false);
-
-	// 1.2 finally, we check whether the "current" theme exists
-	let curr = this.getConfig('theme');
-	if (themeNames[curr] == undefined) {
-		this.setConfig('theme', 'Default');
-	}
-	curr = null;
-
-	// 2. user style
-	let usdFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.json']);
-	let uscFile = FileUtils.getFile('ProfD', ['superstart', 'user.style.v1.css']);
-	let bgDir = FileUtils.getFile('ProfD', ['superstart', 'background-images']);
-	let usData = {};
-	if (usdFile.exists()) {
-		loadUsData();
-	}
-	updateCSS();
-
-
 	// utils
 	/* load themes from a top directory */
 	function loadThemes(dir, builtin) {
@@ -218,7 +232,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					// save it
 					themeNames[theme.name] = themes.length;
 					themes.push(theme);
-					that.fireEvent('theme-loaded', theme.name);
 
 					return theme;
 				}
@@ -472,5 +485,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		*/
 		return css.replace(/\\/g, '/');
 	}
+
+	load();
 }
 

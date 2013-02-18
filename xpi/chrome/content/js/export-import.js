@@ -68,7 +68,7 @@ evtMgr.ready(function() {
 					let res = exim.export(path);
 					let f = FileUtils.File(path);
 					let result = res ? getString('ssExportSuccessfully') : getString('ssExportFailed');
-					$$('result').textContent = result.replace('%file%', f.leafName);
+					$$('result').textContent = result.replace('%file%', '"' + f.leafName + '"');
 					showPanel(2);
 				}, 0);
 			}
@@ -81,7 +81,7 @@ evtMgr.ready(function() {
 					let res = exim.import(path, $$('import-sites-only').checked ? false : true);
 					let f = FileUtils.File(path);
 					let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
-					$$('result').textContent = result.replace('%file%', f.leafName);
+					$$('result').textContent = result.replace('%file%', '"' + f.leafName + '"');
 					showPanel(2);
 				}, 0);
 			}

@@ -13,3 +13,8 @@
 #result {
 	width: 200px;
 }
+
+#processing,
+#result {
+	margin-top: 1em;
+}

@@ -15,6 +15,7 @@ function showPanel(n) {
 	for (let i = 0; i < ids.length; ++ i) {
 		let p = $$(ids[i]);
 		i == n ? ($.removeClass(p, 'hidden')) : ($.addClass(p, 'hidden'));
+		window.sizeToContent();
 	}
 }
 
@@ -50,6 +51,21 @@ function addExtIfNotFound(path, ext) {
 
 evtMgr.ready(function() {
 	try {
+		let hideId = 'dropbox-found';
+		if (exim.isDropboxInstalled()) {
+			hideId = 'dropbox-not-found';
+		}
+		$.addClass($$(hideId), 'hidden');
+
+		let links = $('.text-link');
+		for (let i = 0; i < links.length; ++ i) {
+			let l = links[i];
+			l.setAttribute('tooltiptext', l.getAttribute('href'));
+			l.addEventListener('click', function() {
+				$$('superstart-exim-dialog').cancelDialog();
+			});
+		}
+
 		for (let id in boolMap) {
 			let key = boolMap[id];
 			let c = $$(id);

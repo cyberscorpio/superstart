@@ -7,7 +7,7 @@
 ]>
 
 <dialog title="&superstart.export; / &superstart.import;"
-	id="superstart-url-dialog"
+	id="superstart-exim-dialog"
 	buttons="cancel"
 	buttonlabelcancel="&closeCmd.label;"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -19,19 +19,27 @@
 	<vbox>
 		<vbox id="main-panel" class="hidden">
 			<label class="header" value="Experimental" />
-			<!--
-			<groupbox>
-				<caption label="Export / Import via Dropbox" />
-			</groupbox>
-			-->
-			<groupbox>
-				<!-- <caption label="Export / Import manually" /> -->
-				<button id="export" label="&superstart.export;..." />
-				<button id="import" label="&superstart.import;..." />
-			</groupbox>
 			<hbox pack="end">
 				<checkbox label="&superstart.import.sites.only;" id="import-sites-only" />
 			</hbox>
+			<groupbox>
+				<caption label="Via Dropbox" />
+				<vbox id="dropbox-found">
+					<button id="export-dropbox" label="&superstart.export;" />
+					<button type="menu" id="import-dropbox" label="&superstart.import;">
+						<menupopup id="dropbox-items"></menupopup>
+					</button>
+				</vbox>
+				<vbox id="dropbox-not-found">
+					<description>SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:
+					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/export-import" value="Help" /></description>
+				</vbox>
+			</groupbox>
+			<groupbox>
+				<caption label="Manually" />
+				<button id="export" label="&superstart.export;..." />
+				<button id="import" label="&superstart.import;..." />
+			</groupbox>
 		</vbox>
 		<vbox id="progress-panel" class="hidden" pack="center">
 			<description id="processing" value="&superstart.processing;..."></description>

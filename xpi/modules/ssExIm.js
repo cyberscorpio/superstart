@@ -19,14 +19,24 @@ function getHostName() {
 }
 
 let getDropboxDir = (function() {
-	let dir = undefined;
 	return function() {
-		if (dir === undefined) {
-			dir = FileUtils.getDir('Home', ['My Documents', 'Dropbox']); // xp
-			if (!dir.exists()) {
-				dir = FileUtils.getDir('Home', ['Dropbox']); // vista / 7 / osx (linux not tested)
+		let dir = null;
+		let cloudPath = that.getConfig('cloud-dir');
+		if (cloudPath !== '') {
+			try {
+				dir = FileUtils.File(cloudPath);
 				if (!dir.exists() || !dir.isDirectory()) {
-					dir = null;
+					return null;
+				}
+			} catch (e) {
+				return null;
+			}
+		} else {
+			dir = FileUtils.getDir('Home', ['My Documents', 'Dropbox']); // xp
+			if (!dir.exists() || !dir.isDirectory()) {
+				dir = FileUtils.getDir('Home', ['Dropbox']); // vista / 7 / osx (linux is not tested)
+				if (!dir.exists() || !dir.isDirectory()) {
+					return null;
 				}
 			}
 		}
@@ -116,7 +126,7 @@ this.test = function() {
 
 this.isDropboxInstalled = function() {
 	let dir = getDropboxDir();
-	return dir != null;
+	return dir !== null;
 }
 
 this.export = function(pathName) {

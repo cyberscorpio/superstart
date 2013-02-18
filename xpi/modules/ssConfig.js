@@ -83,6 +83,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return 'superstart@enjoyfreeware.org';
 			case 'index-url':
 				return 'chrome://superstart/content/index.html';
+			case 'cloud-dir':
+				return sbprefs.getCharPref('extensions.superstart.cloud.dir');
+			case 'cloud-subdir':
+				return sbprefs.getCharPref('extensions.superstart.cloud.subdir');
 
 			// mutable
 			case 'theme':

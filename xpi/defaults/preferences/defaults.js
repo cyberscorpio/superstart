@@ -30,5 +30,6 @@ pref('extensions.superstart.site.folder.show.size', true);
 pref('extensions.superstart.use.customize', false);
 
 pref('extensions.superstart.import.sites.only', false);
+pref('extensions.superstart.cloud.backup.count', 5);
 pref('extensions.superstart.cloud.dir', '');
 pref('extensions.superstart.cloud.subdir', '');

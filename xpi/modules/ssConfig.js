@@ -28,6 +28,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			'key' : 'sites.col',
 			'default' : 4,
 			'min' : 3
+		},
+		'cloud-backup-count': {
+			'key': 'cloud.backup.count',
+			'default': 5,
+			'min': 3
 		}
 	};
 

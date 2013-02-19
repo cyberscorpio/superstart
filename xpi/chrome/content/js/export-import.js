@@ -21,7 +21,7 @@ function showPanel(n) {
 
 function formatDate(d) { // format Date to 'yyyy-mm-dd'
 	function pad(n) { return n < 10 ? '0' + n : n; }
-	return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+	return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 }
 
 function getFP() {
@@ -75,6 +75,10 @@ evtMgr.ready(function() {
 				c.addEventListener('command', onCheckboxChanged, false);
 			}
 		}
+
+		$$('export-dropbox').addEventListener('click', function() {
+			let pathName = exim.cloudExport();
+		});
 
 		$$('export').addEventListener('click', function() {
 			let path = getExportFilePathName();

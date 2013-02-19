@@ -18,6 +18,16 @@ function getHostName() {
 	return dnsSvc.myHostName;
 }
 
+function filter(s) {
+	return s.replace(/["/\\*?< >|:]/g, '');
+}
+
+function getCloudFileName() { // 'hostname_yyyy-mm-dd'
+	function pad(n) { return n < 10 ? '0' + n : n; }
+	let d = new Date();
+	return filter(getHostName()) + '_' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '.ssbackup';
+}
+
 let getDropboxDir = (function() {
 	return function() {
 		let dir = null;
@@ -43,6 +53,25 @@ let getDropboxDir = (function() {
 		return dir;
 	}
 }());
+
+function getCloudDir() {
+	let d = getDropboxDir();
+	if (d !== null) {
+		let subdir = that.getConfig('cloud-subdir');
+		if (subdir != '') {
+			subdir = subdir.replace('\\', '/');
+			let subs = subdir.split('/');
+			subs.forEach(function(s){
+				s = filter(s);
+				if (s != '') {
+					d.append(s);
+				}
+			});
+		}
+		d.append('superstart');
+	}
+	return d;
+}
 
 function getItemFile(zipbase, zippath, dst) {
 	zippath = zippath.replace(zipbase, '');
@@ -222,6 +251,65 @@ this.import = function(pathName, importNotes) {
 	}
 	return ret;
 }
+
+this.cloudExport = function() {
+	let f = getCloudDir();
+	if (f === null) {
+		return '';
+	}
+
+	if (!f.exists()) {
+		f.create(Ci.nsILocalFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
+	}
+	let name = getCloudFileName();
+	f.append(name);
+	if (!this.export(f.path)) {
+		return '';
+	}
+
+	let max = this.getConfig('cloud-backup-count');
+	let items = getCloudItems();
+	/*
+	items.forEach(function(n) {
+		logger.logStringMessage('- ' + n);
+	});
+	*/
+	if (items.length > max) {
+	}
+}
+
+function getCloudItems() {
+	let items = [];
+	let f = getCloudDir();
+	if (f !== null && f.exists()) {
+		let entries = f.directoryEntries.QueryInterface(Ci.nsIDirectoryEnumerator);
+		let entry;
+		while (entry = entries.nextFile) {
+			let name = entry.leafName;
+			let result = /.*_(\d{4})-(\d\d)-(\d\d)/.exec(name);
+			if (result !== null && parseInt(result[2]) > 0) {
+				items.push({
+						'name': name,
+						'time': new Date(result[1], result[2] - 1, result[3])
+					});
+			}
+		}
+		entries.close();
+	}
+	if (items.length > 0) {
+		items.sort(function(i1, i2) {
+			let d1 = i1.time;
+			let d2 = i2.time;
+			return d1 > d2 ? -1 : 1;
+		});
+		items = items.map(function(i) {
+			return i.name;
+		});
+	}
+
+	return items;
+}
+
 
 }
 

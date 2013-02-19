@@ -9,4 +9,7 @@ interface ssIExIm : nsISupports
 
 	bool export(in AString pathName);
 	bool import(in AString pathName, in bool importNotes);
+
+	AString cloudExport();
+	bool cloudImport(in AString fileName, in bool importNotes);
 };

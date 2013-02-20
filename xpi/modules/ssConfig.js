@@ -21,7 +21,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 	var themeKey = 'extensions.superstart.theme';
-	var theme = sbprefs.getCharPref(themeKey);
+	var theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 
 	var intCfgs = {
 		'col' : {
@@ -115,7 +115,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			case 'theme':
 				if (value != theme) {
 					if (this.getTheme(value) != '') { // make sure the theme exists
-						sbprefs.setCharPref(themeKey, value);
+						let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+						str.data = value;
+						sbprefs.setComplexValue(themeKey, Ci.nsISupportsString, str);
 					}
 				}
 				break;
@@ -159,7 +161,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 	
 			if (aData == 'theme') {
-				theme = sbprefs.getCharPref(themeKey);
+				theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 				that.fireEvent('theme', theme);
 			} else {
 				let cfgs = [intCfgs, boolCfgs];

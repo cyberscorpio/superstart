@@ -269,13 +269,27 @@ this.cloudExport = function() {
 
 	let max = this.getConfig('cloud-backup-count');
 	let items = getCloudItems();
-	/*
-	items.forEach(function(n) {
-		logger.logStringMessage('- ' + n);
-	});
-	*/
-	if (items.length > max) {
+	while (items.length > max) {
+		let x = getCloudDir();
+		x.append(items.pop());
+		x.remove(true);
 	}
+
+	return f.path;
+}
+
+this.cloudImport = function(fileName, importNotes) {
+	let f = getCloudDir();
+	if (f === null) {
+		return false;
+	}
+
+	f.append(fileName);
+	return this.import(f.path, importNotes);
+}
+
+this.getCloudItems = function() {
+	return getCloudItems();
 }
 
 function getCloudItems() {

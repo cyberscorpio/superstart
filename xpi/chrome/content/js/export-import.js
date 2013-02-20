@@ -78,7 +78,37 @@ evtMgr.ready(function() {
 
 		$$('export-dropbox').addEventListener('click', function() {
 			let pathName = exim.cloudExport();
+			let result = pathName !== '' ? getString('ssExportSuccessfully') : getString('ssExportFailed');
+			$$('result').textContent = result.replace('%file%', '"' + pathName + '"');
+			showPanel(2);
 		});
+
+		$$('dropbox-items').addEventListener('popupshowing', function(evt) {
+			let menu = this;
+			while (menu.hasChildNodes()) {
+				menu.removeChild(menu.firstChild);
+			}
+			let items = exim.getCloudItems();
+			if (items.length == 0) {
+				let m = document.createElement("menuitem");
+				m.setAttribute("label", getString('ssEmpty'));
+				menu.appendChild(m);
+			} else {
+				items.forEach(function(item) {
+					let m = document.createElement("menuitem");
+					m.setAttribute('label', item);
+					m.setAttribute('value', item);
+					m.addEventListener("command", function() {
+						let fileName = this.getAttribute('value');
+						let res = exim.cloudImport(fileName, $$('import-sites-only').checked ? false : true);
+						let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
+						$$('result').textContent = result.replace('%file%', '"' + fileName + '"');
+						showPanel(2);
+					}, false);
+					menu.appendChild(m);
+				});
+			}
+		}, false);
 
 		$$('export').addEventListener('click', function() {
 			let path = getExportFilePathName();

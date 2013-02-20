@@ -12,4 +12,5 @@ interface ssIExIm : nsISupports
 
 	AString cloudExport();
 	bool cloudImport(in AString fileName, in bool importNotes);
+	nsIVariant getCloudItems();
 };

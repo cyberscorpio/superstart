@@ -32,7 +32,7 @@
 				</vbox>
 				<vbox id="dropbox-not-found">
 					<description>SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:
-					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/export-import" value="Help" /></description>
+					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/export-import#dropbox-not-found" value="enjoyfreeware.org" /></description>
 				</vbox>
 			</groupbox>
 			<groupbox>

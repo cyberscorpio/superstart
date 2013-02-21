@@ -4,12 +4,11 @@
 [scriptable, uuid(1F2B14DE-3B38-4FB1-AD30-C524ABA9DE22)]
 interface ssIExIm : nsISupports
 {
-	void test();
-	bool isDropboxInstalled();
-
+	AString getDefExt();
 	bool export(in AString pathName);
 	bool import(in AString pathName, in bool importNotes);
 
+	bool isDropboxInstalled();
 	AString cloudExport();
 	bool cloudImport(in AString fileName, in bool importNotes);
 	nsIVariant getCloudItems();

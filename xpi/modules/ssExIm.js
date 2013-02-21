@@ -11,6 +11,7 @@ Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 let that = this;
 let logger = this.logger;
+let defExt = 'ssbackup';
 
 function getHostName() {
 	var dnsSvc = Cc["@mozilla.org/network/dns-service;1"].getService(Ci.nsIDNSService);
@@ -25,7 +26,7 @@ function filter(s) {
 function getCloudFileName() { // 'hostname_yyyy-mm-dd'
 	function pad(n) { return n < 10 ? '0' + n : n; }
 	let d = new Date();
-	return filter(getHostName()) + '_' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '.ssbackup';
+	return filter(getHostName()) + '_' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '.' + defExt;
 }
 
 let getDropboxDir = (function() {
@@ -144,13 +145,8 @@ function addDirToZip(path, dir, zip, excludes) {
 	}
 }
 
-this.test = function() {
-	let dst = FileUtils.getFile('Desk', ['test.zip']);
-	if (dst.exists()) {
-		this.import(dst.path, true);
-	} else {
-		this.export(dst.path);
-	}
+this.getDefExt = function() {
+	return defExt;
 }
 
 this.isDropboxInstalled = function() {

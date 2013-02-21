@@ -4,7 +4,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 const nsIFilePicker = Ci.nsIFilePicker;
 let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 let exim = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
-let defExt = 'ssbackup';
+let defExt = exim.getDefExt();
 
 let boolMap = {
 	'import-sites-only': 'import-sites-only'
@@ -77,10 +77,13 @@ evtMgr.ready(function() {
 		}
 
 		$$('export-dropbox').addEventListener('click', function() {
-			let pathName = exim.cloudExport();
-			let result = pathName !== '' ? getString('ssExportSuccessfully') : getString('ssExportFailed');
-			$$('result').textContent = result.replace('%file%', '"' + pathName + '"');
-			showPanel(2);
+			showPanel(1);
+			window.setTimeout(function() {
+				let pathName = exim.cloudExport();
+				let result = pathName !== '' ? getString('ssExportSuccessfully') : getString('ssExportFailed');
+				$$('result').textContent = result.replace('%file%', '"' + pathName + '"');
+				showPanel(2);
+			}, 0);
 		});
 
 		$$('dropbox-items').addEventListener('popupshowing', function(evt) {
@@ -99,11 +102,14 @@ evtMgr.ready(function() {
 					m.setAttribute('label', item);
 					m.setAttribute('value', item);
 					m.addEventListener("command", function() {
+						showPanel(1);
 						let fileName = this.getAttribute('value');
-						let res = exim.cloudImport(fileName, $$('import-sites-only').checked ? false : true);
-						let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
-						$$('result').textContent = result.replace('%file%', '"' + fileName + '"');
-						showPanel(2);
+						window.setTimeout(function() {
+							let res = exim.cloudImport(fileName, $$('import-sites-only').checked ? false : true);
+							let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
+							$$('result').textContent = result.replace('%file%', '"' + fileName + '"');
+							showPanel(2);
+						}, 0);
 					}, false);
 					menu.appendChild(m);
 				});

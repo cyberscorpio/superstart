@@ -85,7 +85,7 @@
 <!ENTITY superstart.options.help "ヘルプ">
 
 <!-- export / import -->
-<!ENTITY superstart.export "Export">
-<!ENTITY superstart.import "Import">
-<!ENTITY superstart.import.sites.only "Import sites only">
-<!ENTITY superstart.processing "Processing">
+<!ENTITY superstart.export "エクスポート">
+<!ENTITY superstart.import "インポート">
+<!ENTITY superstart.import.sites.only "インポートサイトのみ">
+<!ENTITY superstart.processing "処理中です">

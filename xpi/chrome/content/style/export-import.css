@@ -2,8 +2,8 @@
 	display: none;
 }
 
-#superstart-url-dialog {
-	width: 240px;
+#superstart-exim-dialog {
+	width: 280px;
 }
 
 #processing {
@@ -11,5 +11,10 @@
 }
 
 #result {
-	width: 200px;
+	width: 240px;
+}
+
+#processing,
+#result {
+	margin-top: 1em;
 }

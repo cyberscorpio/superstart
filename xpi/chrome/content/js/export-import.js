@@ -4,7 +4,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 const nsIFilePicker = Ci.nsIFilePicker;
 let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 let exim = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
-let defExt = 'ssbackup';
+let defExt = exim.getDefExt();
 
 let boolMap = {
 	'import-sites-only': 'import-sites-only'
@@ -15,12 +15,13 @@ function showPanel(n) {
 	for (let i = 0; i < ids.length; ++ i) {
 		let p = $$(ids[i]);
 		i == n ? ($.removeClass(p, 'hidden')) : ($.addClass(p, 'hidden'));
+		window.sizeToContent();
 	}
 }
 
 function formatDate(d) { // format Date to 'yyyy-mm-dd'
 	function pad(n) { return n < 10 ? '0' + n : n; }
-	return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+	return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 }
 
 function getFP() {
@@ -50,6 +51,21 @@ function addExtIfNotFound(path, ext) {
 
 evtMgr.ready(function() {
 	try {
+		let hideId = 'dropbox-found';
+		if (exim.isDropboxInstalled()) {
+			hideId = 'dropbox-not-found';
+		}
+		$.addClass($$(hideId), 'hidden');
+
+		let links = $('.text-link');
+		for (let i = 0; i < links.length; ++ i) {
+			let l = links[i];
+			l.setAttribute('tooltiptext', l.getAttribute('href'));
+			l.addEventListener('click', function() {
+				$$('superstart-exim-dialog').cancelDialog();
+			});
+		}
+
 		for (let id in boolMap) {
 			let key = boolMap[id];
 			let c = $$(id);
@@ -60,6 +76,46 @@ evtMgr.ready(function() {
 			}
 		}
 
+		$$('export-dropbox').addEventListener('click', function() {
+			showPanel(1);
+			window.setTimeout(function() {
+				let pathName = exim.cloudExport();
+				let result = pathName !== '' ? getString('ssExportSuccessfully') : getString('ssExportFailed');
+				$$('result').textContent = result.replace('%file%', '"' + pathName + '"');
+				showPanel(2);
+			}, 0);
+		});
+
+		$$('dropbox-items').addEventListener('popupshowing', function(evt) {
+			let menu = this;
+			while (menu.hasChildNodes()) {
+				menu.removeChild(menu.firstChild);
+			}
+			let items = exim.getCloudItems();
+			if (items.length == 0) {
+				let m = document.createElement("menuitem");
+				m.setAttribute("label", getString('ssEmpty'));
+				menu.appendChild(m);
+			} else {
+				items.forEach(function(item) {
+					let m = document.createElement("menuitem");
+					m.setAttribute('label', item);
+					m.setAttribute('value', item);
+					m.addEventListener("command", function() {
+						showPanel(1);
+						let fileName = this.getAttribute('value');
+						window.setTimeout(function() {
+							let res = exim.cloudImport(fileName, $$('import-sites-only').checked ? false : true);
+							let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
+							$$('result').textContent = result.replace('%file%', '"' + fileName + '"');
+							showPanel(2);
+						}, 0);
+					}, false);
+					menu.appendChild(m);
+				});
+			}
+		}, false);
+
 		$$('export').addEventListener('click', function() {
 			let path = getExportFilePathName();
 			if (path != '') {
@@ -68,7 +124,7 @@ evtMgr.ready(function() {
 					let res = exim.export(path);
 					let f = FileUtils.File(path);
 					let result = res ? getString('ssExportSuccessfully') : getString('ssExportFailed');
-					$$('result').textContent = result.replace('%file%', f.leafName);
+					$$('result').textContent = result.replace('%file%', '"' + f.leafName + '"');
 					showPanel(2);
 				}, 0);
 			}
@@ -81,7 +137,7 @@ evtMgr.ready(function() {
 					let res = exim.import(path, $$('import-sites-only').checked ? false : true);
 					let f = FileUtils.File(path);
 					let result = res ? getString('ssImportSuccessfully') : getString('ssImportFailed');
-					$$('result').textContent = result.replace('%file%', f.leafName);
+					$$('result').textContent = result.replace('%file%', '"' + f.leafName + '"');
 					showPanel(2);
 				}, 0);
 			}

@@ -21,13 +21,18 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 	var themeKey = 'extensions.superstart.theme';
-	var theme = sbprefs.getCharPref(themeKey);
+	var theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 
 	var intCfgs = {
 		'col' : {
 			'key' : 'sites.col',
 			'default' : 4,
 			'min' : 3
+		},
+		'cloud-backup-count': {
+			'key': 'cloud.backup.count',
+			'default': 5,
+			'min': 3
 		}
 	};
 
@@ -83,6 +88,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return 'superstart@enjoyfreeware.org';
 			case 'index-url':
 				return 'chrome://superstart/content/index.html';
+			case 'cloud-dir':
+				return sbprefs.getComplexValue('extensions.superstart.cloud.dir', Ci.nsISupportsString).data;
+			case 'cloud-subdir':
+				return sbprefs.getComplexValue('extensions.superstart.cloud.subdir', Ci.nsISupportsString).data;
 
 			// mutable
 			case 'theme':
@@ -106,7 +115,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			case 'theme':
 				if (value != theme) {
 					if (this.getTheme(value) != '') { // make sure the theme exists
-						sbprefs.setCharPref(themeKey, value);
+						let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+						str.data = value;
+						sbprefs.setComplexValue(themeKey, Ci.nsISupportsString, str);
 					}
 				}
 				break;
@@ -150,7 +161,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 	
 			if (aData == 'theme') {
-				theme = sbprefs.getCharPref(themeKey);
+				theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 				that.fireEvent('theme', theme);
 			} else {
 				let cfgs = [intCfgs, boolCfgs];

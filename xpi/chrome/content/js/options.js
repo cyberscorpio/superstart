@@ -94,7 +94,7 @@ function initialize() {
 	// initThemes();
 
 // links
-	let links = document.getElementsByClassName('text-link');
+	let links = $('.text-link');
 	for (let i = 0; i < links.length; ++ i) {
 		let l = links[i];
 		l.setAttribute('tooltiptext', l.getAttribute('href'));

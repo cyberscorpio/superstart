@@ -195,7 +195,10 @@
 			<tabpanel>
 				<vbox flex="1">
 					<hbox pack="center">
-						<image src="images/daughter.gif" id="my-love" tooltiptext="Hi!" />
+						<vbox>
+						<description>In memory of...</description>
+						<image src="images/father.png" id="father" tooltiptext="My father (1947.1 ~ 2013.2), I miss him every day." />
+						</vbox>
 					</hbox>
 					<groupbox>
 						<caption id="version" label="SuperStart" />

@@ -91,9 +91,6 @@ label.cstm-ctrl {
 	text-align: right;
 }
 
-#my-love {
-	margin: 10px;
-}
-#my-love:not(:hover) {
-	filter: url("filters.svg#gray-effect");
+#father {
+	margin: 5px 10px;
 }

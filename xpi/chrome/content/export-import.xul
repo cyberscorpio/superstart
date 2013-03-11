@@ -23,7 +23,7 @@
 				<checkbox label="&superstart.import.sites.only;" id="import-sites-only" />
 			</hbox>
 			<groupbox>
-				<caption label="Via Dropbox" />
+				<caption label="Via 'cloud'" />
 				<vbox id="dropbox-found">
 					<button id="export-dropbox" label="&superstart.export;" />
 					<button type="menu" id="import-dropbox" label="&superstart.import;">

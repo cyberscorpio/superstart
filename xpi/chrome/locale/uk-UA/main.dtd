@@ -1,91 +1,91 @@
-<!-- input url -->
+﻿<!-- input url -->
 <!ENTITY superstart.dialog.url.title "URL">
-<!ENTITY superstart.dialog.url.url "¬вед≥ть URL тут">
-<!ENTITY superstart.dialog.url.name "Ќазва сайту (не обов'¤зково)">
-<!ENTITY superstart.dialog.url.snapshot.setting "Ќалаштуванн¤ м≥н≥атюри">
-<!ENTITY superstart.dialog.url.snapshot.lefttop "Ћ≥вий &amp; верхн≥й кут">
-<!ENTITY superstart.dialog.url.snapshot.entire "¬есь сайт">
-<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "¬икористовувати серв≥с Firefox дл¤ м≥н≥атюр (може бути недоступно дл¤ де¤ких сайт≥в)">
-<!ENTITY superstart.dialog.url.snapshot.customize "¬ибрати зображенн¤">
+<!ENTITY superstart.dialog.url.url "Введіть URL тут">
+<!ENTITY superstart.dialog.url.name "Назва сайту (не обов'язково)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Налаштування мініатюри">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Лівий &amp; верхній кут">
+<!ENTITY superstart.dialog.url.snapshot.entire "Весь сайт">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Використовувати сервіс Firefox для мініатюр (може бути недоступно для деяких сайтів)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Вибрати зображення">
 
 <!-- group name -->
-<!ENTITY superstart.dialog.groupname.title "Ќазва групи">
+<!ENTITY superstart.dialog.groupname.title "Назва групи">
 
 <!-- context menu in superstart page -->
-<!ENTITY superstart.menu.site.add "ƒодати новий URL">
+<!ENTITY superstart.menu.site.add "Додати новий URL">
 <!ENTITY superstart.menu.placeholder.add "Add a placeholder">
-<!ENTITY superstart.menu.site.refreshall "ќновити вс≥">
-<!ENTITY superstart.menu.options "Ќалаштуванн¤">
+<!ENTITY superstart.menu.site.refreshall "Оновити всі">
+<!ENTITY superstart.menu.options "Налаштування">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add.link "ƒодати це посиланн¤ до Super Start">
-<!ENTITY superstart.context.menu.add "ƒодати цю вкладку до Super Start">
+<!ENTITY superstart.context.menu.add.link "Додати це посилання до Super Start">
+<!ENTITY superstart.context.menu.add "Додати цю вкладку до Super Start">
 
 <!-- options -->
-<!ENTITY superstart.options "Ќалаштуванн¤">
+<!ENTITY superstart.options "Налаштування">
 
-<!ENTITY superstart.options.general "«агальн≥">
-<!ENTITY superstart.options.sites.setup "Ќалаштуванн¤">
-<!ENTITY superstart.options.load.in.blanktab "«авантажувати в порожн≥х вкладках">
-<!ENTITY superstart.options.set.as.homepage "¬становити Super Start домашньою стор≥нкою">
-<!ENTITY superstart.options.sites.open.in.newtab "¬≥дкривати в нових вкладках за замовчуванн¤м">
-<!ENTITY superstart.options.sites.displaysettings "Ќалаштуванн¤ в≥дображенн¤">
-<!ENTITY superstart.options.sites.use.compactmode "¬икористовувати компактний режим">
-<!ENTITY superstart.options.sites.text.only "Ћише текст">
-<!ENTITY superstart.options.sites.use.background.effect "¬икористовувати фоновий ефект (може спов≥льнювати браузер)">
-<!ENTITY superstart.options.sites.col " ≥льк≥сть сайт≥в у р¤дку:">
+<!ENTITY superstart.options.general "Загальні">
+<!ENTITY superstart.options.sites.setup "Налаштування">
+<!ENTITY superstart.options.load.in.blanktab "Завантажувати в порожніх вкладках">
+<!ENTITY superstart.options.set.as.homepage "Встановити Super Start домашньою сторінкою">
+<!ENTITY superstart.options.sites.open.in.newtab "Відкривати в нових вкладках за замовчуванням">
+<!ENTITY superstart.options.sites.displaysettings "Налаштування відображення">
+<!ENTITY superstart.options.sites.use.compactmode "Використовувати компактний режим">
+<!ENTITY superstart.options.sites.text.only "Лише текст">
+<!ENTITY superstart.options.sites.use.background.effect "Використовувати фоновий ефект (може сповільнювати браузер)">
+<!ENTITY superstart.options.sites.col "Кількість сайтів у рядку:">
 
-<!ENTITY superstart.options.navbar "ѕанель нав≥гац≥њ">
-<!ENTITY superstart.options.show.navbar "¬≥дображати панель нав≥гац≥њ">
-<!ENTITY superstart.options.navbar.show.recently.closed "Ќещодавно закрит≥">
-<!ENTITY superstart.options.navbar.show.add.site "ƒодати новий сайт">
-<!ENTITY superstart.options.navbar.show.themes "“еми">
-<!ENTITY superstart.options.navbar.show.todo "Ќотатки">
-<!ENTITY superstart.options.show.elements "¬≥дображенн¤ елемент≥в...">
-<!ENTITY superstart.options.site.buttons.show.buttons "¬≥дображати кнопки">
-<!ENTITY superstart.options.site.buttons.show.newtab "Ќова вкладка">
-<!ENTITY superstart.options.site.buttons.show.refresh "ќновити">
-<!ENTITY superstart.options.site.buttons.show.config "Ќалаштуванн¤">
-<!ENTITY superstart.options.site.buttons.show.remove "¬идалити">
-<!ENTITY superstart.options.site.buttons.show.next.snapshot "Ќаступна м≥н≥атюра">
+<!ENTITY superstart.options.navbar "Панель навігації">
+<!ENTITY superstart.options.show.navbar "Відображати панель навігації">
+<!ENTITY superstart.options.navbar.show.recently.closed "Нещодавно закриті">
+<!ENTITY superstart.options.navbar.show.add.site "Додати новий сайт">
+<!ENTITY superstart.options.navbar.show.themes "Теми">
+<!ENTITY superstart.options.navbar.show.todo "Нотатки">
+<!ENTITY superstart.options.show.elements "Відображення елементів...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Відображати кнопки">
+<!ENTITY superstart.options.site.buttons.show.newtab "Нова вкладка">
+<!ENTITY superstart.options.site.buttons.show.refresh "Оновити">
+<!ENTITY superstart.options.site.buttons.show.config "Налаштування">
+<!ENTITY superstart.options.site.buttons.show.remove "Видалити">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Наступна мініатюра">
 
-<!ENTITY superstart.options.general.hint "* ѕараметри на ц≥й вкладц≥ набудуть чинност≥ негайно">
+<!ENTITY superstart.options.general.hint "* Параметри на цій вкладці набудуть чинності негайно">
 
-<!ENTITY superstart.ui.customize "Ќалаштуванн¤ вигл¤ду">
-<!ENTITY superstart.ui.customize.use "¬икористовувати власн≥ налаштуванн¤ в≥дображенн¤">
-<!ENTITY superstart.ui.customize.howto "(ƒопомога) як налаштувати в≥дображенн¤?">
-<!ENTITY superstart.ui.background.image "‘онове зображенн¤">
-<!ENTITY superstart.ui.select.image "¬ибрати зображенн¤">
-<!ENTITY superstart.ui.clear.image "ќчистити зображенн¤">
-<!ENTITY superstart.ui.background.repeat "ѕовторювати">
-<!ENTITY superstart.ui.background.repeat.repeat "ѕовторювати (за замовчуванн¤м)">
-<!ENTITY superstart.ui.background.repeat.no.repeat "Ѕез повторенн¤">
-<!ENTITY superstart.ui.background.repeat.repeat.horizontal "√оризонтальне повторенн¤">
-<!ENTITY superstart.ui.background.repeat.repeat.vertical "¬ертикальне повторенн¤">
-<!ENTITY superstart.ui.background.size "–озм≥р">
-<!ENTITY superstart.ui.background.size.default "«а замовчуванн¤м">
-<!ENTITY superstart.ui.background.size.cover "–озт¤гнути на всю довжину (CSS:cover)">
-<!ENTITY superstart.ui.background.size.contain "–озт¤гнути на всю довжину (CSS:contain)">
-<!ENTITY superstart.ui.background.position "ѕоложенн¤">
-<!ENTITY superstart.ui.colors " ольори">
-<!ENTITY superstart.ui.background.color.enable "¬ласний кол≥р фону">
-<!ENTITY superstart.ui.background.color.select "¬ибрати кол≥р">
-<!ENTITY superstart.ui.text.color "“екст">
-<!ENTITY superstart.ui.text.color.enable "¬ланий кол≥р тексту">
-<!ENTITY superstart.ui.text.color.black "„орний">
-<!ENTITY superstart.ui.text.color.white "Ѕ≥лий">
-<!ENTITY superstart.ui.text.color.use.shadow "¬икористовувати т≥нь">
-<!ENTITY superstart.ui.others "≤нш≥">
-<!ENTITY superstart.ui.transparent "ѕрозор≥сть (може спов≥льнювати браузер)">
-<!ENTITY superstart.ui.customize.advanced "ƒодатково">
-<!ENTITY superstart.ui.css.edit.hint "¬вед≥ть CSS код теми:">
+<!ENTITY superstart.ui.customize "Налаштування вигляду">
+<!ENTITY superstart.ui.customize.use "Використовувати власні налаштування відображення">
+<!ENTITY superstart.ui.customize.howto "(Допомога) Як налаштувати відображення?">
+<!ENTITY superstart.ui.background.image "Фонове зображення">
+<!ENTITY superstart.ui.select.image "Вибрати зображення">
+<!ENTITY superstart.ui.clear.image "Очистити зображення">
+<!ENTITY superstart.ui.background.repeat "Повторювати">
+<!ENTITY superstart.ui.background.repeat.repeat "Повторювати (за замовчуванням)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Без повторення">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Горизонтальне повторення">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Вертикальне повторення">
+<!ENTITY superstart.ui.background.size "Розмір">
+<!ENTITY superstart.ui.background.size.default "За замовчуванням">
+<!ENTITY superstart.ui.background.size.cover "Розтягнути на всю довжину (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Розтягнути на всю довжину (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Положення">
+<!ENTITY superstart.ui.colors "Кольори">
+<!ENTITY superstart.ui.background.color.enable "Власний колір фону">
+<!ENTITY superstart.ui.background.color.select "Вибрати колір">
+<!ENTITY superstart.ui.text.color "Текст">
+<!ENTITY superstart.ui.text.color.enable "Вланий колір тексту">
+<!ENTITY superstart.ui.text.color.black "Чорний">
+<!ENTITY superstart.ui.text.color.white "Білий">
+<!ENTITY superstart.ui.text.color.use.shadow "Використовувати тінь">
+<!ENTITY superstart.ui.others "Інші">
+<!ENTITY superstart.ui.transparent "Прозорість (може сповільнювати браузер)">
+<!ENTITY superstart.ui.customize.advanced "Додатково">
+<!ENTITY superstart.ui.css.edit.hint "Введіть CSS код теми:">
 
-<!ENTITY superstart.options.about "ѕро доповненн¤">
-<!ENTITY superstart.options.author "јвтор">
-<!ENTITY superstart.options.help "ƒопомога">
+<!ENTITY superstart.options.about "Про доповнення">
+<!ENTITY superstart.options.author "Автор">
+<!ENTITY superstart.options.help "Допомога">
 
 <!-- export / import -->
-<!ENTITY superstart.export "≈кспорт">
-<!ENTITY superstart.import "≤мпорт">
-<!ENTITY superstart.import.sites.only "≤мпорт лише сайт≥в">
-<!ENTITY superstart.processing "¬иконанн¤">
+<!ENTITY superstart.export "Експорт">
+<!ENTITY superstart.import "Імпорт">
+<!ENTITY superstart.import.sites.only "Імпорт лише сайтів">
+<!ENTITY superstart.processing "Виконання">

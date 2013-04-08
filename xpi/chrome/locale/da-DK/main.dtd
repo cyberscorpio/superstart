@@ -66,6 +66,7 @@
 <!ENTITY superstart.ui.background.size.default "Standard">
 <!ENTITY superstart.ui.background.size.cover "Autotilpas (CSS:cover)">
 <!ENTITY superstart.ui.background.size.contain "Autotilpas (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.colors "Farver">
 <!ENTITY superstart.ui.background.color.enable "Anvend baggrundsfarve">
 <!ENTITY superstart.ui.background.color.select "Vælg farve">
@@ -82,3 +83,9 @@
 <!ENTITY superstart.options.about "Om...">
 <!ENTITY superstart.options.author "Udvikler">
 <!ENTITY superstart.options.help "Hjælp">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Export">
+<!ENTITY superstart.import "Import">
+<!ENTITY superstart.import.sites.only "Import sites only">
+<!ENTITY superstart.processing "Processing">

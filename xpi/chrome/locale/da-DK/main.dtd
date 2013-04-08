@@ -85,7 +85,7 @@
 <!ENTITY superstart.options.help "Hjælp">
 
 <!-- export / import -->
-<!ENTITY superstart.export "Export">
-<!ENTITY superstart.import "Import">
-<!ENTITY superstart.import.sites.only "Import sites only">
-<!ENTITY superstart.processing "Processing">
+<!ENTITY superstart.export "Eksporter">
+<!ENTITY superstart.import "Importer">
+<!ENTITY superstart.import.sites.only "Importer kun sider">
+<!ENTITY superstart.processing "Behandlet">

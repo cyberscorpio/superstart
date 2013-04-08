@@ -1,0 +1,84 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Indsæt URL">
+<!ENTITY superstart.dialog.url.url "Indsæt URL her">
+<!ENTITY superstart.dialog.url.name "Sidenavn (valgfrit)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Miniaturer">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Øverste venstre hjørne">
+<!ENTITY superstart.dialog.url.snapshot.entire "Hele vinduet">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefox miniaturefunktion (understøttes ikke altid)">
+<!ENTITY superstart.dialog.url.snapshot.customize "tilpas billede">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Angiv gruppenavn">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Tilføj ny URL">
+<!ENTITY superstart.menu.placeholder.add "Tilføj pladsholder">
+<!ENTITY superstart.menu.site.refreshall "Genindlæs alle">
+<!ENTITY superstart.menu.options "Indstillinger">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Føj til Super Start">
+<!ENTITY superstart.context.menu.add "Føj fanen til Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Indstillinger">
+
+<!ENTITY superstart.options.general "Generelt">
+<!ENTITY superstart.options.sites.setup "Opførsel">
+<!ENTITY superstart.options.load.in.blanktab "Indlæs i tom fane">
+<!ENTITY superstart.options.set.as.homepage "Brug Super Start som startside">
+<!ENTITY superstart.options.sites.open.in.newtab "Åben altid i ny fane">
+<!ENTITY superstart.options.sites.displaysettings "Visning">
+<!ENTITY superstart.options.sites.use.compactmode "Kompakt visning">
+<!ENTITY superstart.options.sites.text.only "Kun tekst">
+<!ENTITY superstart.options.sites.use.background.effect "Anvend baggrundseffekt (kan sløve)">
+<!ENTITY superstart.options.sites.col "Sider pr. linie:">
+
+<!ENTITY superstart.options.navbar "Navigationsbjælke">
+<!ENTITY superstart.options.show.navbar "Vis navigationsbjælke">
+<!ENTITY superstart.options.navbar.show.recently.closed "Senest lukket">
+<!ENTITY superstart.options.navbar.show.add.site "Tilføj ny side">
+<!ENTITY superstart.options.navbar.show.themes "Temaer">
+<!ENTITY superstart.options.navbar.show.todo "Noter">
+<!ENTITY superstart.options.show.elements "Vis emner...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Vis knapper">
+<!ENTITY superstart.options.site.buttons.show.newtab "Ny fane">
+<!ENTITY superstart.options.site.buttons.show.refresh "Genindlæs">
+<!ENTITY superstart.options.site.buttons.show.config "Indstil">
+<!ENTITY superstart.options.site.buttons.show.remove "Fjern">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Næste snapshot">
+
+<!ENTITY superstart.options.general.hint "* Ændringer aktiveres med det samme">
+
+<!ENTITY superstart.ui.customize "Brugerflade">
+<!ENTITY superstart.ui.customize.use "Tilpas">
+<!ENTITY superstart.ui.customize.howto "Hjælp">
+<!ENTITY superstart.ui.background.image "Baggrundsbillede">
+<!ENTITY superstart.ui.select.image "Vælg billede">
+<!ENTITY superstart.ui.clear.image "Fjern billede">
+<!ENTITY superstart.ui.background.repeat "Gentag">
+<!ENTITY superstart.ui.background.repeat.repeat "Gentag (standard)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Gentag ikke">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Gentag vandret">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Gentag lodret">
+<!ENTITY superstart.ui.background.size "Størrelse">
+<!ENTITY superstart.ui.background.size.default "Standard">
+<!ENTITY superstart.ui.background.size.cover "Autotilpas (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Autotilpas (CSS:contain)">
+<!ENTITY superstart.ui.colors "Farver">
+<!ENTITY superstart.ui.background.color.enable "Anvend baggrundsfarve">
+<!ENTITY superstart.ui.background.color.select "Vælg farve">
+<!ENTITY superstart.ui.text.color "Tekst">
+<!ENTITY superstart.ui.text.color.enable "Anvend tekstfarve">
+<!ENTITY superstart.ui.text.color.black "Sort">
+<!ENTITY superstart.ui.text.color.white "Hvid">
+<!ENTITY superstart.ui.text.color.use.shadow "Anvend skygge">
+<!ENTITY superstart.ui.others "Andet">
+<!ENTITY superstart.ui.transparent "Gennemsigtig (kan sløve)">
+<!ENTITY superstart.ui.customize.advanced "Avanceret">
+<!ENTITY superstart.ui.css.edit.hint "Skriv CSS her:">
+
+<!ENTITY superstart.options.about "Om...">
+<!ENTITY superstart.options.author "Udvikler">
+<!ENTITY superstart.options.help "Hjælp">

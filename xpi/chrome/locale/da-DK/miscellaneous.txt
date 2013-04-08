@@ -1,0 +1,2 @@
+# Danish
+locale  superstart	da-DK   jar:chrome/superstart.jar!/locale/da-DK/

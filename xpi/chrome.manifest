@@ -46,3 +46,5 @@ locale	superstart	pt-BR	jar:chrome/superstart.jar!/locale/pt-BR/
 locale	superstart	ro-RO	jar:chrome/superstart.jar!/locale/ro-RO/
 # Korean
 locale	superstart	ko-KR	jar:chrome/superstart.jar!/locale/ko-KR/
+# Danish
+locale  superstart	da-DK   jar:chrome/superstart.jar!/locale/da-DK/

@@ -1,0 +1,91 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Въведи URL">
+<!ENTITY superstart.dialog.url.url "Въведи URL тук">
+<!ENTITY superstart.dialog.url.name "Име на сайта (не е задължително)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Настройки на изображение">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Ляв горен ъгъл">
+<!ENTITY superstart.dialog.url.snapshot.entire "Целия прозорец">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Използвай Firefox's thumbnail service (може да не работи със някой сайтове)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Персонализиране на изображение">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Задай име на група">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Добави URL">
+<!ENTITY superstart.menu.placeholder.add "Добави Държач">
+<!ENTITY superstart.menu.site.refreshall "Обнови всичко">
+<!ENTITY superstart.menu.options "Опции">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Добави този линк в Super Start">
+<!ENTITY superstart.context.menu.add "Добави този Таб в Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Опции">
+
+<!ENTITY superstart.options.general "Общи">
+<!ENTITY superstart.options.sites.setup "Настройки">
+<!ENTITY superstart.options.load.in.blanktab "Зареди празен таб">
+<!ENTITY superstart.options.set.as.homepage "Задай Super Start като начална страница">
+<!ENTITY superstart.options.sites.open.in.newtab "Отваряй в нов таб по подразбиране">
+<!ENTITY superstart.options.sites.displaysettings "Покажи настройки">
+<!ENTITY superstart.options.sites.use.compactmode "Използвай компактен режим">
+<!ENTITY superstart.options.sites.text.only "Само текст">
+<!ENTITY superstart.options.sites.use.background.effect "Изполвай фонов ефект (може да забави)">
+<!ENTITY superstart.options.sites.col "Сайта в редица:">
+
+<!ENTITY superstart.options.navbar "навигационна лента">
+<!ENTITY superstart.options.show.navbar "Покажи навигационната лента">
+<!ENTITY superstart.options.navbar.show.recently.closed "Наскоро добавни">
+<!ENTITY superstart.options.navbar.show.add.site "Добави нов сайт">
+<!ENTITY superstart.options.navbar.show.themes "Теми">
+<!ENTITY superstart.options.navbar.show.todo "Бележки">
+<!ENTITY superstart.options.show.elements "Покажи елементи...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Покажи бутони">
+<!ENTITY superstart.options.site.buttons.show.newtab "Нов таб">
+<!ENTITY superstart.options.site.buttons.show.refresh "Обнови">
+<!ENTITY superstart.options.site.buttons.show.config "Конфигурация">
+<!ENTITY superstart.options.site.buttons.show.remove "Премахни">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Следваща снимка">
+
+<!ENTITY superstart.options.general.hint "* Настройките влизат веднага в употреба">
+
+<!ENTITY superstart.ui.customize "Персонализиране на UI">
+<!ENTITY superstart.ui.customize.use "Включи персонализиране">
+<!ENTITY superstart.ui.customize.howto "(Помощ) как да персонализирам?">
+<!ENTITY superstart.ui.background.image "Фоново изображение">
+<!ENTITY superstart.ui.select.image "Избери изображение">
+<!ENTITY superstart.ui.clear.image "Премахни изображение">
+<!ENTITY superstart.ui.background.repeat "Повтаряне">
+<!ENTITY superstart.ui.background.repeat.repeat "Повтаряне по подразбиране">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Без повтаряне">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Повтори хоризонтално">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Повтори вертикално">
+<!ENTITY superstart.ui.background.size "Размер">
+<!ENTITY superstart.ui.background.size.default "По подразбиране">
+<!ENTITY superstart.ui.background.size.cover "Мащабирай до изпълване (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Мащабирай до изпълване (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Позиция">
+<!ENTITY superstart.ui.colors "Цветове">
+<!ENTITY superstart.ui.background.color.enable "Бключи фонов цвят">
+<!ENTITY superstart.ui.background.color.select "Избери цвят">
+<!ENTITY superstart.ui.text.color "Текст">
+<!ENTITY superstart.ui.text.color.enable "Включи цветен текст">
+<!ENTITY superstart.ui.text.color.black "Черно">
+<!ENTITY superstart.ui.text.color.white "Бяло">
+<!ENTITY superstart.ui.text.color.use.shadow "Използвай сенки">
+<!ENTITY superstart.ui.others "Други">
+<!ENTITY superstart.ui.transparent "Прозрачно (може да забави)">
+<!ENTITY superstart.ui.customize.advanced "Допълнителни">
+<!ENTITY superstart.ui.css.edit.hint "Директно въвеждане на CSS:">
+
+<!ENTITY superstart.options.about "За">
+<!ENTITY superstart.options.author "Автор">
+<!ENTITY superstart.options.help "Помощ">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Експортирай">
+<!ENTITY superstart.import "Импортирай">
+<!ENTITY superstart.import.sites.only "Импортирай само сайтове">
+<!ENTITY superstart.processing "Обработва се">

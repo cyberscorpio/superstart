@@ -9,7 +9,7 @@
 
 .nbb.opened,
 .nbc.opened {
-	background-color: rgb(212,212,212);
+	background-color: black;
 }
 
 .folder-snapshot.site-snapshot {
@@ -19,6 +19,12 @@
 	background-size: auto auto;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.folder.opened > a > .folder-snapshot.site-snapshot/*,
+.folder.closing > a > .folder-snapshot.site-snapshot*/ {
+    background-color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.85);
 }
 
 #margin-helper,
@@ -36,3 +42,5 @@
 	margin-bottom: 5px;
 	margin-right: 10px;
 }
+
+

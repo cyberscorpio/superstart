@@ -9,7 +9,7 @@ Czech:        Michal Kváček (michalkv {at} gmail.com)
 Brazilian:    Alisson (teunome {at} gmail.com)
 Japanese:     田中博 (true892 {at} gmail.com) and Haebaru (https://github.com/Haebaru)
 Spanish:      Raúl Morillo (rmorillo.bdd {at} gmail.com)
-Italian:      GiPiero (calabar {at} tiscalinet.it)
+Italian:      GiPiero (calabar {at} tiscalinet.it) and Alessio De Luca Bossa (pretorian_adb {at} hotmail.com)
 Swedish:      Blittan (blittan {at} xboxmediacenter.com)
 Dutch:        Jon van Kleef (jon.vankleef {at} gmail.com) and  Ibrahim Al-Dalaimi (info {at} gfxsky.nl)
 Turkish:      Hasan Sarptaş (sarptas {at} gmail.com) 
@@ -18,6 +18,7 @@ Arabic:       MOHAMMAD AL jASEM (xblue.hacker95 {at} gmail.com)
 Romaniam:     Cristian Ștefănescu (howerkraft {at} gmail.com)
 Korean:       U bless (annlabv3 {at} gmail.com)
 Danish:       Regmos
+Bulgarian:    Kaloian Kozlev (kbkozlev {at} gmail.com)
 
 
 ---    theme    ---

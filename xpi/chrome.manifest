@@ -50,3 +50,5 @@ locale	superstart	ko-KR	jar:chrome/superstart.jar!/locale/ko-KR/
 locale  superstart	da-DK   jar:chrome/superstart.jar!/locale/da-DK/
 # Bulgarian
 locale  superstart	bg      jar:chrome/superstart.jar!/locale/bg/
+# Italian
+locale  superstart	it-IT   jar:chrome/superstart.jar!/locale/it-IT/

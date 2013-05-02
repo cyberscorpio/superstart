@@ -9,7 +9,7 @@
 
 .nbb.opened,
 .nbc.opened {
-	background-color: rgb(212,212,212);
+	background-color: black;
 }
 
 .folder-snapshot.site-snapshot {
@@ -23,8 +23,8 @@
 
 .folder.opened > a > .folder-snapshot.site-snapshot/*,
 .folder.closing > a > .folder-snapshot.site-snapshot*/ {
-    background-color: rgba(0, 0, 0, 0.75);
-    border-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.85);
 }
 
 #margin-helper,

@@ -5,7 +5,7 @@
 <!ENTITY superstart.dialog.url.snapshot.setting "Impostazioni miniatura">
 <!ENTITY superstart.dialog.url.snapshot.lefttop "Angolo in alto a sinistra">
 <!ENTITY superstart.dialog.url.snapshot.entire "Finestra intera">
-<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Usa il servizio di miniature di Firefox (puÚ non funzionare per alcuni siti)">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Usa il servizio di miniature di Firefox (può non funzionare per alcuni siti)">
 <!ENTITY superstart.dialog.url.snapshot.customize "Immagine personalizzata">
 
 <!-- group name -->
@@ -13,12 +13,12 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Aggiungi nuovo URL">
-<!ENTITY superstart.menu.placeholder.add "Aggiungi uno segnaposto">
+<!ENTITY superstart.menu.placeholder.add "Aggiungi un segnaposto">
 <!ENTITY superstart.menu.site.refreshall "Aggiorna tutti">
 <!ENTITY superstart.menu.options "Opzioni">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add.link "Aggiungi questo collegamento a Super Start">
+<!ENTITY superstart.context.menu.add.link "Aggiungi questo link a Super Start">
 <!ENTITY superstart.context.menu.add "Aggiungi questa scheda a Super Start">
 
 <!-- options -->
@@ -28,12 +28,12 @@
 <!ENTITY superstart.options.sites.setup "Impostazioni">
 <!ENTITY superstart.options.load.in.blanktab "Carica in una scheda vuota">
 <!ENTITY superstart.options.set.as.homepage "Imposta Super Start come pagina iniziale">
-<!ENTITY superstart.options.sites.open.in.newtab "Apri sempre in una nuova scheda">
+<!ENTITY superstart.options.sites.open.in.newtab "Apri sempre in una scheda nuova">
 <!ENTITY superstart.options.sites.displaysettings "Impostazioni Visualizzazione">
-<!ENTITY superstart.options.sites.use.compactmode "Usa modalit‡ compatta">
-<!ENTITY superstart.options.sites.text.only "Solo Titoli">
-<!ENTITY superstart.options.sites.use.background.effect "Usa effetti di sfondo (puÚ rallentare)">
-<!ENTITY superstart.options.sites.col "Quanti siti su una sola linea:">
+<!ENTITY superstart.options.sites.use.compactmode "Usa modalità compatta">
+<!ENTITY superstart.options.sites.text.only "Solo titoli">
+<!ENTITY superstart.options.sites.use.background.effect "Usa effetti di sfondo (può rallentare)">
+<!ENTITY superstart.options.sites.col "Siti per linea (colonne):">
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Mostra Navbar">
@@ -55,17 +55,17 @@
 <!ENTITY superstart.ui.customize.use "Abilita personalizzazioni">
 <!ENTITY superstart.ui.customize.howto "(Aiuto) Come personalizzare?">
 <!ENTITY superstart.ui.background.image "Immagine di sfondo">
-<!ENTITY superstart.ui.select.image "Seleziona Immagine">
+<!ENTITY superstart.ui.select.image "Seleziona immagine">
 <!ENTITY superstart.ui.clear.image "Cancella immagine">
 <!ENTITY superstart.ui.background.repeat "Ripeti">
 <!ENTITY superstart.ui.background.repeat.repeat "Ripeti (predefinito)">
-<!ENTITY superstart.ui.background.repeat.no.repeat "non ripetere">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Non ripetere">
 <!ENTITY superstart.ui.background.repeat.repeat.horizontal "Ripeti orizzontalmente">
 <!ENTITY superstart.ui.background.repeat.repeat.vertical "Ripeti verticalmente">
 <!ENTITY superstart.ui.background.size "Dimensioni">
 <!ENTITY superstart.ui.background.size.default "Predefinite">
 <!ENTITY superstart.ui.background.size.cover "Adatta alla finestra (CSS:cover)">
-<!ENTITY superstart.ui.background.size.contain "Adatta alla Finestra (CSS:contain)">
+<!ENTITY superstart.ui.background.size.contain "Adatta alla finestra (CSS:contain)">
 <!ENTITY superstart.ui.background.position "Posizione">
 <!ENTITY superstart.ui.colors "Colori">
 <!ENTITY superstart.ui.background.color.enable "Abilita colore sfondo">
@@ -76,7 +76,7 @@
 <!ENTITY superstart.ui.text.color.white "Bianco">
 <!ENTITY superstart.ui.text.color.use.shadow "Usa ombre">
 <!ENTITY superstart.ui.others "Altro">
-<!ENTITY superstart.ui.transparent "Trasparenza (puÚ rallentare)">
+<!ENTITY superstart.ui.transparent "Trasparenza (può rallentare)">
 <!ENTITY superstart.ui.customize.advanced "Avanzate">
 <!ENTITY superstart.ui.css.edit.hint "Inserisci CSS direttamente qui:">
 

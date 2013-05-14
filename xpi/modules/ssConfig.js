@@ -25,10 +25,25 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var intCfgs = {
 		'col' : {
-			'key' : 'sites.col',
-			'default' : 4,
-			'min' : 3
+			'key': 'sites.col',
+			'default': 4,
+			'min': 3
 		},
+
+		'snapshot-width': {
+			'key': 'site.snapshot.width',
+			'default': 256,
+			'min': 128,
+			'max': 800
+		},
+
+		'snapshot-ratio-type': {
+			'key': 'site.snapshot.ratio.type',
+			'default': 1,
+			'min': 1,
+			'max': 2
+		},
+
 		'cloud-backup-count': {
 			'key': 'cloud.backup.count',
 			'default': 5,
@@ -92,6 +107,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return sbprefs.getComplexValue('extensions.superstart.cloud.dir', Ci.nsISupportsString).data;
 			case 'cloud-subdir':
 				return sbprefs.getComplexValue('extensions.superstart.cloud.subdir', Ci.nsISupportsString).data;
+
+			case 'snapshot-ratio':
+				return this.getConfig('snapshot-ratio-type') == 1 ? 0.5625 : 0.625;
 
 			// mutable
 			case 'theme':

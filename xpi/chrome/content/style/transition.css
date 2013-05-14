@@ -1,6 +1,7 @@
 #container
 , .nbb
 , .nbc
+, #nb-search
 , .site
 , #folder
 , .site-snapshot
@@ -15,6 +16,10 @@
 
 .nbb, .nbc {
 	transition-property: opacity;
+}
+
+#nb-search {
+	transition-property: opacity, margin, width, height;
 }
 
 #container.notransition

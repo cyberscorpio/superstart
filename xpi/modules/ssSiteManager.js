@@ -49,9 +49,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.v1.json']);
 	let /* nsIFile */ oldfile = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
-	let imgWidth = 256;
-	let ratio = 0.5625; // 0.625; 16:9 or 16:10
-	let imgHeight = Math.floor(imgWidth * ratio);
 
 	let imgLoading = 'images/loading.gif';
 	let imgNoSnapshot = 'images/no-image.png';
@@ -540,6 +537,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		let max = 3;
 		let taking = [];
 		let browsers = {};
+		let imgWidth = 0;
+		let ratio = 0;
+		let imgHeight = 0;
+
 
 		function exists(url) {
 			if (q.indexOf(url) != -1 || taking.indexOf(url) != -1) {
@@ -552,6 +553,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			if (taking.length >= max || q.length == 0) {
 				return;
 			}
+			// get the width / height everytime
+			imgWidth = that.getConfig('snapshot-width');
+			ratio = that.getConfig('snapshot-ratio');
+			imgHeight = Math.floor(imgWidth * ratio);
+
 			let url = q.shift();
 			taking.push(url);
 

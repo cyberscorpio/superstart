@@ -38,7 +38,7 @@ function initialize() {
 	let d = document;
 
 // restore the selected tab
-	let idx = window.opener['option-tab-index'];
+	let idx = window.opener['superstart-option-tab-index'];
 	if (idx != undefined) {
 		$$('option-tabbox').selectedIndex = idx;
 	}
@@ -165,7 +165,7 @@ function onAccept() {
 	}
 
 	// 2. save tab index
-	window.opener['option-tab-index'] = $$('option-tabbox').selectedIndex;
+	window.opener['superstart-option-tab-index'] = $$('option-tabbox').selectedIndex;
 
 	return true;
 }

@@ -41,23 +41,49 @@ a {
 
 #navbar {
 	height: 32px;
+	min-width: 600px;
 	background-color: rgba(0,0,0,0.25);
 	text-align: center;
 }
 
 #nb-search {
-	width: 20em;
-	height: 14px;
-	margin-top: 4px;
+	display: inline-block;
+	width: 320px;
+	height: 22px;
+	margin-top: 5px;
+	background: white;
+	text-align: left;
 	opacity: 0.5;
 }
-
-#nb-search:focus {
+#nb-search.focus {
 	opacity: 1;
-	width: 40em;
-	height: 28px;
-	margin-top: 15px;
 }
+
+#nb-search-box {
+	border: none;
+	float: left;
+	height: 20px;
+	width: 320px;
+	padding-left: 0.5em;
+}
+
+#nb-search-switcher {
+	float: right;
+	height: 20px;
+	width: 30px;
+	margin-left: -30px;
+	cursor: default;
+}
+
+#nb-search-favicon {
+	width: 16px;
+	height: 16px;
+	margin-top: 3px;
+}
+#nb-search-dropdown {
+	vertical-align: 50%;
+}
+
 
 li.nbb, li.nbc {
 	opacity: .5;

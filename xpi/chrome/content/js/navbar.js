@@ -20,6 +20,20 @@ evtMgr.ready(function() {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
+
+	var sbar = $$('nb-search');
+	var input = $$('nb-search-box');
+	var switcher = $$('nb-search-dropdown');
+	input.addEventListener('focus', onFocus, false);
+	input.addEventListener('blur', onBlur, false);
+
+	function onFocus() {
+		$.addClass(sbar, 'focus');
+	}
+
+	function onBlur() {
+		$.removeClass(sbar, 'focus');
+	}
 });
 evtMgr.clear(function() {
 	for (var k in e2id) {

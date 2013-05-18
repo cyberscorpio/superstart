@@ -3,27 +3,31 @@
  */
 "use strict";
 (function() {
-var e2id = { // use "onNavbarItemOnoff" to handle the events
+var id4ShowHide = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-recently-closed': 'nbb-recently-closed',
 	'navbar-add-site': 'nbb-add-site',
 	'navbar-themes': 'nbc-themes-pointer',
 	'navbar-todo': 'nbc-notes-onoff',
-	'navbar': 'navbar'
+	'navbar': 'navbar',
+	'navbar-search': 'nb-search'
 };
 
 evtMgr.ready(function() {
 	initPopupButton([
 		{bid: 'nbb-recently-closed', mid: 'superstart-recently-closed-list', title: getString('ssRecentlyClosed')},
-		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')}
+		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')},
+		{bid: 'nb-search-switcher', mid: 'superstart-search-engines-menu', title: ''},
+		{bid: 'nb-search-favicon', mid: 'superstart-search-engines-menu', title: ''}
 	]);
-	for (var k in e2id) {
+	for (var k in id4ShowHide) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
+	ob.subscribe('use-default-searchengine', onSearchEngineChanged);
+	onSearchEngineChanged();
 
 	var sbar = $$('nb-search');
-	var input = $$('nb-search-box');
-	var switcher = $$('nb-search-dropdown');
+	var input = $$('nb-search-text');
 	input.addEventListener('focus', onFocus, false);
 	input.addEventListener('blur', onBlur, false);
 
@@ -36,9 +40,10 @@ evtMgr.ready(function() {
 	}
 });
 evtMgr.clear(function() {
-	for (var k in e2id) {
+	for (var k in id4ShowHide) {
 		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
+	ob.unsubscribe('use-default-searchengine', onSearchEngineChanged);
 });
 
 function initPopupButton(pops) {
@@ -80,24 +85,46 @@ function initPopupButton(pops) {
 		var p = pops[i];
 		var b = $$(p.bid);
 		b.mid = p.mid;
-		b.setAttribute('title', p.title);
-		b.addEventListener('mousedown', onMouseDown, false);
+		if (p.title != '') {
+			b.setAttribute('title', p.title);
+		}
+		b.addEventListener('mousedown', onMouseDown, true);
 	}
 	evtMgr.clear(function() {
 		for (var i = 0; i < pops.length; ++ i) {
 			var b = $$(p.bid);
-			b.removeEventListener('mousedown', onMouseDown, false);
+			b.removeEventListener('mousedown', onMouseDown, true);
 		}
 	});
 }
 
 function onNavbarItemOnoff(evt, onoff) {
 	onoff = cfg.getConfig(evt);
-	var id = e2id[evt];
+	var id = id4ShowHide[evt];
 	if (id !== undefined) {
 		var b = $$(id);
 		onoff ? $.removeClass(b, 'hidden') : $.addClass(b, 'hidden');
 	}
 }
 
+function onSearchEngineChanged() {
+	var useDefault = cfg.getConfig('use-default-searchengine');
+	var src = 'images/bing.ico';
+	if (useDefault) {
+		var engines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
+		var engine = engines.currentEngine || engines.defaultEngine;
+		if (engine != null) {
+			var icon = engine.iconURI;
+			if (icon != null) {
+				src = icon.spec;
+			} else {
+				src = '';
+			}
+		}
+	}
+
+	$$('nb-search-favicon').setAttribute('src', src);
+}
+
 })();
+

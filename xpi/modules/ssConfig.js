@@ -70,8 +70,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'sites-use-bg-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
+		'use-default-searchengine': {'key': 'use.default.searchengine'},
 
 		'navbar': {'key': 'navbar'},
+		'navbar-search': {'key': 'navbar.search'},
 		'navbar-recently-closed': {'key': 'navbar.recently.closed'},
 		'navbar-add-site': {'key': 'navbar.add.site'},
 		'navbar-themes': {'key': 'navbar.themes'},
@@ -158,7 +160,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	////////////////////////////////////////////////////////////////////////
-	// observer 
+	// observers 
 	var ssPrefObserver = {
 		register: function() {
 			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
@@ -198,7 +200,34 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 		}
 	}
-
 	ssPrefObserver.register();
+
+	var ssSearchObserver = {
+		register: function() {
+			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
+			this.branch = prefService.getBranch("browser.search.");
+			this.branch.addObserver("", this, false);
+		},
+
+		unregister: function() {
+			if(!this.branch) {
+				return;
+			}
+			this.branch.removeObserver("", this);
+		},
+
+		observe: function(aSubject, aTopic, aData) {
+			if(aTopic != "nsPref:changed") {
+				return;
+			}
+	
+			if (aData == 'selectedEngine') {
+				if (that.getConfig('use-default-searchengine')) {
+					that.fireEvent('use-default-searchengine', true);
+				}
+			}
+		}
+	}
+	ssSearchObserver.register();
 }
 

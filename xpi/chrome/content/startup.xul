@@ -56,6 +56,9 @@
 		<menupopup id="superstart-themes-list-menu"
 			onpopupshowing="SuperStart.populateThemes();">
 		</menupopup>
+		<menupopup id="superstart-search-engines-menu"
+			onpopupshowing="SuperStart.populateSearchEngines();">
+		</menupopup>
 	</window>
 
 	<toolbarpalette id="BrowserToolbarPalette">

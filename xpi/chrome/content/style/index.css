@@ -26,11 +26,11 @@ a {
 }
 
 .invisible {
-	visibility: hidden;
+	visibility: hidden !important;
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 
@@ -46,7 +46,7 @@ a {
 	text-align: center;
 }
 
-#nb-search {
+#nb-search:not(.hidden) {
 	display: inline-block;
 	width: 320px;
 	height: 22px;
@@ -59,7 +59,7 @@ a {
 	opacity: 1;
 }
 
-#nb-search-box {
+#nb-search-text {
 	border: none;
 	float: left;
 	height: 20px;
@@ -73,15 +73,16 @@ a {
 	width: 30px;
 	margin-left: -30px;
 	cursor: default;
+
+	background-image: url(chrome://browser/skin/searchbar-dropmarker.png);
+	background-repeat: no-repeat;
+	background-position: calc(100% - 2px) center;
 }
 
 #nb-search-favicon {
 	width: 16px;
 	height: 16px;
 	margin-top: 3px;
-}
-#nb-search-dropdown {
-	vertical-align: 50%;
 }
 
 

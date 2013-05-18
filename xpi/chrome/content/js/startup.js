@@ -19,6 +19,7 @@ if ("undefined" == typeof(SuperStart)) {
 		const {classes: Cc, interfaces: Ci} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+		let searchEngines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
 		let strings = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService).createBundle("chrome://superstart/locale/main.properties");
 		let sessions = Cc['@mozilla.org/browser/sessionstore;1'].getService(Ci.nsISessionStore);
 		let hs = Cc["@mozilla.org/browser/nav-history-service;1"].getService(Ci.nsINavHistoryService);
@@ -171,11 +172,11 @@ if ("undefined" == typeof(SuperStart)) {
 				let m = document.createElement("menuitem");
 				m.setAttribute("label", undoItems[i].title);
 				if (undoItems[i].image) {
-					let iconURL = undoItems[i].image;
-					if (/^https?:/.test(iconURL)) {
-						iconURL = "moz-anno:favicon:" + iconURL;
+					let src = undoItems[i].image;
+					if (/^https?:/.test(src)) {
+						src = "moz-anno:favicon:" + src;
 					}
-					m.setAttribute("image", iconURL);
+					m.setAttribute("image", src);
 				}
 				m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
 				m.setAttribute("value", i);
@@ -233,6 +234,49 @@ if ("undefined" == typeof(SuperStart)) {
 				}, false);
 
 				menu.appendChild(m);
+			}
+		}
+
+		SuperStart.populateSearchEngines = function() {
+			let menu = $$('superstart-search-engines-menu');
+			while (menu.hasChildNodes()) {
+				menu.removeChild(menu.firstChild);
+			}
+
+			let useDefSearchEngine = cfg.getConfig('use-default-searchengine');
+
+			// 
+			let m = document.createElement("menuitem");
+			m.setAttribute('label', 'Conduit (Bing)');
+			m.setAttribute('image', 'chrome://superstart/content/images/bing.ico');
+			m.setAttribute('class', "menuitem-iconic bookmark-item menuitem-with-favicon");
+			m.setAttribute('type', 'radio');
+			m.setAttribute('value', 0);
+			if (!useDefSearchEngine) {
+				m.setAttribute('checked', true);
+			}
+			m.addEventListener('command', function() {
+				cfg.setConfig('use-default-searchengine', false);
+			}, false);
+			menu.appendChild(m);
+
+			let engine = searchEngines.currentEngine || searchEngines.defaultEngine;
+			if (engine != null) {
+				let m = document.createElement("menuitem");
+				m.setAttribute('label', 'Firefox (' + engine.name + ')');
+				m.setAttribute('type', 'radio');
+				m.setAttribute('image', engine.iconURI.spec);
+				m.setAttribute('class', "menuitem-iconic bookmark-item menuitem-with-favicon");
+				m.setAttribute('value', 1);
+				if (useDefSearchEngine) {
+					m.setAttribute('checked', true);
+				}
+				m.addEventListener('command', function() {
+					cfg.setConfig('use-default-searchengine', true);
+				}, false);
+				menu.appendChild(m);
+			} else {
+				m.setAttribute('checked', true);
 			}
 		}
 
@@ -340,11 +384,11 @@ if ("undefined" == typeof(SuperStart)) {
 				var m = document.createElement('menuitem');
 				m.setAttribute("label", node.title);
 				if (node.icon) {
-					let iconURL = node.icon;
-					if (/^https?:/.test(iconURL)) {
-						iconURL = "moz-anno:favicon:" + iconURL;
+					let src = node.icon;
+					if (/^https?:/.test(src)) {
+						src = "moz-anno:favicon:" + src;
 					}
-					m.setAttribute("image", iconURL);
+					m.setAttribute("image", src);
 				}
 				m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
 				m.setAttribute('tooltiptext', node.uri);

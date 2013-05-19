@@ -3,6 +3,7 @@
  */
 "use strict";
 (function() {
+var engines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
 var id4ShowHide = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-recently-closed': 'nbb-recently-closed',
 	'navbar-add-site': 'nbb-add-site',
@@ -30,16 +31,39 @@ evtMgr.ready(function() {
 	var input = $$('nb-search-text');
 	input.addEventListener('focus', onFocus, false);
 	input.addEventListener('blur', onBlur, false);
+	input.addEventListener('keypress', onKeyPress, false);
 
 	function onFocus() {
+		this.select();
 		$.addClass(sbar, 'focus');
 	}
 
 	function onBlur() {
+		this.setSelectionRange(0, 0);
 		$.removeClass(sbar, 'focus');
+	}
+
+	function onKeyPress(evt) {
+		if (evt.keyCode == 13) {
+			var text = input.value;
+			if (text == '') {
+				return;
+			}
+
+			if (cfg.getConfig('use-default-searchengine')) {
+				var engine = engines.currentEngine || engines.defaultEngine;
+				if (engine != null) {
+					var submission = engine.getSubmission(text);
+					var url = submission.uri.spec;
+					document.location.href = url;
+				}
+			} else {
+			}
+		}
 	}
 });
 evtMgr.clear(function() {
+	engines = null;
 	for (var k in id4ShowHide) {
 		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
@@ -111,7 +135,6 @@ function onSearchEngineChanged() {
 	var useDefault = cfg.getConfig('use-default-searchengine');
 	var src = 'images/bing.ico';
 	if (useDefault) {
-		var engines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
 		var engine = engines.currentEngine || engines.defaultEngine;
 		if (engine != null) {
 			var icon = engine.iconURI;

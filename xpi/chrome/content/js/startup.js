@@ -262,6 +262,8 @@ if ("undefined" == typeof(SuperStart)) {
 
 			let engine = searchEngines.currentEngine || searchEngines.defaultEngine;
 			if (engine != null) {
+				menu.appendChild(document.createElement("menuseparator"));
+
 				let m = document.createElement("menuitem");
 				m.setAttribute('label', 'Firefox (' + engine.name + ')');
 				m.setAttribute('type', 'radio');

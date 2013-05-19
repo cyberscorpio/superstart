@@ -39,9 +39,11 @@
 #container {
 	transition-property: top;
 }
+
 .site {
-	transition-property: top, left, opacity, transform;
+	transition-property: top, left, /*opacity, */transform;
 }
+
 #folder {
 	transition-property: top, left, width, height;
 }

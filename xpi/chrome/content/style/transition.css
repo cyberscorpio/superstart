@@ -37,14 +37,17 @@
 }
 
 #container {
+	transition-duration: 125ms;
 	transition-property: top;
 }
 
 .site {
-	transition-property: top, left, /*opacity, */transform;
+	/*transition-property: top, left, transform;*/
+	transition-property: top, left, opacity, transform;
 }
 
 #folder {
+	transition-duration: 125ms;
 	transition-property: top, left, width, height;
 }
 

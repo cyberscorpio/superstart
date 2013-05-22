@@ -422,7 +422,6 @@ function openFolder(idx, f) {
 	folderArea.appendChild(df);
 
 	var mask = $$('mask');
-	// mask.style.display = 'block';
 	$.removeClass(mask, 'hidden');
 
 	$.addClass(document.body, 'folder-opened');
@@ -472,7 +471,6 @@ function onFolderClosed(evt) {
 	se.draggable = true;
 
 	var mask = $$('mask');
-	// mask.style.display = '';
 	$.addClass(mask, 'hidden');
 	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
 	onOpenCloseFolder(false);

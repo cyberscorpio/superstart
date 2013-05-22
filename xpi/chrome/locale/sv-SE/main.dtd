@@ -1,0 +1,91 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Ange URL">
+<!ENTITY superstart.dialog.url.url "Ange URL här">
+<!ENTITY superstart.dialog.url.name "Hemsidan namn (frivilligt)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Miniatyr inställning">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Övre vänster hörn">
+<!ENTITY superstart.dialog.url.snapshot.entire "Hela fönstret">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Använd Firefox' miniatyrtjänst (fungerar inte för alla sidor)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Anpassa bild">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Ställ in gruppnamn">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Ange ny URL">
+<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
+<!ENTITY superstart.menu.site.refreshall "Uppdatera alla">
+<!ENTITY superstart.menu.options "Alternativ">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Lägg till länken i Super Start">
+<!ENTITY superstart.context.menu.add "Lägg till fliken i Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Alternativ">
+
+<!ENTITY superstart.options.general "Allmänt">
+<!ENTITY superstart.options.sites.setup "Inställningar">
+<!ENTITY superstart.options.load.in.blanktab "Ladda i tom flik">
+<!ENTITY superstart.options.set.as.homepage "Gör Super Start till startsida">
+<!ENTITY superstart.options.sites.open.in.newtab "Öppna i ny flik som förinställning">
+<!ENTITY superstart.options.sites.displaysettings "Visningsinställningar">
+<!ENTITY superstart.options.sites.use.compactmode "Använd kompakt läge">
+<!ENTITY superstart.options.sites.text.only "Endast text">
+<!ENTITY superstart.options.sites.use.background.effect "Använd bakgrundseffekt (kan vara långsamt)">
+<!ENTITY superstart.options.sites.col "Hur många hemsidor på en rad:">
+
+<!ENTITY superstart.options.navbar "Navigeringsrad">
+<!ENTITY superstart.options.show.navbar "Visa navigeringsrad">
+<!ENTITY superstart.options.navbar.show.recently.closed "Nyligen stängda">
+<!ENTITY superstart.options.navbar.show.add.site "Lägg till ny hemsida">
+<!ENTITY superstart.options.navbar.show.themes "Teman">
+<!ENTITY superstart.options.navbar.show.todo "Anteckningar">
+<!ENTITY superstart.options.show.elements "Visa beståndsdelar...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Visa knappar">
+<!ENTITY superstart.options.site.buttons.show.newtab "Ny flik">
+<!ENTITY superstart.options.site.buttons.show.refresh "Ladda om">
+<!ENTITY superstart.options.site.buttons.show.config "Inställningar">
+<!ENTITY superstart.options.site.buttons.show.remove "Ta bort">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Nästa bild">
+
+<!ENTITY superstart.options.general.hint "* inställningarna i denna flik har omedelbar verkan">
+
+<!ENTITY superstart.ui.customize "Anpassa gränssnittet">
+<!ENTITY superstart.ui.customize.use "Aktiva anpassning">
+<!ENTITY superstart.ui.customize.howto "(Hjälp) Hur sker anpassningen?">
+<!ENTITY superstart.ui.background.image "Bakgrundsbild">
+<!ENTITY superstart.ui.select.image "Välj bild">
+<!ENTITY superstart.ui.clear.image "Ta bort bild">
+<!ENTITY superstart.ui.background.repeat "Upprepa">
+<!ENTITY superstart.ui.background.repeat.repeat "Upprepa (förinställd)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Upprepa inte">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Upprepa vågrätt">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Upprepa lodrätt">
+<!ENTITY superstart.ui.background.size "Storlek">
+<!ENTITY superstart.ui.background.size.default "Förinställd">
+<!ENTITY superstart.ui.background.size.cover "Anpassad storlek (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Anpassad storlek (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
+<!ENTITY superstart.ui.colors "Färger">
+<!ENTITY superstart.ui.background.color.enable "Aktivera bakgrundsfärg">
+<!ENTITY superstart.ui.background.color.select "Välj färg">
+<!ENTITY superstart.ui.text.color "Text">
+<!ENTITY superstart.ui.text.color.enable "Aktivera textfärg">
+<!ENTITY superstart.ui.text.color.black "Svart">
+<!ENTITY superstart.ui.text.color.white "Vit">
+<!ENTITY superstart.ui.text.color.use.shadow "Använd skugga">
+<!ENTITY superstart.ui.others "Annat">
+<!ENTITY superstart.ui.transparent "Transparent (kan vara långsamt)">
+<!ENTITY superstart.ui.customize.advanced "Avancerat">
+<!ENTITY superstart.ui.css.edit.hint "Ange CSS direkt:">
+
+<!ENTITY superstart.options.about "Om">
+<!ENTITY superstart.options.author "Upphovsman">
+<!ENTITY superstart.options.help "Hjälp">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Exportera">
+<!ENTITY superstart.import "Importera">
+<!ENTITY superstart.import.sites.only "Importera endast hemsidor">
+<!ENTITY superstart.processing "Bearbetar">

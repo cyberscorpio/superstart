@@ -11,7 +11,9 @@
 , #notes
 , #note-edit {
 	transition-duration: 250ms;
+	/*
 	transition-timing-function: linear;
+	*/
 }
 
 .nbb, .nbc {
@@ -37,7 +39,7 @@
 }
 
 #container {
-	transition-duration: 125ms;
+	transition-duration: 150ms;
 	transition-property: top;
 }
 
@@ -47,7 +49,7 @@
 }
 
 #folder {
-	transition-duration: 125ms;
+	transition-duration: 150ms;
 	transition-property: top, left, width, height;
 }
 

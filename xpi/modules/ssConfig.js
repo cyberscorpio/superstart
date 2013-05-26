@@ -22,6 +22,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 	var themeKey = 'extensions.superstart.theme';
 	var theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
+	var engineKey = 'extensions.superstart.searchengine.name';
 
 	var intCfgs = {
 		'col' : {
@@ -70,7 +71,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'sites-use-bg-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
-		'use-default-searchengine': {'key': 'use.default.searchengine'},
+		'enable-searchengine-select': {'key': 'enable.searchengine.select'},
 
 		'navbar': {'key': 'navbar'},
 		'navbar-search': {'key': 'navbar.search'},
@@ -116,6 +117,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			// mutable
 			case 'theme':
 				return theme;
+			case 'searchengine':
+				return sbprefs.getCharPref(engineKey);
 			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
 				return false;
 			default:
@@ -139,6 +142,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						str.data = value;
 						sbprefs.setComplexValue(themeKey, Ci.nsISupportsString, str);
 					}
+				}
+				break;
+			case 'searchengine':
+				if (value != this.getConfig('searchengine')) {
+					let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+					str.data = value;
+					sbprefs.setComplexValue(engineKey, Ci.nsISupportsString, str);
 				}
 				break;
 			default:
@@ -183,6 +193,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			if (aData == 'theme') {
 				theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 				that.fireEvent('theme', theme);
+			} else if (aData == 'searchengine.name') {
+				var engine = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
+				that.fireEvent('searchengine', engine);
 			} else {
 				let cfgs = [intCfgs, boolCfgs];
 				for (let i = 0; i < cfgs.length; ++ i) {
@@ -202,6 +215,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 	ssPrefObserver.register();
 
+	/*
 	var ssSearchObserver = {
 		register: function() {
 			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
@@ -222,12 +236,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 	
 			if (aData == 'selectedEngine') {
-				if (that.getConfig('use-default-searchengine')) {
-					that.fireEvent('use-default-searchengine', true);
-				}
+				// if (that.getConfig('use-default-searchengine')) {
+				//	that.fireEvent('use-default-searchengine', true);
+				// }
 			}
 		}
 	}
 	ssSearchObserver.register();
+	*/
 }
 

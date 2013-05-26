@@ -399,6 +399,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		let obj = {};
 		let css = '';
 		obj['.site:not(.opened):not(.closing):not(:hover), #notes:not(:hover)'] = {'opacity' : '0.333333333333333'};
+		obj['.site.not-opened:not(.opened):not(.in-folder), body.folder-opened > #container > #notes'] = {'opacity' : '0.2'};
 		obj['.site-snapshot'] = {'background-color' : 'rgba(0,0,0,0.5)'};
 
 		for (let k in obj) {

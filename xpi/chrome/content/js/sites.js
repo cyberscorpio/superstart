@@ -873,7 +873,7 @@ function onOpenCloseFolder(isOpen) {
 	var nsp = {'site': '', 'folder': '', 'placeholder': ''};
 	if (isOpen) {
 		tmplMgr.changeElementsClass(nsp, '.site', 'add', 'not-opened');
-		var opened = $$$('.opened');
+		var opened = $$$('.site.opened');
 		if (opened) {
 			$.removeClass(opened, 'not-opened');
 		}

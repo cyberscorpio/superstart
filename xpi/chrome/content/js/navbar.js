@@ -13,18 +13,42 @@ var id4ShowHide = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-search': 'nb-search'
 };
 
+// get fake engine for 'superstart' and real engine for 
+// real engine
+var fakeEngine = {
+	'iconURI': {'spec': 'images/bing.ico'},
+	'getSubmission': function(data) {
+		return {
+			'uri': {
+				'spec': 'http://www.bing.com/search?q=' + encodeURIComponent(data)
+			}
+		};
+	}
+};
+function getEngine() {
+	var name = cfg.getConfig('searchengine');
+	var engine = null;
+	try {
+		engine = engines.getEngineByName(name);
+	} catch (e) {
+		logger.logStringMessage('engine: ' + name + ' is not found!');
+	}
+	return engine || fakeEngine;
+}
+
 evtMgr.ready(function() {
 	initPopupButton([
 		{bid: 'nbb-recently-closed', mid: 'superstart-recently-closed-list', title: getString('ssRecentlyClosed')},
-		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')},
+		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')}/*,
 		{bid: 'nb-search-switcher', mid: 'superstart-search-engines-menu', title: ''},
 		{bid: 'nb-search-favicon', mid: 'superstart-search-engines-menu', title: ''}
+		*/
 	]);
 	for (var k in id4ShowHide) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
 	}
-	ob.subscribe('use-default-searchengine', onSearchEngineChanged);
+	ob.subscribe('searchengine', onSearchEngineChanged);
 	onSearchEngineChanged();
 
 	var sbar = $$('nb-search');
@@ -45,19 +69,25 @@ evtMgr.ready(function() {
 
 	function onKeyPress(evt) {
 		if (evt.keyCode == 13) {
-			var text = input.value;
+			var text = this.value;
 			if (text == '') {
 				return;
 			}
 
-			if (cfg.getConfig('use-default-searchengine')) {
-				var engine = engines.currentEngine || engines.defaultEngine;
-				if (engine != null) {
-					var submission = engine.getSubmission(text);
-					var url = submission.uri.spec;
-					document.location.href = url;
-				}
+			var engine = getEngine();
+			var submission = engine.getSubmission(text);
+			var url = submission.uri.spec;
+
+			var b = $.getMainWindow().getBrowser();
+			if (evt.shiftKey) {
+				this.select();
+				b.selectedTab = b.addTab(url);
+			} else if (evt.ctrlKey || evt.metaKey) {
+				this.select();
+				b.addTab(url);
 			} else {
+				this.value = '';
+				document.location.href = url;
 			}
 		}
 	}
@@ -132,21 +162,9 @@ function onNavbarItemOnoff(evt, onoff) {
 }
 
 function onSearchEngineChanged() {
-	var useDefault = cfg.getConfig('use-default-searchengine');
-	var src = 'images/bing.ico';
-	if (useDefault) {
-		var engine = engines.currentEngine || engines.defaultEngine;
-		if (engine != null) {
-			var icon = engine.iconURI;
-			if (icon != null) {
-				src = icon.spec;
-			} else {
-				src = '';
-			}
-		}
-	}
+	var engine = getEngine();
 
-	$$('nb-search-favicon').setAttribute('src', src);
+	$$('nb-search-favicon').setAttribute('src', engine.iconURI.spec);
 }
 
 })();

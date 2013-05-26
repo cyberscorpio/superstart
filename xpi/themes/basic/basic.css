@@ -1,3 +1,12 @@
+#mask {
+	opacity: 0.6;
+}
+
+.site.not-opened:not(.in-folder),
+body.folder-opened > #container > #notes {
+	opacity: 1;
+}
+
 .folder-snapshot.site-snapshot {
 	background-color: transparent;
 	box-shadow: 3px 3px 5px rgba(0,0,0,0.5);

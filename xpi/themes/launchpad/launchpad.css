@@ -34,7 +34,9 @@
 
 .site.not-opened:not(.in-folder) {
 	filter: url("chrome://superstart/content/style/filters.svg#gray-effect");
+		/*
 	transition-property: top, left;
+	*/
 }
 
 .site.folder.opened:after,

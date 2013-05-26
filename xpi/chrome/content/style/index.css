@@ -75,10 +75,13 @@ body.folder-closing > #container > #navbar > #nb-search {
 	border: none;
 	float: left;
 	height: 100%;
-	width: 284px;
+	width: 294px;
 	margin: 0 8px;
 
 	font-size: 16px;
+}
+#nb-search-text.enable-select {
+	width: 284px;
 }
 
 #nb-search-switcher {
@@ -88,14 +91,26 @@ body.folder-closing > #container > #navbar > #nb-search {
 	position: relative;
 	float: right;
 	height: 100%;
-	width: 30px;
+	width: 20px;
 	cursor: default;
-
-	background-image: url(chrome://browser/skin/searchbar-dropmarker.png);
-	background-repeat: no-repeat;
-	background-position: calc(100% - 2px) center;
 }
-
+#nb-search-switcher.enable-select {
+	width: 30px;
+}
+#nb-search-switcher.enable-select:after {
+	content: ".";
+	font-size: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 3px;
+	bottom: calc(50% - 2px);
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid transparent;
+	background-color: transparent;
+	border-top-color: rgba(0,0,0,0.75);
+}
 #nb-search-favicon {
 	position: absolute;
 	width: 16px;
@@ -179,19 +194,20 @@ li.nbc { float: right; }
 	opacity: 0;
 }
 
+.site.not-opened:not(.in-folder),
+body.folder-opened > #container > #notes {
+	opacity: 0.25;
+}
+
+/* grayed, not used now */
 #mask.grayed {
 	opacity: 0;
 }
-
 .site.grayed:not(.opened):not(.closing):not(.dragging):not(.in-folder) {
 	opacity: .5;
 	filter: url("filters.svg#background-effect");
 }
-
-.site.not-opened:not(.in-folder) {
-	opacity: 0.15;
-	transform: rotate(0.001deg);
-}
+/* grayed */
 
 #sites {
 	position: relative;
@@ -449,13 +465,13 @@ li.nbc { float: right; }
 	position: absolute;
 	width: 100%;
 	height: 0;
-	background-image: linear-gradient(rgba(0,0,0,0.75), black);
+	background: rgba(0,0,0,0.9);
 	border-bottom: 1px solid rgba(255,255,255,0.5);
 }
 
 .site.folder.opened:after,
 .site.folder.closing:after {
-	border-bottom-color: rgba(0,0,0,0.75);
+	border-bottom-color: rgba(0,0,0,0.9);
 }
 
 #folder.resizing{

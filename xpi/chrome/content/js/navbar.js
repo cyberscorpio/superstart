@@ -13,29 +13,6 @@ var id4ShowHide = { // use "onNavbarItemOnoff" to handle the events
 	'navbar-search': 'nb-search'
 };
 
-// get fake engine for 'superstart' and real engine for 
-// real engine
-var fakeEngine = {
-	'iconURI': {'spec': 'images/bing.ico'},
-	'getSubmission': function(data) {
-		return {
-			'uri': {
-				'spec': 'http://www.bing.com/search?q=' + encodeURIComponent(data)
-			}
-		};
-	}
-};
-function getEngine() {
-	var name = cfg.getConfig('searchengine');
-	var engine = null;
-	try {
-		engine = engines.getEngineByName(name);
-	} catch (e) {
-		logger.logStringMessage('engine: ' + name + ' is not found!');
-	}
-	return engine || fakeEngine;
-}
-
 evtMgr.ready(function() {
 	initPopupButton([
 		{bid: 'nbb-recently-closed', mid: 'superstart-recently-closed-list', title: getString('ssRecentlyClosed')},
@@ -44,6 +21,7 @@ evtMgr.ready(function() {
 		{bid: 'nb-search-favicon', mid: 'superstart-search-engines-menu', title: ''}
 		*/
 	]);
+	initSearchBox();
 	for (var k in id4ShowHide) {
 		ob.subscribe(k, onNavbarItemOnoff);
 		onNavbarItemOnoff(k);
@@ -51,65 +29,6 @@ evtMgr.ready(function() {
 	ob.subscribe('searchengine', onSearchEngineChanged);
 	onSearchEngineChanged();
 
-	var sbar = $$('nb-search');
-	var input = $$('nb-search-text');
-	var blurWhenMouseOut = true;
-	sbar.addEventListener('mouseenter', function() {
-		if (document.activeElement == input) {
-			blurWhenMouseOut = false;
-		} else {
-			blurWhenMouseOut = true;
-		}
-
-		input.focus();
-	}, false);
-	sbar.addEventListener('mouseout', function() {
-		if (blurWhenMouseOut) {
-			input.blur();
-		}
-	}, false);
-	input.addEventListener('focus', onFocus, false);
-	input.addEventListener('blur', onBlur, false);
-	input.addEventListener('keypress', onKeyPress, false);
-	input.addEventListener('click', function() {
-		blurWhenMouseOut = false;
-	}, false);
-
-	function onFocus() {
-		this.select();
-		$.addClass(sbar, 'focus');
-	}
-
-	function onBlur() {
-		this.setSelectionRange(0, 0);
-		$.removeClass(sbar, 'focus');
-	}
-
-	function onKeyPress(evt) {
-		blurWhenMouseOut = false;
-		if (evt.keyCode == 13) {
-			var text = this.value;
-			if (text == '') {
-				return;
-			}
-
-			var engine = getEngine();
-			var submission = engine.getSubmission(text);
-			var url = submission.uri.spec;
-
-			var b = $.getMainWindow().getBrowser();
-			if (evt.shiftKey) {
-				this.select();
-				b.selectedTab = b.addTab(url);
-			} else if (evt.ctrlKey || evt.metaKey) {
-				this.select();
-				b.addTab(url);
-			} else {
-				this.value = '';
-				document.location.href = url;
-			}
-		}
-	}
 });
 evtMgr.clear(function() {
 	engines = null;
@@ -171,6 +90,77 @@ function initPopupButton(pops) {
 	});
 }
 
+function initSearchBox() {
+	var blurWhenMouseOut = true;
+	var mouseIn = false;
+	var sbar = $$('nb-search');
+	var input = $$('nb-search-text');
+	sbar.addEventListener('mouseover', function() {
+		mouseIn = true;
+		if (document.activeElement == input) {
+			blurWhenMouseOut = false;
+		} else {
+			blurWhenMouseOut = true;
+		}
+
+		input.focus();
+	}, false);
+	sbar.addEventListener('mouseout', function() {
+		mouseIn = false;
+		if (blurWhenMouseOut) {
+			input.blur();
+		}
+	}, false);
+	input.addEventListener('focus', onFocus, false);
+	input.addEventListener('blur', onBlur, false);
+	input.addEventListener('keypress', onKeyPress, false);
+	input.addEventListener('click', function() {
+		blurWhenMouseOut = false;
+	}, false);
+
+	function onFocus() {
+		this.select();
+		$.addClass(sbar, 'focus');
+	}
+
+	function onBlur() {
+		this.setSelectionRange(0, 0);
+		$.removeClass(sbar, 'focus');
+	}
+
+	function onKeyPress(evt) {
+		blurWhenMouseOut = false;
+		if (evt.keyCode == 13) {
+			var text = this.value;
+			if (text == '') {
+				return;
+			}
+
+			var engine = cfg.getSearchEngine();
+			var submission = engine.getSubmission(text);
+			var url = submission.uri.spec;
+
+			var b = $.getMainWindow().getBrowser();
+			if (evt.shiftKey) {
+				this.select();
+				b.selectedTab = b.addTab(url);
+			} else if (evt.ctrlKey || evt.metaKey) {
+				this.select();
+				b.addTab(url);
+			} else {
+				this.value = '';
+				document.location.href = url;
+			}
+		} else if (evt.keyCode == 27) { // esc
+			if (!mouseIn) {
+				input.blur();
+			} else {
+				input.select();
+			}
+		}
+	}
+}
+
 function onNavbarItemOnoff(evt, onoff) {
 	onoff = cfg.getConfig(evt);
 	var id = id4ShowHide[evt];
@@ -181,9 +171,10 @@ function onNavbarItemOnoff(evt, onoff) {
 }
 
 function onSearchEngineChanged() {
-	var engine = getEngine();
-
-	$$('nb-search-favicon').setAttribute('src', engine.iconURI.spec);
+	var engine = cfg.getSearchEngine();
+	var favicon = $$('nb-search-favicon');
+	favicon.setAttribute('src', engine.iconURI.spec);
+	favicon.setAttribute('title', engine.name + ' - press <enter> to search');
 }
 
 })();

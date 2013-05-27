@@ -20,9 +20,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	var that = this;
 
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+	var engines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
 	var themeKey = 'extensions.superstart.theme';
 	var theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 	var engineKey = 'extensions.superstart.searchengine.name';
+	var engineName = sbprefs.getComplexValue(engineKey, Ci.nsISupportsString).data;
+	var searchEngine = null;
 
 	var intCfgs = {
 		'col' : {
@@ -96,6 +99,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		cfg.value = sbprefs.getBoolPref('extensions.superstart.' + cfg.key);
 	}
 
+	function writeString(key, value) {
+		let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+		str.data = value;
+		sbprefs.setComplexValue(key, Ci.nsISupportsString, str);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// get configure
 	this.getConfig = function (name) {
@@ -118,7 +127,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			case 'theme':
 				return theme;
 			case 'searchengine':
-				return sbprefs.getCharPref(engineKey);
+				return engineName;
 			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
 				return false;
 			default:
@@ -138,17 +147,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			case 'theme':
 				if (value != theme) {
 					if (this.getTheme(value) != '') { // make sure the theme exists
-						let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
-						str.data = value;
-						sbprefs.setComplexValue(themeKey, Ci.nsISupportsString, str);
+						writeString(themeKey, value);
 					}
 				}
 				break;
 			case 'searchengine':
-				if (value != this.getConfig('searchengine')) {
-					let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
-					str.data = value;
-					sbprefs.setComplexValue(engineKey, Ci.nsISupportsString, str);
+				if (value != engineName) {
+					writeString(engineKey, value);
 				}
 				break;
 			default:
@@ -167,6 +172,36 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				}
 				break;
 		}
+	}
+
+	let fakeEngine = {
+		'iconURI': {'spec': 'images/bing.ico'},
+		'name': 'Bing',
+		'getSubmission': function(data) {
+			return {
+				'uri': {
+					'spec': 'http://www.bing.com/search?q=' + encodeURIComponent(data)
+				}
+			};
+		}
+	};
+	this.getSearchEngine = function() {
+		if (searchEngine === null) {
+			if (engineName == 'superstart') {
+				searchEngine = fakeEngine;
+			} else {
+				try {
+					searchEngine = engines.getEngineByName(engineName);
+				} catch (e) {
+				}
+
+				if (searchEngine == null) {
+					searchEngine = fakeEngine;
+				}
+			}
+		}
+
+		return searchEngine;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -194,8 +229,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 				that.fireEvent('theme', theme);
 			} else if (aData == 'searchengine.name') {
-				var engine = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
-				that.fireEvent('searchengine', engine);
+				engineName = sbprefs.getComplexValue(engineKey, Ci.nsISupportsString).data;
+				searchEngine = null;
+				that.fireEvent('searchengine', engineName);
 			} else {
 				let cfgs = [intCfgs, boolCfgs];
 				for (let i = 0; i < cfgs.length; ++ i) {

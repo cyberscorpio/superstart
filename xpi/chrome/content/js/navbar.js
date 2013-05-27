@@ -53,9 +53,27 @@ evtMgr.ready(function() {
 
 	var sbar = $$('nb-search');
 	var input = $$('nb-search-text');
+	var blurWhenMouseOut = true;
+	sbar.addEventListener('mouseenter', function() {
+		if (document.activeElement == input) {
+			blurWhenMouseOut = false;
+		} else {
+			blurWhenMouseOut = true;
+		}
+
+		input.focus();
+	}, false);
+	sbar.addEventListener('mouseout', function() {
+		if (blurWhenMouseOut) {
+			input.blur();
+		}
+	}, false);
 	input.addEventListener('focus', onFocus, false);
 	input.addEventListener('blur', onBlur, false);
 	input.addEventListener('keypress', onKeyPress, false);
+	input.addEventListener('click', function() {
+		blurWhenMouseOut = false;
+	}, false);
 
 	function onFocus() {
 		this.select();
@@ -68,6 +86,7 @@ evtMgr.ready(function() {
 	}
 
 	function onKeyPress(evt) {
+		blurWhenMouseOut = false;
 		if (evt.keyCode == 13) {
 			var text = this.value;
 			if (text == '') {

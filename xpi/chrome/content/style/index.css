@@ -62,7 +62,8 @@ body.folder-closing > #container > #navbar > #nb-search {
 	border-radius: 3px;
 	opacity: 0.25;
 }
-#nb-search.focus {
+#nb-search.focus,
+#nb-search:hover {
 	opacity: 1;
 	height: 32px;
 	box-shadow: 3px 3px 3px rgba(0,0,0,0.3);

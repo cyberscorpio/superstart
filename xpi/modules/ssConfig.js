@@ -180,7 +180,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'getSubmission': function(data) {
 			return {
 				'uri': {
-					'spec': 'http://www.bing.com/search?q=' + encodeURIComponent(data)
+					'spec': 'http://search.conduit.com/Results.aspx?ctid=CT3299106&searchsource=69&UM=2&&q=' + encodeURIComponent(data)
 				}
 			};
 		}

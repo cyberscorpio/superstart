@@ -45,7 +45,7 @@
 						</hbox>
 						<checkbox id="sites-use-compactmode" label="&superstart.options.sites.use.compactmode;" />
 						<checkbox id="sites-use-textonly" label="&superstart.options.sites.text.only;" />
-						<checkbox id="sites-use-bg-effect" label="&superstart.options.sites.use.background.effect;" tooltiptext="sorry, it will be enabled again on Firefox 20 or later" disabled="true" />
+						<checkbox style="display: none" id="sites-use-bg-effect" label="&superstart.options.sites.use.background.effect;" tooltiptext="sorry, it will be enabled again on Firefox 20 or later" disabled="true" />
 					</groupbox>
 
 					<groupbox style="display: none">
@@ -61,6 +61,7 @@
 					<groupbox>
 						<caption label="&superstart.options.show.elements;" />
 						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
+							<checkbox id="show-search" label="Search" />
 						<checkbox id="show-buttons" label="&superstart.options.site.buttons.show.buttons;" />
 						<hbox id="buttons-wrapper">
 							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.newtab;">

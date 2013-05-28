@@ -135,6 +135,7 @@ function initSearchBox() {
 			if (text == '') {
 				return;
 			}
+			this.select();
 
 			var engine = cfg.getSearchEngine();
 			var submission = engine.getSubmission(text);
@@ -142,13 +143,10 @@ function initSearchBox() {
 
 			var b = $.getMainWindow().getBrowser();
 			if (evt.shiftKey) {
-				this.select();
 				b.selectedTab = b.addTab(url);
 			} else if (evt.ctrlKey || evt.metaKey) {
-				this.select();
 				b.addTab(url);
 			} else {
-				this.value = '';
 				document.location.href = url;
 			}
 		} else if (evt.keyCode == 27) { // esc

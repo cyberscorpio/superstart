@@ -52,3 +52,9 @@ locale  superstart	da-DK   jar:chrome/superstart.jar!/locale/da-DK/
 locale  superstart	bg      jar:chrome/superstart.jar!/locale/bg/
 # Italian
 locale  superstart	it-IT   jar:chrome/superstart.jar!/locale/it-IT/
+# Hindi
+locale  superstart	hi-IN   jar:chrome/superstart.jar!/locale/hi-IN/
+
+# used to test new language
+# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/hi-IN/
+

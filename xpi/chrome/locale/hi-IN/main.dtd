@@ -1,0 +1,91 @@
+﻿<!-- input url -->
+<!ENTITY superstart.dialog.url.title "इनपुट यूआरएल">
+<!ENTITY superstart.dialog.url.url "यूआरएल यहाँ इनपुट करे">
+<!ENTITY superstart.dialog.url.name "वेबसाइट का नाम (वैकल्पिक)">
+<!ENTITY superstart.dialog.url.snapshot.setting "थंबनेल सेटिंग">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "बाएं &amp; शीर्ष कोना">
+<!ENTITY superstart.dialog.url.snapshot.entire "पूरा विंडो">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "फ़ायरफ़ॉक्स की थंबनेल सेवा उपयोग करे (कुछ साइटों के लिए शायद उपलब्ध नहीं)">
+<!ENTITY superstart.dialog.url.snapshot.customize "छवि बनाइए">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "समूह का नाम निर्धारित करें">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "नए यूआरएल जोड़ें">
+<!ENTITY superstart.menu.placeholder.add "एक प्लेसहोल्डर जोड़ें">
+<!ENTITY superstart.menu.site.refreshall "सभी ताज़ा (रीफ्रेश) करें">
+<!ENTITY superstart.menu.options "विकल्प">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "इस लिंक को सुपर स्टार्ट में जोड़ें">
+<!ENTITY superstart.context.menu.add "इस टैब को सुपर स्टार्ट में जोड़ें">
+
+<!-- options -->
+<!ENTITY superstart.options "विकल्प">
+
+<!ENTITY superstart.options.general "सामान्य">
+<!ENTITY superstart.options.sites.setup "व्यवस्था (सेटअप)">
+<!ENTITY superstart.options.load.in.blanktab "ख़ाली टेब मै खोले">
+<!ENTITY superstart.options.set.as.homepage "सुपर स्टार्ट को होमपेज सेट करे">
+<!ENTITY superstart.options.sites.open.in.newtab "डिफ़ॉल्ट रूप से नए टैब में खोलें">
+<!ENTITY superstart.options.sites.displaysettings "प्रदर्शन सेटिंग्स">
+<!ENTITY superstart.options.sites.use.compactmode "कॉम्पैक्ट मोड का उपयोग करें">
+<!ENTITY superstart.options.sites.text.only "केवल पाठ (टेक्स्ट)">
+<!ENTITY superstart.options.sites.use.background.effect "पृष्ठभूमि (बैकग्राउंड) प्रभाव का उपयोग करें (शायद धीमी)">
+<!ENTITY superstart.options.sites.col "एक पंक्ति में कितने साइटों:">
+
+<!ENTITY superstart.options.navbar "नेविगेशन बार">
+<!ENTITY superstart.options.show.navbar "नेविगेशन बार दिखाए">
+<!ENTITY superstart.options.navbar.show.recently.closed "हाल में बंद">
+<!ENTITY superstart.options.navbar.show.add.site "नई साइट जोड़ें">
+<!ENTITY superstart.options.navbar.show.themes "थीम्स">
+<!ENTITY superstart.options.navbar.show.todo "नोट्स">
+<!ENTITY superstart.options.show.elements "तत्वों दिखाए...">
+<!ENTITY superstart.options.site.buttons.show.buttons "बटन दिखाए">
+<!ENTITY superstart.options.site.buttons.show.newtab "नए टैब">
+<!ENTITY superstart.options.site.buttons.show.refresh "ताज़ा करना (रिफ्रेश)">
+<!ENTITY superstart.options.site.buttons.show.config "कंफिगरेशन">
+<!ENTITY superstart.options.site.buttons.show.remove "हटाना">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "अगला स्नैपशॉट">
+
+<!ENTITY superstart.options.general.hint "* इस टैब में सेटिंग्स को तत्काल प्रभाव से लागू होगा">
+
+<!ENTITY superstart.ui.customize "UI अनुकूलन">
+<!ENTITY superstart.ui.customize.use "अनुकूलन सक्षम करें">
+<!ENTITY superstart.ui.customize.howto "(मदद) कैसे अनुकूलित करें ?">
+<!ENTITY superstart.ui.background.image "बेकगर्राउनंड छवि">
+<!ENTITY superstart.ui.select.image "छवि का चयन करें">
+<!ENTITY superstart.ui.clear.image "छवि साफ करें">
+<!ENTITY superstart.ui.background.repeat "दोहराएँ">
+<!ENTITY superstart.ui.background.repeat.repeat "दोहराएँ (डिफॉल्ट)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "दोहराएँ नहीं">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "क्षैतिज (आड़ा) दोहराएँ">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "खड़ा (सीधे) दोहराएँ">
+<!ENTITY superstart.ui.background.size "माप">
+<!ENTITY superstart.ui.background.size.default "डिफॉल्ट">
+<!ENTITY superstart.ui.background.size.cover "फिट का पैमाना (CSS कवर)">
+<!ENTITY superstart.ui.background.size.contain "फिट का पैमाना (CSS होता है)">
+<!ENTITY superstart.ui.background.position "स्थिति (पोजीशन)">
+<!ENTITY superstart.ui.colors "रंग">
+<!ENTITY superstart.ui.background.color.enable "बेकगर्राउनंड रंग सक्षम करें">
+<!ENTITY superstart.ui.background.color.select "रंग चूने">
+<!ENTITY superstart.ui.text.color "पाठ (टेक्स्ट)">
+<!ENTITY superstart.ui.text.color.enable "पाठ (टेक्स्ट) का रंग सक्षम करे">
+<!ENTITY superstart.ui.text.color.black "काला">
+<!ENTITY superstart.ui.text.color.white "सफ़ेद">
+<!ENTITY superstart.ui.text.color.use.shadow "छाया का प्रयोग करें">
+<!ENTITY superstart.ui.others "दूसरे">
+<!ENTITY superstart.ui.transparent "पारदर्शी (शायद धीमा हो)">
+<!ENTITY superstart.ui.customize.advanced "उन्नत">
+<!ENTITY superstart.ui.css.edit.hint "CSS सीधे यहाँ इनपुट करे:">
+
+<!ENTITY superstart.options.about "बारे में (जानकारी)">
+<!ENTITY superstart.options.author "लेखक">
+<!ENTITY superstart.options.help "मदद">
+
+<!-- export / import -->
+<!ENTITY superstart.export "निर्यात">
+<!ENTITY superstart.import "आयात">
+<!ENTITY superstart.import.sites.only "केवल साइट आयात करे">
+<!ENTITY superstart.processing "प्रसंस्करण">

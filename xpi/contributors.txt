@@ -20,6 +20,7 @@ Korean:       U bless (annlabv3 {at} gmail.com)
 Danish:       Regmos
 Bulgarian:    Kaloian Kozlev (kbkozlev {at} gmail.com)
 Hindi:        Rrishu Jain (rrishujain {at} yahoo.co.in, http://facebook.com/rrishujain) 
+Swedish:      krevad (https://github.com/krevad)
 
 
 ---    theme    ---

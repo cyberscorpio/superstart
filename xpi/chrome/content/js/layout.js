@@ -103,21 +103,7 @@ var layout = (function() {
 	}
 
 	function onResize() {
-		resetLayout();
-
-		var ss = $$('sites');
-		$.addClass(ss, 'notransition');
-		layout.layoutTopSites(true);
-
-		if($('.folder.opened').length == 1) {
-			layout.layoutFolderArea();
-		}
-
-		setBgSize();
-
-		window.setTimeout(function() {
-			$.removeClass(ss, 'notransition');
-		}, 0);
+		refresh();
 	}
 
 	function onColChanged(evt, v) {
@@ -383,6 +369,24 @@ var layout = (function() {
 		}
 	}
 
+	function refresh() {
+		resetLayout();
+
+		var ss = $$('sites');
+		$.addClass(ss, 'notransition');
+		layout.layoutTopSites(true);
+
+		if($('.folder.opened').length == 1) {
+			layout.layoutFolderArea();
+		}
+
+		setBgSize();
+
+		window.setTimeout(function() {
+			$.removeClass(ss, 'notransition');
+		}, 0);
+	}
+
 	var actID = null;
 var layout = {
 	layoutTopSites: function(actingNow) {
@@ -405,6 +409,7 @@ var layout = {
 	, 'layoutFolderElement': layoutFolderElement
 	, 'layoutFolderArea': layoutFolderArea
 	, 'placeSitesInFolderArea': placeSitesInFolderArea
+	, 'refresh': refresh
 	
 }; // layout
 	return layout;

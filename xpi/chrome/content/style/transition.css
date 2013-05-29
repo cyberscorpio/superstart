@@ -37,13 +37,21 @@
 }
 
 #container {
+	transition-duration: 250ms;
 	transition-property: top;
 }
+
 .site {
+	/*transition-property: top, left, transform;*/
 	transition-property: top, left, opacity, transform;
 }
+
 #folder {
+	transition-duration: 250ms;
 	transition-property: top, left, width, height;
+}
+#folder.closing {
+	transition-duration: 50ms;
 }
 
 .site-snapshot {

@@ -32,7 +32,7 @@ function onScroll() {
 function onContextMenu(evt) {
 	var t = evt.target;
 	while (t) {
-		if (t.id == 'notes') {
+		if (t.id == 'notes' || t.id == 'nb-search') {
 			return;
 		}
 		t = t.parentNode;

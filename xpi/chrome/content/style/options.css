@@ -1,6 +1,9 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
+#show-search {
+	margin-left: 2em;
+}
 .buttons-item-wrapper {
 	margin-right: 2em;
 }

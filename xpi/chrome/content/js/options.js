@@ -23,7 +23,7 @@ let boolMap = {
 	'sites-use-textonly': 'sites-text-only',
 	'sites-use-bg-effect': 'sites-use-bg-effect',
 
-	'show-navbar': 'navbar', 'show-buttons': 'site-buttons',
+	'show-navbar': 'navbar', 'show-search': 'navbar-search', 'show-buttons': 'site-buttons',
 
 	'show-newtab': 'site-buttons-newtab',  'show-refresh': 'site-buttons-refresh',
 	'show-config': 'site-buttons-config',  'show-remove': 'site-buttons-remove',
@@ -62,6 +62,10 @@ function initialize() {
 				[].forEach.call($('.buttons-item'), function(m) {
 					m.setAttribute('disabled', true);
 				});
+			}
+
+			if (id == 'show-navbar' && !enabled) {
+				$$('show-search').setAttribute('disabled', true);
 			}
 		}
 	}
@@ -136,6 +140,10 @@ function onCheckboxChanged(evt) {
 		[].forEach.call($('.buttons-item'), function(i) {
 			i.setAttribute('disabled', !enabled);
 		});
+	}
+
+	if (id == 'show-navbar') {
+		$$('show-search').setAttribute('disabled', !enabled);
 	}
 }
 

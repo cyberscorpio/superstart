@@ -28,3 +28,22 @@
 	text-shadow: 1px 1px 0 black, 1px 1px 2px black;
 }
 
+#mask {
+	opacity: 0;
+}
+
+/* still buggy in Fx21
+.site.not-opened:not(.in-folder) {
+	filter: url("chrome://superstart/content/style/filters.svg#gray-effect");
+}
+*/
+
+.site.folder.opened:after,
+.site.folder.closing:after {
+	border-bottom-color: black;
+}
+
+#folder {
+	background: black;
+	border-bottom: 1px solid #d4d4d4;
+}

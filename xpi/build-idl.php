@@ -3,7 +3,7 @@
 $d = dir("./components");
 $sdk_dir = "../../xulrunner/xulrunner-sdk/";
 
-$xpidl = $sdk_dir . "sdk/bin/typelib.py --cachedir=" . sys_get_temp_dir();
+$xpidl = 'python ' . $sdk_dir . "sdk/bin/typelib.py --cachedir=" . sys_get_temp_dir();
 $cmd = $xpidl . " -I " . $sdk_dir . "idl";
 while (false !== ($entry = $d->read())) {
 	if (strrpos($entry, '.idl') === (strlen($entry) - 4)) {

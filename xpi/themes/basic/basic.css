@@ -1,6 +1,10 @@
-.site.folder.opened > a > .folder-snapshot.site-snapshot,
-.site.folder.closing > a > .folder-snapshot.site-snapshot {
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+#mask {
+	opacity: 0.6;
+}
+
+.site.not-opened:not(.in-folder),
+body.folder-opened > #container > #notes {
+	opacity: 1;
 }
 
 .folder-snapshot.site-snapshot {

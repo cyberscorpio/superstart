@@ -422,11 +422,12 @@ function openFolder(idx, f) {
 	folderArea.appendChild(df);
 
 	var mask = $$('mask');
-	mask.style.display = 'block';
+	$.removeClass(mask, 'hidden');
 
 	$.addClass(document.body, 'folder-opened');
 	$.addClass(se, 'opened');
 	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
+	onOpenCloseFolder(true);
 
 	layout.layoutFolderArea();
 
@@ -470,10 +471,14 @@ function onFolderClosed(evt) {
 	se.draggable = true;
 
 	var mask = $$('mask');
-	mask.style.display = '';
+	$.addClass(mask, 'hidden');
 	onUseBgEffect('sites-use-bg-effect', cfg.getConfig('sites-use-bg-effect'));
+	onOpenCloseFolder(false);
 
 	layout.layoutTopSites();
+
+	var container = $$('container');
+	container.style.top = '0';
 }
 
 function closeFolder() {
@@ -493,8 +498,10 @@ function closeFolder() {
 
 	layout.layoutTopSites();
 
+	/*
 	var container = $$('container');
 	container.style.top = '0';
+	*/
 }
 
 function onLinkClick(evt) {
@@ -859,6 +866,21 @@ function onUseBgEffect(evt, ube) {
 			$.removeClass(mask, 'grayed');
 			tmplMgr.changeElementsClass(nsp, '.site', 'remove', 'grayed');
 		}
+	}
+}
+
+function onOpenCloseFolder(isOpen) {
+	var nsp = {'site': '', 'folder': '', 'placeholder': ''};
+	if (isOpen) {
+		tmplMgr.changeElementsClass(nsp, '.site', 'add', 'not-opened');
+		var opened = $$$('.site.opened');
+		if (opened) {
+			$.removeClass(opened, 'not-opened');
+		}
+		$.addClass($$('bg'), 'folder-opened');
+	} else {
+		tmplMgr.changeElementsClass(nsp, '.site', 'remove', 'not-opened');
+		$.removeClass($$('bg'), 'folder-opened');
 	}
 }
 

@@ -20,8 +20,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	var that = this;
 
 	var sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+	var engines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
 	var themeKey = 'extensions.superstart.theme';
 	var theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
+	var engineKey = 'extensions.superstart.searchengine.name';
+	var engineName = sbprefs.getComplexValue(engineKey, Ci.nsISupportsString).data;
+	var searchEngine = null;
 
 	var intCfgs = {
 		'col' : {
@@ -70,8 +74,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'sites-use-bg-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
 		'todo-hide': {'key': 'todo.hide'},
+		'enable-searchengine-select': {'key': 'enable.searchengine.select'},
 
 		'navbar': {'key': 'navbar'},
+		'navbar-search': {'key': 'navbar.search'},
 		'navbar-recently-closed': {'key': 'navbar.recently.closed'},
 		'navbar-add-site': {'key': 'navbar.add.site'},
 		'navbar-themes': {'key': 'navbar.themes'},
@@ -91,6 +97,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	for (let k in boolCfgs) {
 		let cfg = boolCfgs[k];
 		cfg.value = sbprefs.getBoolPref('extensions.superstart.' + cfg.key);
+	}
+
+	function writeString(key, value) {
+		let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+		str.data = value;
+		sbprefs.setComplexValue(key, Ci.nsISupportsString, str);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +126,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			// mutable
 			case 'theme':
 				return theme;
+			case 'searchengine':
+				return engineName;
 			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
 				return false;
 			default:
@@ -133,10 +147,13 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			case 'theme':
 				if (value != theme) {
 					if (this.getTheme(value) != '') { // make sure the theme exists
-						let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
-						str.data = value;
-						sbprefs.setComplexValue(themeKey, Ci.nsISupportsString, str);
+						writeString(themeKey, value);
 					}
+				}
+				break;
+			case 'searchengine':
+				if (value != engineName) {
+					writeString(engineKey, value);
 				}
 				break;
 			default:
@@ -157,8 +174,38 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
+	let fakeEngine = {
+		'iconURI': {'spec': 'images/bing.ico'},
+		'name': 'Bing',
+		'getSubmission': function(data) {
+			return {
+				'uri': {
+					'spec': 'http://search.conduit.com/Results.aspx?ctid=CT3299106&searchsource=69&UM=2&q=' + encodeURIComponent(data)
+				}
+			};
+		}
+	};
+	this.getSearchEngine = function() {
+		if (searchEngine === null) {
+			if (engineName == 'superstart') {
+				searchEngine = fakeEngine;
+			} else {
+				try {
+					searchEngine = engines.getEngineByName(engineName);
+				} catch (e) {
+				}
+
+				if (searchEngine == null) {
+					searchEngine = fakeEngine;
+				}
+			}
+		}
+
+		return searchEngine;
+	}
+
 	////////////////////////////////////////////////////////////////////////
-	// observer 
+	// observers 
 	var ssPrefObserver = {
 		register: function() {
 			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
@@ -181,6 +228,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			if (aData == 'theme') {
 				theme = sbprefs.getComplexValue(themeKey, Ci.nsISupportsString).data;
 				that.fireEvent('theme', theme);
+			} else if (aData == 'searchengine.name') {
+				engineName = sbprefs.getComplexValue(engineKey, Ci.nsISupportsString).data;
+				searchEngine = null;
+				that.fireEvent('searchengine', engineName);
 			} else {
 				let cfgs = [intCfgs, boolCfgs];
 				for (let i = 0; i < cfgs.length; ++ i) {
@@ -198,7 +249,36 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 		}
 	}
-
 	ssPrefObserver.register();
+
+	/*
+	var ssSearchObserver = {
+		register: function() {
+			var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
+			this.branch = prefService.getBranch("browser.search.");
+			this.branch.addObserver("", this, false);
+		},
+
+		unregister: function() {
+			if(!this.branch) {
+				return;
+			}
+			this.branch.removeObserver("", this);
+		},
+
+		observe: function(aSubject, aTopic, aData) {
+			if(aTopic != "nsPref:changed") {
+				return;
+			}
+	
+			if (aData == 'selectedEngine') {
+				// if (that.getConfig('use-default-searchengine')) {
+				//	that.fireEvent('use-default-searchengine', true);
+				// }
+			}
+		}
+	}
+	ssSearchObserver.register();
+	*/
 }
 

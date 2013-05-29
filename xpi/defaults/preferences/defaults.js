@@ -2,6 +2,8 @@ pref('extensions.superstart@enjoyfreeware.org.description', 'chrome://superstart
 pref('extensions.superstart.version', '0.0.0');
 pref('extensions.superstart.theme', 'default');
 pref('extensions.superstart.load.in.blanktab', true);
+pref('extensions.superstart.searchengine.name', 'superstart');
+pref('extensions.superstart.enable.searchengine.select', false);
 
 pref('extensions.superstart.sites.compact', true);
 pref('extensions.superstart.sites.text.only', false);
@@ -17,6 +19,7 @@ pref('extensions.superstart.site.show.buttons', true);
 pref('extensions.superstart.todo.hide', true);
 
 pref('extensions.superstart.navbar', true);
+pref('extensions.superstart.navbar.search', true);
 pref('extensions.superstart.navbar.recently.closed', true);
 pref('extensions.superstart.navbar.add.site', true);
 pref('extensions.superstart.navbar.themes', true);

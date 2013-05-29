@@ -37,10 +37,12 @@ function refresh() {
 
 function onThemeChanged(evt, newTheme) {
 	refresh();
+	layout.refresh();
 }
 
 function onThemeRemoved(evt, themeName) {
 	refresh();
+	layout.refresh();
 }
 
 function onUseCustomize(evt, use) {
@@ -52,6 +54,7 @@ function onUseCustomize(evt, use) {
 	if (cfg.getConfig('use-customize')) {
 		$.insertStyle(tm.getUsUrl(), 'customize');
 	}
+	layout.refresh();
 }
 
 function onUserStyleChanged(evt, url) {

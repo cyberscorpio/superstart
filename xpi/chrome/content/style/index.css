@@ -26,11 +26,11 @@ a {
 }
 
 .invisible {
-	visibility: hidden;
+	visibility: hidden !important;
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 
@@ -41,23 +41,85 @@ a {
 
 #navbar {
 	height: 32px;
+	min-width: 600px;
 	background-color: rgba(0,0,0,0.25);
 	text-align: center;
 }
 
-#nb-search {
-	width: 20em;
-	height: 14px;
-	margin-top: 4px;
-	opacity: 0.5;
+body.folder-opened > #container > #navbar > #nb-search,
+body.folder-closing > #container > #navbar > #nb-search {
+	display: none;
 }
 
-#nb-search:focus {
-	opacity: 1;
-	width: 40em;
-	height: 28px;
-	margin-top: 15px;
+
+#nb-search:not(.hidden) {
+	display: inline-block;
+	width: 330px;
+	height: 22px;
+	margin-top: 5px;
+	background: white;
+	text-align: left;
+	border-radius: 3px;
+	opacity: 0.25;
 }
+#nb-search.focus,
+#nb-search:hover {
+	opacity: 1;
+	height: 32px;
+	box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
+}
+
+#nb-search-text {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	border: none;
+	float: left;
+	height: 100%;
+	width: 294px;
+	margin: 0 8px;
+
+	font-size: 16px;
+}
+#nb-search-text.enable-select {
+	width: 284px;
+}
+
+#nb-search-switcher {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	position: relative;
+	float: right;
+	height: 100%;
+	width: 20px;
+	cursor: default;
+}
+#nb-search-switcher.enable-select {
+	width: 30px;
+}
+#nb-search-switcher.enable-select:after {
+	content: ".";
+	font-size: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 3px;
+	bottom: calc(50% - 2px);
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid transparent;
+	background-color: transparent;
+	border-top-color: rgba(0,0,0,0.75);
+}
+#nb-search-favicon {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	top: 50%;
+	margin-top: -8px;
+}
+
 
 li.nbb, li.nbc {
 	opacity: .5;
@@ -127,17 +189,26 @@ li.nbc { float: right; }
 	top: 0;
 	left: 0;
 	background-color: white;
+	/*
 	opacity: 0.85;
-}
-
-#mask.grayed {
+	*/
 	opacity: 0;
 }
 
+.site.not-opened:not(.in-folder),
+body.folder-opened > #container > #notes {
+	opacity: 0.25;
+}
+
+/* grayed, not used now */
+#mask.grayed {
+	opacity: 0;
+}
 .site.grayed:not(.opened):not(.closing):not(.dragging):not(.in-folder) {
 	opacity: .5;
 	filter: url("filters.svg#background-effect");
 }
+/* grayed */
 
 #sites {
 	position: relative;
@@ -390,16 +461,18 @@ li.nbc { float: right; }
 	transform: scale(0.75) rotate(0.01deg); /* https://bugzilla.mozilla.org/show_bug.cgi?id=663776 */
 }
 
+
 #folder {
 	position: absolute;
 	width: 100%;
 	height: 0;
-	background-color: rgba(0,0,0,0.85);
+	background: rgba(0,0,0,0.9);
+	border-bottom: 1px solid rgba(255,255,255,0.5);
 }
 
 .site.folder.opened:after,
 .site.folder.closing:after {
-	border-bottom-color: rgba(0,0,0,0.85);
+	border-bottom-color: rgba(0,0,0,0.9);
 }
 
 #folder.resizing{

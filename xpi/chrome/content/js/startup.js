@@ -45,22 +45,21 @@ if ("undefined" == typeof(SuperStart)) {
 			let menu = $$('contentAreaContextMenu');
 			menu.addEventListener('popupshowing', function(evt) {
 
-				// TODO: add a flag to hide all the items.
-
+				let show = cfg.getConfig('enable-context-menuitem');
 
 				// let n = this.triggerNode;
 				// check this link: https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Extensions
 				let m = gContextMenu;
 				let item = $$('context-superstart-add-link');
 				item.hidden = true;
-				if (m.onLink && isProtocolSupported(m.linkURL)) {
+				if (show && m.onLink && isProtocolSupported(m.linkURL)) {
 					item.hidden = false;
 				}
 
 				item = $$('context-superstart-add');
 				item.hidden = true;
 				let link = gBrowser.selectedBrowser.contentDocument.location.href;
-				if (!m.onTextInput && !m.onImage && !m.onLink && !m.onMailtoLink && isProtocolSupported(link)) {
+				if (show && !m.onTextInput && !m.onImage && !m.onLink && !m.onMailtoLink && isProtocolSupported(link)) {
 					item.hidden = false;
 				}
 			}, false);

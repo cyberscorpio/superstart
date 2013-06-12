@@ -2,6 +2,7 @@ pref('extensions.superstart@enjoyfreeware.org.description', 'chrome://superstart
 pref('extensions.superstart.version', '0.0.0');
 pref('extensions.superstart.theme', 'default');
 pref('extensions.superstart.load.in.blanktab', true);
+pref('extensions.superstart.enable.context.menuitem', true);
 pref('extensions.superstart.searchengine.name', 'superstart');
 pref('extensions.superstart.enable.searchengine.select', false);
 

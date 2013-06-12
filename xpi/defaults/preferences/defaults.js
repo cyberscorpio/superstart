@@ -5,7 +5,7 @@ pref('extensions.superstart.load.in.blanktab', true);
 pref('extensions.superstart.searchengine.name', 'superstart');
 pref('extensions.superstart.enable.searchengine.select', false);
 
-pref('extensions.superstart.sites.compact', true);
+pref('extensions.superstart.sites.compact', false);
 pref('extensions.superstart.sites.text.only', false);
 pref('extensions.superstart.sites.use.background.effect', false);
 pref('extensions.superstart.sites.col', 4);

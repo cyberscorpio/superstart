@@ -73,6 +73,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		'sites-text-only': {'key': 'sites.text.only'},
 		'sites-use-bg-effect': {'key': 'sites.use.background.effect'},
 		'open-in-newtab': {'key': 'site.open.in.newtab'},
+		'open-in-newtab-near-me': {'key': 'site.open.in.newtab.near.me'},
 		'todo-hide': {'key': 'todo.hide'},
 		'enable-searchengine-select': {'key': 'enable.searchengine.select'},
 
@@ -128,6 +129,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return theme;
 			case 'searchengine':
 				return engineName;
+			case 'navbar-search':
+				return false; // Disable search bar
 			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
 				return false;
 			default:
@@ -174,30 +177,18 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 	}
 
-	let fakeEngine = {
-		'iconURI': {'spec': 'images/bing.ico'},
-		'name': 'Bing',
-		'getSubmission': function(data) {
-			return {
-				'uri': {
-					'spec': 'http://search.conduit.com/Results.aspx?ctid=CT3299106&searchsource=69&UM=2&q=' + encodeURIComponent(data)
-				}
-			};
-		}
-	};
 	this.getSearchEngine = function() {
 		if (searchEngine === null) {
 			if (engineName == 'superstart') {
-				searchEngine = fakeEngine;
-			} else {
-				try {
-					searchEngine = engines.getEngineByName(engineName);
-				} catch (e) {
-				}
+				searchEngine = engines.currentEngine.name;
+			}
 
-				if (searchEngine == null) {
-					searchEngine = fakeEngine;
-				}
+			try {
+				searchEngine = engines.getEngineByName(engineName);
+			} catch (e) { }
+
+			if (searchEngine == null) {
+				searchEngine = engines.currentEngine;
 			}
 		}
 

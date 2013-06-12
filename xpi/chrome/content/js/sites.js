@@ -515,21 +515,30 @@ function onLinkClick(evt) {
 		}
 	} else {
 		if (s.url != null && s.url != 'about:placeholder') {
-			var b = $.getMainWindow().getBrowser();
+			var tb = $.getMainWindow().getBrowser();
 			if (evt.shiftKey) {
-				b.selectedTab = b.addTab(s.url);
+				tb.selectedTab = addTab(tb, s.url);
 			} else {
 				var inNewTab = cfg.getConfig('open-in-newtab');
 				if (evt.ctrlKey || evt.metaKey) {
 					inNewTab = !inNewTab;
 				}
-				inNewTab ? b.addTab(s.url) : document.location.href = s.url;
+				inNewTab ? addTab(tb, s.url) : document.location.href = s.url;
 			}
 		}
 	}
 	evt.preventDefault();
 	evt.stopPropagation();
 	return false;
+}
+
+function addTab(tb, url) {
+	var newTab = tb.addTab(url);
+	if (cfg.getConfig('open-in-newtab-near-me')) {
+		var i = tb.tabContainer.getIndexOfItem(tb.selectedTab);
+		tb.moveTabTo(newTab, i + 1);
+	}
+	return newTab;
 }
 
 function getLinkFromElem(elem) {
@@ -555,11 +564,11 @@ function openInThisTab(evt) {
 function openInNewTab(evt) {
 	var link = getLinkFromElem(this);
 	if (link) {
+		var tb = $.getMainWindow().getBrowser();
 		if (evt.shiftKey) {
-			var b = $.getMainWindow().getBrowser();
-			b.selectedTab = b.addTab(link);
+			tb.selectedTab = addTab(tb, link);
 		} else {
-			$.getMainWindow().getBrowser().addTab(link);
+			addTab(tb, link);
 		}
 	}
 	return false;

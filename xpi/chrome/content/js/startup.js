@@ -44,6 +44,10 @@ if ("undefined" == typeof(SuperStart)) {
 			// context menu
 			let menu = $$('contentAreaContextMenu');
 			menu.addEventListener('popupshowing', function(evt) {
+
+				// TODO: add a flag to hide all the items.
+
+
 				// let n = this.triggerNode;
 				// check this link: https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Extensions
 				let m = gContextMenu;

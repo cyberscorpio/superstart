@@ -14,6 +14,7 @@ pref('extensions.superstart.site.snapshot.width', 256);
 pref('extensions.superstart.site.snapshot.ratio.type', 1); /* 1: 16:9, 2: 16:10 */
 
 pref('extensions.superstart.site.open.in.newtab', false);
+pref('extensions.superstart.site.open.in.newtab.near.me', false);
 pref('extensions.superstart.site.show.buttons', true);
 
 pref('extensions.superstart.todo.hide', true);

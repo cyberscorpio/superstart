@@ -19,7 +19,7 @@
 
 <!-- context menu for other page -->
 <!ENTITY superstart.context.menu.add.link "Add this link to Super Start">
-<!ENTITY superstart.context.menu.add "Přidat do Super Start"> <!-- Add this tab to Super Start -->
+<!ENTITY superstart.context.menu.add "Přidat do Super Start">
 
 <!-- options -->
 <!ENTITY superstart.options "Možnosti">

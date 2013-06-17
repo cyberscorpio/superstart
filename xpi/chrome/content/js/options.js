@@ -17,7 +17,9 @@ evtMgr.clear(function() {
 
 let boolMap = {
 	'load-in-blanktab': 'load-in-blanktab',
+	'disable-context-menu': 'disable-context-menuitem',
 	'sites-open-in-newtab': 'open-in-newtab',
+	'sites-open-next-to-current': 'open-in-newtab-near-me',
 
 	'sites-use-compactmode': 'sites-compact',
 	'sites-use-textonly': 'sites-text-only',

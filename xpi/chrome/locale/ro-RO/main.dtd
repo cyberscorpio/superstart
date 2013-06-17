@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Configurare">
 <!ENTITY superstart.options.load.in.blanktab "Încarcă în filă goală">
 <!ENTITY superstart.options.set.as.homepage "Definește Super Start ca pagină de început">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Deschide în filă nouă în mod implicit">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Opțiuni de afișare">
 <!ENTITY superstart.options.sites.use.compactmode "Folosește modul compact">
 <!ENTITY superstart.options.sites.text.only "Afișează doar titlul">

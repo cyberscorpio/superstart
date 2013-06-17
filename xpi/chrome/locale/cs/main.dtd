@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Nastavení">
 <!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
 <!ENTITY superstart.options.set.as.homepage "Nastavit Super Start aby se otevíral v nové záložce">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Implicitně otevírat v nové záložce">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Nstavení zobrazování">
 <!ENTITY superstart.options.sites.use.compactmode "Použít kompaktní zobrazení">
 <!ENTITY superstart.options.sites.text.only "Text only">

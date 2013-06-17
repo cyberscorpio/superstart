@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Beállítások">
 <!ENTITY superstart.options.load.in.blanktab "Megnyitás új fülön">
 <!ENTITY superstart.options.set.as.homepage "A Super Start beállítása kezdőlapnak">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Megnyitás új lapon alapértelmezetten">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Mejelenítési beállítások">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakt mód használata">
 <!ENTITY superstart.options.sites.text.only "Text only">

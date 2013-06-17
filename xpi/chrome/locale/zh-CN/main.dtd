@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "设置">
 <!ENTITY superstart.options.load.in.blanktab "在空白页中加载">
 <!ENTITY superstart.options.set.as.homepage "把 Super Start 设为主页">
+<!ENTITY superstart.options.disable.context.menu "在网页的上下文菜单中隐藏 Super Start 选项">
 <!ENTITY superstart.options.sites.open.in.newtab "默认在新 tab 打开链接">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "在当前页面的旁边打开新的 Tab">
+
 <!ENTITY superstart.options.sites.displaysettings "显示设置">
 <!ENTITY superstart.options.sites.use.compactmode "使用紧凑模式">
 <!ENTITY superstart.options.sites.text.only "文本模式，禁用缩略图">

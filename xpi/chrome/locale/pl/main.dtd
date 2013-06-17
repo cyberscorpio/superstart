@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Setup">
 <!ENTITY superstart.options.load.in.blanktab "Załaduj w pustej karcie">
 <!ENTITY superstart.options.set.as.homepage "Ustaw Super Start jako stronę startową">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Otwieraj domyślnie w nowej karcie">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Ustawienia wyświetlania">
 <!ENTITY superstart.options.sites.use.compactmode "Używaj trybu kompaktowego">
 <!ENTITY superstart.options.sites.text.only "Text only">

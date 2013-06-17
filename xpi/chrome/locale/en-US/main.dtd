@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Setup">
 <!ENTITY superstart.options.load.in.blanktab "Load in blank tab">
 <!ENTITY superstart.options.set.as.homepage "Set Super Start as homepage">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Open in new tab by default">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Display Settings">
 <!ENTITY superstart.options.sites.use.compactmode "Use compact mode">
 <!ENTITY superstart.options.sites.text.only "Text only">

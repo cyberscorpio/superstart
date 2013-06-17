@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Nastavenie">
 <!ENTITY superstart.options.load.in.blanktab "Nahrať na prázdnej karte">
 <!ENTITY superstart.options.set.as.homepage "Nastaviť Super Štart ako domovskú stránku">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Predvolene otvárať na novej karte">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Nastavenie zobrazenia">
 <!ENTITY superstart.options.sites.use.compactmode "Použíť kompaktný režim">
 <!ENTITY superstart.options.sites.text.only "Iba text">

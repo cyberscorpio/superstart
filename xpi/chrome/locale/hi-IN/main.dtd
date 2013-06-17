@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "व्यवस्था (सेटअप)">
 <!ENTITY superstart.options.load.in.blanktab "ख़ाली टेब मै खोले">
 <!ENTITY superstart.options.set.as.homepage "सुपर स्टार्ट को होमपेज सेट करे">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "डिफ़ॉल्ट रूप से नए टैब में खोलें">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "प्रदर्शन सेटिंग्स">
 <!ENTITY superstart.options.sites.use.compactmode "कॉम्पैक्ट मोड का उपयोग करें">
 <!ENTITY superstart.options.sites.text.only "केवल पाठ (टेक्स्ट)">

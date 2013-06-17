@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Налаштування">
 <!ENTITY superstart.options.load.in.blanktab "Завантажувати в порожніх вкладках">
 <!ENTITY superstart.options.set.as.homepage "Встановити Super Start домашньою сторінкою">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Відкривати в нових вкладках за замовчуванням">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Налаштування відображення">
 <!ENTITY superstart.options.sites.use.compactmode "Використовувати компактний режим">
 <!ENTITY superstart.options.sites.text.only "Лише текст">

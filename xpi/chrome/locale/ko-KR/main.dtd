@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "설정">
 <!ENTITY superstart.options.load.in.blanktab "새 탭에 실행">
 <!ENTITY superstart.options.set.as.homepage "Super Start를 홈페이지로 설정">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "사이트를 자동으로 새 탭에 열기">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "표시 설정">
 <!ENTITY superstart.options.sites.use.compactmode "미니 모드 사용">
 <!ENTITY superstart.options.sites.text.only "텍스트만 사용">

@@ -1,4 +1,4 @@
-﻿<!-- input url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "URL">
 <!ENTITY superstart.dialog.url.url "Введіть URL тут">
 <!ENTITY superstart.dialog.url.name "Назва сайту (не обов'язково)">

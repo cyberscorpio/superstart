@@ -1,4 +1,4 @@
-﻿<!-- input url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "URL eingeben">
 <!ENTITY superstart.dialog.url.url "URL hier eingeben">
 <!ENTITY superstart.dialog.url.name "Seitenname (optional)">

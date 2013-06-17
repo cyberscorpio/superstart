@@ -1,4 +1,4 @@
-﻿<!-- input url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "URL megadása">
 <!ENTITY superstart.dialog.url.url "Add meg a weboldal címét!">
 <!ENTITY superstart.dialog.url.name "Oldal neve (opcionális)">

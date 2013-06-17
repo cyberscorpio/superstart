@@ -1,4 +1,4 @@
-<!-- Vložte url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "Vložte URL">
 <!ENTITY superstart.dialog.url.url "Vložte URL sem">
 <!ENTITY superstart.dialog.url.name "Jméno stránky (volitelné)">

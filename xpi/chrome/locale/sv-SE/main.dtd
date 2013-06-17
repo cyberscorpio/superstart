@@ -1,11 +1,11 @@
 <!-- input url -->
 <!ENTITY superstart.dialog.url.title "Ange URL">
 <!ENTITY superstart.dialog.url.url "Ange URL här">
-<!ENTITY superstart.dialog.url.name "Hemsidan namn (frivilligt)">
-<!ENTITY superstart.dialog.url.snapshot.setting "Miniatyr inställning">
-<!ENTITY superstart.dialog.url.snapshot.lefttop "Övre vänster hörn">
+<!ENTITY superstart.dialog.url.name "Hemsidans namn (frivilligt)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Miniatyrinställning">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Övre vänstra hörnet">
 <!ENTITY superstart.dialog.url.snapshot.entire "Hela fönstret">
-<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Använd Firefox' miniatyrtjänst (fungerar inte för alla sidor)">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Använd Firefox miniatyrtjänst (fungerar inte för alla sidor)">
 <!ENTITY superstart.dialog.url.snapshot.customize "Anpassa bild">
 
 <!-- group name -->
@@ -13,7 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Ange ny URL">
-<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
+<!ENTITY superstart.menu.placeholder.add "Lägg till tom ram">
 <!ENTITY superstart.menu.site.refreshall "Uppdatera alla">
 <!ENTITY superstart.menu.options "Alternativ">
 
@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Inställningar">
 <!ENTITY superstart.options.load.in.blanktab "Ladda i tom flik">
 <!ENTITY superstart.options.set.as.homepage "Gör Super Start till startsida">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Öppna i ny flik som förinställning">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Visningsinställningar">
 <!ENTITY superstart.options.sites.use.compactmode "Använd kompakt läge">
 <!ENTITY superstart.options.sites.text.only "Endast text">

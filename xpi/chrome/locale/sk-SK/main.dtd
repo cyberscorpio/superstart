@@ -1,0 +1,94 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Vložte URL">
+<!ENTITY superstart.dialog.url.url "Vložte URL sem">
+<!ENTITY superstart.dialog.url.name "Meno stránky (voliteľné)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Nastavenie dlaždičky">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Ľavý &amp; horný roh">
+<!ENTITY superstart.dialog.url.snapshot.entire "Celé okno">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Použiť službu Firefoxu pre získavanie dlaždíc (nemusí byť dostupná pre niektoré stránky)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Prispôsobiť obrázok">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Nastaviť meno skupiny">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Pridať novú URL">
+<!ENTITY superstart.menu.placeholder.add "Pridať vyhradené miesto">
+<!ENTITY superstart.menu.site.refreshall "Obnoviť všetko">
+<!ENTITY superstart.menu.options "Možnosti">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Pridať túto linku do Super Štartu">
+<!ENTITY superstart.context.menu.add "Pridať túto kartu do Super Štartu">
+
+<!-- options -->
+<!ENTITY superstart.options "Možnosti">
+
+<!ENTITY superstart.options.general "Všeobecné">
+<!ENTITY superstart.options.sites.setup "Nastavenie">
+<!ENTITY superstart.options.load.in.blanktab "Nahrať na prázdnej karte">
+<!ENTITY superstart.options.set.as.homepage "Nastaviť Super Štart ako domovskú stránku">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
+<!ENTITY superstart.options.sites.open.in.newtab "Predvolene otvárať na novej karte">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
+<!ENTITY superstart.options.sites.displaysettings "Nastavenie zobrazenia">
+<!ENTITY superstart.options.sites.use.compactmode "Použíť kompaktný režim">
+<!ENTITY superstart.options.sites.text.only "Iba text">
+<!ENTITY superstart.options.sites.use.background.effect "Použiť efekt na pozadí (môže byť pomalé)">
+<!ENTITY superstart.options.sites.col "Počet stránok zobrazených na riadok:">
+
+<!ENTITY superstart.options.navbar "Navigačný panel">
+<!ENTITY superstart.options.show.navbar "Zobraziť navigačný panel">
+<!ENTITY superstart.options.navbar.show.recently.closed "Nedávno zatvorené">
+<!ENTITY superstart.options.navbar.show.add.site "Pridať novú stránku">
+<!ENTITY superstart.options.navbar.show.themes "Témy">
+<!ENTITY superstart.options.navbar.show.todo "Poznámky">
+<!ENTITY superstart.options.show.elements "Zobraziť prvky...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Zobraziť tlačítka">
+<!ENTITY superstart.options.site.buttons.show.newtab "Nová karta">
+<!ENTITY superstart.options.site.buttons.show.refresh "Obnoviť">
+<!ENTITY superstart.options.site.buttons.show.config "Nastaviť">
+<!ENTITY superstart.options.site.buttons.show.remove "Odstrániť">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Ďalšia snímka">
+
+<!ENTITY superstart.options.general.hint "* nastavenia na tejto karte sa prejavia ihneď">
+
+<!ENTITY superstart.ui.customize "Prispôsobenie používateľského rozhrania">
+<!ENTITY superstart.ui.customize.use "Povoliť prispôsobenie">
+<!ENTITY superstart.ui.customize.howto "(Nápoveda) Ako prispôsobiť?">
+<!ENTITY superstart.ui.background.image "Obrázok pozadia">
+<!ENTITY superstart.ui.select.image "Vybrať obrázok">
+<!ENTITY superstart.ui.clear.image "Odstrániť obrázok">
+<!ENTITY superstart.ui.background.repeat "Opakovať">
+<!ENTITY superstart.ui.background.repeat.repeat "Opakovať (východzie)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Neopakovať">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Opakovať horizontálne">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Opakovať vertikálne">
+<!ENTITY superstart.ui.background.size "Veľkosť">
+<!ENTITY superstart.ui.background.size.default "Východzia">
+<!ENTITY superstart.ui.background.size.cover "Napasovať rozmery (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Napasovať rozmery (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Pozícia">
+<!ENTITY superstart.ui.colors "Farby">
+<!ENTITY superstart.ui.background.color.enable "Povoliť farbu pozadia">
+<!ENTITY superstart.ui.background.color.select "Vybrať farbu">
+<!ENTITY superstart.ui.text.color "Text">
+<!ENTITY superstart.ui.text.color.enable "Povoliť farbu textu">
+<!ENTITY superstart.ui.text.color.black "Čierna">
+<!ENTITY superstart.ui.text.color.white "Biela">
+<!ENTITY superstart.ui.text.color.use.shadow "Použiť tiene">
+<!ENTITY superstart.ui.others "Ostatné">
+<!ENTITY superstart.ui.transparent "Priehľadné (môže byť pomalé)">
+<!ENTITY superstart.ui.customize.advanced "Pokročilé">
+<!ENTITY superstart.ui.css.edit.hint "Vložte priamo CSS kód:">
+
+<!ENTITY superstart.options.about "O SuperŠtarte">
+<!ENTITY superstart.options.author "Autor">
+<!ENTITY superstart.options.help "Nápoveda">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Exportovať">
+<!ENTITY superstart.import "Importovať">
+<!ENTITY superstart.import.sites.only "Importovať iba hlavné stránky">
+<!ENTITY superstart.processing "Spracúva sa">

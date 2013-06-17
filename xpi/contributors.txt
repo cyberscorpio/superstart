@@ -21,6 +21,8 @@ Danish:       Regmos
 Bulgarian:    Kaloian Kozlev (kbkozlev {at} gmail.com)
 Hindi:        Rrishu Jain (rrishujain {at} yahoo.co.in, http://facebook.com/rrishujain) 
 Swedish:      krevad (https://github.com/krevad)
+Slovak:       Stano (Stano110 {at} azet.sk)
+Arabic:       محمد أحمد (mohamedstarwars {at} gmail.com)
 
 
 ---    theme    ---

@@ -21,7 +21,7 @@ pref('extensions.superstart.site.show.buttons', true);
 pref('extensions.superstart.todo.hide', true);
 
 pref('extensions.superstart.navbar', true);
-pref('extensions.superstart.navbar.search', true);
+pref('extensions.superstart.navbar.search', false);
 pref('extensions.superstart.navbar.recently.closed', true);
 pref('extensions.superstart.navbar.add.site', true);
 pref('extensions.superstart.navbar.themes', true);

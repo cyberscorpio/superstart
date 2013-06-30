@@ -63,7 +63,7 @@
 					<groupbox>
 						<caption label="&superstart.options.show.elements;" />
 						<checkbox id="show-navbar" label="&superstart.options.show.navbar;" />
-							<checkbox id="show-search" label="Search" />
+							<checkbox id="show-search" label="&superstart.options.navbar.show.searchbox;" />
 						<checkbox id="show-buttons" label="&superstart.options.site.buttons.show.buttons;" />
 						<hbox id="buttons-wrapper">
 							<hbox class="buttons-item-wrapper" tooltiptext="&superstart.options.site.buttons.show.newtab;">

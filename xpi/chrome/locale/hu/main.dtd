@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Eszköztár">
 <!ENTITY superstart.options.show.navbar "Eszköztár megjelenítése">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Nemrég bezárt">
 <!ENTITY superstart.options.navbar.show.add.site "Új oldal hozzáadása">
 <!ENTITY superstart.options.navbar.show.themes "Téma">

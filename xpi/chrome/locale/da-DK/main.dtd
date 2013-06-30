@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navigationsbjælke">
 <!ENTITY superstart.options.show.navbar "Vis navigationsbjælke">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Senest lukket">
 <!ENTITY superstart.options.navbar.show.add.site "Tilføj ny side">
 <!ENTITY superstart.options.navbar.show.themes "Temaer">

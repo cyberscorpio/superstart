@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "ナビゲーションバー">
 <!ENTITY superstart.options.show.navbar "ナビゲーションバーを表示">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "最近閉じた">
 <!ENTITY superstart.options.navbar.show.add.site "新しいサイトを追加">
 <!ENTITY superstart.options.navbar.show.themes "テーマ">

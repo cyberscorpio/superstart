@@ -130,8 +130,6 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return theme;
 			case 'searchengine':
 				return engineName;
-			case 'navbar-search':
-				return false; // Disable search bar
 			case 'sites-use-bg-effect': // currently Firefox (18b) can't work with 'transform: translate()' and 'filiter' both enabled.
 				return false;
 			default:

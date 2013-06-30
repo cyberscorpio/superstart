@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navigačný panel">
 <!ENTITY superstart.options.show.navbar "Zobraziť navigačný panel">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Nedávno zatvorené">
 <!ENTITY superstart.options.navbar.show.add.site "Pridať novú stránku">
 <!ENTITY superstart.options.navbar.show.themes "Témy">

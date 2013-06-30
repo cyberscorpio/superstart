@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Mostrar Navbar">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Recientemente cerradas">
 <!ENTITY superstart.options.navbar.show.add.site "Añadir nuevo sitio">
 <!ENTITY superstart.options.navbar.show.themes "Temas">

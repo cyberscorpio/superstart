@@ -246,43 +246,27 @@ if ("undefined" == typeof(SuperStart)) {
 				menu.removeChild(menu.firstChild);
 			}
 
-			let useDefSearchEngine = cfg.getConfig('use-default-searchengine');
-
-			// 
-			let m = document.createElement("menuitem");
-			m.setAttribute('label', 'Conduit (Bing)');
-			m.setAttribute('image', 'chrome://superstart/content/images/bing.ico');
-			m.setAttribute('class', "menuitem-iconic bookmark-item menuitem-with-favicon");
-			m.setAttribute('type', 'radio');
-			m.setAttribute('value', 0);
-			if (!useDefSearchEngine) {
-				m.setAttribute('checked', true);
-			}
-			m.addEventListener('command', function() {
-				cfg.setConfig('use-default-searchengine', false);
-			}, false);
-			menu.appendChild(m);
-
-			let engine = searchEngines.currentEngine || searchEngines.defaultEngine;
-			if (engine != null) {
-				menu.appendChild(document.createElement("menuseparator"));
-
+			let engineUsing = cfg.getSearchEngine();
+			let engines = searchEngines.getVisibleEngines();
+			let visible = false;
+			for (let i = 0; i < engines.length; ++ i) {
+				let engine = engines[i];
 				let m = document.createElement("menuitem");
-				m.setAttribute('label', 'Firefox (' + engine.name + ')');
+				m.setAttribute('label', engine.name);
 				m.setAttribute('type', 'radio');
 				m.setAttribute('image', engine.iconURI.spec);
 				m.setAttribute('class', "menuitem-iconic bookmark-item menuitem-with-favicon");
-				m.setAttribute('value', 1);
-				if (useDefSearchEngine) {
+				m.setAttribute('value', engine.name);
+				if (engine.name == engineUsing.name) {
+					visible = true;
 					m.setAttribute('checked', true);
 				}
 				m.addEventListener('command', function() {
-					cfg.setConfig('use-default-searchengine', true);
+					cfg.setConfig('searchengine', this.getAttribute('value'));
 				}, false);
 				menu.appendChild(m);
-			} else {
-				m.setAttribute('checked', true);
 			}
+			// TODO: if 'engineUsing' is not visible...
 		}
 
 		SuperStart.getString = function(name) {

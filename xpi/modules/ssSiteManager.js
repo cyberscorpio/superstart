@@ -682,20 +682,23 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				ctx.clearRect(0, 0, imgWidth, imgHeight);
 				ctx.save();
 				ctx.mozImageSmoothingEnabled = true;
+
+				let sw = w, sh = h;
 				if (i == 0) {
-					let aw = Math.floor(w / 3);
-					let ah = Math.floor(aw * ratio);
-					if (aw < imgWidth) {
-						aw = imgWidth;
+					sw = Math.floor(w / 3);
+					sh = Math.floor(sw * ratio);
+					if (sw < imgWidth) {
+						sw = imgWidth;
 					}
-					if (ah < imgHeight) {
-						ah = imgHeight;
+					if (sh < imgHeight) {
+						sh = imgHeight;
 					}
-					ctx.scale(imgWidth / aw, imgHeight / ah);
-					ctx.drawWindow(win.contentWindow, 0, 0, aw, ah, "rgba(0,0,0,0)");
-				} else {
-					ctx.scale(imgWidth / w, imgHeight / h);
-					ctx.drawWindow(win.contentWindow, 0, 0, w, h, "rgba(0,0,0,0)");
+				}
+				ctx.scale(imgWidth / sw, imgHeight / sh);
+				try {
+					ctx.drawWindow(win.contentWindow, 0, 0, sw, sh, "rgba(0,0,0,0)");
+				} catch (e) {
+					log(e);
 				}
 				ctx.restore();
 

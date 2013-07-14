@@ -1,19 +1,20 @@
-#mask {
-	opacity: 0.6;
-}
-
-.site.not-opened:not(.in-folder),
-body.folder-opened > #container > #notes {
-	opacity: 1;
-}
-
 .folder-snapshot.site-snapshot {
-	background-color: transparent;
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+	background-color: rgba(255, 255, 255, 0.25);
 }
 
-.site-snapshot {
-	border: 1px solid #aaa;
+.site-snapshot.folder-snapshot, 
+.site-snapshot:not(.placeholder-snapshot) {
+	border-color: rgba(8, 22, 37, 0.12) rgba(8, 22, 37, 0.14) rgba(8, 22, 37, 0.16);
+	border-style: solid;
+	border-width: 1px;
+
+	transition-property: width, height, opacity, transform, background-color, box-shadow;
+}
+
+.site-snapshot:hover:not(.placeholder-snapshot),
+.site.opened > a > .site-snapshot {
+	border-color: rgba(8, 22, 37, 0.25) rgba(8, 22, 37, 0.27) rgba(8, 22, 37, 0.3);
+	box-shadow: 0 0 10px rgba(8, 22, 37, 0.3);
 }
 
 /** notes **/

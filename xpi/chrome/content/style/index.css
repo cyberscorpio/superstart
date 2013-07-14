@@ -155,15 +155,15 @@ li.nbc { float: right; }
 
 /* sites */
 #margin-helper {
-	min-width: 80px;
-	max-width: 300px;
+	min-width: 25px;
+	max-width: 100px;
 	height: 0.1px;
 	margin-top: 20px;
 	overflow: hidden;
 }
 #site-helper {
 	min-width: 128px;
-	max-width: 384px;
+	max-width: 514px;
 	margin-right: 20px;
 	margin-bottom: 10px;
 }
@@ -172,11 +172,10 @@ li.nbc { float: right; }
 	min-width: 150px;
 	max-width: 300px;
 	height: 0.15px;
-	margin-top: 32px;
 }
 #site-helper.compact-mode {
 	min-width: 128px;
-	max-width: 208px;
+	max-width: 258px;
 	margin-right: 20px;
 	margin-bottom: 12px;
 }

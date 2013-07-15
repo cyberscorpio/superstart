@@ -1,0 +1,19 @@
+.site-snapshot {
+	overflow: hidden;
+}
+.site:not(.placeholder) > a > .site-snapshot:after {
+	background-image: -moz-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.25), rgba(255,255,255,0));
+	height: 100%;
+	left: -50%;
+	position: absolute;
+	top: 0;
+	transform: skewX(-25deg);
+	transition: all 0s ease 0s;
+	width: 50%;
+	content: "";
+}
+.site:hover:not(.placeholder) > a > .site-snapshot:after {
+	left: 150%;
+	transition: left 0.5s ease 0s;
+}
+

@@ -1,3 +1,19 @@
+
+.site-snapshot {
+	border-radius: 3px;
+}
+
+.site-snapshot.folder-snapshot,
+.site-snapshot:not(.placeholder-snapshot) {
+	border: 1px solid rgba(255,255,255,0.25);
+}
+
+.site-snapshot:hover:not(.placeholder-snapshot),
+.site.opened > a > .site-snapshot {
+	background-color: rgba(0,0,0,0.4);
+	border: 1px solid rgba(255,255,255,0.4);
+}
+
 #margin-helper,
 #margin-helper.compact-mode {
 	min-width: 20px;

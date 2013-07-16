@@ -221,7 +221,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					} else {
 						t = s.snapshots[s.snapshotIndex];
 						if (t.indexOf('images/') != 0) {
-							t = that.regulateUrl(pathFromName(t)).replace(/\\/g, '/');
+							t = that.regulateUrl(getPathFromSnapshotName(t)).replace(/\\/g, '/');
 						}
 					}
 					break;
@@ -508,12 +508,12 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	// snapshots
-	function fileFromName(name) {
+	function getIFileFromSnapshotName(name) {
 		return FileUtils.getFile('ProfD', ['superstart', 'snapshots', name]);
 	}
 	
-	function pathFromName(name) {
-		return fileFromName(name).path;
+	function getPathFromSnapshotName(name) {
+		return getIFileFromSnapshotName(name).path;
 	}
 
 	function removeSnapshots(names) {
@@ -521,7 +521,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			try {
 				let name = names[i];
 				if (name && name.indexOf('images/') != 0) {
-					let f = fileFromName(name);
+					let f = getIFileFromSnapshotName(name);
 					f.remove(false);
 				}
 			} catch (e) {
@@ -603,7 +603,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				doc = null;
 
 				let names = [SHA1(url + Math.random()) + '.png', SHA1(url + Math.random()) + '.png'];
-				let pathes = [pathFromName(names[0]), pathFromName(names[1])];
+				let pathes = [getPathFromSnapshotName(names[0]), getPathFromSnapshotName(names[1])];
 				let canvases = window2canvas(gDoc, browser, width, height);
 				saveCanvas(canvases[0], pathes[0], function() {
 					saveCanvas(canvases[1], pathes[1], function() {

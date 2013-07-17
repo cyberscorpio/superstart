@@ -1,30 +1,17 @@
 
-#bg {
-	background-color: rgb(212,212,212);
+.site-snapshot {
+	border-radius: 3px;
 }
 
-#navbar {
-	background-color: rgba(0,0,0,0.85);
+.site-snapshot.folder-snapshot,
+.site-snapshot:not(.placeholder-snapshot) {
+	border: 1px solid rgba(255,255,255,0.25);
 }
 
-.nbb.opened,
-.nbc.opened {
-	background-color: black;
-}
-
-.folder-snapshot.site-snapshot {
-	background-attachment: fixed;
-	background-color: rgba(255, 255, 255, 0.2);
-	background-repeat: repeat;
-	background-size: auto auto;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-.folder.opened > a > .folder-snapshot.site-snapshot/*,
-.folder.closing > a > .folder-snapshot.site-snapshot*/ {
-    background-color: rgba(0, 0, 0, 0.85);
-    border-color: rgba(255, 255, 255, 0.85);
+.site-snapshot:hover:not(.placeholder-snapshot),
+.site.opened > a > .site-snapshot {
+	background-color: rgba(0,0,0,0.4);
+	border: 1px solid rgba(255,255,255,0.4);
 }
 
 #margin-helper,
@@ -35,11 +22,11 @@
 
 #site-helper,
 #site-helper.compact-mode {
-	max-width: 258px;
+	max-width: 514px;
 }
 
 #site-helper.compact-mode {
-	margin-bottom: 5px;
+	margin-bottom: 0px;
 	margin-right: 10px;
 }
 

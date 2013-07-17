@@ -40,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Bara de navigare">
 <!ENTITY superstart.options.show.navbar "Afișează bara de navigare">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "File închise recent">
 <!ENTITY superstart.options.navbar.show.add.site "Adaugă un site nou">
 <!ENTITY superstart.options.navbar.show.themes "Teme">

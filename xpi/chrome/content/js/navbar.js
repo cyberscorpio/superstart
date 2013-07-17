@@ -16,10 +16,9 @@ var id4ShowHide = { // use "onNavbarItemOnoff" to handle the events
 evtMgr.ready(function() {
 	initPopupButton([
 		{bid: 'nbb-recently-closed', mid: 'superstart-recently-closed-list', title: getString('ssRecentlyClosed')},
-		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')}/*,
+		{bid: 'nbc-themes-pointer', mid: 'superstart-themes-list-menu', title: getString('ssThemes')},
 		{bid: 'nb-search-switcher', mid: 'superstart-search-engines-menu', title: ''},
 		{bid: 'nb-search-favicon', mid: 'superstart-search-engines-menu', title: ''}
-		*/
 	]);
 	initSearchBox();
 	for (var k in id4ShowHide) {

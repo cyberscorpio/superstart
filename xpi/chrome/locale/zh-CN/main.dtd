@@ -40,7 +40,7 @@
 
 <!ENTITY superstart.options.navbar "导航栏">
 <!ENTITY superstart.options.show.navbar "显示导航栏">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
+<!ENTITY superstart.options.navbar.show.searchbox "显示搜索框">
 <!ENTITY superstart.options.navbar.show.recently.closed "最近关闭的网页">
 <!ENTITY superstart.options.navbar.show.add.site "添加一个新网址">
 <!ENTITY superstart.options.navbar.show.themes "主题">

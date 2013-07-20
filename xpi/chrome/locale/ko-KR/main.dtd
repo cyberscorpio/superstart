@@ -26,7 +26,7 @@
 
 <!ENTITY superstart.options.general "일반">
 <!ENTITY superstart.options.sites.setup "설정">
-<!ENTITY superstart.options.load.in.blanktab "새 탭에 실행">
+<!ENTITY superstart.options.load.in.blanktab "Super Start를 새 탭으로 설정">
 <!ENTITY superstart.options.set.as.homepage "Super Start를 홈페이지로 설정">
 <!ENTITY superstart.options.disable.context.menu "우클릭 메뉴에 Super Start 제거">
 <!ENTITY superstart.options.sites.open.in.newtab "사이트를 자동으로 새 탭에 열기">
@@ -40,7 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Navbar 보이기">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
+<!ENTITY superstart.options.navbar.show.searchbox "검색창 보이기">
 <!ENTITY superstart.options.navbar.show.recently.closed "최근에 닫힌 창">
 <!ENTITY superstart.options.navbar.show.add.site "새로운 사이트 추가">
 <!ENTITY superstart.options.navbar.show.themes "테마">

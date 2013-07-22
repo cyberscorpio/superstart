@@ -1,4 +1,4 @@
-﻿<!-- input url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "URL eingeben">
 <!ENTITY superstart.dialog.url.url "URL hier eingeben">
 <!ENTITY superstart.dialog.url.name "Seitenname (optional)">
@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Einrichtung">
 <!ENTITY superstart.options.load.in.blanktab "In leerer Seite laden">
 <!ENTITY superstart.options.set.as.homepage "Super Start als Startseite einstellen">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuen Tab öffnen">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Einstellungen anzeigen">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakten Modus verwenden">
 <!ENTITY superstart.options.sites.text.only "Text only">
@@ -37,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Navbar anzeigen">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Kürzlich geschlossen">
 <!ENTITY superstart.options.navbar.show.add.site "Neue Seite hinzufügen">
 <!ENTITY superstart.options.navbar.show.themes "Themes">

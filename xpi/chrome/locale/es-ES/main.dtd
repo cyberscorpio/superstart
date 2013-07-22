@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Configuración">
 <!ENTITY superstart.options.load.in.blanktab "Cargar en pestaña en blanco">
 <!ENTITY superstart.options.set.as.homepage "Establecer Super Start como página de inicio">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Abrir en una nueva pestaña por defecto">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Opciones de visualización">
 <!ENTITY superstart.options.sites.use.compactmode "Usar modo compacto">
 <!ENTITY superstart.options.sites.text.only "Solo texto">
@@ -37,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Mostrar Navbar">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Recientemente cerradas">
 <!ENTITY superstart.options.navbar.show.add.site "Añadir nuevo sitio">
 <!ENTITY superstart.options.navbar.show.themes "Temas">

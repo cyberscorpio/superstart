@@ -23,6 +23,8 @@ contract @enjoyfreeware.org/superstart;1 {61af2fde-0514-46b6-ae57-149dd057d75f}
 
 # default locale
 locale	superstart	en-US   jar:chrome/superstart.jar!/locale/en-US/
+
+# Chinese
 locale	superstart	zh-CN   jar:chrome/superstart.jar!/locale/zh-CN/
 # Polish
 locale	superstart	pl      jar:chrome/superstart.jar!/locale/pl/
@@ -56,7 +58,11 @@ locale  superstart	it-IT   jar:chrome/superstart.jar!/locale/it-IT/
 locale  superstart	hi-IN   jar:chrome/superstart.jar!/locale/hi-IN/
 # Swedish
 locale  superstart	sv-SE   jar:chrome/superstart.jar!/locale/sv-SE/
+# Slovak
+locale  superstart	sk-SK   jar:chrome/superstart.jar!/locale/sk-SK/
+# Arabic
+locale  superstart	ar   jar:chrome/superstart.jar!/locale/ar/
+
 
 # used to test new language
-# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/sv-SE/
-
+# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/de-DE/

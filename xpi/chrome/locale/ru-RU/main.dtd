@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Установки">
 <!ENTITY superstart.options.load.in.blanktab "Показывать в пустых вкладках">
 <!ENTITY superstart.options.set.as.homepage "Сделать Super Start домашней страницей">
+<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
 <!ENTITY superstart.options.sites.open.in.newtab "Открывать в новых вкладках по умолчанию">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+
 <!ENTITY superstart.options.sites.displaysettings "Настройки отображения">
 <!ENTITY superstart.options.sites.use.compactmode "Использовать компактный режим">
 <!ENTITY superstart.options.sites.text.only "Скрыть миниатюры сайтов">
@@ -37,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Панель навигации">
 <!ENTITY superstart.options.show.navbar "Отображать панель навигации">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Недавно закрытые вкладки">
 <!ENTITY superstart.options.navbar.show.add.site "Добавить новый сайт">
 <!ENTITY superstart.options.navbar.show.themes "Темы">

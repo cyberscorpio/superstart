@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "Opførsel">
 <!ENTITY superstart.options.load.in.blanktab "Indlæs i tom fane">
 <!ENTITY superstart.options.set.as.homepage "Brug Super Start som startside">
+<!ENTITY superstart.options.disable.context.menu "Deaktiver Super Start i kontekstmenu">
 <!ENTITY superstart.options.sites.open.in.newtab "Åben altid i ny fane">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Åbrn fane ved siden af den aktuel">
+
 <!ENTITY superstart.options.sites.displaysettings "Visning">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakt visning">
 <!ENTITY superstart.options.sites.text.only "Kun tekst">
@@ -37,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Navigationsbjælke">
 <!ENTITY superstart.options.show.navbar "Vis navigationsbjælke">
+<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
 <!ENTITY superstart.options.navbar.show.recently.closed "Senest lukket">
 <!ENTITY superstart.options.navbar.show.add.site "Tilføj ny side">
 <!ENTITY superstart.options.navbar.show.themes "Temaer">

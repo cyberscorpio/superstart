@@ -18,7 +18,6 @@
 
 	<vbox>
 		<vbox id="main-panel" class="hidden">
-			<label class="header" value="Experimental" />
 			<hbox pack="end">
 				<checkbox label="&superstart.import.sites.only;" id="import-sites-only" />
 			</hbox>

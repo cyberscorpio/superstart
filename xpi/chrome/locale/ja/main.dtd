@@ -28,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "設定">
 <!ENTITY superstart.options.load.in.blanktab "空白のタブを読み込む">
 <!ENTITY superstart.options.set.as.homepage "ホームページにSuper Startを設定">
+<!ENTITY superstart.options.disable.context.menu "コンテキストメニューで Super Start の項目を無効にする">
 <!ENTITY superstart.options.sites.open.in.newtab "既定では新しいタブで開く">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "現在のタブの隣にタブを開く">
+
 <!ENTITY superstart.options.sites.displaysettings "表示設定">
 <!ENTITY superstart.options.sites.use.compactmode "コンパクトモードを使用">
 <!ENTITY superstart.options.sites.text.only "テキストのみ">
@@ -37,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "ナビゲーションバー">
 <!ENTITY superstart.options.show.navbar "ナビゲーションバーを表示">
+<!ENTITY superstart.options.navbar.show.searchbox "検索ボックスを表示する">
 <!ENTITY superstart.options.navbar.show.recently.closed "最近閉じた">
 <!ENTITY superstart.options.navbar.show.add.site "新しいサイトを追加">
 <!ENTITY superstart.options.navbar.show.themes "テーマ">

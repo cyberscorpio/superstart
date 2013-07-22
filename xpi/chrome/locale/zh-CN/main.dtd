@@ -12,20 +12,9 @@
 <!ENTITY superstart.dialog.groupname.title "设置群组名称">
 
 <!-- context menu in superstart page -->
-<!ENTITY superstart.menu.folder.open.all "打开群组所有链接">
-<!ENTITY superstart.menu.folder.refresh "刷新群组内所有缩略图">
-<!ENTITY superstart.menu.folder.config "设置群组名称">
-
-<!ENTITY superstart.menu.site.open.in.newtab "新建页面打开">
-<!ENTITY superstart.menu.site.open.in.thistab "当前页面打开">
-<!ENTITY superstart.menu.site.refresh "刷新">
-<!ENTITY superstart.menu.site.remove "移除">
-
 <!ENTITY superstart.menu.site.add "添加一个新网址">
 <!ENTITY superstart.menu.placeholder.add "添加一个占位符">
 <!ENTITY superstart.menu.site.refreshall "刷新所有">
-
-<!ENTITY superstart.menu.options.compact.mode "紧凑模式">
 <!ENTITY superstart.menu.options "选项">
 
 <!-- context menu for other page -->
@@ -39,7 +28,10 @@
 <!ENTITY superstart.options.sites.setup "设置">
 <!ENTITY superstart.options.load.in.blanktab "在空白页中加载">
 <!ENTITY superstart.options.set.as.homepage "把 Super Start 设为主页">
+<!ENTITY superstart.options.disable.context.menu "在网页的上下文菜单中隐藏 Super Start 选项">
 <!ENTITY superstart.options.sites.open.in.newtab "默认在新 tab 打开链接">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "在当前页面的旁边打开新的 Tab">
+
 <!ENTITY superstart.options.sites.displaysettings "显示设置">
 <!ENTITY superstart.options.sites.use.compactmode "使用紧凑模式">
 <!ENTITY superstart.options.sites.text.only "文本模式，禁用缩略图">
@@ -48,6 +40,7 @@
 
 <!ENTITY superstart.options.navbar "导航栏">
 <!ENTITY superstart.options.show.navbar "显示导航栏">
+<!ENTITY superstart.options.navbar.show.searchbox "显示搜索框">
 <!ENTITY superstart.options.navbar.show.recently.closed "最近关闭的网页">
 <!ENTITY superstart.options.navbar.show.add.site "添加一个新网址">
 <!ENTITY superstart.options.navbar.show.themes "主题">

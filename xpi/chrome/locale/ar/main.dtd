@@ -32,7 +32,7 @@
 <!ENTITY superstart.options.sites.open.in.newtab "افتح في لسان جديد افتراضيًا">
 <!ENTITY superstart.options.sites.open.next.to.current.tab "افتح اللسان بجانب الحالي">
 
-<!ENTITY superstart.options.sites.displaysettings "أظهر الإعدادات">
+<!ENTITY superstart.options.sites.displaysettings "إعدادات الظهور">
 <!ENTITY superstart.options.sites.use.compactmode "استخدم الوضع المدمج">
 <!ENTITY superstart.options.sites.text.only "نص فقط">
 <!ENTITY superstart.options.sites.use.background.effect "استخدم تأثيرات الخلفية (قد تكون بطيئة)">

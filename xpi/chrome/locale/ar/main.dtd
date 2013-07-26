@@ -77,7 +77,7 @@
 <!ENTITY superstart.ui.text.color "النص">
 <!ENTITY superstart.ui.text.color.enable "مكن لون النص">
 <!ENTITY superstart.ui.text.color.black "أسود">
-<!ENTITY superstart.ui.text.color.white "أبيش">
+<!ENTITY superstart.ui.text.color.white "أبيض">
 <!ENTITY superstart.ui.text.color.use.shadow "استخدم الظلال">
 <!ENTITY superstart.ui.others "أخرى">
 <!ENTITY superstart.ui.transparent "شفاف (قد يكون بطيئًا)">

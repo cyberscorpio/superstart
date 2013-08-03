@@ -170,7 +170,9 @@ function onNavbarItemOnoff(evt, onoff) {
 function onSearchEngineChanged() {
 	var engine = cfg.getSearchEngine();
 	var favicon = $$('nb-search-favicon');
-	favicon.setAttribute('src', engine.iconURI.spec);
+	try {
+		favicon.setAttribute('src', engine.iconURI.spec);
+	} catch(e) {}
 	favicon.setAttribute('title', engine.name + ' - press <enter> to search');
 }
 

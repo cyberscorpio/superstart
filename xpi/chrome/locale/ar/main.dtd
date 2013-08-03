@@ -3,7 +3,7 @@
 <!ENTITY superstart.dialog.url.url "أدخل المسار">
 <!ENTITY superstart.dialog.url.name "اسم الصفحة (اختياري)">
 <!ENTITY superstart.dialog.url.snapshot.setting "إعدادات الإطار">
-<!ENTITY superstart.dialog.url.snapshot.lefttop "يسار &amp; أعلى الركن">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "أعلى يسار الركن">
 <!ENTITY superstart.dialog.url.snapshot.entire "النافذة بأكملها">
 <!ENTITY superstart.dialog.url.snapshot.use.lastvisited "استخدم خدمة إطارات فيرفكس، ربما لا تكون متاحة لبعض المواقع.">
 <!ENTITY superstart.dialog.url.snapshot.customize "خصص الصورة">
@@ -12,14 +12,14 @@
 <!ENTITY superstart.dialog.groupname.title "أضف اسم المجموعة">
 
 <!-- context menu in superstart page -->
-<!ENTITY superstart.menu.site.add "Add new URL">
-<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
-<!ENTITY superstart.menu.site.refreshall "Refresh all">
+<!ENTITY superstart.menu.site.add "أضف وصلة جديدة">
+<!ENTITY superstart.menu.placeholder.add "احجز مساحة فارغة">
+<!ENTITY superstart.menu.site.refreshall "أعد تحميل الكل">
 <!ENTITY superstart.menu.options "خيارات">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add.link "أضف هذه الوصلة إلى SuperStart">
-<!ENTITY superstart.context.menu.add "أضف هذا اللسان إلى SuperStart">
+<!ENTITY superstart.context.menu.add.link "أضف هذه الوصلة إلى البداية الفائقة">
+<!ENTITY superstart.context.menu.add "أضف هذا اللسان إلى البداية الفائقة">
 
 <!-- options -->
 <!ENTITY superstart.options "خيارات">
@@ -27,25 +27,25 @@
 <!ENTITY superstart.options.general "عام">
 <!ENTITY superstart.options.sites.setup "تهيئة">
 <!ENTITY superstart.options.load.in.blanktab "حمل في لسان فارغ">
-<!ENTITY superstart.options.set.as.homepage "جعل SuperStart الصفحة الرئيسية">
-<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
+<!ENTITY superstart.options.set.as.homepage "اجعل البداية الفائقة الصفحة الرئيسية">
+<!ENTITY superstart.options.disable.context.menu "عطل البداية الفائقة في قائمة السياق">
 <!ENTITY superstart.options.sites.open.in.newtab "افتح في لسان جديد افتراضيًا">
-<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "افتح اللسان بجانب الحالي">
 
-<!ENTITY superstart.options.sites.displaysettings "أظهر الإعدادات">
+<!ENTITY superstart.options.sites.displaysettings "إعدادات الظهور">
 <!ENTITY superstart.options.sites.use.compactmode "استخدم الوضع المدمج">
 <!ENTITY superstart.options.sites.text.only "نص فقط">
 <!ENTITY superstart.options.sites.use.background.effect "استخدم تأثيرات الخلفية (قد تكون بطيئة)">
-<!ENTITY superstart.options.sites.col "عدد الصفحات في الصف الواحد::">
+<!ENTITY superstart.options.sites.col "عدد الصفحات في الصف الواحد:">
 
 <!ENTITY superstart.options.navbar "شريط التصفح">
 <!ENTITY superstart.options.show.navbar "أظهر شريط التصفح">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
+<!ENTITY superstart.options.navbar.show.searchbox "أظهر صندوق البحث">
 <!ENTITY superstart.options.navbar.show.recently.closed "مغلقة حديثًا">
 <!ENTITY superstart.options.navbar.show.add.site "أضف صفحة جديدة">
 <!ENTITY superstart.options.navbar.show.themes "ثمات">
 <!ENTITY superstart.options.navbar.show.todo "ملاحظات">
-<!ENTITY superstart.options.show.elements "أظهر العناصر...">
+<!ENTITY superstart.options.show.elements "إظهار العناصر...">
 <!ENTITY superstart.options.site.buttons.show.buttons "أظهر الأزرار">
 <!ENTITY superstart.options.site.buttons.show.newtab "لسان جديد">
 <!ENTITY superstart.options.site.buttons.show.refresh "أعد التحميل">
@@ -57,7 +57,7 @@
 
 <!ENTITY superstart.ui.customize "خصص واجهة المستخدم">
 <!ENTITY superstart.ui.customize.use "مكن التخصيص">
-<!ENTITY superstart.ui.customize.howto "(مساعدة) كيف تخصص؟">
+<!ENTITY superstart.ui.customize.howto "(كيف أخصص؟)">
 <!ENTITY superstart.ui.background.image "صورة الخلفية">
 <!ENTITY superstart.ui.select.image "اختر صورة">
 <!ENTITY superstart.ui.clear.image "امسح الصورة">
@@ -77,7 +77,7 @@
 <!ENTITY superstart.ui.text.color "النص">
 <!ENTITY superstart.ui.text.color.enable "مكن لون النص">
 <!ENTITY superstart.ui.text.color.black "أسود">
-<!ENTITY superstart.ui.text.color.white "أبيش">
+<!ENTITY superstart.ui.text.color.white "أبيض">
 <!ENTITY superstart.ui.text.color.use.shadow "استخدم الظلال">
 <!ENTITY superstart.ui.others "أخرى">
 <!ENTITY superstart.ui.transparent "شفاف (قد يكون بطيئًا)">

@@ -62,7 +62,10 @@ locale  superstart	sv-SE   jar:chrome/superstart.jar!/locale/sv-SE/
 locale  superstart	sk-SK   jar:chrome/superstart.jar!/locale/sk-SK/
 # Arabic
 locale  superstart	ar   jar:chrome/superstart.jar!/locale/ar/
+# Vietnamese
+locale  superstart	vi   jar:chrome/superstart.jar!/locale/vi/
+
 
 
 # used to test new language
-# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/de-DE/
+# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/vi/

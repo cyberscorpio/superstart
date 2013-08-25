@@ -1,0 +1,96 @@
+﻿<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Nhập URL">
+<!ENTITY superstart.dialog.url.url "Nhập URL ở đây">
+<!ENTITY superstart.dialog.url.name "Tên trang (tùy chọn)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Điều chỉnh Thumbnail">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Góc trái trên">
+<!ENTITY superstart.dialog.url.snapshot.entire "Toàn bộ">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Dùng tiện ích Thumbnail của Firefox (vài trang có thể không dùng được)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Tùy biến hình ảnh">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Đặt tên nhóm">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Thêm URL mới">
+<!ENTITY superstart.menu.placeholder.add "Thêm nhóm trống">
+<!ENTITY superstart.menu.site.refreshall "Làm mới tất cả">
+<!ENTITY superstart.menu.options "Tùy chọn">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Thêm đường dẫn này vào Super Start">
+<!ENTITY superstart.context.menu.add "Thêm thẻ này vào Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Tùy chọn">
+
+<!ENTITY superstart.options.general "Tổng quát">
+<!ENTITY superstart.options.sites.setup "Cài đặt">
+<!ENTITY superstart.options.load.in.blanktab "Tải trong thẻ trống">
+<!ENTITY superstart.options.set.as.homepage "Đặt Super Start làm trang chủ">
+<!ENTITY superstart.options.disable.context.menu "Tắt Super Start ở thuộc đơn">
+<!ENTITY superstart.options.sites.open.in.newtab "Mở trong thẻ mới mặc định">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Mở trong thẻ bên cạnh">
+
+<!ENTITY superstart.options.sites.displaysettings "Điều chỉnh hiển thị">
+<!ENTITY superstart.options.sites.use.compactmode "Chế độ gọn">
+<!ENTITY superstart.options.sites.text.only "Toàn chữ">
+<!ENTITY superstart.options.sites.use.background.effect "Dùng hiệu ứng nền (có thể gây chậm)">
+<!ENTITY superstart.options.sites.col "Số trang trong một hàng:">
+
+<!ENTITY superstart.options.navbar "Thanh tác vụ">
+<!ENTITY superstart.options.show.navbar "Hiển thị thanh tác vụ">
+<!ENTITY superstart.options.navbar.show.searchbox "Hiển thị hộp tìm kiếm">
+<!ENTITY superstart.options.navbar.show.recently.closed "Đóng gần đây">
+<!ENTITY superstart.options.navbar.show.add.site "Thêm trang mới">
+<!ENTITY superstart.options.navbar.show.themes "Chủ đề">
+<!ENTITY superstart.options.navbar.show.todo "Ghi chú">
+<!ENTITY superstart.options.show.elements "Thành phần khác...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Hiển thị bút bấm">
+<!ENTITY superstart.options.site.buttons.show.newtab "Thẻ mới">
+<!ENTITY superstart.options.site.buttons.show.refresh "Làm mới">
+<!ENTITY superstart.options.site.buttons.show.config "Định dạng">
+<!ENTITY superstart.options.site.buttons.show.remove "Xóa">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Sang ảnh khác">
+
+<!ENTITY superstart.options.general.hint "* điều chỉnh trong thẻ này có hiệu lực ngay lập tức">
+
+<!ENTITY superstart.ui.customize "Tùy biến tương tác">
+<!ENTITY superstart.ui.customize.use "Bật cho phép tùy biến">
+<!ENTITY superstart.ui.customize.howto "(Giúp đỡ) Tùy biến thế nào?">
+<!ENTITY superstart.ui.background.image "Hình nền">
+<!ENTITY superstart.ui.select.image "Chọn hình">
+<!ENTITY superstart.ui.clear.image "Xóa hình">
+<!ENTITY superstart.ui.background.repeat "Lặp lại">
+<!ENTITY superstart.ui.background.repeat.repeat "Lặp lại (mặc định)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Không lặp lại">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Lặp lại chiều ngang">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Lặp lại chiều dọc">
+<!ENTITY superstart.ui.background.size "Kích thước">
+<!ENTITY superstart.ui.background.size.default "Mặc định">
+<!ENTITY superstart.ui.background.size.cover "Kéo cho vừa (CSS:màn hình)">
+<!ENTITY superstart.ui.background.size.contain "Kéo cho vừa (CSS:hình)">
+<!ENTITY superstart.ui.background.position "Vị trí">
+<!ENTITY superstart.ui.colors "Màu sắc">
+<!ENTITY superstart.ui.background.color.enable "Bật màu nền">
+<!ENTITY superstart.ui.background.color.select "Chọn màu">
+<!ENTITY superstart.ui.text.color "Chữ">
+<!ENTITY superstart.ui.text.color.enable "Bật màu chữ">
+<!ENTITY superstart.ui.text.color.black "Đen">
+<!ENTITY superstart.ui.text.color.white "Trắng">
+<!ENTITY superstart.ui.text.color.use.shadow "Bóng mờ">
+<!ENTITY superstart.ui.others "Khác">
+<!ENTITY superstart.ui.transparent "Trong suốt (có thể gây chậm)">
+<!ENTITY superstart.ui.customize.advanced "Nâng cao">
+<!ENTITY superstart.ui.css.edit.hint "Nhập CSS trực tiếp ở đây:">
+
+<!ENTITY superstart.options.about "Về tiện ích">
+<!ENTITY superstart.options.author "Người phát triển">
+<!ENTITY superstart.options.help "Giúp đỡ">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Xuất ra">
+<!ENTITY superstart.import "Nhập vào">
+<!ENTITY superstart.import.sites.only "Chỉ nhập trang">
+<!ENTITY superstart.processing "Đang xử lý">
+

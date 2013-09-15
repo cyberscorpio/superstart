@@ -34,7 +34,7 @@ evtMgr.clear(function() {
 	for (var k in id4ShowHide) {
 		ob.unsubscribe(k, onNavbarItemOnoff);
 	}
-	ob.unsubscribe('use-default-searchengine', onSearchEngineChanged);
+	ob.unsubscribe('searchengine', onSearchEngineChanged);
 });
 
 function initPopupButton(pops) {

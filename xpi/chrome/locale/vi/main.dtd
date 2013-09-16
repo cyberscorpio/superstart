@@ -1,4 +1,4 @@
-﻿<!-- input url -->
+<!-- input url -->
 <!ENTITY superstart.dialog.url.title "Nhập URL">
 <!ENTITY superstart.dialog.url.url "Nhập URL ở đây">
 <!ENTITY superstart.dialog.url.name "Tên trang (tùy chọn)">
@@ -93,4 +93,3 @@
 <!ENTITY superstart.import "Nhập vào">
 <!ENTITY superstart.import.sites.only "Chỉ nhập trang">
 <!ENTITY superstart.processing "Đang xử lý">
-

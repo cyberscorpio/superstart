@@ -28,9 +28,9 @@
 <!ENTITY superstart.options.sites.setup "Налаштування">
 <!ENTITY superstart.options.load.in.blanktab "Завантажувати в порожніх вкладках">
 <!ENTITY superstart.options.set.as.homepage "Встановити Super Start домашньою сторінкою">
-<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
+<!ENTITY superstart.options.disable.context.menu "Відключити Super Start в контекстному меню">
 <!ENTITY superstart.options.sites.open.in.newtab "Відкривати в нових вкладках за замовчуванням">
-<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Відкривати вкладку поруч з поточною">
 
 <!ENTITY superstart.options.sites.displaysettings "Налаштування відображення">
 <!ENTITY superstart.options.sites.use.compactmode "Використовувати компактний режим">
@@ -40,8 +40,8 @@
 
 <!ENTITY superstart.options.navbar "Панель навігації">
 <!ENTITY superstart.options.show.navbar "Відображати панель навігації">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
-<!ENTITY superstart.options.navbar.show.recently.closed "Нещодавно закриті">
+<!ENTITY superstart.options.navbar.show.searchbox "Відображати рядок пошуку">
+<!ENTITY superstart.options.navbar.show.recently.closed "Нещодавно закриті вкладки">
 <!ENTITY superstart.options.navbar.show.add.site "Додати новий сайт">
 <!ENTITY superstart.options.navbar.show.themes "Теми">
 <!ENTITY superstart.options.navbar.show.todo "Нотатки">

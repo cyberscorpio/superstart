@@ -20,5 +20,7 @@ interface ssISiteManager: nsISupports
 	void nextSnapshot(in long group, in long index);
 
 	void setTitle(in long group, in long index, in AString title);
+
+	AString getCustomizeImageDirURL();
 };
 

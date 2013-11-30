@@ -22,7 +22,11 @@
 
 				let custimg = s.customizeImage;
 				if (custimg != '') {
-					$$('customize-image').setAttribute('src', custimg);
+					let url = custimg;
+					if (custimg.indexOf(':') == -1) {
+						url = sm.getCustomizeImageDirURL() + custimg;
+					}
+					$$('customize-image').setAttribute('src', url);
 					$$('select-customize-image').removeAttribute('disabled');
 				}
 				d.title = d.title + ' - ' + s.title;
@@ -99,9 +103,13 @@
 		fp.appendFilters(Ci.nsIFilePicker.filterImages);
 		let res = fp.show();
 		if (res == Ci.nsIFilePicker.returnOK) {
-			$$('customize-image').setAttribute('src', getUrlFromFile(fp.file));
-			$$('select-customize-image').removeAttribute('disabled');
-			$$('snapshot-index').selectedIndex = 2;
+			let url = getUrlFromFile(fp.file);
+			// if the image you select is inside the data dir, just ignore it.
+			if (url.indexOf(sm.getCustomizeImageDirURL()) != 0) {
+				$$('customize-image').setAttribute('src', url);
+				$$('select-customize-image').removeAttribute('disabled');
+				$$('snapshot-index').selectedIndex = 2;
+			}
 		}
 	}
 

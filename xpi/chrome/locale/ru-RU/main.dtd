@@ -13,12 +13,12 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Добавить новый URL">
-<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
+<!ENTITY superstart.menu.placeholder.add "Добавить метку-заполнитель">
 <!ENTITY superstart.menu.site.refreshall "Обновить всё">
 <!ENTITY superstart.menu.options "Настройки">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add.link "Add this link to Super Start">
+<!ENTITY superstart.context.menu.add.link "Добавить эту ссылку в Super Start">
 <!ENTITY superstart.context.menu.add "Добавить в Super Start">
 
 <!-- options -->
@@ -28,9 +28,9 @@
 <!ENTITY superstart.options.sites.setup "Установки">
 <!ENTITY superstart.options.load.in.blanktab "Показывать в пустых вкладках">
 <!ENTITY superstart.options.set.as.homepage "Сделать Super Start домашней страницей">
-<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
+<!ENTITY superstart.options.disable.context.menu "Отключить Super Start в контекстном меню">
 <!ENTITY superstart.options.sites.open.in.newtab "Открывать в новых вкладках по умолчанию">
-<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Открывать вкладку рядом с текущей">
 
 <!ENTITY superstart.options.sites.displaysettings "Настройки отображения">
 <!ENTITY superstart.options.sites.use.compactmode "Использовать компактный режим">
@@ -40,7 +40,7 @@
 
 <!ENTITY superstart.options.navbar "Панель навигации">
 <!ENTITY superstart.options.show.navbar "Отображать панель навигации">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
+<!ENTITY superstart.options.navbar.show.searchbox "Отображать строку поиска">
 <!ENTITY superstart.options.navbar.show.recently.closed "Недавно закрытые вкладки">
 <!ENTITY superstart.options.navbar.show.add.site "Добавить новый сайт">
 <!ENTITY superstart.options.navbar.show.themes "Темы">
@@ -89,7 +89,7 @@
 <!ENTITY superstart.options.help "Помощь">
 
 <!-- export / import -->
-<!ENTITY superstart.export "Export">
-<!ENTITY superstart.import "Import">
-<!ENTITY superstart.import.sites.only "Import sites only">
-<!ENTITY superstart.processing "Processing">
+<!ENTITY superstart.export "Экспорт">
+<!ENTITY superstart.import "Импорт">
+<!ENTITY superstart.import.sites.only "Импортировать только сайты">
+<!ENTITY superstart.processing "Обработка">

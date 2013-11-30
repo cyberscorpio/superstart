@@ -323,6 +323,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 						if (!bgi.exists()) {
 							delete usData['#bg']['background-image'];
 						} else {
+							// TODO: use a random file name.
 							bgi.copyTo(bgDir, bgi.leafName);
 							usData['#bg']['background-image'] = bgi.leafName;
 						}

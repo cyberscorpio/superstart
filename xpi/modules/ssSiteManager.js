@@ -14,6 +14,7 @@ const {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
+Cu.import("resource://gre/modules/Services.jsm");
 
 	let that = this;
 
@@ -49,6 +50,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	// load / save
 	let /* nsIFile */ file = FileUtils.getFile('ProfD', ['superstart', 'sites.v1.json']);
 	let /* nsIFile */ oldfile = FileUtils.getFile('ProfD', ['superstart', 'sites.json']);
+	let /* nsIFile */ cImgDir = FileUtils.getDir('ProfD', ['superstart', 'customize-images']);
+	let cImgDirURL = Services.io.newFileURI(cImgDir).spec;
+	if (cImgDirURL.charAt(cImgDirURL.length - 1) != '/') {
+		cImgDirURL += '/';
+	}
 
 	let imgLoading = 'images/loading.gif';
 	let imgNoSnapshot = 'images/no-image.png';
@@ -146,6 +152,16 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				changed = true;
 			}
 
+			try {
+				if (s.customizeImage && s.customizeImage.indexOf('file://') == 0) {
+					if (moveCustomizeImage(s)) {
+						changed = true;
+					}
+				}
+			} catch (e) {
+				Cu.reportError(e);
+			}
+
 			// temp
 			if (s.snapshotIndex > 2 || (s.snapshotIndex == 2 && s.customizeImage == '')) {
 				s.snapshotIndex = 0;
@@ -153,7 +169,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			}
 
 			if (s.livingImage !== undefined) {
-				s.livingImage = undefined;
+				delete s.livingImage;
 				changed = true;
 			}
 		});
@@ -226,7 +242,11 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 					}
 					break;
 				case 2:
-					t = that.regulateUrl(s.customizeImage).replace(/\\/g, '/');
+					if (s.customizeImage.indexOf(':') == -1) {
+						t = cImgDirURL + s.customizeImage;
+					} else {
+						t = that.regulateUrl(s.customizeImage).replace(/\\/g, '/');
+					}
 					break;
 			}
 			s.thumbnail = t;
@@ -295,6 +315,33 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		return s;
 	}
 
+	let ios = null;
+	function moveCustomizeImage(s) {
+		if (s.customizeImage == '' || s.customizeImage.indexOf('file://') == -1) {
+			return false;
+		}
+
+		if (ios == null) {
+			ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+		}
+		let uri = ios.newURI(s.customizeImage, null, null);
+		let file = uri.QueryInterface(Components.interfaces.nsIFileURL).file;
+
+		let name = file.leafName;
+		let ext = name.lastIndexOf('.');
+		ext = ext == -1 ? '' : name.substring(ext + 1);
+		name = SHA1(file.path + Date.now()) + (ext == '' ? '' : ('.' + ext));
+
+		try {
+			file.copyTo(cImgDir, name);
+			s.customizeImage = name;
+		} catch (e) {
+			Cu.reportError(e);
+			s.customizeImage = '';
+		}
+		return true;
+	}
+
 	////////////////////
 	// methods
 	this.reloadSites = function() {
@@ -333,6 +380,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				snapshotIndex = 0;
 			}
 			let s = createSite(url, url, name, imgLoading, imgLoading, living, useLastVisited, image, snapshotIndex);
+			moveCustomizeImage(s);
 			data.sites.push(s);
 		}
 		save();
@@ -363,6 +411,17 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			});
 			if (!found) {
 				removeSnapshots([s.snapshots[0], s.snapshots[1]]);
+			}
+
+			// remove customize image
+			if (s.customizeImage && s.customizeImage.indexOf(':') == -1) {
+				let f = cImgDir.clone();
+				f.append(s.customizeImage);
+				try {
+					f.remove(false);
+				} catch (e) {
+					Cu.reportError(e);
+				}
 			}
 
 			save();
@@ -436,7 +495,21 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				s.name = name;
 				s.snapshotIndex = snapshotIndex;
 				s.useLastVisited = useLastVisited;
-				s.customizeImage = custimg;
+
+				let custimgURL = cImgDirURL + s.customizeImage; // need to check whether s.customizeImage is 'http://...'
+				if (custimgURL != custimg) {
+					if (s.customizeImage != '') {
+						try {
+							let f = cImgDir.clone();
+							f.append(s.customizeImage);
+							f.remove(false);
+						} catch (e) {
+							Cu.reportError(e);
+						}
+					}
+					s.customizeImage = custimg;
+					moveCustomizeImage(s);
+				}
 				if (s.url != url) {
 					s.url = url;
 					s.liveImage = getLiveSnapshot(url);
@@ -505,6 +578,10 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				this.fireEvent('site-title-changed', [group, idx]);
 			}
 		}
+	}
+
+	this.getCustomizeImageDirURL = function() {
+		return cImgDirURL;
 	}
 
 	// snapshots

@@ -78,7 +78,11 @@ if ("undefined" == typeof(SuperStart)) {
 			// TODO: use 'browser.newtab.url' instead this way --------------------
 			if (window.TMP_BrowserOpenTab) {
 				savedOpenTab = window.TMP_BrowserOpenTab;
-				window.TMP_BrowserOpenTab = openTab;
+				if (window.BrowserOpenTab === window.TMP_BrowserOpenTab) {
+					window.BrowserOpenTab = openTab;
+				} else {
+					window.TMP_BrowserOpenTab = openTab;
+				}
 			} else {
 				savedOpenTab = window.BrowserOpenTab;
 				window.BrowserOpenTab = openTab;

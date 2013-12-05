@@ -1,0 +1,95 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "URL'yi Girin">
+<!ENTITY superstart.dialog.url.url "URL'yı buraya girin">
+<!ENTITY superstart.dialog.url.name "Site adı (opsiyonel)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Küçük resim seçenekleri">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Sol ve üst köşe">
+<!ENTITY superstart.dialog.url.snapshot.entire "Tüm pencere">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Firefox'un küçük resim servisini kullanın (bazı siteler için mevcut olmayabilir)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Özel resim">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Grup adını belirle">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Yeni URL ekle">
+<!ENTITY superstart.menu.placeholder.add "Bir yer tutucu ekle">
+<!ENTITY superstart.menu.site.refreshall "Tümünü yenile">
+<!ENTITY superstart.menu.options "Seçenekler">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Bu bağlantıyı Super Start'a ekle">
+<!ENTITY superstart.context.menu.add "Bu sekmeyi Super Start'a ekle">
+
+<!-- options -->
+<!ENTITY superstart.options "Seçenekler">
+
+<!ENTITY superstart.options.general "Genel">
+<!ENTITY superstart.options.sites.setup "Kurulum">
+<!ENTITY superstart.options.load.in.blanktab "Boş sekmede yükle">
+<!ENTITY superstart.options.set.as.homepage "Super Start'ı ana sayfa olarak ayarla">
+<!ENTITY superstart.options.disable.context.menu "Super Start'ı sağ tuş menüsünde gizle">
+<!ENTITY superstart.options.sites.open.in.newtab "Siteleri her zaman yeni sekemde aç (geçerli sekmede değil)">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Sekmeyi geçerli sekmenin yanında aç">
+
+<!ENTITY superstart.options.sites.displaysettings "Ayarları Görüntüle">
+<!ENTITY superstart.options.sites.use.compactmode "Kompakt modu kullan">
+<!ENTITY superstart.options.sites.text.only "Yanlızca Metin">
+<!ENTITY superstart.options.sites.use.background.effect "Arkaplan etkisi kullan (yavaş olabilir)">
+<!ENTITY superstart.options.sites.col "Bir satırdaki site sayısı:">
+
+<!ENTITY superstart.options.navbar "Üst Çubuk">
+<!ENTITY superstart.options.show.navbar "Üst Çubuğu göster">
+<!ENTITY superstart.options.navbar.show.searchbox "Arama kutusunu göster">
+<!ENTITY superstart.options.navbar.show.recently.closed "Yakında kapatılan">
+<!ENTITY superstart.options.navbar.show.add.site "Yeni site ekle">
+<!ENTITY superstart.options.navbar.show.themes "Temalar">
+<!ENTITY superstart.options.navbar.show.todo "Notlar>
+<!ENTITY superstart.options.show.elements "Ögeleri göster...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Düğmeleri göster">
+<!ENTITY superstart.options.site.buttons.show.newtab "Yeni Sekme">
+<!ENTITY superstart.options.site.buttons.show.refresh "Yenile">
+<!ENTITY superstart.options.site.buttons.show.config "Ayarla">
+<!ENTITY superstart.options.site.buttons.show.remove "Kaldır">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Sonraki Görüntü">
+
+<!ENTITY superstart.options.general.hint "* bu sekmedeki ayarlar hemen etkin olacaktır">
+
+<!ENTITY superstart.ui.customize "Arabirim Özelleştirmeleri">
+<!ENTITY superstart.ui.customize.use "Özelleştirmeyi etkinleştir">
+<!ENTITY superstart.ui.customize.howto "(Yardım) Nasıl özelleştirilir?">
+<!ENTITY superstart.ui.background.image "Arkaplan resmi">
+<!ENTITY superstart.ui.select.image "Resim Seç">
+<!ENTITY superstart.ui.clear.image "Resmi Kaldır">
+<!ENTITY superstart.ui.background.repeat "Tekrarla">
+<!ENTITY superstart.ui.background.repeat.repeat "Tekrarla (geçerli)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Tekrarlama">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Yatay tekrarla">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Düşey tekrarla">
+<!ENTITY superstart.ui.background.size "Boyut">
+<!ENTITY superstart.ui.background.size.default "Geçerli">
+<!ENTITY superstart.ui.background.size.cover "Ölçekle (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Ölçekle (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Konum">
+<!ENTITY superstart.ui.colors "Renkler">
+<!ENTITY superstart.ui.background.color.enable "Arkaplan rengini etkinleştir">
+<!ENTITY superstart.ui.background.color.select "Renk Seç">
+<!ENTITY superstart.ui.text.color "Metin">
+<!ENTITY superstart.ui.text.color.enable "Metin rengini etkinleştir">
+<!ENTITY superstart.ui.text.color.black "Siyah">
+<!ENTITY superstart.ui.text.color.white "Beyaz">
+<!ENTITY superstart.ui.text.color.use.shadow "Gölge kullan">
+<!ENTITY superstart.ui.others "Diğerleri">
+<!ENTITY superstart.ui.transparent "Şeffaf (yavaş olabilir)">
+<!ENTITY superstart.ui.customize.advanced "Gelişmiş">
+<!ENTITY superstart.ui.css.edit.hint "CSS doğrudan buraya girin:">
+
+<!ENTITY superstart.options.about "Hakkında">
+<!ENTITY superstart.options.author "Yazar">
+<!ENTITY superstart.options.help "Yardım">
+
+<!-- export / import -->
+<!ENTITY superstart.export "Dışarı Aktar">
+<!ENTITY superstart.import "İçeri Aktar">
+<!ENTITY superstart.import.sites.only "Sadece siteleri aktar">
+<!ENTITY superstart.processing "İşleniyor">

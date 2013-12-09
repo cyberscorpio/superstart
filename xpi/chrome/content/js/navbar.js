@@ -222,7 +222,7 @@ function onSearchEngineChanged() {
 	} else {
 		favicon.setAttribute('src', '');
 	}
-	favicon.setAttribute('title', engine.name + ' - press <enter> to search');
+	favicon.setAttribute('title', engine.name + ' - ' + getString('ssEnterToSearch'));
 }
 
 })();

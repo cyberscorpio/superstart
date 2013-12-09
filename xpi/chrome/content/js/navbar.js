@@ -94,7 +94,34 @@ function initSearchBox() {
 	var mouseIn = false;
 	var sbar = $$('nb-search');
 	var input = $$('nb-search-text');
-	sbar.addEventListener('mouseover', function() {
+	var focus = null;
+	var map = [
+		[sbar, 'mouseover', onMouseOver],
+		[sbar, 'mouseout', onMouseOut],
+		[input, 'focus', onFocus],
+		[input, 'blur', onBlur],
+		[input, 'keypress', onKeyPress],
+		[input, 'click', onClick]
+	];
+
+	for (var i = 0; i < map.length; ++ i) {
+		var m = map[i];
+		m[0].addEventListener(m[1], m[2], false);
+	}
+
+	evtMgr.clear(function() {
+		for (var i = 0; i < map.length; ++ i) {
+			var m = map[i];
+			m[0].removeEventListener(m[1], m[2], false);
+		}
+		sbar = input = focus = null;
+	});
+
+	function onMouseOver(evt) {
+		if (mouseIn) {
+			return;
+		}
+
 		mouseIn = true;
 		if (document.activeElement == input) {
 			blurWhenMouseOut = false;
@@ -102,22 +129,38 @@ function initSearchBox() {
 			blurWhenMouseOut = true;
 		}
 
+		focus = null;
+		try {
+			var f = $.getMainWindow().document.activeElement;
+			if (f && f.tagName == 'html:input') {
+				focus = f;
+			}
+		} catch (e) {
+		}
+
 		input.focus();
-	}, false);
-	sbar.addEventListener('mouseout', function() {
+	}
+
+	function onMouseOut(evt) {
+		if (!mouseIn) {
+			return;
+		}
+
+		if (evt.relatedTarget && sbar.contains(evt.relatedTarget)) {
+			return;
+		}
+
 		mouseIn = false;
 		if (blurWhenMouseOut) {
 			input.blur();
+			if (focus) {
+				focus.focus();
+			}
 		}
-	}, false);
-	input.addEventListener('focus', onFocus, false);
-	input.addEventListener('blur', onBlur, false);
-	input.addEventListener('keypress', onKeyPress, false);
-	input.addEventListener('click', function() {
-		blurWhenMouseOut = false;
-	}, false);
+		focus = null;
+	}
 
-	function onFocus() {
+	function onFocus(evt) {
 		this.select();
 		$.addClass(sbar, 'focus');
 	}
@@ -156,6 +199,10 @@ function initSearchBox() {
 			}
 		}
 	}
+
+	function onClick(evt) {
+		blurWhenMouseOut = false;
+	}
 }
 
 function onNavbarItemOnoff(evt, onoff) {
@@ -170,9 +217,11 @@ function onNavbarItemOnoff(evt, onoff) {
 function onSearchEngineChanged() {
 	var engine = cfg.getSearchEngine();
 	var favicon = $$('nb-search-favicon');
-	try {
+	if (engine.iconURI && engine.iconURI.spec) {
 		favicon.setAttribute('src', engine.iconURI.spec);
-	} catch(e) {}
+	} else {
+		favicon.setAttribute('src', '');
+	}
 	favicon.setAttribute('title', engine.name + ' - press <enter> to search');
 }
 

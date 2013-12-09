@@ -5,7 +5,7 @@ var layout = (function() {
 	const SITE_MIN_WIDTH_IN_COMPACTMODE = 208;
 	var ratio = cfg.getConfig('snapshot-ratio');
 
-	function getLayoutParameter(col) {
+	function getLayoutParameter(col, inFolder) {
 		if ($.hasClass(document.body, 'hidden')) {
 			return null;
 		}
@@ -35,7 +35,7 @@ var layout = (function() {
 			margin = maxMargin;
 		}
 
-		var startY = parseInt(cs['marginTop']);
+		var startY = inFolder ? 20 : parseInt(cs['marginTop']);
 		cs = window.getComputedStyle($$('site-helper'));
 		var minSiteWidth = parseInt(cs['minWidth']);
 		var maxSiteWidth = parseInt(cs['maxWidth']);
@@ -242,7 +242,7 @@ var layout = (function() {
 		if (ses.length > 0) {
 			var col = getFolderColumn();
 			if (lp1 === null) {
-				lp1 = getLayoutParameter(col);
+				lp1 = getLayoutParameter(col, true);
 			}
 			return placeSites(ses, col, lp1);
 		}
@@ -362,7 +362,7 @@ var layout = (function() {
 		if (ses.length > 0) {
 			var col = cfg.getConfig('col');
 			if (lp0 == null) {
-				lp0 = getLayoutParameter(col);
+				lp0 = getLayoutParameter(col, false);
 			}
 			placeSites(ses, col, lp0);
 			layoutFolderElements();

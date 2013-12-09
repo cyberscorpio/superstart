@@ -258,7 +258,9 @@ if ("undefined" == typeof(SuperStart)) {
 				let m = document.createElement("menuitem");
 				m.setAttribute('label', engine.name);
 				m.setAttribute('type', 'radio');
-				m.setAttribute('image', engine.iconURI.spec);
+				if (engine.iconURI && engine.iconURI.spec) {
+					m.setAttribute('image', engine.iconURI.spec);
+				}
 				m.setAttribute('class', "menuitem-iconic bookmark-item menuitem-with-favicon");
 				m.setAttribute('value', engine.name);
 				if (engine.name == engineUsing.name) {

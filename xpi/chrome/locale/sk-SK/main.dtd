@@ -89,6 +89,9 @@
 <!ENTITY superstart.options.help "Nápoveda">
 
 <!-- export / import -->
+<!ENTITY superstart.via.cloud "Via 'cloud'">
+<!ENTITY superstart.exim.description "SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:">
+<!ENTITY superstart.manually "Manually">
 <!ENTITY superstart.export "Exportovať">
 <!ENTITY superstart.import "Importovať">
 <!ENTITY superstart.import.sites.only "Importovať iba hlavné stránky">

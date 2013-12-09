@@ -22,7 +22,7 @@
 				<checkbox label="&superstart.import.sites.only;" id="import-sites-only" />
 			</hbox>
 			<groupbox>
-				<caption label="Via 'cloud'" />
+				<caption label="&superstart.via.cloud;" />
 				<vbox id="dropbox-found">
 					<button id="export-dropbox" label="&superstart.export;" />
 					<button type="menu" id="import-dropbox" label="&superstart.import;">
@@ -30,12 +30,12 @@
 					</button>
 				</vbox>
 				<vbox id="dropbox-not-found">
-					<description>SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:
+					<description>&superstart.exim.description;
 					<label class="text-link" href="http://www.enjoyfreeware.org/superstart/export-import#dropbox-not-found" value="enjoyfreeware.org" /></description>
 				</vbox>
 			</groupbox>
 			<groupbox>
-				<caption label="Manually" />
+				<caption label="&superstart.manually;" />
 				<button id="export" label="&superstart.export;..." />
 				<button id="import" label="&superstart.import;..." />
 			</groupbox>

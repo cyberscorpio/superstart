@@ -89,6 +89,9 @@
 <!ENTITY superstart.options.help "帮助">
 
 <!-- export / import -->
+<!ENTITY superstart.via.cloud "通过“云”">
+<!ENTITY superstart.exim.description "SuperStart 找不到您 Dropbox 的同步目录。如果您把 Dropbox 的同步目录放在了非默认的位置，或者如果您使用了其他的云服务，比如微软的 SkyDriver 抑或百度云等，请参考下面的链接:">
+<!ENTITY superstart.manually "手工">
 <!ENTITY superstart.export "导出">
 <!ENTITY superstart.import "导入">
 <!ENTITY superstart.import.sites.only "只导入网址链接">

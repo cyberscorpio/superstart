@@ -14,7 +14,7 @@ var dEvts = {
 evtMgr.register([sEvts], [wEvts], [dEvts]);
 evtMgr.once(window, 'load', function() {
 		window.setTimeout(function() {
-			$.insertStyle('style/transition.css');
+			$.insertStyle('chrome://superstart/content/style/transition.css');
 		}, 0);
 	}, 500);
 

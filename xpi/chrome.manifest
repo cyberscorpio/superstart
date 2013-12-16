@@ -1,4 +1,4 @@
-content       superstart               jar:chrome/superstart.jar!/content/
+content       superstart               jar:chrome/superstart.jar!/content/	contentaccessible=yes
 resource      superstart               modules/
 skin          superstart  classic/1.0  themes/
 

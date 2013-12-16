@@ -27,14 +27,14 @@ let boolMap = {
 
 	'show-navbar': 'navbar', 'show-search': 'navbar-search', 'show-buttons': 'site-buttons',
 
-	'show-newtab': 'site-buttons-newtab',  'show-refresh': 'site-buttons-refresh',
-	'show-config': 'site-buttons-config',  'show-remove': 'site-buttons-remove',
+	'show-newtab': 'site-buttons-newtab', 'show-refresh': 'site-buttons-refresh',
+	'show-config': 'site-buttons-config', 'show-remove': 'site-buttons-remove',
 	'show-next-snapshot': 'site-buttons-next-snapshot',
 
 	'use-customize': 'use-customize'
 };
 
-let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('index-url');
+let isHomepaged = sbprefs.getCharPref('browser.startup.homepage') == cfg.getConfig('start-page');
 
 function initialize() {
 	let d = document;
@@ -155,7 +155,7 @@ function onSetHomepageChanged(evt) {
 		if (isHomepaged) {
 			sbprefs.setCharPref('browser.startup.homepage', 'about:home');
 		} else {
-			sbprefs.setCharPref('browser.startup.homepage', cfg.getConfig('index-url'));
+			sbprefs.setCharPref('browser.startup.homepage', cfg.getConfig('start-page'));
 		}
 		isHomepaged = !isHomepaged;
 	}
@@ -372,6 +372,6 @@ function onThemeChanged(evt, name) {
 }
 
 function getUrlFromFile(iF) {
-	let ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
+	let ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
 	return ios.newFileURI(iF).spec; 
 }

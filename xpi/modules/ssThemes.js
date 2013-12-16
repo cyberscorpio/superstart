@@ -17,6 +17,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let that = this;
 	let logger = this.logger;
 	let extid = this.getConfig('extension-id');
+	let skinDir = 'chrome://superstart/skin/';
 
 	let themeNames;
 	let themes;
@@ -35,7 +36,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 			themes = [
 				{
 					'name': 'Default',
-					'css': '../skin/default/default.css',
+					'css': skinDir + 'default/default.css',
 					'thumbnail': {
 						'background': '#eee',
 						'color': 'black'
@@ -215,7 +216,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				theme = that.jparse(theme);
 				if (theme.name != null && theme.css != null && themeNames[theme.name] === undefined) {
 					if (builtin) {
-						theme.css = '../skin/' + subpath + '/' + theme.css;
+						theme.css = skinDir + subpath + '/' + theme.css;
 					} else {
 						let dir = themeDir.clone();
 						dir.append(theme.css);

@@ -2,7 +2,7 @@
  * superstart object
  */
 "use strict";
-var SuperStartObj = (function () {
+var SuperStartClass = (function () {
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 	
 	// import components
@@ -26,7 +26,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 	/**
 	 * The object for all interfaces in superstart
 	 */
-	function SuperStartObj() {
+	function SuperStartClass() {
 		xl.Observerable.call(this);
 		ssConfig.call(this);
 		ssSiteManager.call(this);
@@ -35,7 +35,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		ssExIm.call(this);
 	}
 	
-	SuperStartObj.prototype = {
+	SuperStartClass.prototype = {
 		classID: Components.ID("{61af2fde-0514-46b6-ae57-149dd057d75f}"),
 		/**
 		 * List all the interfaces your component supports.
@@ -51,7 +51,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		]),
 	
 		logger : Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService),
-	
+
 		/////////////////////////////////////////
 		// utilies
 
@@ -74,7 +74,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 			return url;
 		},
 		getUrlFromFile : function(iF) {
-			var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);  
+			var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
 			return ios.newFileURI(iF); 
 		},
 	
@@ -113,7 +113,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 		},
 	};
 	
-	return SuperStartObj;
+	return SuperStartClass;
 })();
 
-var NSGetFactory = XPCOMUtils.generateNSGetFactory ? XPCOMUtils.generateNSGetFactory([SuperStartObj]) : XPCOMUtils.generateNSGetModule([SuperStartObj]);
+var NSGetFactory = XPCOMUtils.generateNSGetFactory ? XPCOMUtils.generateNSGetFactory([SuperStartClass]) : XPCOMUtils.generateNSGetModule([SuperStartClass]);

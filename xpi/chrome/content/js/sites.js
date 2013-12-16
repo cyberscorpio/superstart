@@ -524,6 +524,10 @@ function onLinkClick(evt) {
 					inNewTab = !inNewTab;
 				}
 				inNewTab ? addTab(tb, s.url) : document.location.href = s.url;
+
+				// gMultiProcessBrowser = Services.appinfo.browserTabsRemote;
+				// window.openUILinkIn(s.url, 'current');
+
 				/* for multi-process firefox, maybe I need to use below code?
 				if (inNewTab) {
 					addTab(tb, s.url);

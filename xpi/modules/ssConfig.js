@@ -109,6 +109,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	////////////////////////////////////////////////////////////////////////////////
 	// get configure
+	let startPage = 'about:superstart';
 	this.getConfig = function (name) {
 		switch(name) {
 			case 'version':
@@ -117,6 +118,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return 'superstart@enjoyfreeware.org';
 			case 'index-url':
 				return 'chrome://superstart/content/index.html';
+			case 'start-page':
+				return startPage;
 			case 'cloud-dir':
 				return sbprefs.getComplexValue('extensions.superstart.cloud.dir', Ci.nsISupportsString).data;
 			case 'cloud-subdir':
@@ -157,6 +160,9 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				if (value != engineName) {
 					writeString(engineKey, value);
 				}
+				break;
+			case 'start-page': // ignore the value, because startPage can't be other value.
+				startPage = this.getConfig('index-url');
 				break;
 			default:
 				if (intCfgs[name] != undefined) {

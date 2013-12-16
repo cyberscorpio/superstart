@@ -16,7 +16,7 @@ if ("undefined" == typeof(SuperStart)) {
 			});
 		}
 
-		const {classes: Cc, interfaces: Ci} = Components;
+		const {classes: Cc, interfaces: Ci, results: Cr, manager: Cm} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 		let searchEngines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
@@ -31,10 +31,61 @@ if ("undefined" == typeof(SuperStart)) {
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');
+		let startPage = cfg.getConfig('start-page');
+
+		// register about:superstart
+		function aboutModule() {}
+		aboutModule.prototype = {
+			uri: Services.io.newURI(indexUrl, null, null),
+			classDescription: 'about:superstart',
+			classID: Components.ID('7826E96C-3C96-4DF3-B9C2-51AD017029A2'),
+			contractID: '@mozilla.org/network/protocol/about;1?what=superstart',
+ 
+			QueryInterface: XPCOMUtils.generateQI([Ci.nsIAboutModule]),
+ 
+			newChannel: function(aURI) {
+				let chan = Services.io.newChannelFromURI(this.uri);
+				chan.originalURI = aURI;
+				return chan;
+			},
+			getURIFlags: function(aURI) {
+				return 0;
+			}
+		};
+
+		(function registerComponents() {
+		 	let hpk = 'browser.startup.homepage';
+			try {
+				let cls = aboutModule;
+				const factory = {
+					createInstance: function(outer, iid) {
+						if (outer) {
+							throw Cr.NS_ERROR_NO_AGGREGATION;
+						}
+						return new cls();
+					}
+				};
+				Cm.QueryInterface(Ci.nsIComponentRegistrar);
+				Cm.registerFactory(cls.prototype.classID, cls.prototype.classDescription, cls.prototype.contractID, factory);
+				// don't need to unregisterFactory(cls.prototype.classID, factory);
+				if (sbprefs.getCharPref(hpk) == indexUrl) {
+					sbprefs.setCharPref(hpk, startPage);
+				}
+			} catch (e) {
+				Cu.reportError(e);
+				// register failed...
+				if (sbprefs.getCharPref(hpk) == startPage) {
+					sbprefs.setCharPref(hpk, indexUrl);
+				}
+				startPage = indexUrl;
+				cfg.setConfig('start-page', 'fall back...');
+			}
+		})();
+
 		if (window.gInitialPages) {
 			try {
-				window.gInitialPages.push(indexUrl);
-				window.gInitialPages.push(indexUrl + '#');
+				window.gInitialPages.push(startPage);
+				window.gInitialPages.push(startPage + '#');
 			} catch (e) {}
 		}
 
@@ -91,7 +142,7 @@ if ("undefined" == typeof(SuperStart)) {
 			// for case where openTab() won't work
 			// for example: when set browser.tabs.closeWindowWithLastTab to false...
 			if (gBrowser._beginRemoveTab) {
-				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getIndexUrl() : $1)$4);'));
+				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getStartPage() : $1)$4);'));
 			}
 			// --------------------------------------------------------------------
 
@@ -152,8 +203,8 @@ if ("undefined" == typeof(SuperStart)) {
 
 		SuperStart.onToolbarOpen = function() {
 			try {
-				if (gBrowser.contentDocument.location.href != indexUrl) {
-					gBrowser.contentDocument.location.href = indexUrl;
+				if (gBrowser.contentDocument.location.href != startPage) {
+					gBrowser.contentDocument.location.href = startPage;
 				} else {
 					gBrowser.contentDocument.location.reload();
 				}
@@ -289,8 +340,8 @@ if ("undefined" == typeof(SuperStart)) {
 		SuperStart.loadInBlank = function() {
 			return cfg.getConfig('load-in-blanktab');
 		}
-		SuperStart.getIndexUrl = function() {
-			return indexUrl;
+		SuperStart.getStartPage = function() {
+			return startPage;
 		}
 
 		////////////////////////////////////////////////
@@ -299,9 +350,9 @@ if ("undefined" == typeof(SuperStart)) {
 		function openTab() {
 			if (SuperStart.loadInBlank()) {
 				if (!gBrowser) {
-					window.openDialog("chrome://browser/content/", "_blank", "chrome,all,dialog=no", indexUrl);
+					window.openDialog("chrome://browser/content/", "_blank", "chrome,all,dialog=no", startPage);
 				} else {
-					gBrowser.loadOneTab(indexUrl, {inBackground: false});
+					gBrowser.loadOneTab(startPage, {inBackground: false});
 					focusAndSelectUrlBar();
 				}
 			} else {

@@ -524,6 +524,17 @@ function onLinkClick(evt) {
 					inNewTab = !inNewTab;
 				}
 				inNewTab ? addTab(tb, s.url) : document.location.href = s.url;
+				/* for multi-process firefox, maybe I need to use below code?
+				if (inNewTab) {
+					addTab(tb, s.url);
+				} else {
+					var t = tb.addTab(s.url);
+					var i = tb.tabContainer.getIndexOfItem(tb.selectedTab);
+					tb.moveTabTo(t, i + 1);
+					tb.removeCurrentTab();
+					tb.selectedTab = t;
+				}
+				*/
 			}
 		}
 	}

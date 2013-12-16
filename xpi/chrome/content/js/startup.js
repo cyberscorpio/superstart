@@ -336,7 +336,7 @@ if ("undefined" == typeof(SuperStart)) {
 			let ver = sbprefs.getCharPref(vk);
 			let addver = ver;
 			try {
-				Components.utils.import("resource://gre/modules/AddonManager.jsm");
+				Cu.import("resource://gre/modules/AddonManager.jsm");
 				AddonManager.getAddonByID(id, function(addon) {
 					if (addon.name == name) {
 						addver = addon.version;
@@ -347,6 +347,7 @@ if ("undefined" == typeof(SuperStart)) {
 					}
 				});
 			} catch (e) {
+				Cu.reportError(e);
 			}
 		}
 

@@ -515,7 +515,8 @@ function onLinkClick(evt) {
 		}
 	} else {
 		if (s.url != null && s.url != 'about:placeholder') {
-			var tb = $.getMainWindow().getBrowser();
+			var wm = $.getMainWindow();
+			var tb = wm.getBrowser();
 			if (evt.shiftKey) {
 				tb.selectedTab = addTab(tb, s.url);
 			} else {
@@ -523,22 +524,16 @@ function onLinkClick(evt) {
 				if (evt.ctrlKey || evt.metaKey) {
 					inNewTab = !inNewTab;
 				}
-				inNewTab ? addTab(tb, s.url) : document.location.href = s.url;
-
-				// gMultiProcessBrowser = Services.appinfo.browserTabsRemote;
-				// window.openUILinkIn(s.url, 'current');
-
-				/* for multi-process firefox, maybe I need to use below code?
+				// inNewTab ? addTab(tb, s.url) : document.location.href = s.url;
 				if (inNewTab) {
 					addTab(tb, s.url);
 				} else {
-					var t = tb.addTab(s.url);
-					var i = tb.tabContainer.getIndexOfItem(tb.selectedTab);
-					tb.moveTabTo(t, i + 1);
-					tb.removeCurrentTab();
-					tb.selectedTab = t;
+					if (cfg.getConfig('multiprocess') && wm.openUILinkIn) {
+						wm.openUILinkIn(s.url, 'current');
+					} else {
+						document.location.href = s.url;
+					}
 				}
-				*/
 			}
 		}
 	}

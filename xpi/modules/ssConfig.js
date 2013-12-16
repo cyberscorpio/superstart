@@ -14,6 +14,7 @@ var EXPORTED_SYMBOLS = [ "ssConfig" ];
 function ssConfig() {
 const {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
@@ -124,6 +125,14 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 				return sbprefs.getComplexValue('extensions.superstart.cloud.dir', Ci.nsISupportsString).data;
 			case 'cloud-subdir':
 				return sbprefs.getComplexValue('extensions.superstart.cloud.subdir', Ci.nsISupportsString).data;
+
+			case 'multiprocess':
+				try {
+					return Services.appinfo.browserTabsRemote;
+				} catch (e) {
+					Cu.reportError(e);
+					return false;
+				}
 
 			case 'snapshot-ratio':
 				return this.getConfig('snapshot-ratio-type') == 1 ? 0.5625 : 0.625;

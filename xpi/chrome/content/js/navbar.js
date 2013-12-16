@@ -183,13 +183,18 @@ function initSearchBox() {
 			var submission = engine.getSubmission(text);
 			var url = submission.uri.spec;
 
-			var b = $.getMainWindow().getBrowser();
+			var wm = $.getMainWindow();
+			var tb = wm.getBrowser();
 			if (evt.shiftKey) {
-				b.selectedTab = b.addTab(url);
+				tb.selectedTab = tb.addTab(url);
 			} else if (evt.ctrlKey || evt.metaKey) {
-				b.addTab(url);
+				tb.addTab(url);
 			} else {
-				document.location.href = url;
+				if (cfg.getConfig('multiprocess') && wm.openUILinkIn) {
+					wm.openUILinkIn(url, 'current');
+				} else {
+					document.location.href = url;
+				}
 			}
 		} else if (evt.keyCode == 27) { // esc
 			if (!mouseIn) {

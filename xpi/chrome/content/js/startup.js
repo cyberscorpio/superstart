@@ -27,7 +27,7 @@ if ("undefined" == typeof(SuperStart)) {
 		let cfg = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIConfig);
 		let sm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssISiteManager);
 		let tm = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIThemes);
-		// let ei = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIExIm);
+		let ob = Cc['@enjoyfreeware.org/superstart;1'].getService(Ci.ssIObserverable);
 
 		let savedOpenTab = function() {}
 		let indexUrl = cfg.getConfig('index-url');
@@ -72,13 +72,15 @@ if ("undefined" == typeof(SuperStart)) {
 					sbprefs.setCharPref(hpk, startPage);
 				}
 			} catch (e) {
-				Cu.reportError(e);
-				// register failed...
-				if (sbprefs.getCharPref(hpk) == startPage) {
-					sbprefs.setCharPref(hpk, indexUrl);
+				if (e.result != 3253928192) { // NS_ERROR_FACTORY_EXISTS
+					// register failed...
+					Cu.reportError(e);
+					if (sbprefs.getCharPref(hpk) == startPage) {
+						sbprefs.setCharPref(hpk, indexUrl);
+					}
+					startPage = indexUrl;
+					cfg.setConfig('start-page', 'fall back...');
 				}
-				startPage = indexUrl;
-				cfg.setConfig('start-page', 'fall back...');
 			}
 		})();
 
@@ -126,7 +128,13 @@ if ("undefined" == typeof(SuperStart)) {
 				}
 			}, false);
 
-			// TODO: use 'browser.newtab.url' instead this way --------------------
+
+			if (SuperStart.loadInBlank()) {
+				sbprefs.setCharPref('browser.newtab.url', startPage);
+			}
+			ob.subscribe('load-in-blanktab', onLoadInBlankChanged);
+
+			// TODO: since I'm using 'browser.newtab.url', do we need below code?
 			if (window.TMP_BrowserOpenTab) {
 				savedOpenTab = window.TMP_BrowserOpenTab;
 				if (window.BrowserOpenTab === window.TMP_BrowserOpenTab) {
@@ -144,7 +152,6 @@ if ("undefined" == typeof(SuperStart)) {
 			if (gBrowser._beginRemoveTab) {
 				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getStartPage() : $1)$4);'));
 			}
-			// --------------------------------------------------------------------
 
 			// check version first
 			checkFirstRun();
@@ -346,6 +353,12 @@ if ("undefined" == typeof(SuperStart)) {
 
 		////////////////////////////////////////////////
 		// private functions
+
+		function onLoadInBlankChanged(evt, enabled) {
+			if (evt == 'load-in-blanktab') {
+				sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
+			}
+		}
 
 		function openTab() {
 			if (SuperStart.loadInBlank()) {

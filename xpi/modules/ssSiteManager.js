@@ -56,8 +56,8 @@ Cu.import("resource://gre/modules/Services.jsm");
 		cImgDirURL += '/';
 	}
 
-	let imgLoading = 'images/loading.gif';
-	let imgNoSnapshot = 'images/no-image.png';
+	let imgLoading = 'chrome://superstart/content/images/loading.gif';
+	let imgNoSnapshot = 'chrome://superstart/content/images/no-image.png';
 	let favIcon = 'chrome://mozapps/skin/places/defaultFavicon.png';
 
 	let inLoading = false;
@@ -236,7 +236,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 						t = s.liveImage;
 					} else {
 						t = s.snapshots[s.snapshotIndex];
-						if (t.indexOf('images/') != 0) {
+						if (t.indexOf('chrome://') != 0) {
 							t = that.regulateUrl(getPathFromSnapshotName(t)).replace(/\\/g, '/');
 						}
 					}
@@ -597,7 +597,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 		for (let i = 0, l = names.length; i < l; ++ i) {
 			try {
 				let name = names[i];
-				if (name && name.indexOf('images/') != 0) {
+				if (name && name.indexOf('chrome://') != 0) {
 					let f = getIFileFromSnapshotName(name);
 					f.remove(false);
 				}

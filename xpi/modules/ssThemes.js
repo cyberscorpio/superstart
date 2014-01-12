@@ -28,6 +28,8 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	let bgDir;
 	let usData;
 
+	let ver = 0;
+
 	function load() {
 		try {
 			themeNames = {
@@ -177,7 +179,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 	}
 
 	this.getUsUrl = function() {
-		return this.regulateUrl(uscFile.path);
+		return this.regulateUrl(uscFile.path) + '?ver=' + ver;
 	}
 
 	this.getBackgroundImageUrl = function(fileOrUrl) {
@@ -364,6 +366,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 		}
 
 		if (!uscFile.exists() || that.fileGetContents(uscFile) != css) {
+			++ ver;
 			that.filePutContents(uscFile, css);
 		}
 	}

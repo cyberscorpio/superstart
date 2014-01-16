@@ -147,6 +147,11 @@ Cu.import("resource://gre/modules/Services.jsm");
 
 		// check snapshots
 		travel(function(s) {
+			if (s.snapshots[0].indexOf('images/') == 0 || s.snapshots[1].indexOf('images/') == 0) {
+				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
+				changed = true;
+			}
+
 			if (s.snapshots[0] == imgLoading || s.snapshots[1] == imgLoading) {
 				s.snapshots[0] = s.snapshots[1] = imgNoSnapshot;
 				changed = true;

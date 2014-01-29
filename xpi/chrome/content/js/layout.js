@@ -11,10 +11,18 @@ var layout = (function() {
 		}
 
 		var width = window.innerWidth;
-		var notes = $$('notes');
-		var rc = notes.getBoundingClientRect();
-		if (rc.width > 0) { // it is not hidden
-			width = rc.left;
+		if (inFolder) {
+			var folder = $$('folder');
+			if (folder) {
+				var rc = folder.getBoundingClientRect();
+				width = rc.right - rc.left;
+			}
+		} else {
+			var notes = $$('notes');
+			var rc = notes.getBoundingClientRect();
+			if (rc.width > 0) { // it is not hidden
+				width = rc.left;
+			}
 		}
 
 		var cs = window.getComputedStyle($$('margin-helper'));
@@ -270,22 +278,26 @@ var layout = (function() {
 		folder.style.top = top + 'px';
 
 		// move below sites
-		var col = cfg.getConfig('col');
-		var ses = $('#sites > .site');
-		var begin = 0;
-		for (var i = 0; i < ses.length; ++ i) {
-			if (ses[i] == se) {
-				begin = i + col - (i % col);
-				break;
+		cs = window.getComputedStyle($$('site-helper'));
+		var mt = parseInt(cs['marginTop']);
+		if (mt >= 0) {
+			var col = cfg.getConfig('col');
+			var ses = $('#sites > .site');
+			var begin = 0;
+			for (var i = 0; i < ses.length; ++ i) {
+				if (ses[i] == se) {
+					begin = i + col - (i % col);
+					break;
+				}
 			}
-		}
 
-		var siteOffset = height - offset;
-		for (var i = begin; i < ses.length; ++ i) {
-			var se = ses[i];
-			var [left, top] = se.pos;
-			top += siteOffset;
-			se.style.transform = 'translate(' + left + 'px, ' + top + 'px)';
+			var siteOffset = height - offset;
+			for (var i = begin; i < ses.length; ++ i) {
+				var se = ses[i];
+				var [left, top] = se.pos;
+				top += siteOffset;
+				se.style.transform = 'translate(' + left + 'px, ' + top + 'px)';
+			}
 		}
 	}
 

@@ -1,1 +1,1 @@
-/Applications/FirefoxNightly.app/Contents/MacOS/firefox -no-remote -P dev &
+/Applications/FirefoxNightly.app/Contents/MacOS/firefox -no-remote -P dev > /dev/null 2>&1 &

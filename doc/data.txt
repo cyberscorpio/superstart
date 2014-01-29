@@ -5,7 +5,7 @@
 ########################################
 # sites.json
 {
-	version: "1.0",
+	version: "1.1",
 	sites: [
 		site1 | folder1, site2 | folder2, etc.
 	]
@@ -15,10 +15,20 @@
 {
 	url: url,
 	title: title, // created automatically
+	realurl: realurl, // generated automatically, for live image. it is useful because some url redirect to other url.
 	name: name, // user specified
-	snapshots: [ tl, center, user-specified ],  # tl & center is file name, not the full path
-	snapshotIndex: index
+	snapshots: [ left & top, entire ],
+	liveImage: liveImage, // moz-page-thumb://thumbnail?url=realurl (encodeURIComponent()ed).
+	useLastVisited: useLastVisited, // boolean, if true, use liveImage
+	customizeImage: customizeImage, 
+	snapshotIndex: index // if 0 or 1, if useLastVisited, use liveImage, if !useLastVisited, use snapshots[index]; 
+		// if 2, use customizeImage.
 }
+
+# snapshots [0, 1] are:
+ - chrome://superstart/content/images/loading.gif    (in old version, it is 'images/loading.gif')
+ - chrome://superstart/content/images/no-image.png   (in old version, it is 'images/no-image.png')
+ - SHA1.png
 
 or 
 

@@ -140,7 +140,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 				}
 			}
 		} catch (e) {
-			log('siteManager::check() ' + e);
+			Cu.reportError(e);
 			create();
 			return true;
 		}
@@ -196,7 +196,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 					save();
 				}
 			} catch (e) {
-				log('siteManager::load() ' + e);
+				Cu.reportError(e);
 				create();
 			}
 		}
@@ -447,7 +447,6 @@ Cu.import("resource://gre/modules/Services.jsm");
 			return;
 		}
 
-		// log('simple move, from ' + from + ' to ' + to);
 		var s = sites.splice(from, 1)[0];
 		if (to == sites.length) {
 			sites.push(s);
@@ -607,8 +606,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 					f.remove(false);
 				}
 			} catch (e) {
-				log('remove file: ' + names[i] + ' failed, exception is below:');
-				log(e);
+				Cu.reportError(e);
 			}
 		}
 	}
@@ -737,7 +735,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 					}
 				}
 			} catch (e) {
-				logger.logStringMessage(e);
+				Cu.reportError(e);
 			}
 			return favIcon;
 		}
@@ -780,7 +778,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 				try {
 					ctx.drawWindow(win.contentWindow, 0, 0, sw, sh, "rgba(0,0,0,0)");
 				} catch (e) {
-					log(e);
+					Cu.reportError(e);
 				}
 				ctx.restore();
 
@@ -824,7 +822,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 				try {
 					persist.saveURI(src, null, null, null, null, file, null);
 				} catch (e) {
-					log(e);
+					Cu.reportError(e);
 				}
 			}
 		}

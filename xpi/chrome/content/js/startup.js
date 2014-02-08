@@ -129,10 +129,15 @@ if ("undefined" == typeof(SuperStart)) {
 			}, false);
 
 
-			if (SuperStart.loadInBlank()) {
+			if (SuperStart.loadInBlank() && cfg.getConfig('set-newtab-url')) {
 				sbprefs.setCharPref('browser.newtab.url', startPage);
+			} else {
+				if (sbprefs.getCharPref('browser.newtab.url') == startPage) {
+					sbprefs.setCharPref('browser.newtab.url', 'about:newtab');
+				}
 			}
 			ob.subscribe('load-in-blanktab', onLoadInBlankChanged);
+			ob.subscribe('set-newtab-url', onSetNewtabUrl);
 
 			// TODO: since I'm using 'browser.newtab.url', do we need below code?
 			if (window.TMP_BrowserOpenTab) {
@@ -355,9 +360,13 @@ if ("undefined" == typeof(SuperStart)) {
 		// private functions
 
 		function onLoadInBlankChanged(evt, enabled) {
-			if (evt == 'load-in-blanktab') {
-				sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
-			}
+			let enabled = enabled && cfg.getConfig('set-newtab-url');
+			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
+		}
+
+		function onSetNewtabUrl(evt, enabled) {
+			let enabled = enabled && cfg.getConfig('load-in-blanktab');
+			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
 		}
 
 		function openTab() {

@@ -70,6 +70,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 
 	var boolCfgs = {
 		'load-in-blanktab': {'key': 'load.in.blanktab'},
+		'set-newtab-url': {'key': 'set.browser.newtab.url'},
 		'disable-context-menuitem': {'key': 'disable.context.menuitem'},
 		'sites-compact': {'key': 'sites.compact'},
 		'sites-text-only': {'key': 'sites.text.only'},

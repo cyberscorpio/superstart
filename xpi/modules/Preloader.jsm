@@ -328,7 +328,6 @@ HiddenBrowser.prototype = {
 		if (scripts.length > 0) {
 			// TODO: keep tracking the code.
 			// the data changed: http://hg.mozilla.org/mozilla-central/rev/e42976d8d656#l1.13
-			console.log('isArray: ' + Array.isArray(scripts[0]));
 			if (Array.isArray(scripts[0])) {
 				Array.forEach(scripts, ([script, runGlobal]) => mm.loadFrameScript(script, true, runGlobal));
 			} else {

@@ -1,5 +1,6 @@
 pref('extensions.superstart@enjoyfreeware.org.description', 'chrome://superstart/locale/main.properties');
 pref('extensions.superstart.version', '0.0.0');
+pref('extensions.superstart.page.preload', true);
 pref('extensions.superstart.theme', 'default');
 pref('extensions.superstart.load.in.blanktab', true);
 pref('extensions.superstart.set.browser.newtab.url', false); /* set 'browser.newtab.url' if and only if this and load.in.blanktab both are true */

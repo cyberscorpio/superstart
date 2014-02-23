@@ -3,6 +3,9 @@ if ("undefined" == typeof(SuperStart)) {
 	var SuperStart = {};
 
 	(function() {
+		const {classes: Cc, interfaces: Ci, results: Cr, manager: Cm} = Components;
+		Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+		Cu.import("resource://gre/modules/Services.jsm");
 		function $$(id) {
 			return document.getElementById(id);
 		}
@@ -16,7 +19,6 @@ if ("undefined" == typeof(SuperStart)) {
 			});
 		}
 
-		const {classes: Cc, interfaces: Ci, results: Cr, manager: Cm} = Components;
 		let sbprefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 		let logger = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 		let searchEngines = Cc['@mozilla.org/browser/search-service;1'].getService(Ci.nsIBrowserSearchService);
@@ -156,6 +158,27 @@ if ("undefined" == typeof(SuperStart)) {
 			// for example: when set browser.tabs.closeWindowWithLastTab to false...
 			if (gBrowser._beginRemoveTab) {
 				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getStartPage() : $1)$4);'));
+			}
+
+			// for preloader
+			let fxVersion = Services.appinfo.version;
+			if (parseInt(fxVersion) >= 27) {
+				let preloader = SuperStart.preloader = Cu.import('resource://superstart/Preloader.jsm', {}).SuperStartPreloader;
+				preloader.init(startPage);
+				if (gBrowser.addTab) {
+					let src = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);';
+					// TODO: must keep it the same with TabBrowser.xml::addTab()
+					let dst = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);} ' +
+						'if (!docShellsSwapped && aURI == "' + startPage + 
+						'" && !PrivateBrowsingUtils.isWindowPrivate(window) &&' +
+						' !gMultiProcessBrowser) {' +
+							'try {' +
+								'docShellsSwapped = SuperStart.preloader.newTab(t);' +
+							'} catch(e) {' +
+								'Cu.reportError(e);' +
+							'}';
+					eval('gBrowser.addTab = ' + gBrowser.addTab.toString().replace(src, dst));
+				}
 			}
 
 			// check version first

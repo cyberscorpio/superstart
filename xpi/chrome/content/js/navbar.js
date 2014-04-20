@@ -101,7 +101,8 @@ function initSearchBox() {
 		[input, 'focus', onFocus],
 		[input, 'blur', onBlur],
 		[input, 'keypress', onKeyPress],
-		[input, 'click', onClick]
+		[input, 'click', onClick],
+		[input, 'contextmenu', onContextMenu]
 	];
 
 	for (var i = 0; i < map.length; ++ i) {
@@ -206,6 +207,10 @@ function initSearchBox() {
 	}
 
 	function onClick(evt) {
+		blurWhenMouseOut = false;
+	}
+
+	function onContextMenu(evt) {
 		blurWhenMouseOut = false;
 	}
 }

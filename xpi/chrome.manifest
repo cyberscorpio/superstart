@@ -66,8 +66,10 @@ locale  superstart	ar      jar:chrome/superstart.jar!/locale/ar/
 locale  superstart	vi      jar:chrome/superstart.jar!/locale/vi/
 # Turkish
 locale	superstart	tr      jar:chrome/superstart.jar!/locale/tr/
+# French
+locale	superstart	fr      jar:chrome/superstart.jar!/locale/fr/
 
 
 
 # used to test new language
-# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/tr/
+# locale	superstart	en-US   jar:chrome/superstart.jar!/locale/fr/

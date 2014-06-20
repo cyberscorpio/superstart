@@ -1,0 +1,98 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "Saisir URL">
+<!ENTITY superstart.dialog.url.url "Saisir l'URL ici">
+<!ENTITY superstart.dialog.url.name "Nom du site (optionnel)">
+<!ENTITY superstart.dialog.url.snapshot.setting "Paramètre de l'image">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Coi gauche &amp; haut">
+<!ENTITY superstart.dialog.url.snapshot.entire "Toute la fenêtre">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Utiliser le service d'image de Firefox (peut-être non disponible)">
+<!ENTITY superstart.dialog.url.snapshot.customize "Image utilisateur">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "Nom du groupe">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "Ajouter une nouvelle URL">
+<!ENTITY superstart.menu.placeholder.add "Ajouté un espace réservé">
+<!ENTITY superstart.menu.site.refreshall "Tout rafraîchir">
+<!ENTITY superstart.menu.options "Options">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "Ajouter ce lien à Super Start">
+<!ENTITY superstart.context.menu.add "Ajouter cet onglet à Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "Options">
+
+<!ENTITY superstart.options.general "Général">
+<!ENTITY superstart.options.sites.setup "Paramètre">
+<!ENTITY superstart.options.load.in.blanktab "Ouvrir dans un onglet vide">
+<!ENTITY superstart.options.set.as.homepage "Positionner Super Start comme page de démarrage">
+<!ENTITY superstart.options.disable.context.menu "Désactiver Super Start dans le menu contextuel">
+<!ENTITY superstart.options.sites.open.in.newtab "Ouvrir dans un nouvel onglet par défaut (non dans l'actuel)">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Ouvrir l'onglet après l'actuel">
+
+<!ENTITY superstart.options.sites.displaysettings "Paramètres d'affichage">
+<!ENTITY superstart.options.sites.use.compactmode "Utiliser le mode compacte">
+<!ENTITY superstart.options.sites.text.only "Seulement du texte">
+<!ENTITY superstart.options.sites.use.background.effect "Utiliser une transition (peut-être lent)">
+<!ENTITY superstart.options.sites.col "Combien de sites sur une ligne :">
+
+<!ENTITY superstart.options.navbar "Barre de navigation">
+<!ENTITY superstart.options.show.navbar "Montrer la barre de navigation">
+<!ENTITY superstart.options.navbar.show.searchbox "Montrer la boîte de recherche">
+<!ENTITY superstart.options.navbar.show.recently.closed "Fermé récemment">
+<!ENTITY superstart.options.navbar.show.add.site "Ajouter un nouveau site">
+<!ENTITY superstart.options.navbar.show.themes "Thèmes">
+<!ENTITY superstart.options.navbar.show.todo "Notes">
+<!ENTITY superstart.options.show.elements "Montrer les éléments...">
+<!ENTITY superstart.options.site.buttons.show.buttons "Montrer les bouttons">
+<!ENTITY superstart.options.site.buttons.show.newtab "Nouvel onglet">
+<!ENTITY superstart.options.site.buttons.show.refresh "Rafraîchir">
+<!ENTITY superstart.options.site.buttons.show.config "Configurer">
+<!ENTITY superstart.options.site.buttons.show.remove "Enlever">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Image suivante">
+
+<!ENTITY superstart.options.general.hint "* ces paramètres prennent effets immédiatement">
+
+<!ENTITY superstart.ui.customize "Changer l'interface">
+<!ENTITY superstart.ui.customize.use "Allumer le changement">
+<!ENTITY superstart.ui.customize.howto "(Aide) Comment modifier ?">
+<!ENTITY superstart.ui.background.image "Image de fond">
+<!ENTITY superstart.ui.select.image "Sélectionner l'image">
+<!ENTITY superstart.ui.clear.image "Enlever l'image">
+<!ENTITY superstart.ui.background.repeat "Répéter">
+<!ENTITY superstart.ui.background.repeat.repeat "Répéter (par défaut)">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Ne pas répéterrepeat">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "Répéter horizontalement">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "Répéter verticalement">
+<!ENTITY superstart.ui.background.size "Taille">
+<!ENTITY superstart.ui.background.size.default "Par défaut">
+<!ENTITY superstart.ui.background.size.cover "Ajuster (CSS:cover)">
+<!ENTITY superstart.ui.background.size.contain "Ajuster (CSS:contain)">
+<!ENTITY superstart.ui.background.position "Position">
+<!ENTITY superstart.ui.colors "Couleurs">
+<!ENTITY superstart.ui.background.color.enable "Allumer la couleur de fond">
+<!ENTITY superstart.ui.background.color.select "Choisir couleur">
+<!ENTITY superstart.ui.text.color "Texte">
+<!ENTITY superstart.ui.text.color.enable "Allumer la couleur de texte">
+<!ENTITY superstart.ui.text.color.black "Noir">
+<!ENTITY superstart.ui.text.color.white "Blanc">
+<!ENTITY superstart.ui.text.color.use.shadow "Avec ombre">
+<!ENTITY superstart.ui.others "Autres">
+<!ENTITY superstart.ui.transparent "Transparent (peut-être lent)">
+<!ENTITY superstart.ui.customize.advanced "Avancé">
+<!ENTITY superstart.ui.css.edit.hint "Saisir le code CSS ici :">
+
+<!ENTITY superstart.options.about "À propos">
+<!ENTITY superstart.options.author "Auteur">
+<!ENTITY superstart.options.help "Aide">
+
+<!-- export / import -->
+<!ENTITY superstart.via.cloud "Par le 'cloud'">
+<!ENTITY superstart.exim.description "SuperStart ne peut trouver votre répertoire Dropbox. Si vous avez installé Dropbox mais non dans son emplacement par défaut, ou si vous utiliser un autre service de cloud (SkyDriver, GDriver, etc.), voir ici :">
+<!ENTITY superstart.manually "Manuel">
+<!ENTITY superstart.export "Exporter">
+<!ENTITY superstart.import "Importer">
+<!ENTITY superstart.import.sites.only "Importer que les sites">
+<!ENTITY superstart.processing "En cours">

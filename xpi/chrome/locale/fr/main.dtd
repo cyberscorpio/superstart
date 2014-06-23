@@ -3,7 +3,7 @@
 <!ENTITY superstart.dialog.url.url "Saisir l'URL ici">
 <!ENTITY superstart.dialog.url.name "Nom du site (optionnel)">
 <!ENTITY superstart.dialog.url.snapshot.setting "Paramètre de l'image">
-<!ENTITY superstart.dialog.url.snapshot.lefttop "Coi gauche &amp; haut">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "Coin gauche &amp; haut">
 <!ENTITY superstart.dialog.url.snapshot.entire "Toute la fenêtre">
 <!ENTITY superstart.dialog.url.snapshot.use.lastvisited "Utiliser le service d'image de Firefox (peut-être non disponible)">
 <!ENTITY superstart.dialog.url.snapshot.customize "Image utilisateur">
@@ -13,7 +13,7 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Ajouter une nouvelle URL">
-<!ENTITY superstart.menu.placeholder.add "Ajouté un espace réservé">
+<!ENTITY superstart.menu.placeholder.add "Ajouter un espace réservé">
 <!ENTITY superstart.menu.site.refreshall "Tout rafraîchir">
 <!ENTITY superstart.menu.options "Options">
 
@@ -29,7 +29,7 @@
 <!ENTITY superstart.options.load.in.blanktab "Ouvrir dans un onglet vide">
 <!ENTITY superstart.options.set.as.homepage "Positionner Super Start comme page de démarrage">
 <!ENTITY superstart.options.disable.context.menu "Désactiver Super Start dans le menu contextuel">
-<!ENTITY superstart.options.sites.open.in.newtab "Ouvrir dans un nouvel onglet par défaut (non dans l'actuel)">
+<!ENTITY superstart.options.sites.open.in.newtab "Ouvrir dans un nouvel onglet par défaut (et non dans l'actuel)">
 <!ENTITY superstart.options.sites.open.next.to.current.tab "Ouvrir l'onglet après l'actuel">
 
 <!ENTITY superstart.options.sites.displaysettings "Paramètres d'affichage">
@@ -56,14 +56,14 @@
 <!ENTITY superstart.options.general.hint "* ces paramètres prennent effets immédiatement">
 
 <!ENTITY superstart.ui.customize "Changer l'interface">
-<!ENTITY superstart.ui.customize.use "Allumer le changement">
+<!ENTITY superstart.ui.customize.use "Activer le changement">
 <!ENTITY superstart.ui.customize.howto "(Aide) Comment modifier ?">
 <!ENTITY superstart.ui.background.image "Image de fond">
 <!ENTITY superstart.ui.select.image "Sélectionner l'image">
 <!ENTITY superstart.ui.clear.image "Enlever l'image">
 <!ENTITY superstart.ui.background.repeat "Répéter">
 <!ENTITY superstart.ui.background.repeat.repeat "Répéter (par défaut)">
-<!ENTITY superstart.ui.background.repeat.no.repeat "Ne pas répéterrepeat">
+<!ENTITY superstart.ui.background.repeat.no.repeat "Ne pas répéter">
 <!ENTITY superstart.ui.background.repeat.repeat.horizontal "Répéter horizontalement">
 <!ENTITY superstart.ui.background.repeat.repeat.vertical "Répéter verticalement">
 <!ENTITY superstart.ui.background.size "Taille">
@@ -72,10 +72,10 @@
 <!ENTITY superstart.ui.background.size.contain "Ajuster (CSS:contain)">
 <!ENTITY superstart.ui.background.position "Position">
 <!ENTITY superstart.ui.colors "Couleurs">
-<!ENTITY superstart.ui.background.color.enable "Allumer la couleur de fond">
+<!ENTITY superstart.ui.background.color.enable "Activer la couleur de fond">
 <!ENTITY superstart.ui.background.color.select "Choisir couleur">
 <!ENTITY superstart.ui.text.color "Texte">
-<!ENTITY superstart.ui.text.color.enable "Allumer la couleur de texte">
+<!ENTITY superstart.ui.text.color.enable "Activer la couleur de texte">
 <!ENTITY superstart.ui.text.color.black "Noir">
 <!ENTITY superstart.ui.text.color.white "Blanc">
 <!ENTITY superstart.ui.text.color.use.shadow "Avec ombre">

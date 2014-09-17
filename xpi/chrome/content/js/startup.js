@@ -239,11 +239,20 @@ if ("undefined" == typeof(SuperStart)) {
 		SuperStart.onToolbarOpen = function() {
 			try {
 				if (gBrowser.contentDocument.location.href != startPage) {
+					/*
+					let bmm = gBrowser.selectedBrowser.messageManager;
+					bmm.loadFrameScript('chrome://superstart/content/js/e10s.js', true);
+					bmm.sendAsyncMessage('superstart@enjoyfreeware.org:load-url', {
+						url: startPage
+					});
+					*/
 					gBrowser.contentDocument.location.href = startPage;
 				} else {
 					gBrowser.contentDocument.location.reload();
 				}
-			} catch (e) {}
+			} catch (e) {
+				Cu.reportError(e);
+			}
 		}
 
 		// note: this method is mainly copied from: PHM_populateUndoSubmenu() in Browser-places.js
@@ -383,12 +392,12 @@ if ("undefined" == typeof(SuperStart)) {
 		// private functions
 
 		function onLoadInBlankChanged(evt, enabled) {
-			let enabled = enabled && cfg.getConfig('set-newtab-url');
+			enabled = enabled && cfg.getConfig('set-newtab-url');
 			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
 		}
 
 		function onSetNewtabUrl(evt, enabled) {
-			let enabled = enabled && cfg.getConfig('load-in-blanktab');
+			enabled = enabled && cfg.getConfig('load-in-blanktab');
 			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
 		}
 

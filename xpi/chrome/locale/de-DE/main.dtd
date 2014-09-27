@@ -30,7 +30,7 @@
 <!ENTITY superstart.options.set.as.homepage "Super Start als Startseite einstellen">
 <!ENTITY superstart.options.disable.context.menu "Super Start im Kontextmenü ausblenden">
 <!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuem Tab öffnen">
-<!ENTITY superstart.options.sites.open.next.to.current.tab "Tab nenben dem aktuellen Tab öffnen">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Tab neben dem aktuellen Tab öffnen">
 
 <!ENTITY superstart.options.sites.displaysettings "Einstellungen anzeigen">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakten Modus verwenden">

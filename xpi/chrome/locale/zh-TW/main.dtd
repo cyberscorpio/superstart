@@ -1,0 +1,98 @@
+<!-- input url -->
+<!ENTITY superstart.dialog.url.title "輸入網址">
+<!ENTITY superstart.dialog.url.url "在這裡輸入網址">
+<!ENTITY superstart.dialog.url.name "網站名稱（可省略）">
+<!ENTITY superstart.dialog.url.snapshot.setting "縮圖設定">
+<!ENTITY superstart.dialog.url.snapshot.lefttop "使用畫面左上角">
+<!ENTITY superstart.dialog.url.snapshot.entire "使用整個視窗畫面">
+<!ENTITY superstart.dialog.url.snapshot.use.lastvisited "使用 Firefox 內建縮圖功能（可能不適用於某些網站）">
+<!ENTITY superstart.dialog.url.snapshot.customize "使用自訂圖片">
+
+<!-- group name -->
+<!ENTITY superstart.dialog.groupname.title "設定群組名稱">
+
+<!-- context menu in superstart page -->
+<!ENTITY superstart.menu.site.add "新增網址">
+<!ENTITY superstart.menu.placeholder.add "新增空白欄位">
+<!ENTITY superstart.menu.site.refreshall "全部更新">
+<!ENTITY superstart.menu.options "選項">
+
+<!-- context menu for other page -->
+<!ENTITY superstart.context.menu.add.link "將連結加入 Super Start">
+<!ENTITY superstart.context.menu.add "將此頁面加入 Super Start">
+
+<!-- options -->
+<!ENTITY superstart.options "選項">
+
+<!ENTITY superstart.options.general "一般">
+<!ENTITY superstart.options.sites.setup "設定">
+<!ENTITY superstart.options.load.in.blanktab "在空白頁面載入">
+<!ENTITY superstart.options.set.as.homepage "將 Super Start 設為首頁">
+<!ENTITY superstart.options.disable.context.menu "在網頁右鍵選單中隱藏 Super Start 選項">
+<!ENTITY superstart.options.sites.open.in.newtab "預設在新分頁開啟連結">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "在目前頁面旁邊開啟新分頁">
+
+<!ENTITY superstart.options.sites.displaysettings "顯示設定">
+<!ENTITY superstart.options.sites.use.compactmode "使用緊湊模式">
+<!ENTITY superstart.options.sites.text.only "文字模式，不使用縮圖">
+<!ENTITY superstart.options.sites.use.background.effect "開啟群組時，使用背景特效（可能會比較慢）">
+<!ENTITY superstart.options.sites.col "每行網址數：">
+
+<!ENTITY superstart.options.navbar "導覽列">
+<!ENTITY superstart.options.show.navbar "顯示導覽列">
+<!ENTITY superstart.options.navbar.show.searchbox "顯示搜尋框">
+<!ENTITY superstart.options.navbar.show.recently.closed "最近關閉的網頁">
+<!ENTITY superstart.options.navbar.show.add.site "新增網址">
+<!ENTITY superstart.options.navbar.show.themes "主題">
+<!ENTITY superstart.options.navbar.show.todo "待辦事項">
+<!ENTITY superstart.options.show.elements "顯示哪些元素…">
+<!ENTITY superstart.options.site.buttons.show.buttons "顯示按鈕">
+<!ENTITY superstart.options.site.buttons.show.newtab "以新分頁開啟">
+<!ENTITY superstart.options.site.buttons.show.refresh "更新">
+<!ENTITY superstart.options.site.buttons.show.config "設定">
+<!ENTITY superstart.options.site.buttons.show.remove "移除">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "下一個縮圖">
+
+<!ENTITY superstart.options.general.hint "* 本頁設定皆不需確認，立即生效">
+
+<!ENTITY superstart.ui.customize "自訂介面">
+<!ENTITY superstart.ui.customize.use "使用自訂介面功能">
+<!ENTITY superstart.ui.customize.howto "（說明）怎麼自訂？">
+<!ENTITY superstart.ui.background.image "背景圖片">
+<!ENTITY superstart.ui.select.image "選擇圖片">
+<!ENTITY superstart.ui.clear.image "清除圖片">
+<!ENTITY superstart.ui.background.repeat "是否重複">
+<!ENTITY superstart.ui.background.repeat.repeat "重複（預設值）">
+<!ENTITY superstart.ui.background.repeat.no.repeat "不重複">
+<!ENTITY superstart.ui.background.repeat.repeat.horizontal "水平方向重複">
+<!ENTITY superstart.ui.background.repeat.repeat.vertical "垂直方向重複">
+<!ENTITY superstart.ui.background.size "背景大小">
+<!ENTITY superstart.ui.background.size.default "預設">
+<!ENTITY superstart.ui.background.size.cover "縮放到合適大小（CSS: cover）">
+<!ENTITY superstart.ui.background.size.contain "縮放到合適大小（CSS: contain）">
+<!ENTITY superstart.ui.background.position "位置">
+<!ENTITY superstart.ui.colors "顏色">
+<!ENTITY superstart.ui.background.color.enable "自訂背景顏色">
+<!ENTITY superstart.ui.background.color.select "選擇顏色">
+<!ENTITY superstart.ui.text.color "文字">
+<!ENTITY superstart.ui.text.color.enable "自訂文字顏色">
+<!ENTITY superstart.ui.text.color.black "黑色字體">
+<!ENTITY superstart.ui.text.color.white "白色字體">
+<!ENTITY superstart.ui.text.color.use.shadow "啟用陰影效果">
+<!ENTITY superstart.ui.others "其他">
+<!ENTITY superstart.ui.transparent "啟用半透明效果（可能會比較慢）">
+<!ENTITY superstart.ui.customize.advanced "進階">
+<!ENTITY superstart.ui.css.edit.hint "請在此直接輸入 CSS：">
+
+<!ENTITY superstart.options.about "關於">
+<!ENTITY superstart.options.author "作者">
+<!ENTITY superstart.options.help "說明">
+
+<!-- export / import -->
+<!ENTITY superstart.via.cloud "雲端服務">
+<!ENTITY superstart.exim.description "SuperStart 找不到 Dropbox 的同步目錄。如果您把 Dropbox 同步目錄放在非預設的位置，或您使用其他的雲端服務，如微軟的 SkyDriver 或百度雲等，請參考下面的連結：">
+<!ENTITY superstart.manually "手動">
+<!ENTITY superstart.export "匯出">
+<!ENTITY superstart.import "匯入">
+<!ENTITY superstart.import.sites.only "只匯入網址連結">
+<!ENTITY superstart.processing "正在處理">

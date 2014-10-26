@@ -89,9 +89,9 @@
 <!ENTITY superstart.options.help "Помощь">
 
 <!-- export / import -->
-<!ENTITY superstart.via.cloud "Via 'cloud'">
-<!ENTITY superstart.exim.description "SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:">
-<!ENTITY superstart.manually "Manually">
+<!ENTITY superstart.via.cloud "В облако">
+<!ENTITY superstart.exim.description "SuperStart не смог найти каталог, с которым синхронизируется Dropbox. Если Dropbox синхронизируется не с каталогом по умолчанию, или вы используете другой облачный сервис (SkyDriver, GDriver и т.п.), то обратитесь за инструкцией по ссылке:">
+<!ENTITY superstart.manually "Вручную">
 <!ENTITY superstart.export "Экспорт">
 <!ENTITY superstart.import "Импорт">
 <!ENTITY superstart.import.sites.only "Импортировать только сайты">

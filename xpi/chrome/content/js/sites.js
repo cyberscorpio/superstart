@@ -508,7 +508,7 @@ function onLinkClick(evt) {
 	var idxes = indexFromNode(this);
 	var s = sm.getSite(idxes[0], idxes[1]);
 	if (s.sites != undefined && Array.isArray(s.sites)) {
-		if (evt.ctrlKey || evt.metaKey) {
+		if (evt.ctrlKey || evt.metaKey || evt.button === 1) {
 			openGroupAll(-1, idxes[1]);
 		} else {
 			onFolderClick(idxes[1], s);
@@ -521,7 +521,7 @@ function onLinkClick(evt) {
 				tb.selectedTab = addTab(tb, s.url);
 			} else {
 				var inNewTab = cfg.getConfig('open-in-newtab');
-				if (evt.ctrlKey || evt.metaKey) {
+				if (evt.ctrlKey || evt.metaKey || evt.button === 1) {
 					inNewTab = !inNewTab;
 				}
 				// inNewTab ? addTab(tb, s.url) : document.location.href = s.url;

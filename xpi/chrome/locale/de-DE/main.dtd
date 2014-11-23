@@ -13,12 +13,12 @@
 
 <!-- context menu in superstart page -->
 <!ENTITY superstart.menu.site.add "Neue Seite hinzufügen">
-<!ENTITY superstart.menu.placeholder.add "Add a placeholder">
+<!ENTITY superstart.menu.placeholder.add "Platzhalter hinzufügen">
 <!ENTITY superstart.menu.site.refreshall "Alle erneuern">
 <!ENTITY superstart.menu.options "Optionen">
 
 <!-- context menu for other page -->
-<!ENTITY superstart.context.menu.add.link "Add this link to Super Start">
+<!ENTITY superstart.context.menu.add.link "Diesen Link zu Super Start hinzufügen">
 <!ENTITY superstart.context.menu.add "Zu Super Start hinzufügen">
 
 <!-- options -->
@@ -28,19 +28,19 @@
 <!ENTITY superstart.options.sites.setup "Einrichtung">
 <!ENTITY superstart.options.load.in.blanktab "In leerer Seite laden">
 <!ENTITY superstart.options.set.as.homepage "Super Start als Startseite einstellen">
-<!ENTITY superstart.options.disable.context.menu "Disable Super Start in context menu">
-<!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuen Tab öffnen">
-<!ENTITY superstart.options.sites.open.next.to.current.tab "Open tab next to current one">
+<!ENTITY superstart.options.disable.context.menu "Super Start im Kontextmenü ausblenden">
+<!ENTITY superstart.options.sites.open.in.newtab "Automatisch in neuem Tab öffnen">
+<!ENTITY superstart.options.sites.open.next.to.current.tab "Tab neben dem aktuellen Tab öffnen">
 
 <!ENTITY superstart.options.sites.displaysettings "Einstellungen anzeigen">
 <!ENTITY superstart.options.sites.use.compactmode "Kompakten Modus verwenden">
-<!ENTITY superstart.options.sites.text.only "Text only">
+<!ENTITY superstart.options.sites.text.only "Nur Text">
 <!ENTITY superstart.options.sites.use.background.effect "Hintergrundeffekt verwenden (könnte langsam sein)">
 <!ENTITY superstart.options.sites.col "Wie viele Seiten in einer Reihe?:">
 
 <!ENTITY superstart.options.navbar "Navbar">
 <!ENTITY superstart.options.show.navbar "Navbar anzeigen">
-<!ENTITY superstart.options.navbar.show.searchbox "Show search box">
+<!ENTITY superstart.options.navbar.show.searchbox "Suchfeld anzeigen">
 <!ENTITY superstart.options.navbar.show.recently.closed "Kürzlich geschlossen">
 <!ENTITY superstart.options.navbar.show.add.site "Neue Seite hinzufügen">
 <!ENTITY superstart.options.navbar.show.themes "Themes">
@@ -51,7 +51,7 @@
 <!ENTITY superstart.options.site.buttons.show.refresh "Erneuern">
 <!ENTITY superstart.options.site.buttons.show.config "Konfigurieren">
 <!ENTITY superstart.options.site.buttons.show.remove "Entfernen">
-<!ENTITY superstart.options.site.buttons.show.next.snapshot "Nächster Snapshot">
+<!ENTITY superstart.options.site.buttons.show.next.snapshot "Nächster Schnappschuss">
 
 <!ENTITY superstart.options.general.hint "* Einstellungen in diesem Tab werden sofort übernommen">
 
@@ -89,10 +89,10 @@
 <!ENTITY superstart.options.help "Hilfe">
 
 <!-- export / import -->
-<!ENTITY superstart.via.cloud "Via 'cloud'">
-<!ENTITY superstart.exim.description "SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:">
-<!ENTITY superstart.manually "Manually">
+<!ENTITY superstart.via.cloud "Via 'Cloud'">
+<!ENTITY superstart.exim.description "SuperStart kann den Dropbox Ordner nicht finden. Falls Dropbox nicht am normalen Ort installiert wurde, oder andere Cloud Dienste (SkyDriver, GDriver, etc.) verwendet werden, bitte diesem Link folgen:">
+<!ENTITY superstart.manually "Manuell">
 <!ENTITY superstart.export "Export">
 <!ENTITY superstart.import "Import">
-<!ENTITY superstart.import.sites.only "Import sites only">
-<!ENTITY superstart.processing "Processing">
+<!ENTITY superstart.import.sites.only "Nur Seiten importieren">
+<!ENTITY superstart.processing "Verarbeite">

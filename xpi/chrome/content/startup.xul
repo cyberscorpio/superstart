@@ -66,7 +66,7 @@
 			image="chrome://superstart/content/images/superstart16.png"
 			class="toolbarbutton-1 chromeclass-toolbar-additional"
 			label="Super Start" tooltiptext="Super Start"
-			onclick="SuperStart.onToolbarOpen();">
+			oncommand="SuperStart.onToolbarOpen();">
 		</toolbarbutton>
 	</toolbarpalette>
 

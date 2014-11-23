@@ -68,6 +68,8 @@ locale  superstart	vi      jar:chrome/superstart.jar!/locale/vi/
 locale	superstart	tr      jar:chrome/superstart.jar!/locale/tr/
 # French
 locale	superstart	fr      jar:chrome/superstart.jar!/locale/fr/
+# Chinese Traditional
+locale	superstart	zh-TW   jar:chrome/superstart.jar!/locale/zh-TW/
 
 
 

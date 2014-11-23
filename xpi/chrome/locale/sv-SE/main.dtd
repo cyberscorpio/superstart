@@ -56,7 +56,7 @@
 <!ENTITY superstart.options.general.hint "* inställningarna i denna flik har omedelbar verkan">
 
 <!ENTITY superstart.ui.customize "Anpassa gränssnittet">
-<!ENTITY superstart.ui.customize.use "Aktiva anpassning">
+<!ENTITY superstart.ui.customize.use "Aktivera anpassning">
 <!ENTITY superstart.ui.customize.howto "(Hjälp) Hur sker anpassningen?">
 <!ENTITY superstart.ui.background.image "Bakgrundsbild">
 <!ENTITY superstart.ui.select.image "Välj bild">
@@ -80,7 +80,7 @@
 <!ENTITY superstart.ui.text.color.white "Vit">
 <!ENTITY superstart.ui.text.color.use.shadow "Använd skugga">
 <!ENTITY superstart.ui.others "Annat">
-<!ENTITY superstart.ui.transparent "Transparent (kan vara långsamt)">
+<!ENTITY superstart.ui.transparent "Transparent (kan bli långsammare)">
 <!ENTITY superstart.ui.customize.advanced "Avancerat">
 <!ENTITY superstart.ui.css.edit.hint "Ange CSS direkt:">
 
@@ -90,8 +90,8 @@
 
 <!-- export / import -->
 <!ENTITY superstart.via.cloud "Via 'cloud'">
-<!ENTITY superstart.exim.description "SuperStart can't find your Dropbox folder. If you installed Dropbox but not in the default place, or you're using other cloud service (SkyDriver, GDriver, etc.), please refer to this link:">
-<!ENTITY superstart.manually "Manually">
+<!ENTITY superstart.exim.description "Super Start hittar inte din Dropbox-mapp. Om du har installerat Dropbox med annan sökväg än den förinställda, eller om du använder en annan molntjänst (OneDrive, Google Drive, etc.), se vidare denna länk:">
+<!ENTITY superstart.manually "Manuellt">
 <!ENTITY superstart.export "Exportera">
 <!ENTITY superstart.import "Importera">
 <!ENTITY superstart.import.sites.only "Importera endast hemsidor">

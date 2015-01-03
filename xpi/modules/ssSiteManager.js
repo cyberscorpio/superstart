@@ -15,6 +15,7 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
+Cu.import("resource://gre/modules/Downloads.jsm");
 
 	let that = this;
 
@@ -792,39 +793,13 @@ Cu.import("resource://gre/modules/Services.jsm");
 			file.initWithPath(pathName);
 			let io = Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService);
 			let src = io.newURI(canvas.toDataURL('image/png', ''), 'UTF8', null);
-			let persist = Cc['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(Ci.nsIWebBrowserPersist);
-			persist.persistFlags = Ci.nsIWebBrowserPersist.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
-			persist.persistFlags |= Ci.nsIWebBrowserPersist.PERSIST_FLAGS_AUTODETECT_APPLY_CONVERSION;
-	
-			let listener = {
-				onStateChange: function(webProgress, req, flags, aStatus) {
-					if (flags & Ci.nsIWebProgressListener.STATE_STOP) {
-						persist.progressListener = null;
-						persist = null;
-						if (callback) {
-							callback();
-							callback = null;
-						}
-					}
+			let dl = Downloads.fetch(src, file);
+			dl.then(function() {
+				if (callback) {
+					callback();
+					callback = null;
 				}
-			}
-			persist.progressListener = listener;
-
-			// it seems from fx19, there is an additional parameter for saveURI, so...
-			let saved = false;
-			try {
-				persist.saveURI(src, null, null, null, null, file);
-				saved = true;
-			} catch (e) {
-			}
-
-			if (saved == false) {
-				try {
-					persist.saveURI(src, null, null, null, null, file, null);
-				} catch (e) {
-					Cu.reportError(e);
-				}
-			}
+			}, Cu.reportError).catch(Cu.reportError);
 		}
 
 		function takeSnapshot(url) {

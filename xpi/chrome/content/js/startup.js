@@ -131,7 +131,7 @@ if ("undefined" == typeof(SuperStart)) {
 			}, false);
 
 
-			if (SuperStart.loadInBlank() && cfg.getConfig('set-newtab-url')) {
+			if (SuperStart.loadInBlank()) {
 				sbprefs.setCharPref('browser.newtab.url', startPage);
 			} else {
 				if (sbprefs.getCharPref('browser.newtab.url') == startPage) {
@@ -139,26 +139,7 @@ if ("undefined" == typeof(SuperStart)) {
 				}
 			}
 			ob.subscribe('load-in-blanktab', onLoadInBlankChanged);
-			ob.subscribe('set-newtab-url', onSetNewtabUrl);
-
-			// TODO: since I'm using 'browser.newtab.url', do we need below code?
-			if (window.TMP_BrowserOpenTab) {
-				savedOpenTab = window.TMP_BrowserOpenTab;
-				if (window.BrowserOpenTab === window.TMP_BrowserOpenTab) {
-					window.BrowserOpenTab = openTab;
-				} else {
-					window.TMP_BrowserOpenTab = openTab;
-				}
-			} else {
-				savedOpenTab = window.BrowserOpenTab;
-				window.BrowserOpenTab = openTab;
-			}
-
-			// for case where openTab() won't work
-			// for example: when set browser.tabs.closeWindowWithLastTab to false...
-			if (gBrowser._beginRemoveTab) {
-				eval("gBrowser._beginRemoveTab = " + gBrowser._beginRemoveTab.toString().replace(/this\.addTab\((("about:blank")|(BROWSER_NEW_TAB_URL))(.*)?\);/, 'this.addTab((SuperStart.loadInBlank() ? SuperStart.getStartPage() : $1)$4);'));
-			}
+			onLoadInBlankChanged('load-in-blanktab', ob.getConfig('load-in-blanktab'));
 
 			// for preloader
 			let fxVersion = Services.appinfo.version;
@@ -180,7 +161,6 @@ if ("undefined" == typeof(SuperStart)) {
 					eval('gBrowser.addTab = ' + gBrowser.addTab.toString().replace(src, dst));
 				}
 			}
-
 			// check version first
 			checkFirstRun();
 		}
@@ -392,12 +372,7 @@ if ("undefined" == typeof(SuperStart)) {
 		// private functions
 
 		function onLoadInBlankChanged(evt, enabled) {
-			enabled = enabled && cfg.getConfig('set-newtab-url');
-			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
-		}
-
-		function onSetNewtabUrl(evt, enabled) {
-			enabled = enabled && cfg.getConfig('load-in-blanktab');
+			enabled = enabled;
 			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
 		}
 

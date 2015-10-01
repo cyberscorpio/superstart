@@ -88,7 +88,8 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 				is.init(iF, -1, 0, 0);
 				cs.init(is, "UTF-8", 0, 0);
 				
-				let (s = {}) {
+				{
+					let s = {};
 					let read = 0;
 					do { 
 						read = cs.readString(0xffffffff, s);

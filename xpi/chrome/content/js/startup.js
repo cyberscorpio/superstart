@@ -131,6 +131,7 @@ if ("undefined" == typeof(SuperStart)) {
 			}, false);
 
 
+			/*
 			if (SuperStart.loadInBlank()) {
 				sbprefs.setCharPref('browser.newtab.url', startPage);
 			} else {
@@ -138,28 +139,48 @@ if ("undefined" == typeof(SuperStart)) {
 					sbprefs.setCharPref('browser.newtab.url', 'about:newtab');
 				}
 			}
+			*/
+			onLoadInBlankChanged(null, SuperStart.loadInBlank());
 			ob.subscribe('load-in-blanktab', onLoadInBlankChanged);
 			onLoadInBlankChanged('load-in-blanktab', ob.getConfig('load-in-blanktab'));
 
 			// for preloader
 			let fxVersion = Services.appinfo.version;
-			if (parseInt(fxVersion) >= 27) {
-				let preloader = SuperStart.preloader = Cu.import('resource://superstart/Preloader.jsm', {}).SuperStartPreloader;
-				preloader.init(startPage);
-				if (gBrowser.addTab) {
-					let src = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);';
-					// TODO: must keep it the same with TabBrowser.xml::addTab()
-					let dst = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);} ' +
-						'if (!docShellsSwapped && aURI == "' + startPage + 
-						'" && !PrivateBrowsingUtils.isWindowPrivate(window) &&' +
-						' !gMultiProcessBrowser) {' +
-							'try {' +
-								'docShellsSwapped = SuperStart.preloader.newTab(t);' +
-							'} catch(e) {' +
-								'Cu.reportError(e);' +
-							'}';
-					eval('gBrowser.addTab = ' + gBrowser.addTab.toString().replace(src, dst));
+			try {
+				// let me check it later.
+				if (false) {//parseInt(fxVersion) >= 41) {
+					let preloader = SuperStart.preloader = Cu.import('resource://superstart/Preloader.jsm', {}).SuperStartPreloader;
+//					preloader.init(startPage);
+					preloader.ensurePreloading();
+					if (gBrowser.addTab) {
+						/*
+						let src = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);';
+						let dst = 'docShellsSwapped = gBrowserNewTabPreloader.newTab(t);} ' +
+							'if (!docShellsSwapped && aURI == "' + startPage + 
+							'" && !PrivateBrowsingUtils.isWindowPrivate(window) &&' +
+							' !gMultiProcessBrowser) {' +
+								'try {' +
+									'docShellsSwapped = SuperStart.preloader.newTab(t);' +
+								'} catch(e) {' +
+									'Cu.reportError(e);' +
+								'}';
+						*/
+						// TODO: must keep it the same with TabBrowser.xml::addTab()
+						let src = 'usingPreloadedContent = gCustomizationTabPreloader.newTab(t)';
+						let dst = 'usingPreloadedContent = gCustomizationTabPreloader.newTab(t);} ' +
+							'if (aURI == "' + startPage + '") {' +
+								'try {' +
+									'usingPreloadedContent = SuperStart.preloader.newTab(t);' +
+								'} catch(e) {' +
+									'Cu.reportError(e);' + 
+								'}';
+						eval('gBrowser.addTab = ' + gBrowser.addTab.toString().replace(src, dst));
+					} else {
+						Cu.reportError('No gBrowser.addTab()');
+					}
 				}
+			} catch (e) {
+				Cu.reportError(e);
 			}
 			// check version first
 			checkFirstRun();
@@ -373,7 +394,18 @@ if ("undefined" == typeof(SuperStart)) {
 
 		function onLoadInBlankChanged(evt, enabled) {
 			enabled = enabled;
-			sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
+
+			try {
+				Cu.import("resource:///modules/NewTabURL.jsm");
+				if (enabled) {
+					NewTabURL.override(cfg.getConfig('start-page'));
+				} else {
+					NewTabURL.reset();
+				}
+			} catch (e) {
+				// the old way
+				sbprefs.setCharPref('browser.newtab.url', enabled ? cfg.getConfig('start-page') : 'about:newtab');
+			}
 		}
 
 		function openTab() {

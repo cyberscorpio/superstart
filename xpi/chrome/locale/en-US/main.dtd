@@ -1,5 +1,5 @@
 <!-- input url -->
-<!ENTITY superstart.dialog.url.title "Input URL">
+<!ENTITY superstart.dialog.url.title "Įveskite adresą">
 <!ENTITY superstart.dialog.url.url "Input URL here">
 <!ENTITY superstart.dialog.url.name "Site name (optional)">
 <!ENTITY superstart.dialog.url.snapshot.setting "Thumbnail setting">

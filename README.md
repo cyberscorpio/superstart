@@ -1,5 +1,3 @@
 # SuperStart
-## SuperStart is an extension for Firefox
 
-- SuperStart on [AMO] (https://addons.mozilla.org/en-US/firefox/addon/super-start/)
-- SuperStart [Official Site] (http://www.enjoyfreeware.org/superstart)
+I am trying to rewrite SuperStart and make it work under the WebExtension architecture.
